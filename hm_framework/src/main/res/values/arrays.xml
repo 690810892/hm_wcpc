@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="en">
+
+    <string-array name="imgway">
+        <item>相册</item>
+        <item>拍照</item>
+        <item>取消</item>
+    </string-array>
+    <string-array name="sex">
+        <item>男</item>
+        <item>女</item>
+        <item>取消</item>
+    </string-array>
+    <string-array name="delete">
+        <item>删除</item>
+        <item>取消</item>
+    </string-array>
+
+</resources>

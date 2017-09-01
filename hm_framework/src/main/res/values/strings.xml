@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="en">
+
+    <string name="app_name">HemaFrameWork</string>
+    <string name="msg_data">服务器出错了</string>
+    <string name="msg_http">您的网络不给力啊</string>
+    <string name="msg_nonet">木有网络，请检查网络设置</string>
+
+</resources>

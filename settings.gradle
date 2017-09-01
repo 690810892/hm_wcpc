@@ -1,0 +1,1 @@
+include ':app', ':hm_wcpc_user', ':hm_wcpc_driver', ':hm_framework', ':onekeyshare', ':sharesdk'

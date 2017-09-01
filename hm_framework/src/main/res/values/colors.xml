@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_p">#ffD5D5D5</color>
+    <color name="black2">#000000</color>
+    <drawable name="transparent_background">#00000000</drawable>
+
+</resources>
