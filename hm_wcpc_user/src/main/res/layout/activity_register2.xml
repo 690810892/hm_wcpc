@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f4f4f4">
+
+    <include layout="@layout/title"/>
+
+    <!--头像-->
+    <com.hemaapp.hm_FrameWork.view.RoundedImageView
+        android:id="@id/imageview"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@mipmap/img_addavatar"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="20dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_horizontal"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="#e2e2e2"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="姓名"
+            android:textColor="#3f3f3f"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="*"
+            android:textColor="#f49400"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/edittext"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/transparent"
+            android:paddingRight="15dp"
+            android:maxLines="1"
+            android:hint="请填写姓名"
+            android:textColorHint="#a2a2a2"
+            android:textColor="@color/shenhui"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:src="#e2e2e2"/>
+
+    <LinearLayout
+        android:id="@id/layout_0"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="性别"
+            android:textColor="#3f3f3f"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="*"
+            android:textColor="#f49400"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@id/textview_0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:drawableRight="@mipmap/img_triangle_down"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:text="请选择性别"
+            android:textColor="@color/qianhui"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="#e2e2e2"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:src="#e2e2e2"/>
+
+    <LinearLayout
+        android:id="@id/layout_1"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="证件"
+            android:textColor="#3f3f3f"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:visibility="invisible"
+            android:text="*"
+            android:textColor="#f49400"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@id/textview_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:drawableRight="@mipmap/img_triangle_down"
+            android:layout_marginRight="15dp"
+            android:gravity="center_vertical"
+            android:text="请选择证件类型"
+            android:textColor="@color/qianhui"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:src="#e2e2e2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="证件号"
+            android:textColor="#3f3f3f"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="*"
+            android:visibility="invisible"
+            android:textColor="#f49400"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/edittext_0"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/transparent"
+            android:paddingRight="15dp"
+            android:maxLines="1"
+            android:hint="请填写证件号"
+            android:textColorHint="#a2a2a2"
+            android:textColor="@color/shenhui"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:src="#e2e2e2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="邮箱"
+            android:textColor="#3f3f3f"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="*"
+            android:visibility="invisible"
+            android:textColor="#f49400"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/edittext_1"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/transparent"
+            android:paddingRight="15dp"
+            android:maxLines="1"
+            android:hint="请输入常用邮箱"
+            android:textColorHint="#a2a2a2"
+            android:textColor="@color/shenhui"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="#e2e2e2"/>
+
+</LinearLayout>

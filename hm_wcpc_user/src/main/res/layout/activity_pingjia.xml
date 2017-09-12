@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/bg_linearLayout">
+
+    <include layout="@layout/title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="1dp"
+                    android:src="#f79405"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="星级评价"
+                    android:textColor="#f79405"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="1dp"
+                    android:src="#f79405"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@id/imageview_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/img_pingjia_s"
+                    android:layout_marginRight="10dp"/>
+
+                <ImageView
+                    android:id="@id/imageview_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/img_pingjia_s"
+                    android:layout_marginRight="10dp"/>
+
+                <ImageView
+                    android:id="@id/imageview_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/img_pingjia_s"
+                    android:layout_marginRight="10dp"/>
+
+                <ImageView
+                    android:id="@id/imageview_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/img_pingjia_s"
+                    android:layout_marginRight="10dp"/>
+
+                <ImageView
+                    android:id="@id/imageview_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/img_pingjia_s" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@id/linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="35dp"
+                android:orientation="vertical"/>
+
+            <EditText
+                android:id="@id/edittext"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_pop_button"
+                android:padding="10dp"
+                android:text=""
+                android:textColor="@color/black2"
+                android:hint="还想说点啥"
+                android:textColorHint="@color/qianhui"
+                android:textSize="14sp"
+                android:gravity="top|left" />
+
+            <TextView
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bt_login"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:text="提交"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:textColor="#feffff"
+                android:textSize="14sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/button_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bt_addpingjia"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="40dp"
+                android:text="跳过此页"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:textColor="#f79a12"
+                android:textSize="14sp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:src="@color/background"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/xian"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@id/textview_0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/img_starttime"
+            android:drawablePadding="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:text="今天 16:00"
+            android:textColor="@color/shenhui"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_driver"
+            android:src="@color/xian"
+            android:layout_marginLeft="15dp"/>
+
+        <RelativeLayout
+            android:id="@id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.hemaapp.hm_FrameWork.view.RoundedImageView
+                android:id="@id/imageview"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@mipmap/default_driver"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@id/textview_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/imageview"
+                android:layout_marginTop="15dp"
+                android:text="用户名称"
+                android:textColor="@color/shenhui"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@id/imageview_0"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/img_sex_boy"
+                android:scaleType="centerCrop"
+                android:layout_toRightOf="@id/textview_1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:id="@id/layout_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/imageview"
+                android:layout_toLeftOf="@id/imageview_1"
+                android:gravity="center_vertical"
+                android:layout_below="@id/textview_1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/img_startposition"/>
+
+                <TextView
+                    android:id="@id/textview_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="起始点"
+                    android:textColor="@color/shenhui"
+                    android:textSize="13sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@id/layout_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="15dp"
+                android:layout_toRightOf="@id/imageview"
+                android:layout_toLeftOf="@id/imageview_1"
+                android:gravity="center_vertical"
+                android:layout_below="@id/layout_0">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/img_endposition"/>
+
+                <TextView
+                    android:id="@id/textview_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="目的地"
+                    android:textColor="@color/shenhui"
+                    android:textSize="13sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@id/imageview_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@mipmap/triangle"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_driver"
+            android:src="@color/xian"
+            android:layout_marginLeft="15dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+            
+            <TextView
+                android:id="@id/textview_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="车牌"
+                android:textColor="@color/shenhui"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@id/textview_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textview_4"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:text="车牌号"
+                android:textColor="@color/shenhui"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@id/textview_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/textview_5"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:text="剩余位数"
+                android:textColor="#f49400"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@id/textview_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:text="元"
+                android:textColor="#f26d5f"
+                android:textSize="12sp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@id/textview_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/textview_7"
+                android:text="180"
+                android:textColor="#f26d5f"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"/>
+            
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/xian"/>
+
+</LinearLayout>

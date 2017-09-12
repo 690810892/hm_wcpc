@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="@drawable/bg_inforwindow"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="车主在"
+        android:textSize="12sp"
+        android:textColor="#5e5e5e"/>
+
+    <TextView
+        android:id="@id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="地址"
+        android:textColor="@color/yellow"
+        android:textSize="12sp"
+        android:layout_marginLeft="5dp"
+        android:maxWidth="160dp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+</LinearLayout>

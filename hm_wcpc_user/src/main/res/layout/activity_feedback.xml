@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/bg_linearLayout">
+
+    <include layout="@layout/title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@id/edittext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/layout"
+            android:background="@color/background"
+            android:hint="请输入您的意见和反馈（500字以内）"
+            android:textColor="@color/black2"
+            android:textColorHint="@color/qianhui"
+            android:textSize="14sp"
+            android:gravity="left|top"
+            android:padding="15dp"/>
+
+
+        <LinearLayout
+            android:id="@id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bt_login"
+                android:layout_margin="20dp"
+                android:text="提交"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="#feffff"
+                android:textSize="14sp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/contentdescription"
+        android:src="#60000000" />
+
+    <LinearLayout
+        android:id="@+id/father"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/transparent"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_20" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_pop_button"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@id/textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_5"
+                android:gravity="center"
+                android:padding="@dimen/margin_25"
+                android:text="男"
+                android:textColor="#3f3f3f"
+                android:textSize="@dimen/textsize_8" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:contentDescription="@string/contentdescription"
+                android:src="@color/xian" />
+
+            <TextView
+                android:id="@id/textview_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:padding="@dimen/margin_25"
+                android:text="女"
+                android:textColor="#3f3f3f"
+                android:textSize="@dimen/textsize_8" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@id/textview_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_25"
+            android:background="@drawable/bg_pop_button"
+            android:gravity="center"
+            android:padding="@dimen/margin_25"
+            android:text="取消"
+            android:textColor="#f49400"
+            android:textSize="@dimen/textsize_8" />
+    </LinearLayout>
+
+</FrameLayout>

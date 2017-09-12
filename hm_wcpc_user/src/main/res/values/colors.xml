@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <color name="transparent">#00000000</color>
+    <color name="background">#F4F4F4</color>
+    <color name="white">#FFFFFF</color>
+    <color name="xian">#e5e5e5</color>
+    <color name="main_n1">#7a7a7a</color>
+    <color name="bg_main_p1">#f4ff3c</color>
+    <color name="item_checked">#070506</color>
+    <color name="qianhui">#a2a2a2</color>
+    <color name="shenhui">#5e5e5e</color>
+    <color name="yellow">#f49400</color>
+    <color name="title_color">#f49400</color>
+    <color name="word_black">#414141</color>
+    <color name="word_color">#3f3f3f</color>
+
+    <!-- 微信颜色 -->
+    <color name="navpage">#FFE1E8EB</color>
+    <color name="blue">#ffccddff</color>
+    <color name="grey">#58616d</color>
+    <color name="darkgrey">#ff404040</color>
+    <color name="toasterro">#9fd524</color>
+    <color name="lightgrey">#ff888888</color>
+    <color name="semitransparent">#80000000</color>
+    <color name="lightransparent">#a0000000</color>
+    <color name="status_togo">#35b87f</color>
+    <color name="status_complete">#f26d5f</color>
 </resources>

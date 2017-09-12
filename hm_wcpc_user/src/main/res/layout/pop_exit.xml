@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/contentdescription"
+        android:src="#60000000" />
+
+    <LinearLayout
+        android:id="@+id/father"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_pop_button"
+        android:orientation="vertical"
+        android:layout_margin="10dp" >
+
+        <TextView
+            android:id="@id/textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="退出登录"
+            android:textColor="@color/black2"
+            android:textSize="@dimen/textsize_8" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_driver"
+            android:contentDescription="@string/contentdescription"
+            android:src="@color/xian" />
+
+        <TextView
+            android:id="@id/textview_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_pop_button"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="取消"
+            android:textColor="#f49400"
+            android:textSize="@dimen/textsize_8" />
+    </LinearLayout>
+
+</FrameLayout>

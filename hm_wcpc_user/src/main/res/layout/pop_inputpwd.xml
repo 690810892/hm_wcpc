@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/contentdescription"
+        android:src="#80000000" />
+
+    <LinearLayout
+        android:id="@+id/father"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:contentDescription="@string/contentdescription"
+            android:src="@color/xian" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@color/white" >
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:src="@mipmap/img_close"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="输入密码"
+                android:textColor="#3f3f3f"
+                android:textSize="@dimen/textsize_8"/>
+
+            <TextView
+                android:id="@id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:padding="10dp"
+                android:text="确认"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/textsize_8"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_driver"
+            android:src="@color/xian"/>
+
+
+        <EditText
+            android:id="@id/edittext"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/bg_content"
+            android:padding="10dp"
+            android:text=""
+            android:textColor="@color/black2"
+            android:inputType="textPassword"
+            android:textSize="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <TextView
+            android:id="@id/textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="忘记密码"
+            android:textColor="@color/yellow"
+            android:layout_marginBottom="20dp"
+            android:textSize="14sp"
+            android:paddingTop="5dp"
+            android:layout_marginRight="18dp"
+            android:gravity="right"/>
+
+    </LinearLayout>
+</FrameLayout>
+
