@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:src="@color/background"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_pop_button"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingBottom="10dp">
+
+        <com.hemaapp.hm_FrameWork.view.RoundedImageView
+            android:id="@id/imageview"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/default_user"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="15dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@id/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imageview"
+            android:text="昵称"
+            android:textColor="@color/black2"
+            android:textSize="14sp"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@id/imageview_0"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/img_sex_boy"
+            android:layout_marginLeft="5dp"
+            android:scaleType="centerCrop"
+            android:layout_toRightOf="@id/textview"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

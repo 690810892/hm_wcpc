@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/contentdescription"
+        android:src="#80000000" />
+
+    <LinearLayout
+        android:id="@+id/father"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:contentDescription="@string/contentdescription"
+            android:src="@color/xian" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#F7F7F7" >
+
+            <TextView
+                android:id="@+id/clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:layout_marginLeft="@dimen/margin_40"
+                android:layout_marginTop="@dimen/margin_20"
+                android:layout_weight="1"
+                android:text="取消"
+                android:textColor="@color/qianhui"
+                android:textSize="@dimen/textsize_7" />
+
+            <TextView
+                android:id="@id/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="选择出发时间"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/textsize_8"/>
+
+            <TextView
+                android:id="@+id/ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:layout_marginRight="@dimen/margin_40"
+                android:layout_marginTop="@dimen/margin_20"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="确定"
+                android:textColor="@color/qianhui"
+                android:textSize="@dimen/textsize_8" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:contentDescription="@string/contentdescription"
+            android:src="@color/xian" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:orientation="horizontal" >
+
+            <com.hemaapp.sfzc_driver.view.wheelview.WheelView
+                android:id="@+id/listview0"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_weight="1"
+                android:background="#f4f4f4"
+                android:cacheColorHint="@color/transparent"
+                android:divider="@color/xian"
+                android:dividerHeight="0dp"
+                android:listSelector="@color/transparent"
+                android:scrollbars="none" />
+
+
+            <com.hemaapp.sfzc_driver.view.wheelview.WheelView
+                android:id="@+id/listview1"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_weight="1"
+                android:background="#f4f4f4"
+                android:cacheColorHint="@color/transparent"
+                android:divider="@color/xian"
+                android:dividerHeight="1dp"
+                android:listSelector="@color/transparent"
+                android:scrollbars="none" />
+
+            <com.hemaapp.sfzc_driver.view.wheelview.WheelView
+                android:id="@+id/listview2"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_weight="1"
+                android:background="#f4f4f4"
+                android:cacheColorHint="@color/transparent"
+                android:divider="@color/xian"
+                android:dividerHeight="1dp"
+                android:listSelector="@color/transparent"
+                android:scrollbars="none" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

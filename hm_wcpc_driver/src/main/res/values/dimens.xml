@@ -1,0 +1,68 @@
+<resources>
+
+    <!-- textsize start -->
+    <dimen name="textsize_15">30sp</dimen>
+    <dimen name="textsize_14">28sp</dimen>
+    <dimen name="textsize_13">26sp</dimen>
+    <dimen name="textsize_12">24sp</dimen>
+    <dimen name="textsize_11">22sp</dimen>
+    <dimen name="textsize_10">20sp</dimen>
+    <dimen name="textsize_9">18sp</dimen>
+    <dimen name="textsize_8.5">17sp</dimen>
+    <dimen name="textsize_8">16sp</dimen>
+    <dimen name="textsize_7.5">15sp</dimen>
+    <dimen name="textsize_7">14sp</dimen>
+    <dimen name="textsize_6.5">13sp</dimen>
+    <dimen name="textsize_6">12sp</dimen>
+    <dimen name="textsize_5.5">11sp</dimen>
+    <dimen name="textsize_5">10sp</dimen>
+    <dimen name="textsize_4">8sp</dimen>
+    <dimen name="textsize_3">6sp</dimen>
+    <dimen name="textsize_2">4sp</dimen>
+    <dimen name="textsize_1">2sp</dimen>
+    <!-- textsize end -->
+    <dimen name="imagesize_0">95dp</dimen>
+    <dimen name="imagesize_1">65dp</dimen>
+    <dimen name="imagesize_2">55dp</dimen>
+    <dimen name="imagesize_3">36dp</dimen>
+    <dimen name="imagesize_4">80dp</dimen>
+    <dimen name="imagesize_5">47dp</dimen>
+    <!-- marginsize start -->
+    <dimen name="height_driver">0.8dp</dimen>
+    <dimen name="height_driver1">0.1dp</dimen>
+    <dimen name="margin_5">2.5dp</dimen>
+    <dimen name="margin_10">5dp</dimen>
+    <dimen name="margin_15">7.5dp</dimen>
+    <dimen name="margin_20">10dp</dimen>
+    <dimen name="margin_25">12.5dp</dimen>
+    <dimen name="margin_30">15dp</dimen>
+    <dimen name="margin_35">17.5dp</dimen>
+    <dimen name="margin_40">20dp</dimen>
+    <dimen name="margin_45">22.5dp</dimen>
+    <dimen name="margin_50">25dp</dimen>
+    <dimen name="margin_55">27.5dp</dimen>
+    <dimen name="margin_60">30dp</dimen>
+    <dimen name="margin_65">32.5dp</dimen>
+    <dimen name="margin_70">35dp</dimen>
+    <dimen name="margin_75">37.5dp</dimen>
+    <dimen name="margin_80">40dp</dimen>
+    <dimen name="margin_85">42.5dp</dimen>
+    <dimen name="margin_90">45dp</dimen>
+    <dimen name="margin_95">47.5dp</dimen>
+    <dimen name="margin_100">50dp</dimen>
+    <dimen name="margin_110">52dp</dimen>
+    
+    <dimen name="title">50dp</dimen>
+    
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    
+    <dimen name="dimen_margin_circle">4dp</dimen>
+    <dimen name="dimen_margin_circle.negative">-4dp</dimen>
+    <dimen name="calendar_day_headers_paddingbottom">4dp</dimen>
+    <dimen name="calendar_month_topmargin">16dp</dimen>
+    <dimen name="calendar_month_title_bottommargin">0dp</dimen>
+    <dimen name="calendar_text_medium">18sp</dimen>
+    <dimen name="calendar_text_small">14sp</dimen>
+
+</resources>

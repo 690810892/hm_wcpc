@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/bg_linearLayout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/title" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@id/layout_0"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@id/textview_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:text="发布市内行程"
+                    android:textColor="@color/yellow"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@id/imageview_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:visibility="visible"
+                    android:src="@color/yellow"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@id/layout_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textview_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:gravity="center"
+                    android:text="发布跨城行程"
+                    android:textColor="@color/qianhui"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@id/imageview_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:visibility="invisible"
+                    android:src="@color/yellow"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@id/layout_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:layout_marginTop="5dp"
+                    android:src="@color/xian"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:background="@color/white" >
+
+                    <LinearLayout
+                        android:id="@+id/leftlin_in"
+                        android:layout_width="38dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18dp"
+                            android:src="@mipmap/img_startposition"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:layout_width="3dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:src="@mipmap/img_xian"
+                            tools:ignore="ContentDescription" />
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:src="@mipmap/img_endposition"
+                            tools:ignore="ContentDescription" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/leftlin_in"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@id/textview_0"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:paddingRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="出发地"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textColor="@color/qianhui"
+                            android:textSize="@dimen/textsize_7" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_driver"
+                            android:src="@color/xian"/>
+
+                        <TextView
+                            android:id="@id/textview_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:paddingRight="15dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="目的地"
+                            android:textColor="@color/qianhui"
+                            android:textSize="@dimen/textsize_7" />
+                    </LinearLayout>
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_driver"
+                        android:layout_marginLeft="38dp"
+                        android:src="@color/xian"/>
+
+                    <!--出发时间-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="38dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/img_starttime"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@id/textview_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:gravity="center_vertical"
+                            android:text="出发时间"
+                            android:textColor="@color/qianhui"
+                            android:textSize="@dimen/textsize_7" />
+
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_driver"
+                        android:layout_marginLeft="38dp"
+                        android:src="@color/xian"/>
+
+                    <!--乘车人数-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="38dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/img_count"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@id/textview_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:gravity="center_vertical"
+                            android:drawableRight="@mipmap/img_triangle_down"
+                            android:paddingRight="15dp"
+                            android:text="可乘车人数"
+                            android:textColor="@color/qianhui"
+                            android:textSize="@dimen/textsize_7" />
+
+                    </LinearLayout>
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:src="@color/xian"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@color/xian"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <LinearLayout
+                            android:id="@id/layout_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal">
+                            <TextView
+                                android:id="@id/textview_8"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:text="点击预估价格"
+                                android:textSize="14sp"
+                                android:textColor="#f26d5f"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@id/layout_5"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="拼车成功"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="#f26d5f"
+                                    android:textSize="14sp"/>
+
+                                <TextView
+                                    android:id="@id/textview_9"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginRight="3dp"
+                                    android:text="10"
+                                    android:paddingBottom="10dp"
+                                    android:textSize="22sp"
+                                    android:textColor="#f26d5f"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="元"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="#f26d5f"
+                                    android:textSize="14sp"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="拼车失败"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="@color/qianhui"
+                                    android:textSize="14sp"/>
+
+                                <TextView
+                                    android:id="@id/textview_13"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginRight="3dp"
+                                    android:text="18"
+                                    android:paddingBottom="10dp"
+                                    android:textSize="20sp"
+                                    android:textColor="@color/qianhui"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="元"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="@color/qianhui"
+                                    android:textSize="14sp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@id/button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bt_login"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:text="确认发布"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10sp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@color/xian"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@id/layout_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:layout_marginTop="5dp"
+                    android:src="@color/xian"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:background="@color/white" >
+
+                    <LinearLayout
+                        android:id="@+id/leftlin"
+                        android:layout_width="38dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18dp"
+                            android:src="@mipmap/img_startposition"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:layout_width="3dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:src="@mipmap/img_xian"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:src="@mipmap/img_endposition"
+                            tools:ignore="ContentDescription" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/leftlin"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@id/textview_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:gravity="center_vertical"
+                            android:text="出发地"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textColor="@color/qianhui"
+                            android:textSize="@dimen/textsize_7" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_driver"
+                            android:src="@color/xian"/>
+
+                        <TextView
+                            android:id="@id/textview_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="目的地"
+                            android:textColor="@color/qianhui"
+                            android:textSize="@dimen/textsize_7" />
+                    </LinearLayout>
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_driver"
+                        android:layout_marginLeft="38dp"
+                        android:src="@color/xian"/>
+
+                    <!--出发时间-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="38dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/img_starttime"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@id/textview_6"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:gravity="center_vertical"
+                            android:text="出发时间"
+                            android:textColor="@color/qianhui"
+                            android:textSize="@dimen/textsize_7" />
+
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_driver"
+                        android:layout_marginLeft="38dp"
+                        android:src="@color/xian"/>
+
+                    <!--乘车人数-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="38dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/img_count"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@id/textview_7"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:gravity="center_vertical"
+                            android:drawableRight="@mipmap/img_triangle_down"
+                            android:paddingRight="15dp"
+                            android:text="可乘车人数"
+                            android:textColor="@color/qianhui"
+                            android:textSize="@dimen/textsize_7" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:src="@color/xian"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@color/xian"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <LinearLayout
+                            android:id="@+id/layout_10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal">
+                            <TextView
+                                android:id="@id/textview_10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp"
+                                android:text="点击预估价格"
+                                android:textSize="14sp"
+                                android:textColor="#f26d5f"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@id/layout_7"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="拼车成功"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="#f26d5f"
+                                    android:textSize="14sp"/>
+
+                                <TextView
+                                    android:id="@id/textview_11"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginRight="3dp"
+                                    android:text="10"
+                                    android:paddingBottom="10dp"
+                                    android:textSize="22sp"
+                                    android:textColor="#f26d5f"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="元"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="#f26d5f"
+                                    android:textSize="14sp"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="拼车失败"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="@color/qianhui"
+                                    android:textSize="14sp"/>
+
+                                <TextView
+                                    android:id="@id/textview_12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginRight="3dp"
+                                    android:text="18"
+                                    android:paddingBottom="10dp"
+                                    android:textSize="20sp"
+                                    android:textColor="@color/qianhui"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="元"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="@color/qianhui"
+                                    android:textSize="14sp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@id/button_0"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bt_login"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:text="确认发布"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10sp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@color/xian"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:contentDescription="@string/contentdescription"
+        android:src="#60000000" />
+
+    <LinearLayout
+        android:id="@+id/father"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@id/textview_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:padding="@dimen/margin_30"
+                android:text="取消"
+                android:textColor="#a0a0a0"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@id/textview_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:padding="15dp"
+                android:layout_centerVertical="true"
+                android:text="确定"
+                android:textColor="#a0a0a0"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@id/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="选择乘车人数"
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                />
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/white"
+            android:scrollbars="none"
+            android:orientation="horizontal">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/father1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@id/textview_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:padding="@dimen/margin_30"
+                android:text="取消"
+                android:textColor="#a0a0a0"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@id/textview_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="5dp"
+                android:padding="15dp"
+                android:layout_centerVertical="true"
+                android:text="确定"
+                android:textColor="#a0a0a0"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@id/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="选择乘车人数"
+                android:textColor="@color/title_color"
+                android:textSize="16sp"
+                />
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/white"
+            android:scrollbars="none"
+            android:orientation="horizontal">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+</FrameLayout>
