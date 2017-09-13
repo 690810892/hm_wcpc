@@ -206,7 +206,6 @@ public class ResetPwdActivity extends BaseActivity {
             case PASSWORD_RESET:
                 if("1".equals(type))
                     XtomSharedPreferencesUtil.save(mContext, "password", password);
-
                 showTextDialog("设置密码成功");
                 title.postDelayed(new Runnable() {
 

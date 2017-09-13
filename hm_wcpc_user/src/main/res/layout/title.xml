@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@id/title"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/title"
-    android:background="@color/black2"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title">
+        android:layout_height="@dimen/title"
+        android:background="@color/white">
 
         <ImageView
             android:id="@id/title_btn_left"
@@ -34,7 +34,7 @@
             android:padding="10dp"
             android:layout_centerVertical="true"
             android:text=""
-            android:textColor="@color/title_color"
+            android:textColor="@color/cl_333333"
             android:textSize="@dimen/textsize_8"/>
 
         <TextView
@@ -42,10 +42,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/title_color"
+            android:textColor="@color/cl_333333"
             android:textSize="@dimen/textsize_9"
             tools:ignore="SelectableText" />
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:src="@drawable/line_shadow" />
 
 </LinearLayout>
 

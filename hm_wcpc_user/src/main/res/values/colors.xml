@@ -2,7 +2,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <color name="transparent">#00000000</color>
-    <color name="background">#F4F4F4</color>
+    <color name="background">#f3f4f6</color>
     <color name="white">#FFFFFF</color>
     <color name="xian">#e5e5e5</color>
     <color name="main_n1">#7a7a7a</color>
@@ -14,6 +14,15 @@
     <color name="title_color">#f49400</color>
     <color name="word_black">#414141</color>
     <color name="word_color">#3f3f3f</color>
+
+    <color name="cl_333333">#333333</color>
+    <color name="cl_e3e3e3">#e3e3e3</color>
+    <color name="cl_9c9c9c">#9c9c9c</color>
+    <color name="cl_5e5e5e">#5e5e5e</color>
+    <color name="cl_e4e4e4">#e4e4e4</color>
+    <color name="cl_ff8400">#ff8400</color>
+    <color name="cl_4e4d5d">#4e4d5d</color>
+    <color name="cl_ff973f">#ff973f</color>
 
     <!-- 微信颜色 -->
     <color name="navpage">#FFE1E8EB</color>

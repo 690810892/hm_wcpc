@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">顺风出行</string>
+    <string name="app_name">万城拼车</string>
     <string name="contentdescription"></string>
+
+    <string name="tv_login">登录</string>
+    <string name="tv_register">注册</string>
+    <string name="tv_username">账号</string>
+    <string name="tv_password">密码</string>
+    <string name="hint_password">请输入密码(不小于6位)</string>
+    <string name="hint_username">请输入手机号</string>
+    <string name="tv_sendcode">发送验证码</string>
+    <string name="tv_sendagain">重新发送</string>
+    <string name="hint_username1">请输入你的手机号</string>
+    <string name="hint_code">请输入验证码</string>
+    <string name="hint_password1">新密码</string>
+    <string name="hint_password2">确认新密码</string>
+    <string name="tv_submit">提交</string>
+
 
     <string name="unifiedorder_v3_wx">APP支付生成预支付订单</string>
     <string name="pay__pre_by_wxap">生成APP微信支付参数</string>
