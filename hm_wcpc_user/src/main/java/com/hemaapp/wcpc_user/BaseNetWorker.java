@@ -190,7 +190,7 @@ public class BaseNetWorker extends HemaNetWorker {
 	 * 用户注册
 	 * */
 	public void clientAdd(String tempToken, String username, String password, String nickname, String sex,
-                          String kind, String number, String email, String district_name){
+                          String district_name){
 		BaseHttpInformation information = BaseHttpInformation.CLIENT_ADD;
 		HashMap<String, String> params = new HashMap<>();
 		params.put("temp_token", tempToken);// 登陆令牌
@@ -199,9 +199,6 @@ public class BaseNetWorker extends HemaNetWorker {
 				+ Md5Util.getMd5(password)));
 		params.put("realname", nickname);
 		params.put("sex", sex);
-		params.put("IDtype", kind);
-		params.put("IDnumber", number);
-		params.put("email", email);
 		params.put("district_name", district_name);
 
 		BaseNetTask task = new ClientAddTask(information, params);

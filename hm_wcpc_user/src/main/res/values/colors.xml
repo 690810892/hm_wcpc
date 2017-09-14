@@ -23,6 +23,9 @@
     <color name="cl_ff8400">#ff8400</color>
     <color name="cl_4e4d5d">#4e4d5d</color>
     <color name="cl_ff973f">#ff973f</color>
+    <color name="cl_1a1a1a">#1a1a1a</color>
+    <color name="cl_fca03d">#fca03d</color>
+    <color name="cl_37393b">#37393b</color>
 
     <!-- 微信颜色 -->
     <color name="navpage">#FFE1E8EB</color>

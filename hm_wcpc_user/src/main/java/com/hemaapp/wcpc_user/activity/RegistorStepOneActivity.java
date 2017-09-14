@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
@@ -24,6 +25,7 @@ import com.hemaapp.wcpc_user.R;
 
 /**
  * Created by WangYuxia on 2016/5/4.
+ * 注册第一步
  */
 public class RegistorStepOneActivity extends BaseActivity {
 
@@ -41,8 +43,18 @@ public class RegistorStepOneActivity extends BaseActivity {
     private TextView agreementTextView;
     private CheckBox checkBox;
 
+    private EditText passwordEditText;
+    private ImageView image_clear_pwd;
+    private EditText repeatEditText;
+    private ImageView image_reclear;
+
+    private TextView text_submit;
+
     private String username;
+    private String password;
+    private String tempToken;
     private TimeThread timeThread;
+    private String keytype1 = "1", keytype2 = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +83,6 @@ public class RegistorStepOneActivity extends BaseActivity {
             case CODE_VERIFY:
                 showProgressDialog("正在验证随机码");
                 break;
-            default:
-                break;
         }
     }
 
@@ -85,8 +95,6 @@ public class RegistorStepOneActivity extends BaseActivity {
             case CODE_GET:
             case CODE_VERIFY:
                 cancelProgressDialog();
-                break;
-            default:
                 break;
         }
     }
@@ -109,13 +117,12 @@ public class RegistorStepOneActivity extends BaseActivity {
                 break;
             case CODE_VERIFY:
                 HemaArrayResult<String> sResult = (HemaArrayResult<String>) baseResult;
-                String tempToken = sResult.getObjects().get(0);
-                Intent it = new Intent(mContext, RegisterStepTwoActivity.class);
+                tempToken = sResult.getObjects().get(0);
+                Intent it = new Intent(mContext, RegisterStepThreeActivity.class);
                 it.putExtra("username", username);
+                it.putExtra("password", password);
                 it.putExtra("tempToken", tempToken);
                 startActivity(it);
-                break;
-            default:
                 break;
         }
     }
@@ -135,8 +142,6 @@ public class RegistorStepOneActivity extends BaseActivity {
             case CODE_VERIFY:
                 showTextDialog(baseResult.getMsg());
                 break;
-            default:
-                break;
         }
     }
     @Override
@@ -152,8 +157,6 @@ public class RegistorStepOneActivity extends BaseActivity {
                 break;
             case CODE_VERIFY:
                 showTextDialog("验证随机码失败");
-                break;
-            default:
                 break;
         }
     }
@@ -173,6 +176,13 @@ public class RegistorStepOneActivity extends BaseActivity {
         sendButton = (TextView) findViewById(R.id.sendcode);
         agreementTextView = (TextView) findViewById(R.id.areement);
         checkBox = (CheckBox) findViewById(R.id.checkbox);
+
+        passwordEditText = (EditText) findViewById(R.id.edit_password);
+        image_clear_pwd = (ImageView) findViewById(R.id.img_pwd_visible);
+        repeatEditText = (EditText) findViewById(R.id.edit_password_again);
+        image_reclear = (ImageView) findViewById(R.id.img_pwd_visible1);
+
+        text_submit = (TextView) findViewById(R.id.button);
     }
 
     @Override
@@ -189,8 +199,7 @@ public class RegistorStepOneActivity extends BaseActivity {
                 finish();
             }
         });
-        right.setVisibility(View.VISIBLE);
-        right.setText("下一步");
+        right.setVisibility(View.INVISIBLE);
 
         agreementTextView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//下划线
         agreementTextView.setOnClickListener(new View.OnClickListener() {
@@ -208,9 +217,40 @@ public class RegistorStepOneActivity extends BaseActivity {
             }
         });
 
+        image_clear_pwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if("1".equals(keytype1)){
+                    passwordEditText.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                    image_clear_pwd.setImageResource(R.mipmap.img_eye_open);
+                    keytype1 = "2";
+                }else{
+                    passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    image_clear_pwd.setImageResource(R.mipmap.img_eye_close);
+                    keytype1 = "1";
+                }
+
+            }
+        });
+
+        image_reclear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if("1".equals(keytype2)){
+                    repeatEditText.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                    image_reclear.setImageResource(R.mipmap.img_eye_open);
+                    keytype2 = "2";
+                }else{
+                    repeatEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    image_reclear.setImageResource(R.mipmap.img_eye_close);
+                    keytype2 = "1";
+                }
+            }
+        });
+
         sendButton.setOnClickListener(new SendButtonListener());
         codeEditText.addTextChangedListener(new OnTextChangeListener());
-        right.setOnClickListener(new View.OnClickListener() {
+        text_submit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -234,6 +274,23 @@ public class RegistorStepOneActivity extends BaseActivity {
                     showTextDialog("请同意注册协议");
                     return;
                 }
+
+                password = passwordEditText.getText().toString();
+                if(isNull(password)){
+                    showTextDialog("抱歉，密码需要6-12位");
+                    return;
+                }
+                if(!(password.length() >= 6 && password.length() <= 20)){
+                    showTextDialog("抱歉，密码需要6-20位");
+                    return;
+                }
+                String repeat = repeatEditText.getText().toString();
+                boolean c = password.equals(repeat);
+                if(!c){//密码不为空且两次输入一样
+                    showTextDialog("密码输入不一致,请重试");
+                    return;
+                }
+
                 getNetWorker().codeVerify(username, code);
             }
         });

@@ -42,6 +42,7 @@ import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
  * Created by WangYuxia on 2016/5/5.
+ * 注册最后一步，完善个人信息
  */
 public class RegisterStepThreeActivity extends BaseActivity {
 
@@ -53,10 +54,6 @@ public class RegisterStepThreeActivity extends BaseActivity {
     private EditText edit_username;
     private LinearLayout layout_sex;
     private TextView text_sex;
-    private LinearLayout layout_kind; //证件分类
-    private TextView text_kind;
-    private EditText edit_number;
-    private EditText edit_email;
 
     private String username;
     private String tempToken;
@@ -66,7 +63,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
     private String tempPath;
     private String imagePathCamera;
 
-    private String nickname, sex = "", kind, number, email;
+    private String nickname, sex = "";
 
     private PopupWindow mWindow;
     private ViewGroup mViewGroup;
@@ -315,11 +312,6 @@ public class RegisterStepThreeActivity extends BaseActivity {
         edit_username = (EditText) findViewById(R.id.edittext);
         layout_sex = (LinearLayout) findViewById(R.id.layout_0);
         text_sex = (TextView) findViewById(R.id.textview_0);
-        layout_kind = (LinearLayout) findViewById(R.id.layout_1);
-        text_kind = (TextView) findViewById(R.id.textview_1);
-
-        edit_number = (EditText) findViewById(R.id.edittext_0);
-        edit_email = (EditText) findViewById(R.id.edittext_1);
     }
 
     @Override
@@ -368,19 +360,9 @@ public class RegisterStepThreeActivity extends BaseActivity {
                     return;
                 }
 
-                number = edit_number.getText().toString();
-                if(!isNull(number) && kind.equals("1")){
-                    IDCard card = new IDCard();
-                    if(!card.verify(number)){
-                        showTextDialog(card.getCodeError());
-                        return;
-                    }
-                }
-
-                email =edit_email.getText().toString();
                 String district_name = XtomSharedPreferencesUtil.get(mContext, "district_name");
 
-                getNetWorker().clientAdd(tempToken, username, password, nickname, sex, kind, number, email, district_name);
+                getNetWorker().clientAdd(tempToken, username, password, nickname, sex, district_name);
             }
         });
 
@@ -395,20 +377,13 @@ public class RegisterStepThreeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mInputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0); //强制隐藏键盘
-                showPopWindow(0);
+                showPopWindow();
             }
         });
 
-        layout_kind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mInputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0); //强制隐藏键盘
-                showPopWindow(1);
-            }
-        });
     }
 
-    private void showPopWindow(int type){
+    private void showPopWindow(){
         if (mWindow != null) {
             mWindow.dismiss();
         }
@@ -425,45 +400,28 @@ public class RegisterStepThreeActivity extends BaseActivity {
         cancel = (TextView) mViewGroup.findViewById(R.id.textview_2);
         mWindow.setContentView(mViewGroup);
         mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
-        if(type == 0){
-            boy.setText("男");
-            girl.setText("女");
-        }else{
-            boy.setText("身份证");
-            girl.setText("驾驶证");
-        }
-        setListener(boy, type);
-        setListener(girl, type);
-        setListener(cancel, type);
+        boy.setText("男");
+        girl.setText("女");
+        setListener(boy);
+        setListener(girl);
+        setListener(cancel);
     }
 
-    private void setListener(View view, final int type){
+    private void setListener(View view){
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
                 switch (v.getId()) {
                     case R.id.textview: // 男
-                        if(type == 0){
-                            sex = "男";
-                            text_sex.setText(sex);
-                            text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-                        }else{
-                            kind = "1";
-                            text_kind.setText("身份证");
-                            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-                        }
+                        sex = "男";
+                        text_sex.setText(sex);
+                        text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
                         break;
                     case R.id.textview_0: // 女
-                        if(type == 0){
-                            sex = "女";
-                            text_sex.setText(sex);
-                            text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-                        }else{
-                            kind = "2";
-                            text_kind.setText("驾驶证");
-                            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-                        }
+                        sex = "女";
+                        text_sex.setText(sex);
+                        text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
                         break;
                     case R.id.textview_2:
                         break;

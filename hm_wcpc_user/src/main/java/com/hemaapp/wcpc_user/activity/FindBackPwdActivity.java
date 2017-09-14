@@ -326,8 +326,8 @@ public class FindBackPwdActivity extends BaseActivity {
                     return;
                 }
 
-                if(!(password.length() >= 6 && password.length() <= 12)){
-                    showTextDialog("抱歉，密码长度为6-12位");
+                if(!(password.length() >= 6 && password.length() <= 20)){
+                    showTextDialog("抱歉，密码长度为6-20位");
                     return;
                 }
 
