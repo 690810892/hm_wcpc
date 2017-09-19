@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hemaapp.hm_FrameWork.HemaAdapter;
+import com.hemaapp.hm_FrameWork.dialog.HemaButtonDialog;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseNetWorker;
@@ -20,7 +21,9 @@ import com.hemaapp.wcpc_user.activity.OrderDetialInforActivity;
 import com.hemaapp.wcpc_user.activity.OrderListActivity;
 import com.hemaapp.wcpc_user.activity.PingJiaActivity;
 import com.hemaapp.wcpc_user.activity.ToPayActivity;
+import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.OrderListInfor;
+import com.hemaapp.wcpc_user.module.User;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -179,10 +182,39 @@ public class MyOrderListAdapter extends HemaAdapter {
                     it.putExtra("id", order.getId());
                     ((OrderListActivity) mContext).startActivityForResult(it, R.id.layout_1);
                 } else if ("删除订单".equals(value)) {
-//                    ((OrderListActivity) mContext).delete(1);
+                    delete();
                 }
             }
         });
+    }
+
+    private HemaButtonDialog mDialog;
+
+    public void delete(){
+        if (mDialog == null) {
+            mDialog = new HemaButtonDialog(mContext);
+            mDialog.setLeftButtonText("取消");
+            mDialog.setRightButtonText("确定");
+            mDialog.setText("确定要清空所有订单?");
+            mDialog.setButtonListener(new ButtonListener());
+            mDialog.setRightButtonTextColor(mContext.getResources().getColor(R.color.yellow));
+        }
+        mDialog.show();
+    }
+
+    private class ButtonListener implements HemaButtonDialog.OnButtonListener {
+
+        @Override
+        public void onLeftButtonClick(HemaButtonDialog dialog) {
+            dialog.cancel();
+        }
+
+        @Override
+        public void onRightButtonClick(HemaButtonDialog dialog) {
+            dialog.cancel();
+            User user = hm_WcpcUserApplication.getInstance().getUser();
+            netWorker.orderOperate(user.getToken(), "6", order.getId(), "", "");
+        }
     }
 
     private void findview(ViewHolder holder, View view) {

@@ -182,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="车牌"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_5e5e5e"
                 android:textSize="12sp"/>
 
             <TextView
@@ -193,7 +193,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:text="车牌号"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_5e5e5e"
                 android:textSize="12sp"/>
 
             <TextView
@@ -218,7 +218,7 @@
                 android:layout_toLeftOf="@id/textview_9"
                 android:paddingTop="2dp"
                 android:text="元"
-                android:textColor="#f59287"
+                android:textColor="#4e4d5d"
                 android:textSize="12sp"/>
 
             <TextView
@@ -227,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/textview_7"
                 android:text="180"
-                android:textColor="#f26d5f"
+                android:textColor="#4e4d5d"
                 android:textSize="18sp"
                 android:layout_centerVertical="true"/>
 

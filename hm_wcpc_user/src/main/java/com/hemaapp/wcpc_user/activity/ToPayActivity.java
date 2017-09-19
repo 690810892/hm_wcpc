@@ -45,6 +45,7 @@ import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
  * Created by WangYuxia on 2016/5/20.
+ * 订单的支付界面
  */
 public class ToPayActivity extends BaseActivity {
 
