@@ -34,8 +34,9 @@ import xtom.frame.image.load.XtomImageTask;
 
 /**
  * Created by WangYuxia on 2016/5/6.
+ * 个人中心
  */
-public class PersonCenterActivity extends BaseActivity {
+public class PersonCenterActivity extends BaseActivity implements View.OnClickListener{
 
     private ScrollView scrollView;
     private FrameLayout frameLayout;
@@ -213,115 +214,28 @@ public class PersonCenterActivity extends BaseActivity {
             }
         });
 
-        setListener(s_left);
-        setListener(s_right);
-        setListener(f_left);
-        setListener(f_right);
+        s_left.setOnClickListener(this);
+        s_right.setOnClickListener(this);
+        f_left.setOnClickListener(this);
+        f_right.setOnClickListener(this);
 
-        setListener(image_avatar);
-        setListener(layout_mypurse);
-        setListener(text_youhuiquan);
-        setListener(text_feeaccount);
-        setListener(text_charge);
-        setListener(text_tixian);
+        image_avatar.setOnClickListener(this);
+        layout_mypurse.setOnClickListener(this);
+        text_youhuiquan.setOnClickListener(this);
+        text_feeaccount.setOnClickListener(this);
+        text_charge.setOnClickListener(this);
+        text_tixian.setOnClickListener(this);
 
-        setListener(layout_allorder);
-        setListener(text_togo);
-        setListener(text_topay);
-        setListener(text_cancel);
-        setListener(text_pingjia);
-        setListener(text_complete);
+        layout_allorder.setOnClickListener(this);
+        text_togo.setOnClickListener(this);
+        text_topay.setOnClickListener(this);
+        text_cancel.setOnClickListener(this);
+        text_pingjia.setOnClickListener(this);
+        text_complete.setOnClickListener(this);
 
-        setListener(text_mytrips);
-        setListener(text_changepwd);
-        setListener(text_set);
-
-    }
-
-    private void setListener(View view){
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it ;
-                switch (v.getId()){
-                    case R.id.title_btn_left:
-                    case R.id.title_btn_left1:
-                        finish();
-                        break;
-                    case R.id.title_btn_right2:
-                    case R.id.title_btn_right1:
-                        toMakePhone();
-                        break;
-                    case R.id.imageview:
-                        it = new Intent(mContext, PersonInforActivity.class);
-                        startActivityForResult(it, R.id.layout);
-                        break;
-                    case R.id.layout:
-                        it = new Intent(mContext, MyPurseActivity.class);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_2:
-                        it = new Intent(mContext, MyCouponListActivity.class);
-                        it.putExtra("keytype", "1");
-                        startActivity(it);
-                        break;
-                    case R.id.textview_3:
-                        it = new Intent(mContext, MyFeeAccountActivity.class);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_4:
-                        it = new Intent(mContext, ChargeMoneyActivity.class);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_5:
-                        showSelectPopWindow();
-                        break;
-                    case R.id.layout_0:
-                        it = new Intent(mContext, OrderListActivity.class);
-                        it.putExtra("position", 0);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_6:
-                        it = new Intent(mContext, OrderListActivity.class);
-                        it.putExtra("position", 1);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_7:
-                        it = new Intent(mContext, OrderListActivity.class);
-                        it.putExtra("position", 2);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_8:
-                        it = new Intent(mContext, OrderListActivity.class);
-                        it.putExtra("position", 3);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_9:
-                        it = new Intent(mContext, OrderListActivity.class);
-                        it.putExtra("position", 4);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_10:
-                        it = new Intent(mContext, OrderListActivity.class);
-                        it.putExtra("position", 5);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_11: //我发布的行程
-                        it = new Intent(mContext, MyTripsListActivity.class);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_12:
-                        it = new Intent(mContext, ChangePwdActivity.class);
-                        it.putExtra("keytype", "1");
-                        startActivity(it);
-                        break;
-                    case R.id.textview_13:
-                        it = new Intent(mContext, SetActivity.class);
-                        startActivity(it);
-                        break;
-                }
-            }
-        });
+        text_mytrips.setOnClickListener(this);
+        text_changepwd.setOnClickListener(this);
+        text_set.setOnClickListener(this);
     }
 
     private PopupWindow mWindow1;
@@ -426,5 +340,87 @@ public class PersonCenterActivity extends BaseActivity {
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent it ;
+        switch (view.getId()){
+            case R.id.title_btn_left:
+            case R.id.title_btn_left1:
+                finish();
+                break;
+            case R.id.title_btn_right2:
+            case R.id.title_btn_right1:
+                toMakePhone();
+                break;
+            case R.id.imageview:
+                it = new Intent(mContext, PersonInforActivity.class);
+                startActivityForResult(it, R.id.layout);
+                break;
+            case R.id.layout:
+                it = new Intent(mContext, MyPurseActivity.class);
+                startActivity(it);
+                break;
+            case R.id.textview_2:
+                it = new Intent(mContext, MyCouponListActivity.class);
+                it.putExtra("keytype", "1");
+                startActivity(it);
+                break;
+            case R.id.textview_3:
+                it = new Intent(mContext, MyFeeAccountActivity.class);
+                startActivity(it);
+                break;
+            case R.id.textview_4:
+                it = new Intent(mContext, ChargeMoneyActivity.class);
+                startActivity(it);
+                break;
+            case R.id.textview_5:
+                showSelectPopWindow();
+                break;
+            case R.id.layout_0:
+                it = new Intent(mContext, OrderListActivity.class);
+                it.putExtra("position", 0);
+                startActivity(it);
+                break;
+            case R.id.textview_6:
+                it = new Intent(mContext, OrderListActivity.class);
+                it.putExtra("position", 1);
+                startActivity(it);
+                break;
+            case R.id.textview_7:
+                it = new Intent(mContext, OrderListActivity.class);
+                it.putExtra("position", 2);
+                startActivity(it);
+                break;
+            case R.id.textview_8:
+                it = new Intent(mContext, OrderListActivity.class);
+                it.putExtra("position", 3);
+                startActivity(it);
+                break;
+            case R.id.textview_9:
+                it = new Intent(mContext, OrderListActivity.class);
+                it.putExtra("position", 4);
+                startActivity(it);
+                break;
+            case R.id.textview_10:
+                it = new Intent(mContext, OrderListActivity.class);
+                it.putExtra("position", 5);
+                startActivity(it);
+                break;
+            case R.id.textview_11: //我发布的行程
+                it = new Intent(mContext, MyTripsListActivity.class);
+                startActivity(it);
+                break;
+            case R.id.textview_12: //修改密码
+                it = new Intent(mContext, ChangePwdActivity.class);
+                it.putExtra("keytype", "1");
+                startActivity(it);
+                break;
+            case R.id.textview_13:
+                it = new Intent(mContext, SetActivity.class);
+                startActivity(it);
+                break;
+        }
     }
 }

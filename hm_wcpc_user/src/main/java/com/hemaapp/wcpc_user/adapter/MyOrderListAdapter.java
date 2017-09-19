@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.hemaapp.hm_FrameWork.HemaAdapter;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
 import com.hemaapp.wcpc_user.BaseActivity;
+import com.hemaapp.wcpc_user.BaseNetWorker;
 import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.activity.CancelOrderActivity;
@@ -26,21 +27,21 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import xtom.frame.image.load.XtomImageTask;
-import xtom.frame.view.XtomListView;
 
 /**
  * Created by WangYuxia on 2016/5/19.
+ * 订单列表的数据适配器
  */
 public class MyOrderListAdapter extends HemaAdapter {
 
     public OrderListInfor order;
     private ArrayList<OrderListInfor> infors;
-    private XtomListView mListView;
+    private BaseNetWorker netWorker;
 
-    public MyOrderListAdapter(Context mContext, ArrayList<OrderListInfor> infors, XtomListView mListView) {
+    public MyOrderListAdapter(Context mContext, ArrayList<OrderListInfor> infors, BaseNetWorker netWorker) {
         super(mContext);
         this.infors = infors;
-        this.mListView = mListView;
+        this.netWorker = netWorker;
     }
 
     @Override
@@ -113,7 +114,7 @@ public class MyOrderListAdapter extends HemaAdapter {
         try {
             URL url = new URL(infor.getAvatar());
             holder.image_avatar.setCornerRadius(90);
-            ((BaseActivity) mContext).imageWorker.loadImage(new XtomImageTask(holder.image_avatar, url, mContext, mListView));
+            ((BaseActivity) mContext).imageWorker.loadImage(new XtomImageTask(holder.image_avatar, url, mContext));
         } catch (MalformedURLException e) {
             holder.image_avatar.setImageResource(R.mipmap.default_driver);
         }
@@ -178,7 +179,7 @@ public class MyOrderListAdapter extends HemaAdapter {
                     it.putExtra("id", order.getId());
                     ((OrderListActivity) mContext).startActivityForResult(it, R.id.layout_1);
                 } else if ("删除订单".equals(value)) {
-                    ((OrderListActivity) mContext).delete(1);
+//                    ((OrderListActivity) mContext).delete(1);
                 }
             }
         });

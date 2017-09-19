@@ -52,7 +52,6 @@ import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
  * Created by WangYuxia on 2016/5/6.
- * type = 1: 发布市内行程
  * type = 2: 发布跨城形成
  */
 public class PublishInforActivity extends BaseActivity implements RouteSearch.OnRouteSearchListener{
@@ -113,7 +112,7 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
     private String start_lng, start_lat, startposition, success, fail, content, start_city;
     private String end_lng, end_lat, endposition, distance, starttime, personcount, fee="0.0";
     private String pos_lng, pos_lat, pos_address;
-    private String type, district;
+    private String type="2", district;
     private FeeCalculationInfor calinfor;
     private boolean isCalculated = false;
     private RouteSearch routeSearch;
@@ -361,7 +360,6 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
 
     @Override
     protected void getExras() {
-        type = mIntent.getStringExtra("type");
     }
 
     @Override

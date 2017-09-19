@@ -34,7 +34,7 @@ public class hm_WcpcUserApplication extends HemaApplication {
 		
 		//是否进行数字加密
 		XtomConfig.DIGITAL_CHECK = true;
-		XtomConfig.DATAKEY = "hYtd0QRR4aituQs"; //后台配置的加密内容，每个项目都不同
+		XtomConfig.DATAKEY = "9qk2hKHaRTysJqCS"; //后台配置的加密内容，每个项目都不同
 		
 		XtomLogger.i(TAG, "onCreate");
 		super.onCreate();

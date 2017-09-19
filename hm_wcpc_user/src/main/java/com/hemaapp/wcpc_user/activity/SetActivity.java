@@ -49,8 +49,9 @@ import static com.hemaapp.wcpc_user.BaseHttpInformation.INIT;
 
 /**
  * Created by WangYuxia on 2016/5/19.
+ * 设置
  */
-public class SetActivity extends BaseActivity {
+public class SetActivity extends BaseActivity implements View.OnClickListener{
 
     private ImageView left;
     private TextView title;
@@ -167,6 +168,37 @@ public class SetActivity extends BaseActivity {
         updateDialog.show();
     }
 
+    @Override
+    public void onClick(View view) {
+        Intent it ;
+        switch (view.getId()){
+            case R.id.textview_0:
+                showshare();
+                break;
+            case R.id.textview_1:
+                it = new Intent(mContext, FeedBackActivity.class);
+                startActivity(it);
+                break;
+            case R.id.layout:
+                new ClearTask().execute();
+                break;
+            case R.id.textview_3:
+                getNetWorker().init();
+                break;
+            case R.id.textview_4:
+                it = new Intent(mContext, ShowInternetPageActivity.class);
+                it.putExtra("name", "关于我们");
+                SysInitInfo sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
+                String path = sysInitInfo.getSys_web_service()+"webview/parm/aboutus";
+                it.putExtra("path", path);
+                startActivity(it);
+                break;
+            case R.id.button:
+                showExitDialog();
+                break;
+        }
+    }
+
     private class ButtonListener implements HemaButtonDialog.OnButtonListener {
         private UpGrade upGrade;
 
@@ -233,47 +265,12 @@ public class SetActivity extends BaseActivity {
             }
         });
 
-        setListener(text_share);
-        setListener(text_feedback);
-        setListener(layout_clearcache);
-        setListener(text_update);
-        setListener(text_aboutus);
-        setListener(exit);
-    }
-
-    private void setListener(View view){
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it ;
-                switch (v.getId()){
-                    case R.id.textview_0:
-                        showshare();
-                        break;
-                    case R.id.textview_1:
-                        it = new Intent(mContext, FeedBackActivity.class);
-                        startActivity(it);
-                        break;
-                    case R.id.layout:
-                        new ClearTask().execute();
-                        break;
-                    case R.id.textview_3:
-                        getNetWorker().init();
-                        break;
-                    case R.id.textview_4:
-                        it = new Intent(mContext, ShowInternetPageActivity.class);
-                        it.putExtra("name", "关于我们");
-                        SysInitInfo sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
-                        String path = sysInitInfo.getSys_web_service()+"webview/parm/aboutus";
-                        it.putExtra("path", path);
-                        startActivity(it);
-                        break;
-                    case R.id.button:
-                        showExitDialog();
-                        break;
-                }
-            }
-        });
+        text_share.setOnClickListener(this);
+        text_feedback.setOnClickListener(this);
+        layout_clearcache.setOnClickListener(this);
+        text_update.setOnClickListener(this);
+        text_aboutus.setOnClickListener(this);
+        exit.setOnClickListener(this);
     }
 
     private PopupWindow mWindow;

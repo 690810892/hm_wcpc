@@ -25,6 +25,31 @@
     <string name="hint_nickname">请填写姓名</string>
     <string name="tv_sex">性别</string>
     <string name="hint_sex">请选择性别</string>
+    <string name="tv_my_trip">我的行程</string>
+    <string name="tv_publish">发布跨城行程</string>
+    <string name="tv_my_purse">我的钱包</string>
+    <string name="tv_checkall">查看全部</string>
+    <string name="tv_youhuiquan">优惠券</string>
+    <string name="tv_feeaccount">账户余额</string>
+    <string name="tv_charge">充值</string>
+    <string name="tv_tixian">余额提现</string>
+    <string name="tv_my_order">我的订单</string>
+    <string name="tv_topay">待支付</string>
+    <string name="tv_togo">未出行</string>
+    <string name="tv_tocancel">已取消</string>
+    <string name="tv_toreply">待评价</string>
+    <string name="tv_tocomplete">已完成</string>
+    <string name="tv_center_mytrip">我发布的行程</string>
+    <string name="tv_changepwd">修改密码</string>
+    <string name="tv_set">设置</string>
+    <string name="tv_share">软件分享</string>
+    <string name="tv_feedback">意见反馈</string>
+    <string name="tv_clearcash">清除缓存</string>
+    <string name="tv_update">检查更新</string>
+    <string name="tv_exit">退出</string>
+    <string name="tv_aboutus">关于我们</string>
+    <string name="hint_feedback">请留下您的宝贵意见...</string>
+    <string name="hint_oldpwd">旧密码</string>
 
 
     <string name="unifiedorder_v3_wx">APP支付生成预支付订单</string>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    style="@style/bg_linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ScrollView
         android:id="@+id/scrolllayout"
@@ -95,8 +97,8 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/imageview"
                         android:layout_marginTop="10dp"
-                        android:text="用户名称"
-                        android:textColor="#3f3f3f"
+                        android:text=""
+                        android:textColor="@color/cl_3f3f3f"
                         android:textSize="15sp"/>
 
                     <ImageView
@@ -116,8 +118,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
-                    android:text="服务次数"
-                    android:textColor="#5e5e5e"
+                    android:text=""
+                    android:textColor="@color/cl_5e5e5e"
                     android:textSize="13sp"/>
 
             </LinearLayout>
@@ -155,8 +157,8 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/img_center_mypurse"
                         android:drawablePadding="10dp"
-                        android:text="我的钱包"
-                        android:textColor="#3f3f3f"
+                        android:text="@string/tv_my_purse"
+                        android:textColor="@color/cl_525158"
                         android:textSize="14sp"/>
 
                     <TextView
@@ -165,9 +167,9 @@
                         android:drawableRight="@mipmap/triangle"
                         android:layout_alignParentRight="true"
                         android:drawablePadding="10dp"
-                        android:text="查看全部"
-                        android:textColor="#a1a1a1"
-                        android:textSize="13sp"/>
+                        android:text="@string/tv_checkall"
+                        android:textColor="@color/cl_a0a0a0"
+                        android:textSize="12sp"/>
 
                 </RelativeLayout>
 
@@ -194,9 +196,9 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:layout_weight="1"
-                        android:text="优惠券"
+                        android:text="@string/tv_youhuiquan"
                         android:gravity="center_horizontal"
-                        android:textColor="#626262"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="13sp"/>
 
                     <ImageView
@@ -213,9 +215,9 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:layout_weight="1"
-                        android:text="账户余额"
+                        android:text="@string/tv_feeaccount"
                         android:gravity="center_horizontal"
-                        android:textColor="#626262"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="13sp"/>
 
                     <ImageView
@@ -232,9 +234,9 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:layout_weight="1"
-                        android:text="充值"
+                        android:text="@string/tv_charge"
                         android:gravity="center_horizontal"
-                        android:textColor="#626262"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="13sp"/>
 
                     <ImageView
@@ -251,9 +253,9 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:layout_weight="1"
-                        android:text="余额提现"
+                        android:text="@string/tv_tixian"
                         android:gravity="center_horizontal"
-                        android:textColor="#626262"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="13sp"/>
 
                 </LinearLayout>
@@ -294,8 +296,8 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/img_center_myorder"
                         android:drawablePadding="10dp"
-                        android:text="我的订单"
-                        android:textColor="#3f3f3f"
+                        android:text="@string/tv_my_order"
+                        android:textColor="@color/cl_525158"
                         android:textSize="14sp"/>
 
                     <TextView
@@ -304,9 +306,9 @@
                         android:drawableRight="@mipmap/triangle"
                         android:layout_alignParentRight="true"
                         android:drawablePadding="10dp"
-                        android:text="查看全部"
-                        android:textColor="#a1a1a1"
-                        android:textSize="13sp"/>
+                        android:text="@string/tv_checkall"
+                        android:textColor="@color/cl_a0a0a0"
+                        android:textSize="12sp"/>
 
                 </RelativeLayout>
 
@@ -333,9 +335,9 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:layout_weight="1"
-                        android:text="待支付"
+                        android:text="@string/tv_topay"
                         android:gravity="center_horizontal"
-                        android:textColor="#626262"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="13sp"/>
 
                     <ImageView
@@ -352,9 +354,9 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:layout_weight="1"
-                        android:text="未出行"
+                        android:text="@string/tv_togo"
                         android:gravity="center_horizontal"
-                        android:textColor="#626262"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="13sp"/>
 
                     <ImageView
@@ -371,9 +373,9 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:layout_weight="1"
-                        android:text="已取消"
+                        android:text="@string/tv_tocancel"
                         android:gravity="center_horizontal"
-                        android:textColor="#626262"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="13sp"/>
 
                     <ImageView
@@ -390,9 +392,9 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:layout_weight="1"
-                        android:text="待评价"
+                        android:text="@string/tv_toreply"
                         android:gravity="center_horizontal"
-                        android:textColor="#626262"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="13sp"/>
 
                     <ImageView
@@ -409,11 +411,10 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:layout_weight="1"
-                        android:text="已完成"
+                        android:text="@string/tv_tocomplete"
                         android:gravity="center_horizontal"
-                        android:textColor="#626262"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="13sp"/>
-
                 </LinearLayout>
             </LinearLayout>
             <ImageView
@@ -447,8 +448,8 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="15dp"
                     android:padding="15dp"
-                    android:text="我发布的行程"
-                    android:textColor="#626262"
+                    android:text="@string/tv_center_mytrip"
+                    android:textColor="@color/cl_525158"
                     android:textSize="14sp"/>
 
                 <ImageView
@@ -466,8 +467,8 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="15dp"
                     android:padding="15dp"
-                    android:text="修改密码"
-                    android:textColor="#626262"
+                    android:text="@string/tv_changepwd"
+                    android:textColor="@color/cl_525158"
                     android:textSize="14sp"/>
 
 
@@ -486,10 +487,9 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="15dp"
                     android:padding="15dp"
-                    android:text="设置"
-                    android:textColor="#626262"
+                    android:text="@string/tv_set"
+                    android:textColor="@color/cl_525158"
                     android:textSize="14sp"/>
-
 
             </LinearLayout>
 
@@ -508,7 +508,7 @@
         android:id="@+id/framelayout"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:background="@color/black2"
+        android:background="@color/white"
         android:layout_height="@dimen/title">
 
         <ImageView

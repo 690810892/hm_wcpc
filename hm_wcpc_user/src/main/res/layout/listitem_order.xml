@@ -35,7 +35,7 @@
                 android:layout_marginBottom="12dp"
                 android:drawableLeft="@mipmap/img_starttime"
                 android:text="出发时间"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_5e5e5e"
                 android:textSize="12sp"/>
 
             <TextView
@@ -80,7 +80,7 @@
                 android:layout_toRightOf="@id/imageview"
                 android:layout_marginTop="15dp"
                 android:text="用户名称"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_3f3f3f"
                 android:textSize="14sp"/>
 
             <ImageView
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="起始点"
-                    android:textColor="@color/shenhui"
+                    android:textColor="@color/cl_3f3f3f"
                     android:textSize="13sp"
                     android:maxLines="1"
                     android:ellipsize="end"/>
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="目的地"
-                    android:textColor="@color/shenhui"
+                    android:textColor="@color/cl_3f3f3f"
                     android:textSize="13sp"
                     android:maxLines="1"
                     android:ellipsize="end"/>

@@ -2,6 +2,7 @@ package com.hemaapp.wcpc_user.activity;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -41,6 +42,7 @@ public class ChangePwdActivity extends BaseActivity {
     private String type;
 
     private User user;
+    private String keytype1 = "1", keytype2="1", keytype3= "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +183,8 @@ public class ChangePwdActivity extends BaseActivity {
                     return;
                 }
 
-                if(!(password.length() >= 6 && password.length() <= 12)){
-                    showTextDialog("抱歉，密码长度为6-12位");
+                if(!(password.length() >= 6 && password.length() <= 20)){
+                    showTextDialog("抱歉，密码长度为6-20位");
                     return;
                 }
 
@@ -199,64 +201,49 @@ public class ChangePwdActivity extends BaseActivity {
                 getNetWorker().passwordSave(user.getToken(), type, "1", old, password);
             }
         });
-        edit_old.addTextChangedListener(new OnTextChangeListener(2));
-        edit_pwd.addTextChangedListener(new OnTextChangeListener(0));
-        edit_pwd_again.addTextChangedListener(new OnTextChangeListener(1));
 
         image_oldclear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edit_old.setText("");
+                if(keytype1.equals("1")){ //不可见
+                    edit_old.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                    image_oldclear.setImageResource(R.mipmap.img_eye_open);
+                    keytype1 = "2";
+                }else{
+                    edit_old.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    image_oldclear.setImageResource(R.mipmap.img_eye_close);
+                    keytype1 = "1";
+                }
             }
         });
         image_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edit_pwd.setText("");
+                if(keytype2.equals("1")){ //不可见
+                    edit_pwd.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                    image_clear.setImageResource(R.mipmap.img_eye_open);
+                    keytype2 = "2";
+                }else{
+                    edit_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    image_clear.setImageResource(R.mipmap.img_eye_close);
+                    keytype2 = "1";
+                }
             }
         });
         image_reclear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edit_pwd_again.setText("");
+                if(keytype3.equals("1")){ //不可见
+                    edit_pwd_again.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                    image_reclear.setImageResource(R.mipmap.img_eye_open);
+                    keytype3 = "2";
+                }else{
+                    edit_pwd_again.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    image_reclear.setImageResource(R.mipmap.img_eye_close);
+                    keytype3 = "1";
+                }
             }
         });
     }
 
-    private class OnTextChangeListener implements TextWatcher {
-        int type;
-        public OnTextChangeListener(int type){
-            this.type = type;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before,
-                                  int count) {
-            if(type == 0){
-                if(count > 0)
-                    image_clear.setVisibility(View.VISIBLE);
-                else
-                    image_clear.setVisibility(View.GONE);
-            }else if(type == 1){
-                if(count > 0)
-                    image_reclear.setVisibility(View.VISIBLE);
-                else
-                    image_reclear.setVisibility(View.GONE);
-            }else if(type == 2){
-                if(count > 0)
-                    image_oldclear.setVisibility(View.VISIBLE);
-                else
-                    image_oldclear.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-    }
 }

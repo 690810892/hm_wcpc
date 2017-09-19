@@ -9,6 +9,11 @@
         android:layout_height="10dp"
         android:src="@color/background"/>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:src="@color/xian"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +38,7 @@
                 android:layout_marginBottom="12dp"
                 android:drawableLeft="@mipmap/img_starttime"
                 android:text="出发时间"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_5e5e5e"
                 android:textSize="12sp"/>
 
             <TextView
@@ -75,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="起始点"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_3f3f3f"
                 android:textSize="13sp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
@@ -102,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="目的地"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_3f3f3f"
                 android:textSize="13sp"
                 android:maxLines="1"
                 android:ellipsize="end"/>
@@ -127,7 +132,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_centerVertical="true"
                 android:text="计费"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_5e5e5e"
                 android:textSize="14sp"/>
 
             <TextView
@@ -154,7 +159,7 @@
                 android:layout_toLeftOf="@id/textview_4"
                 android:paddingTop="2dp"
                 android:text="元"
-                android:textColor="#f59287"
+                android:textColor="#4e4d5d"
                 android:textSize="12sp"/>
 
             <TextView
@@ -165,11 +170,16 @@
                 android:layout_marginRight="2dp"
                 android:layout_toLeftOf="@id/textview_5"
                 android:text="15"
-                android:textColor="#f59287"
+                android:textColor="#4e4d5d"
                 android:textSize="18sp"/>
 
         </RelativeLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:src="@color/xian"/>
 
 </LinearLayout>

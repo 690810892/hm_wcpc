@@ -1,329 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
-    <include layout="@layout/title" />
+    <include layout="@layout/title_noline" />
 
-    <HorizontalScrollView
-        android:id="@+id/scroll"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
         android:layout_width="match_parent"
-        android:layout_height="47dp"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp" >
-
-            <!-- 全部 -->
-            <LinearLayout
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@id/textview_0"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="全部"
-                    android:textColor="@color/yellow"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@id/imageview_0"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:contentDescription="@string/contentdescription"
-                    android:src="@color/yellow" />
-            </LinearLayout>
-
-            <!-- 待付款 -->
-            <LinearLayout
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@id/textview_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="待支付"
-                    android:textColor="@color/shenhui"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@id/imageview_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:contentDescription="@string/contentdescription"
-                    android:src="@color/yellow"
-                    android:visibility="invisible" />
-            </LinearLayout>
-
-            <!-- 待发货 -->
-            <LinearLayout
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@id/textview_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="未出行"
-                    android:textColor="@color/shenhui"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@id/imageview_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:contentDescription="@string/contentdescription"
-                    android:src="@color/yellow"
-                    android:visibility="invisible" />
-            </LinearLayout>
-
-            <!-- 待收货 -->
-            <LinearLayout
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@id/textview_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="已取消"
-                    android:textColor="@color/shenhui"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@id/imageview_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:contentDescription="@string/contentdescription"
-                    android:src="@color/yellow"
-                    android:visibility="invisible" />
-            </LinearLayout>
-
-            <!-- 待评价 -->
-            <LinearLayout
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@id/textview_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="待评价"
-                    android:textColor="@color/shenhui"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@id/imageview_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:contentDescription="@string/contentdescription"
-                    android:src="@color/yellow"
-                    android:visibility="invisible" />
-            </LinearLayout>
-            <!-- 待评价 -->
-            <LinearLayout
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@id/textview_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="已完成"
-                    android:textColor="@color/shenhui"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@id/imageview_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:contentDescription="@string/contentdescription"
-                    android:src="@color/yellow"
-                    android:visibility="invisible" />
-            </LinearLayout>
-        </LinearLayout>
-    </HorizontalScrollView>
-    
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:tabTextColor="@color/cl_a0a0a0"
+        app:tabSelectedTextColor="@color/cl_ff8400"
+        app:tabIndicatorColor="@color/transparent"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="scrollable"
+        android:scrollbars="none"/>
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="0.8dp"
-        android:src="@color/xian"
-        android:contentDescription="@string/contentdescription"/>
+        android:layout_height="10dp"
+        android:src="@drawable/line_shadow" />
 
-    <FrameLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <!-- 全部 -->
-
-        <com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout
-            android:id="@+id/refreshLoadmoreLayout_0"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" >
-
-            <xtom.frame.view.XtomListView
-                android:id="@+id/listview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:cacheColorHint="@color/transparent"
-                android:divider="@color/xian"
-                android:dividerHeight="0dp"
-                android:listSelector="@color/transparent"
-                android:scrollbars="none" />
-        </com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout>
-
-        <!-- 待付款 -->
-
-        <com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout
-            android:id="@+id/refreshLoadmoreLayout_1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" >
-
-            <xtom.frame.view.XtomListView
-                android:id="@+id/listview1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:cacheColorHint="@color/transparent"
-                android:divider="@color/xian"
-                android:dividerHeight="0dp"
-                android:listSelector="@color/transparent"
-                android:scrollbars="none" />
-        </com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout>
-
-        <!-- 待发货 -->
-
-        <com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout
-            android:id="@+id/refreshLoadmoreLayout_2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" >
-
-            <xtom.frame.view.XtomListView
-                android:id="@+id/listview2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:cacheColorHint="@color/transparent"
-                android:divider="@color/xian"
-                android:dividerHeight="0dp"
-                android:listSelector="@color/transparent"
-                android:scrollbars="none" />
-        </com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout>
-
-        <!-- 待收货 -->
-
-        <com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout
-            android:id="@+id/refreshLoadmoreLayout_3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" >
-
-            <xtom.frame.view.XtomListView
-                android:id="@+id/listview3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:cacheColorHint="@color/transparent"
-                android:divider="@color/xian"
-                android:dividerHeight="0dp"
-                android:listSelector="@color/transparent"
-                android:scrollbars="none" />
-        </com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout>
-
-        <!-- 待评价 -->
-
-        <com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout
-            android:id="@+id/refreshLoadmoreLayout_4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" >
-
-            <xtom.frame.view.XtomListView
-                android:id="@+id/listview4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:cacheColorHint="@color/transparent"
-                android:divider="@color/xian"
-                android:dividerHeight="0dp"
-                android:listSelector="@color/transparent"
-                android:scrollbars="none" />
-        </com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout>
-
-        <!-- 已完成 -->
-
-        <com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout
-            android:id="@+id/refreshLoadmoreLayout_5"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" >
-
-            <xtom.frame.view.XtomListView
-                android:id="@+id/listview5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:cacheColorHint="@color/transparent"
-                android:divider="@color/xian"
-                android:dividerHeight="0dp"
-                android:listSelector="@color/transparent"
-                android:scrollbars="none" />
-        </com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout>
-
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="visible"/>
-
-    </FrameLayout>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

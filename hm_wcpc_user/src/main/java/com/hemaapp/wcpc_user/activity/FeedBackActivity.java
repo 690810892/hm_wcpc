@@ -18,6 +18,7 @@ import com.hemaapp.wcpc_user.module.User;
 
 /**
  * Created by WangYuxia on 2016/5/19.
+ * 意见反馈
  */
 public class FeedBackActivity extends BaseActivity {
 
@@ -25,7 +26,6 @@ public class FeedBackActivity extends BaseActivity {
     private TextView title;
     private TextView right;
     private EditText editText;
-    private TextView button;
 
     private User user;
 
@@ -111,7 +111,6 @@ public class FeedBackActivity extends BaseActivity {
         right = (TextView) findViewById(R.id.title_btn_right);
         title = (TextView) findViewById(R.id.title_text);
         editText = (EditText) findViewById(R.id.edittext);
-        button = (TextView) findViewById(R.id.button);
     }
 
     @Override
@@ -121,7 +120,8 @@ public class FeedBackActivity extends BaseActivity {
     @Override
     protected void setListener() {
         title.setText("意见反馈");
-        right.setVisibility(View.INVISIBLE);
+        right.setVisibility(View.VISIBLE);
+        right.setText("提交");
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +131,7 @@ public class FeedBackActivity extends BaseActivity {
 
         editText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(
                 500) });
-        button.setOnClickListener(new View.OnClickListener() {
+        right.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
