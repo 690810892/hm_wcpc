@@ -12,7 +12,7 @@
         android:text="银行卡名称"
         android:layout_marginLeft="15dp"
         android:gravity="center_vertical"
-        android:textColor="@color/black2"
+        android:textColor="@color/cl_3f3f3f"
         android:textSize="14sp"/>
 
     <ImageView

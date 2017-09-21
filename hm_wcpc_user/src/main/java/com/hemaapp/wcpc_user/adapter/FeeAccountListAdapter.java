@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Created by WangYuxia on 2016/5/17.
+ * 余额明细的数据适配器
  */
 public class FeeAccountListAdapter extends HemaAdapter {
 
@@ -66,7 +67,7 @@ public class FeeAccountListAdapter extends HemaAdapter {
         FeeAccountInfor infor = infors.get(position);
         if("1".equals(infor.getKeytype())){
             holder.text_paykind.setText("充值");
-            holder.text_money.setTextColor(0xfff26d5f);
+            holder.text_money.setTextColor(0xffff8400);
             holder.text_money.setText(infor.getAmount());
         }else if("2".equals(infor.getKeytype())){
             holder.text_paykind.setText("余额提现");

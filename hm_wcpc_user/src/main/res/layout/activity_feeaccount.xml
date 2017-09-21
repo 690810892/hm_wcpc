@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
-    <include layout="@layout/title" />
+    <include layout="@layout/title_noline" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,6 +28,12 @@
                 android:listSelector="@color/transparent" />
 
         </com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:src="@drawable/line_shadow" />
 
         <ProgressBar
             android:id="@+id/progressbar"

@@ -358,24 +358,24 @@ public class PersonCenterActivity extends BaseActivity implements View.OnClickLi
                 it = new Intent(mContext, PersonInforActivity.class);
                 startActivityForResult(it, R.id.layout);
                 break;
-            case R.id.layout:
+            case R.id.layout: //我的钱包
                 it = new Intent(mContext, MyPurseActivity.class);
                 startActivity(it);
                 break;
-            case R.id.textview_2:
+            case R.id.textview_2: //优惠券
                 it = new Intent(mContext, MyCouponListActivity.class);
                 it.putExtra("keytype", "1");
                 startActivity(it);
                 break;
-            case R.id.textview_3:
+            case R.id.textview_3: //余额明细
                 it = new Intent(mContext, MyFeeAccountActivity.class);
                 startActivity(it);
                 break;
-            case R.id.textview_4:
+            case R.id.textview_4: //充值
                 it = new Intent(mContext, ChargeMoneyActivity.class);
                 startActivity(it);
                 break;
-            case R.id.textview_5:
+            case R.id.textview_5: //提现
                 showSelectPopWindow();
                 break;
             case R.id.layout_0:

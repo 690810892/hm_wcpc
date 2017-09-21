@@ -23,7 +23,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
         android:text="记录分类"
-        android:textColor="@color/qianhui"
+        android:textColor="@color/cl_a0a0a0"
         android:textSize="12sp"/>
 
     <TextView

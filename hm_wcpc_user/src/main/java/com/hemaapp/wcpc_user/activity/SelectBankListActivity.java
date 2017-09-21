@@ -26,6 +26,7 @@ import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * Created by WangYuxia on 2016/5/18.
+ * 选择银行
  */
 public class SelectBankListActivity extends BaseActivity {
     private ImageView left;

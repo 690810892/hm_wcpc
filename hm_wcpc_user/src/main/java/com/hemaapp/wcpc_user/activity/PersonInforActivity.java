@@ -31,7 +31,6 @@ import com.hemaapp.wcpc_user.BaseImageWay;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.User;
-import com.hemaapp.wcpc_user.view.IDCard;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +43,7 @@ import xtom.frame.util.XtomFileUtil;
 
 /**
  * Created by WangYuxia on 2016/5/17.
+ * 个人中心 -- 编辑个人信息
  */
 public class PersonInforActivity extends BaseActivity {
 
@@ -54,13 +54,9 @@ public class PersonInforActivity extends BaseActivity {
     private EditText edit_username;
     private LinearLayout layout_sex;
     private TextView text_sex;
-    private LinearLayout layout_kind; //证件分类
-    private TextView text_kind;
-    private EditText edit_number;
-    private EditText edit_email;
 
     private User user;
-    private String realname, sex, IDtype, IDnumber, email;
+    private String realname, sex;
 
     public BaseImageWay imageWay;
     private String tempPath;
@@ -217,26 +213,6 @@ public class PersonInforActivity extends BaseActivity {
         edit_username.setSelection(realname.length());
         sex = user.getSex();
         text_sex.setText(sex);
-
-        IDtype = user.getIDtype();
-        if("1".equals(IDtype)) {
-            text_kind.setText("身份证");
-            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-        }else if("2".equals(IDtype)){
-            text_kind.setText("驾驶证");
-            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-        }
-        IDnumber = user.getIDnumber();
-        if(!isNull(IDnumber)){
-            edit_number.setText(IDnumber);
-            edit_number.setSelection(IDnumber.length());
-        }
-
-        email = user.getEmail();
-        if(!isNull(email)){
-            edit_email.setText(email);
-            edit_email.setSelection(email.length());
-        }
     }
 
     @Override
@@ -351,11 +327,6 @@ public class PersonInforActivity extends BaseActivity {
         edit_username = (EditText) findViewById(R.id.edittext);
         layout_sex = (LinearLayout) findViewById(R.id.layout_0);
         text_sex = (TextView) findViewById(R.id.textview_0);
-        layout_kind = (LinearLayout) findViewById(R.id.layout_1);
-        text_kind = (TextView) findViewById(R.id.textview_1);
-
-        edit_number = (EditText) findViewById(R.id.edittext_0);
-        edit_email = (EditText) findViewById(R.id.edittext_1);
     }
 
     @Override
@@ -398,23 +369,11 @@ public class PersonInforActivity extends BaseActivity {
                     return;
                 }
 
-                IDnumber = edit_number.getText().toString();
-                if(!isNull(IDnumber) && IDtype.equals("1")){
-                    IDCard card = new IDCard();
-                    if(!card.verify(IDnumber)){
-                        showTextDialog(card.getCodeError());
-                        return;
-                    }
-                }
-
-                email =edit_email.getText().toString();
-
-                getNetWorker().clientSave(user.getToken(), realname, sex, email, IDtype, IDnumber);
+                getNetWorker().clientSave(user.getToken(), realname, sex);
             }
         });
         setListener(image_avatar);
-//        setListener(layout_sex);
-        setListener(layout_kind);
+        setListener(layout_sex);
     }
 
     private void setListener(View view){
@@ -426,12 +385,12 @@ public class PersonInforActivity extends BaseActivity {
                     case R.id.imageview:
                         imageWay.show();
                         break;
-//                    case R.id.layout_0:
-//                        showPopWindow(0);
-//                        break;
-                    case R.id.layout_1:
-                        showPopWindow(1);
+                    case R.id.layout_0:
+                        showPopWindow(0);
                         break;
+//                    case R.id.layout_1:
+//                        showPopWindow(1);
+//                        break;
                 }
             }
         });
@@ -458,8 +417,8 @@ public class PersonInforActivity extends BaseActivity {
             boy.setText("男");
             girl.setText("女");
         }else{
-            boy.setText("身份证");
-            girl.setText("驾驶证");
+//            boy.setText("身份证");
+//            girl.setText("驾驶证");
         }
         setListener(boy, type);
         setListener(girl, type);
@@ -476,22 +435,22 @@ public class PersonInforActivity extends BaseActivity {
                         if(type == 0){
                             sex = "男";
                             text_sex.setText(sex);
-                            text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
+                            text_sex.setTextColor(mContext.getResources().getColor(R.color.cl_3f3f3f));
                         }else{
-                            IDtype = "1";
-                            text_kind.setText("身份证");
-                            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
+//                            IDtype = "1";
+//                            text_kind.setText("身份证");
+//                            text_kind.setTextColor(mContext.getResources().getColor(R.color.cl_3f3f3f));
                         }
                         break;
                     case R.id.textview_0: // 女
                         if(type == 0){
                             sex = "女";
                             text_sex.setText(sex);
-                            text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
+                            text_sex.setTextColor(mContext.getResources().getColor(R.color.cl_3f3f3f));
                         }else{
-                            IDtype = "2";
-                            text_kind.setText("驾驶证");
-                            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
+//                            IDtype = "2";
+//                            text_kind.setText("驾驶证");
+//                            text_kind.setTextColor(mContext.getResources().getColor(R.color.cl_3f3f3f));
                         }
                         break;
                     case R.id.textview_2:

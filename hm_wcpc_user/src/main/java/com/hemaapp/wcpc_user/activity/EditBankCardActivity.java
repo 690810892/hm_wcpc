@@ -19,6 +19,7 @@ import com.hemaapp.wcpc_user.module.User;
 
 /**
  * Created by WangYuxia on 2016/5/18.
+ * 编辑银行卡信息
  */
 public class EditBankCardActivity extends BaseActivity {
 
@@ -30,6 +31,7 @@ public class EditBankCardActivity extends BaseActivity {
     private TextView text_bankkind;
     private EditText edit_user;
     private EditText edit_card;
+    private TextView button;
 
     private String bankname;
     private String bankuser;
@@ -127,6 +129,7 @@ public class EditBankCardActivity extends BaseActivity {
         text_bankkind = (TextView) findViewById(R.id.textview);
         edit_user = (EditText) findViewById(R.id.edittext_0);
         edit_card = (EditText) findViewById(R.id.edittext_1);
+        button = (TextView) findViewById(R.id.button);
     }
 
     @Override
@@ -146,8 +149,8 @@ public class EditBankCardActivity extends BaseActivity {
             }
         });
 
-        right.setText("保存");
-        right.setOnClickListener(new View.OnClickListener() {
+        right.setVisibility(View.INVISIBLE);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isNull(bankname)){

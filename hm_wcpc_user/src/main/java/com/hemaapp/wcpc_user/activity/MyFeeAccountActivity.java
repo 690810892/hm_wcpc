@@ -26,8 +26,10 @@ import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * Created by WangYuxia on 2016/5/17.
+ * 余额明细
  */
 public class MyFeeAccountActivity extends BaseActivity {
+
     private ImageView left;
     private TextView title;
     private TextView right;

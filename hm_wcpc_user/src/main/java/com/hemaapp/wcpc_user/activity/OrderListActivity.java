@@ -24,6 +24,7 @@ import com.hemaapp.wcpc_user.adapter.OrderListViewPagerAdapter;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.OrderListInfor;
 import com.hemaapp.wcpc_user.module.User;
+import com.hemaapp.wcpc_user.view.ButtonDialog;
 
 import java.util.ArrayList;
 
@@ -166,29 +167,29 @@ public class OrderListActivity extends BaseActivity {
         });
     }
 
-    private HemaButtonDialog mDialog;
+    private ButtonDialog mDialog;
 
     public void delete(){
         if (mDialog == null) {
-            mDialog = new HemaButtonDialog(mContext);
+            mDialog = new ButtonDialog(mContext);
             mDialog.setLeftButtonText("取消");
             mDialog.setRightButtonText("确定");
-            mDialog.setText("确定要清空所有订单?");
+            mDialog.setText("您确定清空订单?一旦清空无法找回");
             mDialog.setButtonListener(new ButtonListener());
             mDialog.setRightButtonTextColor(mContext.getResources().getColor(R.color.yellow));
         }
         mDialog.show();
     }
 
-    private class ButtonListener implements HemaButtonDialog.OnButtonListener {
+    private class ButtonListener implements ButtonDialog.OnButtonListener {
 
         @Override
-        public void onLeftButtonClick(HemaButtonDialog dialog) {
+        public void onLeftButtonClick(ButtonDialog dialog) {
             dialog.cancel();
         }
 
         @Override
-        public void onRightButtonClick(HemaButtonDialog dialog) {
+        public void onRightButtonClick(ButtonDialog dialog) {
             dialog.cancel();
             User user = hm_WcpcUserApplication.getInstance().getUser();
             getNetWorker().orderOperate(user.getToken(), "5", "0", "", "");

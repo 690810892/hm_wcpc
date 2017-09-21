@@ -31,6 +31,9 @@
     <color name="cl_3f3f3f">#3f3f3f</color>
     <color name="cl_525158">#525158</color>
     <color name="cl_a0a0a0">#a0a0a0</color>
+    <color name="cl_fc6b01">#fc6b01</color>
+    <color name="cl_6cc143">#6cc143</color>
+    <color name="cl_575b61">#575b61</color>
 
     <!-- 微信颜色 -->
     <color name="navpage">#FFE1E8EB</color>

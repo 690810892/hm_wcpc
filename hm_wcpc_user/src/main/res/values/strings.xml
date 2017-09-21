@@ -50,6 +50,33 @@
     <string name="tv_aboutus">关于我们</string>
     <string name="hint_feedback">请留下您的宝贵意见...</string>
     <string name="hint_oldpwd">旧密码</string>
+    <string name="tv_paymoney">支付金额</string>
+    <string name="tv_money">元</string>
+    <string name="tv_topay_by_feeaccount">余额支付</string>
+    <string name="tv_topay_by_weixin">微信支付</string>
+    <string name="tv_topay_by_alipay">支付宝支付</string>
+    <string name="tv_topay_by_unionpay">银联支付</string>
+    <string name="tv_pop_exit">确定要退出当前账号吗?</string>
+    <string name="tv_ok">确定</string>
+    <string name="tv_cancel">取消</string>
+    <string name="hint_cancel">取消</string>
+    <string name="tv_reply">星级评价</string>
+    <string name="hint_reply">还想说点啥</string>
+    <string name="tv_inputmoney">输入提现金额</string>
+    <string name="hint_money">注：提现金额需为100的整数倍</string>
+    <string name="hint_inputpwd">输入支付密码</string>
+    <string name="tv_submit_apply">提交申请</string>
+    <string name="hint_alipay">请输入支付宝账号</string>
+    <string name="tv_currentmoney">当前钱包余额</string>
+    <string name="tv_card_kind">卡类型</string>
+    <string name="hint_card_kind">请选择卡类型</string>
+    <string name="tv_card_owner">持卡人</string>
+    <string name="hint_card_owner">请填写持卡人姓名</string>
+    <string name="tv_card_no">卡号</string>
+    <string name="hint_card_no">请填写卡号</string>
+    <string name="tv_save">保存</string>
+    <string name="hint_charge_money">输入充值金额</string>
+
 
 
     <string name="unifiedorder_v3_wx">APP支付生成预支付订单</string>

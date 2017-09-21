@@ -1,6 +1,8 @@
 package com.hemaapp.wcpc_user.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import com.hemaapp.wcpc_user.module.User;
 
 /**
  * Created by WangYuxia on 2016/5/18.
+ * 编辑支付宝账号
  */
 public class EditAlipayActivity extends BaseActivity {
 
@@ -24,6 +27,7 @@ public class EditAlipayActivity extends BaseActivity {
     private TextView right;
 
     private EditText editText;
+    private ImageView img_clear;
 
     private User user;
     private String account;
@@ -103,6 +107,7 @@ public class EditAlipayActivity extends BaseActivity {
         right = (TextView) findViewById(R.id.title_btn_right);
         title = (TextView) findViewById(R.id.title_text);
         editText = (EditText) findViewById(R.id.edittext);
+        img_clear = (ImageView) findViewById(R.id.imageview);
     }
 
     @Override
@@ -131,6 +136,31 @@ public class EditAlipayActivity extends BaseActivity {
                 }
 
                 getNetWorker().alipaySave(user.getToken(), account);
+            }
+        });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().length() > 0)
+                    img_clear.setVisibility(View.VISIBLE);
+                else
+                    img_clear.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        img_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editText.setText("");
             }
         });
     }

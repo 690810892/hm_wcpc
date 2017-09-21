@@ -1,129 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
-    <include layout="@layout/title" />
+    <include layout="@layout/title_noline" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@id/textview_0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/img_center_youhuiquan"
-            android:padding="15dp"
-            android:drawablePadding="15dp"
-            android:text="优惠券"
-            android:textColor="@color/shenhui"
-            android:textSize="14sp"
-            android:drawableRight="@mipmap/triangle"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_driver"
-            android:src="@color/xian"
-            android:layout_marginLeft="15dp"/>
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@id/layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/img_center_feeaccount"
-                android:padding="15dp"
-                android:drawablePadding="15dp"
-                android:text="账户余额"
-                android:textColor="@color/shenhui"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@id/textview_1"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@mipmap/triangle"
-                android:gravity="right"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@id/textview_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/img_center_youhuiquan"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:drawablePadding="15dp"
+                    android:text="优惠券"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="14sp"
+                    android:drawableRight="@mipmap/triangle"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
+
+                <LinearLayout
+                    android:id="@id/layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/img_center_feeaccount"
+                        android:gravity="center_vertical"
+                        android:padding="15dp"
+                        android:drawablePadding="15dp"
+                        android:text="账户余额"
+                        android:textColor="@color/cl_5e5e5e"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@id/textview_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/triangle"
+                        android:gravity="right"
+                        android:padding="15dp"
+                        android:drawablePadding="10dp"
+                        android:text="158元"
+                        android:textColor="@color/cl_5e5e5e"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:id="@id/textview_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/img_center_charge"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:drawablePadding="15dp"
+                    android:text="充值"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="14sp"
+                    android:drawableRight="@mipmap/triangle"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:id="@id/textview_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/img_center_tixian"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:drawablePadding="15dp"
+                    android:text="余额提现"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="14sp"
+                    android:drawableRight="@mipmap/triangle"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:src="@color/xian" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:src="@color/xian" />
+
+            <TextView
+                android:id="@id/textview_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/img_setpaypwd"
+                android:gravity="center_vertical"
                 android:padding="15dp"
-                android:drawablePadding="10dp"
-                android:text="158元"
-                android:textColor="@color/qianhui"
-                android:textSize="14sp" />
+                android:drawablePadding="15dp"
+                android:text="设置支付密码"
+                android:textColor="@color/cl_5e5e5e"
+                android:textSize="14sp"
+                android:drawableRight="@mipmap/triangle"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:src="@color/xian" />
 
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_driver"
-            android:src="@color/xian"
-            android:layout_marginLeft="15dp"/>
+            android:layout_height="10dp"
+            android:src="@drawable/line_shadow" />
 
-        <TextView
-            android:id="@id/textview_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/img_center_charge"
-            android:padding="15dp"
-            android:drawablePadding="15dp"
-            android:text="充值"
-            android:textColor="@color/shenhui"
-            android:textSize="14sp"
-            android:drawableRight="@mipmap/triangle"/>
+    </FrameLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_driver"
-            android:src="@color/xian"
-            android:layout_marginLeft="15dp"/>
 
-        <TextView
-            android:id="@id/textview_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/img_center_tixian"
-            android:padding="15dp"
-            android:drawablePadding="15dp"
-            android:text="余额提现"
-            android:textColor="@color/shenhui"
-            android:textSize="14sp"
-            android:drawableRight="@mipmap/triangle"/>
-
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/xian" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:src="@color/xian" />
-
-    <TextView
-        android:id="@id/textview_4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:drawableLeft="@mipmap/img_setpaypwd"
-        android:padding="15dp"
-        android:drawablePadding="15dp"
-        android:text="设置支付密码"
-        android:textColor="@color/shenhui"
-        android:textSize="14sp"
-        android:drawableRight="@mipmap/triangle"/>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/xian" />
 
 
 </LinearLayout>

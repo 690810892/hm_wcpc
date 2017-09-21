@@ -23,6 +23,7 @@ import com.hemaapp.wcpc_user.module.User;
 
 /**
  * Created by WangYuxia on 2016/5/18.
+ * 银行卡提现
  */
 public class CashAddByUnionpayActivity extends BaseActivity {
 
@@ -50,17 +51,17 @@ public class CashAddByUnionpayActivity extends BaseActivity {
         getNetWorker().clientGet(user.getToken(), user.getId());
     }
 
-    private void init(){
+    private void init() {
         bankname = user.getBankname();
         bankcard = user.getBankcard();
-        if(isNull(bankname) && isNull(bankcard)){
+        if (isNull(bankname) && isNull(bankcard)) {
             text_banknumber.setText("添加银行卡");
-            text_banknumber.setTextColor(mContext.getResources().getColor(R.color.qianhui));
-        }else{
-            text_banknumber.setText(bankname+"("+bankcard.substring(bankcard.length() -4, bankcard.length())+")");
-            text_banknumber.setTextColor(mContext.getResources().getColor(R.color.black2));
+            text_banknumber.setTextColor(mContext.getResources().getColor(R.color.cl_5e5e5e));
+        } else {
+            text_banknumber.setText(bankname + "(" + bankcard.substring(bankcard.length() - 4, bankcard.length()) + ")");
+            text_banknumber.setTextColor(mContext.getResources().getColor(R.color.cl_3f3f3f));
         }
-        text_money.setText((isNull(user.getFeeaccount())?"0":user.getFeeaccount()));
+        text_money.setText((isNull(user.getFeeaccount()) ? "0" : user.getFeeaccount()));
     }
 
     @Override
@@ -182,10 +183,9 @@ public class CashAddByUnionpayActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().length() == 0){
+                if (s.toString().length() == 0) {
                     edit_value.setVisibility(View.GONE);
                     layout_noticevalue.setVisibility(View.VISIBLE);
-
                 }
             }
 
@@ -196,12 +196,12 @@ public class CashAddByUnionpayActivity extends BaseActivity {
 
     }
 
-    private void setListener(View view){
+    private void setListener(View view) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it;
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.layout:
                         it = new Intent(mContext, EditBankCardActivity.class);
                         it.putExtra("bankname", user.getBankname());
@@ -210,36 +210,36 @@ public class CashAddByUnionpayActivity extends BaseActivity {
                         startActivityForResult(it, R.id.layout);
                         break;
                     case R.id.layout_2:
-                        if(edit_value.getVisibility() == View.GONE){
+                        if (edit_value.getVisibility() == View.GONE) {
                             layout_noticevalue.setVisibility(View.GONE);
                             edit_value.setVisibility(View.VISIBLE);
                             edit_value.requestFocus();
                         }
                         break;
                     case R.id.button:
-                        if(isNull(bankcard) || isNull(bankname)){
+                        if (isNull(bankcard) || isNull(bankname)) {
                             showTextDialog("请编辑银行卡信息");
                             return;
                         }
 
                         applyfee = edit_value.getText().toString();
-                        if(isNull(applyfee)){
+                        if (isNull(applyfee)) {
                             showTextDialog("请输入提现金额");
                             return;
                         }
 
-                        if(Integer.parseInt(applyfee) > Double.parseDouble(user.getFeeaccount())){
+                        if (Integer.parseInt(applyfee) > Double.parseDouble(user.getFeeaccount())) {
                             showTextDialog("抱歉，您的钱包余额不足，无法提现");
                             return;
                         }
                         Integer money = Integer.parseInt(applyfee) % 100;
-                        if(money != 0){
+                        if (money != 0) {
                             showTextDialog("抱歉，您提现的金额必须是100的整数倍");
                             return;
                         }
 
                         paypassword = edit_password.getText().toString();
-                        if(isNull(paypassword)){
+                        if (isNull(paypassword)) {
                             showTextDialog("请输入支付密码");
                             return;
                         }
@@ -253,9 +253,9 @@ public class CashAddByUnionpayActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
-        switch (requestCode){
+        switch (requestCode) {
             case R.id.layout:
                 bankname = data.getStringExtra("name");
                 bankcard = data.getStringExtra("card");
@@ -263,7 +263,7 @@ public class CashAddByUnionpayActivity extends BaseActivity {
                 user.setBankname(bankname);
                 user.setBankcard(bankcard);
                 user.setBankuser(username);
-                text_banknumber.setText(bankname+"("+bankcard.substring(bankcard.length()-4, bankcard.length())+")");
+                text_banknumber.setText(bankname + "(" + bankcard.substring(bankcard.length() - 4, bankcard.length()) + ")");
                 text_banknumber.setTextColor(mContext.getResources().getColor(R.color.black2));
                 break;
         }

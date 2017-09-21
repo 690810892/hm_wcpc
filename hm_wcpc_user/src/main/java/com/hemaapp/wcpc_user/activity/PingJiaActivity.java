@@ -14,14 +14,17 @@ import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.R;
+import com.hemaapp.wcpc_user.adapter.TagListAdapter;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.DataInfor;
 import com.hemaapp.wcpc_user.module.User;
+import com.hemaapp.wcpc_user.view.FlowLayout.TagFlowLayout;
 
 import java.util.ArrayList;
 
 /**
  * Created by WangYuxia on 2016/5/20.
+ * 评价订单
  */
 public class PingJiaActivity extends BaseActivity {
 
@@ -30,7 +33,7 @@ public class PingJiaActivity extends BaseActivity {
     private TextView right;
 
     private ImageView image_0, image_1, image_2, image_3, image_4;
-    private LinearLayout layout;
+    private TagFlowLayout group_textview;
     private EditText editText;
     private TextView text_submit;
     private TextView text_other; //跳过此页
@@ -38,6 +41,7 @@ public class PingJiaActivity extends BaseActivity {
     private ArrayList<ImageView> images = new ArrayList<>();
     private String order_Id, point = "5";
     private ArrayList<DataInfor> infors = new ArrayList<>();
+    private TagListAdapter adapter;
     private User user;
 
     @Override
@@ -54,77 +58,20 @@ public class PingJiaActivity extends BaseActivity {
 
     private void initUserData(){
         if(infors == null || infors.size() == 0)
-            layout.setVisibility(View.GONE);
+            group_textview.setVisibility(View.GONE);
         else{
-            layout.setVisibility(View.VISIBLE);
-            int m = infors.size() / 2;
-            int n = infors.size() % 2;
-            int count ;
-            if(n == 0)
-                count = m;
-            else
-                count = m + 1;
+            group_textview.setVisibility(View.VISIBLE);
+            group_textview.setVisibility(View.VISIBLE);
+            adapter = new TagListAdapter(infors, mContext);
+            group_textview.setAdapter(adapter);
+        }
+    }
 
-            for(int i = 0; i< count; i++){
-                View view = LayoutInflater.from(mContext).inflate(R.layout.listitem_pingjia, null);
-                TextView textView = (TextView) view.findViewById(R.id.textview_0);
-                TextView textView1 = (TextView) view.findViewById(R.id.textview_1);
-
-                textView.setText(infors.get(i*2).getName());
-
-                textView.setTag(R.id.button_0, infors.get(i*2));
-                textView.setTag(R.id.button_1, i*2);
-                textView.setTag(R.id.button_2, textView);
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int pos = (Integer) v.getTag(R.id.button_1);
-                        TextView textView = (TextView) v.getTag(R.id.button_2);
-                        DataInfor data = (DataInfor) v.getTag(R.id.button_0);
-                        if(!data.isChecked()) {
-                            data.setChecked(true);
-                            textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.img_agree_s, 0,
-                                    0, 0);
-                            infors.set(pos, data);
-                        } else {
-                            data.setChecked(false);
-                            textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.img_agree_n, 0,
-                                    0, 0);
-                            infors.set(pos, data);
-                        }
-                    }
-                });
-
-                if(i*2+1 < infors.size()){
-                    textView1.setVisibility(View.VISIBLE);
-                    textView1.setText(infors.get(i*2+1).getName());
-                    textView1.setTag(R.id.tag_0, infors.get(i*2+1));
-                    textView1.setTag(R.id.tag_1, i*2+1);
-                    textView1.setTag(R.id.tag_2, textView1);
-                    textView1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int pos = (Integer) v.getTag(R.id.tag_1);
-                            TextView textView = (TextView) v.getTag(R.id.tag_2);
-                            DataInfor data = (DataInfor) v.getTag(R.id.tag_0);
-                            if(!data.isChecked()) {
-                                data.setChecked(true);
-                                textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.img_agree_s, 0,
-                                        0, 0);
-                                infors.set(pos, data);
-                            } else {
-                                data.setChecked(false);
-                                textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.img_agree_n, 0,
-                                        0, 0);
-                                infors.set(pos, data);
-                            }
-                        }
-                    });
-                }else{
-                    textView1.setVisibility(View.INVISIBLE);
-                }
-                layout.addView(view);
-            }
+    public void changeStatus(){
+        for(int i = 0; i < infors.size(); i++){
+            DataInfor attrItem = infors.get(i);
+            if(attrItem.getId().equals(adapter.attrItem.getId()))
+                attrItem.setChecked(adapter.attrItem.isChecked());
         }
     }
 
@@ -223,7 +170,7 @@ public class PingJiaActivity extends BaseActivity {
         images.add(3, image_3);
         images.add(4, image_4);
 
-        layout = (LinearLayout) findViewById(R.id.linearlayout);
+        group_textview = (TagFlowLayout) findViewById(R.id.multitextview);
         editText = (EditText) findViewById(R.id.edittext);
         text_submit = (TextView) findViewById(R.id.button);
         text_other = (TextView) findViewById(R.id.button_0);

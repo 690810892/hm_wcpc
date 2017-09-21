@@ -28,6 +28,7 @@ import com.hemaapp.wcpc_user.module.DataInfor;
 import com.hemaapp.wcpc_user.module.OrderDetailInfor;
 import com.hemaapp.wcpc_user.module.ReplyItems;
 import com.hemaapp.wcpc_user.module.User;
+import com.hemaapp.wcpc_user.view.ButtonDialog;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,6 +38,7 @@ import xtom.frame.image.load.XtomImageTask;
 
 /**
  * Created by WangYuxia on 2016/5/16.
+ * 订单详情
  */
 public class OrderDetialInforActivity extends BaseActivity {
 
@@ -53,6 +55,11 @@ public class OrderDetialInforActivity extends BaseActivity {
     private ImageView image_total_star_0, image_total_star_1, image_total_star_2, image_total_star_3, image_total_star_4;
     private ImageView image_phone;
     private TextView text_feekind;
+
+    private TextView tv_starttime;
+    private TextView tv_start_position;
+    private TextView tv_end_position;
+
     private TextView text_money;
 
     private LinearLayout layout_reply;
@@ -104,6 +111,11 @@ public class OrderDetialInforActivity extends BaseActivity {
         text_carnumbers.setText(infor.getCarnumbers());
         BaseUtil.transScore(image_total_star_0, image_total_star_1, image_total_star_2,
                 image_total_star_3, image_total_star_4, infor.getReplycount(), infor.getTotalpoint());
+
+        tv_starttime.setText(infor.getBegintime());
+        tv_start_position.setText(infor.getStartaddress());
+        tv_end_position.setText(infor.getEndaddress());
+
         if ("0".equals(infor.getPayflag())) {
             text_feekind.setText("需支付车费");
         } else {
@@ -113,83 +125,52 @@ public class OrderDetialInforActivity extends BaseActivity {
             text_money.setText(infor.getFailfee());
         else
             text_money.setText(infor.getSuccessfee());
-        if ("0".equals(infor.getPayflag())) { //未支付
-            layout_reply.setVisibility(View.GONE);
-            layout_bottom.setVisibility(View.VISIBLE);
-            if ("0".equals(infor.getReachflag())) {
+        switch (infor.getPayflag()) {
+            case "0": //未支付
+                layout_reply.setVisibility(View.GONE);
+                layout_bottom.setVisibility(View.VISIBLE);
+                if ("0".equals(infor.getReachflag())) { //未送达
+                    if ("0".equals(infor.getStatusflag())) {
+                        text_operate_1.setVisibility(View.VISIBLE);
+                        text_operate_0.setVisibility(View.VISIBLE);
+                    } else {
+                        text_operate_1.setVisibility(View.GONE);
+                        text_operate_0.setVisibility(View.GONE);
+                    }
 
-                if("0".equals(infor.getStatusflag())){
-                    text_operate_1.setVisibility(View.VISIBLE);
+                    text_operate_0.setText("确认上车");
+                    text_operate_1.setText("取消订单");
+                } else { //已送达
                     text_operate_0.setVisibility(View.VISIBLE);
-                }else{
                     text_operate_1.setVisibility(View.GONE);
-                    text_operate_0.setVisibility(View.GONE);
+                    text_operate_0.setText("去支付");
                 }
-
-                text_operate_0.setText("确认上车");
-                text_operate_0.setBackgroundResource(R.drawable.bt_login);
-                text_operate_0.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getNetWorker().orderOperate(user.getToken(), "8", id, "", "");
-                    }
-                });
-
-                text_operate_1.setText("取消订单");
-                text_operate_1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent it = new Intent(mContext, CancelOrderActivity.class);
-                        it.putExtra("id", id);
-                        startActivityForResult(it, R.id.layout_1);
-                    }
-                });
-            } else if ("1".equals(infor.getReachflag())) {
-                text_operate_0.setVisibility(View.VISIBLE);
-                text_operate_0.setBackgroundResource(R.drawable.bt_login);
-                text_operate_1.setVisibility(View.GONE);
-                text_operate_0.setText("去支付");
-                text_operate_0.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent it = new Intent(mContext, ToPayActivity.class);
-                        it.putExtra("id", id);
-                        if ("0".equals(infor.getIs_pool()))
-                            it.putExtra("total_fee", infor.getFailfee());
-                        else
-                            it.putExtra("total_fee", infor.getSuccessfee());
-                        startActivityForResult(it, R.id.layout_0);
-                    }
-                });
-            }
-        } else if ("1".equals(infor.getPayflag())) { //已支付
-            layout_reply.setVisibility(View.GONE);
-            layout_bottom.setVisibility(View.VISIBLE);
-            text_operate_0.setVisibility(View.GONE);
-            text_operate_1.setVisibility(View.VISIBLE);
-            text_operate_1.setText("去评价");
-            text_operate_1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent it = new Intent(mContext, PingJiaActivity.class);
-                    it.putExtra("id", id);
-                    startActivityForResult(it, R.id.layout);
-                }
-            });
-        } else if ("2".equals(infor.getPayflag())) { //已评价
-            layout_reply.setVisibility(View.VISIBLE);
-            layout_bottom.setVisibility(View.GONE);
-            ReplyItems item = infor.getReplyItems().get(0);
-            BaseUtil.transScoreByPoint1(image_star_0, image_star_1, image_star_2, image_star_3, image_star_4, item.getPoint());
-            text_replycontent.setText(isNull(item.getContent()) ? "用户没有填写评价" : item.getContent());
-            initReplyContent(item.getReply_str());
-        } else if ("3".equals(infor.getPayflag())) { //已取消
-            layout_reply.setVisibility(View.GONE);
-            layout_bottom.setVisibility(View.VISIBLE);
-            text_operate_0.setVisibility(View.VISIBLE);
-            text_operate_1.setVisibility(View.GONE);
-            text_operate_0.setText("订单已取消");
-            text_operate_0.setBackgroundResource(R.drawable.bt_cancel);
+                break;
+            case "1": //已支付
+                layout_reply.setVisibility(View.GONE);
+                layout_bottom.setVisibility(View.VISIBLE);
+                text_operate_0.setVisibility(View.GONE);
+                text_operate_1.setVisibility(View.VISIBLE);
+                text_operate_1.setText("去评价");
+                break;
+            case "2": //已评价
+                layout_reply.setVisibility(View.VISIBLE);
+                layout_bottom.setVisibility(View.VISIBLE);
+                text_operate_0.setVisibility(View.GONE);
+                text_operate_1.setVisibility(View.VISIBLE);
+                text_operate_1.setText("删除订单");
+                ReplyItems item = infor.getReplyItems().get(0);
+                BaseUtil.transScoreByPoint1(image_star_0, image_star_1, image_star_2, image_star_3, image_star_4, item.getPoint());
+                text_replycontent.setText(isNull(item.getContent()) ? "用户没有填写评价" : item.getContent());
+                initReplyContent(item.getReply_str());
+                break;
+            case "3": //已取消
+                layout_reply.setVisibility(View.GONE);
+                layout_bottom.setVisibility(View.VISIBLE);
+                text_operate_0.setVisibility(View.GONE);
+                text_operate_1.setVisibility(View.VISIBLE);
+                text_operate_1.setText("删除订单");
+                break;
         }
     }
 
@@ -338,6 +319,10 @@ public class OrderDetialInforActivity extends BaseActivity {
         image_total_star_3 = (ImageView) findViewById(R.id.imageview_5);
         image_total_star_4 = (ImageView) findViewById(R.id.imageview_6);
         text_feekind = (TextView) findViewById(R.id.textview_4);
+
+        tv_starttime = (TextView) findViewById(R.id.tv_time);
+        tv_start_position = (TextView) findViewById(R.id.tv_startposition);
+        tv_end_position = (TextView) findViewById(R.id.tv_endposition);
         text_money = (TextView) findViewById(R.id.textview_5);
 
         layout_reply = (LinearLayout) findViewById(R.id.layout);
@@ -375,6 +360,71 @@ public class OrderDetialInforActivity extends BaseActivity {
                 showPhoneWindow();
             }
         });
+
+        text_operate_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String value = ((TextView) view).getText().toString();
+                if (value.contains("确认上车")) {
+                    getNetWorker().orderOperate(user.getToken(), "8", id, "", "");
+                } else if (value.contains("去支付")) {
+                    Intent it = new Intent(mContext, ToPayActivity.class);
+                    it.putExtra("id", id);
+                    if ("0".equals(infor.getIs_pool()))
+                        it.putExtra("total_fee", infor.getFailfee());
+                    else
+                        it.putExtra("total_fee", infor.getSuccessfee());
+                    startActivityForResult(it, R.id.layout_0);
+                }
+            }
+        });
+
+        text_operate_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String value = ((TextView) view).getText().toString();
+                Intent it;
+                if (value.contains("取消订单")) {
+                    it = new Intent(mContext, CancelOrderActivity.class);
+                    it.putExtra("id", id);
+                    startActivityForResult(it, R.id.layout_1);
+                } else if (value.contains("去评价")) {
+                    it = new Intent(mContext, PingJiaActivity.class);
+                    it.putExtra("id", id);
+                    startActivityForResult(it, R.id.layout);
+                } else if(value.contains("删除订单")){
+                    showCancelDialog();
+                }
+            }
+        });
+    }
+
+    private ButtonDialog mDialog;
+
+    private void showCancelDialog() {
+        if (mDialog == null) {
+            mDialog = new ButtonDialog(mContext);
+            mDialog.setLeftButtonText("取消");
+            mDialog.setRightButtonText("确定");
+            mDialog.setText("您确定要删除订单吗?");
+            mDialog.setButtonListener(new ButtonListener());
+            mDialog.setRightButtonTextColor(mContext.getResources().getColor(R.color.yellow));
+        }
+        mDialog.show();
+    }
+
+    private class ButtonListener implements ButtonDialog.OnButtonListener {
+
+        @Override
+        public void onLeftButtonClick(ButtonDialog dialog) {
+            dialog.cancel();
+        }
+
+        @Override
+        public void onRightButtonClick(ButtonDialog dialog) {
+            dialog.cancel();
+            getNetWorker().orderOperate(user.getToken(), "6", id, "", "");
+        }
     }
 
     private void showPhoneWindow() {

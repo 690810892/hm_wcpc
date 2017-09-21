@@ -37,6 +37,10 @@ public class OrderDetailInfor extends XtomObject {
     private String reachflag; //到达标志
     private String statusflag; //0-未接乘客 1-已接到乘客 2-乘客确认上车
 
+    private String begintime;
+    private String startaddress;
+    private String endaddress;
+
     public OrderDetailInfor(JSONObject jsonObject) throws DataParseException {
         if(jsonObject != null){
             try {
@@ -62,6 +66,10 @@ public class OrderDetailInfor extends XtomObject {
                 reachflag = get(jsonObject, "reachflag");
                 statusflag = get(jsonObject, "statusflag");
 
+                begintime = get(jsonObject, "begintime");
+                startaddress = get(jsonObject, "startaddress");
+                endaddress = get(jsonObject, "endaddress");
+
                 if (!jsonObject.isNull("replyItems")&&
                         !isNull(jsonObject.getString("replyItems"))) {
                     JSONArray jsonList = jsonObject.getJSONArray("replyItems");
@@ -81,12 +89,12 @@ public class OrderDetailInfor extends XtomObject {
     @Override
     public String toString() {
         return "OrderDetailInfor{" +
-                "avatar='" + avatar + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
                 ", order_no='" + order_no + '\'' +
                 ", driver_id='" + driver_id + '\'' +
                 ", realname='" + realname + '\'' +
                 ", sex='" + sex + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", successfee='" + successfee + '\'' +
                 ", failfee='" + failfee + '\'' +
@@ -103,6 +111,9 @@ public class OrderDetailInfor extends XtomObject {
                 ", replyItems=" + replyItems +
                 ", reachflag='" + reachflag + '\'' +
                 ", statusflag='" + statusflag + '\'' +
+                ", begintime='" + begintime + '\'' +
+                ", startaddress='" + startaddress + '\'' +
+                ", endaddress='" + endaddress + '\'' +
                 '}';
     }
 
@@ -132,6 +143,18 @@ public class OrderDetailInfor extends XtomObject {
 
     public String getMobile() {
         return mobile;
+    }
+
+    public String getBegintime() {
+        return begintime;
+    }
+
+    public String getStartaddress() {
+        return startaddress;
+    }
+
+    public String getEndaddress() {
+        return endaddress;
     }
 
     public String getOrder_no() {

@@ -424,15 +424,12 @@ public class BaseNetWorker extends HemaNetWorker {
 	/**
 	 * 保存用户资料接口
 	 * */
-	public void clientSave(String token, String realname, String sex, String email, String IDtype, String IDnumber){
+	public void clientSave(String token, String realname, String sex){
 		BaseHttpInformation information = BaseHttpInformation.CLIENT_SAVE;
 		HashMap<String, String> params = new HashMap<>();
 		params.put("token", token);
 		params.put("realname", realname);
 		params.put("sex", sex);
-		params.put("email", email);
-		params.put("IDtype", IDtype);
-		params.put("IDnumber", IDnumber);
 
 		BaseNetTask task = new NoResultReturnTask(information, params);
 		executeTask(task);

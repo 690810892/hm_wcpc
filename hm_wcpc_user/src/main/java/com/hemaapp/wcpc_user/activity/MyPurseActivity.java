@@ -24,6 +24,7 @@ import com.hemaapp.wcpc_user.module.User;
 
 /**
  * Created by WangYuxia on 2016/5/17.
+ * 我的钱包
  */
 public class MyPurseActivity extends BaseActivity {
 
@@ -158,23 +159,23 @@ public class MyPurseActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent it ;
                 switch (v.getId()){
-                    case R.id.textview_0:
+                    case R.id.textview_0: //优惠券列表
                         it = new Intent(mContext, MyCouponListActivity.class);
                         it.putExtra("keytype", "1");
                         startActivity(it);
                         break;
-                    case R.id.layout:
+                    case R.id.layout: //账户明细
                         it = new Intent(mContext, MyFeeAccountActivity.class);
                         startActivity(it);
                         break;
-                    case R.id.textview_2:
+                    case R.id.textview_2: //充值
                         it = new Intent(mContext, ChargeMoneyActivity.class);
                         startActivity(it);
                         break;
-                    case R.id.textview_3:
+                    case R.id.textview_3: //提现
                         showSelectPopWindow();
                         break;
-                    case R.id.textview_4:
+                    case R.id.textview_4: //设置支付密码
                         it = new Intent(mContext, ResetPayPasswordActivity.class);
                         startActivity(it);
                         break;

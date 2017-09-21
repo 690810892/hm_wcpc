@@ -68,9 +68,8 @@ public class ToPayActivity extends BaseActivity {
     private CheckBox checkBox_weixin;
     private RelativeLayout layout_unipay;
     private CheckBox checkBox_unipay;
-    private TextView text_submit;
 
-    private String order_id, total_fee, fee, coupons_id="0", paypassword;
+    private String order_id, total_fee, fee, coupons_id = "0", paypassword;
     private User user;
     IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 
@@ -85,9 +84,9 @@ public class ToPayActivity extends BaseActivity {
         getNetWorker().clientGet(user.getToken(), user.getId());
     }
 
-    private void initUserData(){
+    private void initUserData() {
         text_needpay.setText(total_fee);
-        text_feeaccount.setText("余额"+user.getFeeaccount()+"元");
+        text_feeaccount.setText("余额" + user.getFeeaccount() + "元");
         layout_coupon.setVisibility(View.INVISIBLE);
     }
 
@@ -142,15 +141,15 @@ public class ToPayActivity extends BaseActivity {
                 break;
             case ORDER_SAVE:
                 String paytype = netTask.getParams().get("paytype");
-                if("3".equals(paytype)){
-                    if(checkBox_alipay.isChecked()){
+                if ("3".equals(paytype)) {
+                    if (checkBox_alipay.isChecked()) {
                         getNetWorker().alipay(user.getToken(), "2", order_id, total_fee);
-                    }else if(checkBox_weixin.isChecked()){
+                    } else if (checkBox_weixin.isChecked()) {
                         getNetWorker().weixin(user.getToken(), "2", order_id, total_fee);
-                    }else if(checkBox_unipay.isChecked()){
+                    } else if (checkBox_unipay.isChecked()) {
                         getNetWorker().unionpay(user.getToken(), "2", order_id, total_fee);
                     }
-                }else{
+                } else {
                     title.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -192,7 +191,7 @@ public class ToPayActivity extends BaseActivity {
                 break;
             case ORDER_SAVE:
                 String paytype = netTask.getParams().get("paytype");
-                if(!"3".equals(paytype)){
+                if (!"3".equals(paytype)) {
                     showTextDialog(baseResult.getMsg());
                 }
                 break;
@@ -209,7 +208,7 @@ public class ToPayActivity extends BaseActivity {
                 break;
             case ORDER_SAVE:
                 String paytype = netTask.getParams().get("paytype");
-                if(!"3".equals(paytype)){
+                if (!"3".equals(paytype)) {
                     showTextDialog("支付失败");
                 }
                 break;
@@ -237,8 +236,6 @@ public class ToPayActivity extends BaseActivity {
         checkBox_weixin = (CheckBox) findViewById(R.id.checkbox_1);
         layout_unipay = (RelativeLayout) findViewById(R.id.layout_2);
         checkBox_unipay = (CheckBox) findViewById(R.id.checkbox_2);
-
-        text_submit = (TextView) findViewById(R.id.button);
     }
 
     @Override
@@ -251,7 +248,8 @@ public class ToPayActivity extends BaseActivity {
     @Override
     protected void setListener() {
         title.setText("支付");
-        right.setVisibility(View.INVISIBLE);
+        right.setVisibility(View.VISIBLE);
+        right.setText("确定");
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -380,28 +378,28 @@ public class ToPayActivity extends BaseActivity {
             }
         });
 
-        text_submit.setOnClickListener(new View.OnClickListener() {
+        right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if( !checkBox_feeaccount.isChecked() && !checkBox_alipay.isChecked()
+                if (!checkBox_feeaccount.isChecked() && !checkBox_alipay.isChecked()
                         && !checkBox_weixin.isChecked()
-                        && !checkBox_unipay.isChecked()){
+                        && !checkBox_unipay.isChecked()) {
                     showTextDialog("请选择一种支付方式");
                     return;
-                }else{
-                    if(flag == 2){
+                } else {
+                    if (flag == 2) {
                         getNetWorker().orderSave(user.getToken(), order_id, "2", coupons_id, total_fee, "0");
-                    }else{
-                        if(checkBox_feeaccount.isChecked()) {
+                    } else {
+                        if (checkBox_feeaccount.isChecked()) {
                             String feeaccount = user.getFeeaccount();
                             double fee = Double.parseDouble(feeaccount);
-                            if(fee < Double.parseDouble(total_fee)){
+                            if (fee < Double.parseDouble(total_fee)) {
                                 showTextDialog("抱歉，您的余额不足，无法支付");
                                 return;
                             }
                             showInputPassword();
-                        }else{
+                        } else {
                             getNetWorker().orderSave(user.getToken(), order_id, "3", coupons_id, total_fee, "0");
                         }
                     }
@@ -418,7 +416,7 @@ public class ToPayActivity extends BaseActivity {
     private TextView text_forget;
     private ArrayList<TextView> textviews = new ArrayList<>();
 
-    private void showInputPassword(){
+    private void showInputPassword() {
         if (pwdWindow != null) {
             pwdWindow.dismiss();
             textviews.clear();
@@ -449,7 +447,7 @@ public class ToPayActivity extends BaseActivity {
             public void onClick(View v) {
                 pwdWindow.dismiss();
                 paypassword = editText.getText().toString();
-                if(isNull(paypassword.replace(" ", ""))){
+                if (isNull(paypassword.replace(" ", ""))) {
                     showTextDialog("请输入支付密码");
                     return;
                 }
@@ -470,18 +468,18 @@ public class ToPayActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
-        switch (requestCode){
+        switch (requestCode) {
             case R.id.layout:
                 String money = data.getStringExtra("money");
                 coupons_id = data.getStringExtra("id");
                 double d = Double.parseDouble(money);
                 double need = Double.parseDouble(fee);
-                if(d >= need) {
+                if (d >= need) {
                     total_fee = "0";
                     flag = 2;
-                }else{
+                } else {
                     total_fee = String.valueOf(BaseUtil.get2double(need - d));
                 }
                 text_needpay.setText(total_fee);
@@ -492,7 +490,7 @@ public class ToPayActivity extends BaseActivity {
                 if (data == null)
                     return;
                 String msg;
-		/*
+        /*
 		 * 支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
 		 */
                 String str = data.getExtras().getString("pay_result");
@@ -565,7 +563,7 @@ public class ToPayActivity extends BaseActivity {
         public void handleMessage(android.os.Message msg) {
             Result result = new Result((String) msg.obj);
             int status = result.getResultStatus();
-            if(status == 9000){
+            if (status == 9000) {
                 activity.showTextDialog("支付成功");
                 activity.title.postDelayed(new Runnable() {
 
@@ -575,10 +573,12 @@ public class ToPayActivity extends BaseActivity {
                         activity.finish();
                     }
                 }, 1000);
-            }else {
+            } else {
                 activity.showTextDialog(result.getResult());
             }
-        };
+        }
+
+        ;
     }
 
 }

@@ -39,6 +39,7 @@ import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
  * Created by WangYuxia on 2016/5/17.
+ * 充值
  */
 public class ChargeMoneyActivity extends BaseActivity {
 
@@ -53,7 +54,6 @@ public class ChargeMoneyActivity extends BaseActivity {
     private CheckBox checkBox_weixin;
     private RelativeLayout layout_unipay;
     private CheckBox checkBox_unipay;
-    private TextView text_submit;
 
     private String money;
     private User user;
@@ -249,8 +249,6 @@ public class ChargeMoneyActivity extends BaseActivity {
         checkBox_weixin = (CheckBox) findViewById(R.id.checkbox_1);
         layout_unipay = (RelativeLayout) findViewById(R.id.layout_2);
         checkBox_unipay = (CheckBox) findViewById(R.id.checkbox_2);
-
-        text_submit = (TextView) findViewById(R.id.button);
     }
 
     @Override
@@ -260,7 +258,8 @@ public class ChargeMoneyActivity extends BaseActivity {
     @Override
     protected void setListener() {
         title.setText("充值");
-        right.setVisibility(View.INVISIBLE);
+        right.setVisibility(View.VISIBLE);
+        right.setText("确定");
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -343,7 +342,7 @@ public class ChargeMoneyActivity extends BaseActivity {
             }
         });
 
-        text_submit.setOnClickListener(new View.OnClickListener() {
+        right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 money = editText.getText().toString();

@@ -18,6 +18,7 @@ import java.util.Date;
 
 /**
  * Created by WangYuxia on 2016/5/17.
+ * 优惠券列表的数据适配器
  */
 public class CouponListAdapter extends HemaAdapter {
 

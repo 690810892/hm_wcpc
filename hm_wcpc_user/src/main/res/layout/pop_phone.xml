@@ -26,7 +26,7 @@
                 android:layout_marginTop="@dimen/margin_5"
                 android:gravity="center_horizontal"
                 android:paddingTop="20dp"
-                android:text="拨打车主的电话"
+                android:text="请拨打"
                 android:textColor="#5e5e5e"
                 android:textSize="13sp" />
 
@@ -40,7 +40,8 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="20dp"
                 android:text="13978945653"
-                android:textColor="@color/yellow"
+                android:textStyle="bold"
+                android:textColor="@color/cl_4e4d5d"
                 android:textSize="18sp" />
 
             <ImageView

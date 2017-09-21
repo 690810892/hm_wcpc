@@ -14,7 +14,6 @@
         android:layout_height="70dp"
         android:src="@mipmap/img_addavatar"
         android:layout_marginTop="25dp"
-
         android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"/>
 

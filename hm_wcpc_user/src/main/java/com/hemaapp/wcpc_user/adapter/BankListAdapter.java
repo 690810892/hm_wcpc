@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 /**
  * Created by WangYuxia on 2016/5/18.
+ * 银行列表的数据适配
  */
 public class BankListAdapter extends HemaAdapter {
 
