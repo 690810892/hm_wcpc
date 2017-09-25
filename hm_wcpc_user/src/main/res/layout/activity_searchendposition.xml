@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title"
-        android:background="@color/black2">
+        android:background="@color/white">
 
         <TextView
             android:id="@id/button"
@@ -68,15 +71,12 @@
             android:textColorHint="#757575"
             android:textSize="14sp"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_driver1"
-            android:layout_toLeftOf="@id/button"
-            android:layout_marginLeft="15dp"
-            android:src="#3b3b3b"
-            android:layout_below="@id/edittext"/>
-
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_driver1"
+        android:src="@color/xian" />
 
     <xtom.frame.view.XtomListView
         android:id="@id/listview"
@@ -85,7 +85,7 @@
         android:cacheColorHint="@color/transparent"
         android:divider="@color/xian"
         android:dividerHeight="@dimen/height_driver"
-        android:scrollbars="none"
-        android:listSelector="@color/transparent" />
+        android:listSelector="@color/transparent"
+        android:scrollbars="none" />
 
 </LinearLayout>

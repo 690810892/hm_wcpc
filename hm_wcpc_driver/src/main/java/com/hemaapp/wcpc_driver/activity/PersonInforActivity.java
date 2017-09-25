@@ -44,6 +44,7 @@ import xtom.frame.util.XtomFileUtil;
 
 /**
  * Created by WangYuxia on 2016/5/26.
+ * 编辑个人信息
  */
 public class PersonInforActivity extends BaseActivity {
     private ImageView left;

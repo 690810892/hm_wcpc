@@ -36,6 +36,7 @@ import static com.hemaapp.hm_FrameWork.HemaUtil.isNeedUpDate;
 
 /**
  * Created by WangYuxia on 2016/5/26.
+ * 设置
  */
 public class SetActivity extends BaseActivity {
     private ImageView left;
@@ -47,6 +48,8 @@ public class SetActivity extends BaseActivity {
     private TextView text_clearcache;
     private TextView text_update;
     private TextView text_aboutus;
+    private TextView button;
+    private TextView text_postion;
 
     private User user;
     private SysInitInfo infor;
@@ -198,7 +201,8 @@ public class SetActivity extends BaseActivity {
         text_clearcache = (TextView) findViewById(R.id.textview_1);
         text_update = (TextView) findViewById(R.id.textview_2);
         text_aboutus = (TextView) findViewById(R.id.textview_3);
-        exit = (TextView) findViewById(R.id.button);
+        text_postion = (TextView) findViewById(R.id.textview_4);
+        button = (TextView) findViewById(R.id.button);
     }
 
     @Override
@@ -220,7 +224,8 @@ public class SetActivity extends BaseActivity {
         setListener(layout_clearcache);
         setListener(text_update);
         setListener(text_aboutus);
-        setListener(exit);
+        setListener(text_postion);
+        setListener(button);
     }
 
     private void setListener(View view){
@@ -248,6 +253,10 @@ public class SetActivity extends BaseActivity {
                         it = new Intent(mContext, ShowInternetPageActivity.class);
                         it.putExtra("name", "关于我们");
                         it.putExtra("path", sys_web_service+"webview/parm/aboutus_driver");
+                        startActivity(it);
+                        break;
+                    case R.id.textview_4: //常用位置
+                        it = new Intent(mContext, SetPositionActivity.class);
                         startActivity(it);
                         break;
                     case R.id.button:

@@ -72,6 +72,7 @@ public class FindBackPwdActivity extends BaseActivity {
             timeThread.cancel();
         super.onDestroy();
     }
+
     @Override
     protected void callBeforeDataBack(HemaNetTask netTask) {
         BaseHttpInformation information = (BaseHttpInformation) netTask

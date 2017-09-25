@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Created by WangYuxia on 2016/5/9.
+ * 发布行程 -- 选择乘车人数的数据适配器
  */
 public class PersonCountRecyclerAdapter extends
         RecyclerView.Adapter<PersonCountRecyclerAdapter.MyViewHolder> {
@@ -38,10 +39,10 @@ public class PersonCountRecyclerAdapter extends
 
         holder.textView.setText(types.get(position).getCount());
         if (types.get(position).isChecked()) {
-            holder.textView.setTextColor(0xfff49400);
+            holder.textView.setTextColor(0xffffffff);
             holder.textView.setBackgroundResource(R.drawable.bg_selectcount);
         } else {
-            holder.textView.setTextColor(0xffa2a2a2);
+            holder.textView.setTextColor(0xff737373);
             holder.textView.setBackgroundColor(0x00000000);
         }
 

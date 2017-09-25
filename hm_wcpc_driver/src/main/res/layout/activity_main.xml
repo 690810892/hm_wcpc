@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title"
-        android:background="@color/black2"
+        android:background="@color/white"
         android:gravity="center_vertical">
 
         <ImageView
@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:src="@mipmap/img_logo_notice"
             android:padding="10dp"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginRight="5dp"/>
 
         <ImageView
             android:id="@+id/title_point"
@@ -54,15 +54,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@id/layout_0"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:orientation="vertical">
 
             <FrameLayout
@@ -92,26 +91,25 @@
 
             <ImageView
                 android:id="@id/imageview_0"
-                android:layout_width="match_parent"
+                android:layout_width="70dp"
                 android:layout_height="2dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:src="@color/yellow"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@id/layout_1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@id/textview_1"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="抢单"
                 android:textColor="@color/qianhui"
                 android:textSize="16sp"/>
@@ -119,7 +117,7 @@
             <ImageView
                 android:id="@id/imageview_1"
                 android:visibility="invisible"
-                android:layout_width="match_parent"
+                android:layout_width="55dp"
                 android:layout_height="2dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

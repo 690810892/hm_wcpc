@@ -42,6 +42,7 @@ import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * Created by WangYuxia on 2016/5/24.
+ * 首页
  */
 public class MainActivity extends BaseActivity {
 

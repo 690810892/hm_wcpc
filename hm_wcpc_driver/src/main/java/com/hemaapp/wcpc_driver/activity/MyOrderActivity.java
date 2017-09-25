@@ -27,6 +27,7 @@ import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * Created by WangYuxia on 2016/5/27.
+ * 我的乘客订单
  */
 public class MyOrderActivity extends BaseActivity {
 
@@ -46,7 +47,7 @@ public class MyOrderActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_noticelist);
+        setContentView(R.layout.activity_my_person_order);
         super.onCreate(savedInstanceState);
         user = hm_WcpcDriverApplication.getInstance().getUser();
         getNoticeList();

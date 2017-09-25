@@ -27,6 +27,7 @@ import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * Created by WangYuxia on 2016/5/24.
+ * 消息列表
  */
 public class NoticeListActivity extends BaseActivity {
 

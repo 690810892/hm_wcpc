@@ -20,7 +20,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#f5f5f5">
 
             <TextView
                 android:id="@id/textview_0"
@@ -28,8 +29,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:padding="@dimen/margin_30"
-                android:text="取消"
-                android:textColor="#a0a0a0"
+                android:text="@string/tv_cancel"
+                android:textColor="@color/cl_a0a0a0"
                 android:textSize="15sp"/>
 
             <TextView
@@ -40,15 +41,15 @@
                 android:layout_marginRight="5dp"
                 android:padding="15dp"
                 android:layout_centerVertical="true"
-                android:text="确定"
-                android:textColor="#a0a0a0"
+                android:text="@string/tv_ok"
+                android:textColor="@color/yellow"
                 android:textSize="15sp"/>
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="请选择登录状态"
                 android:textColor="@color/title_color"
                 android:textSize="16sp"
                 />
@@ -72,8 +73,8 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/bg_changestatus"
-                    android:text="休车"
-                    android:textColor="@color/yellow"
+                    android:text="@string/tv_xiuche"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:gravity="center"/>
 
@@ -90,16 +91,12 @@
                     android:id="@id/textview_3"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:text="出车"
-                    android:textColor="@color/qianhui"
+                    android:text="@string/tv_chuche"
+                    android:textColor="#737373"
                     android:textSize="18sp"
                     android:gravity="center"/>
 
             </LinearLayout>
-
-
-
-
         </LinearLayout>
     </LinearLayout>
 

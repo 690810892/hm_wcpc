@@ -16,7 +16,7 @@
         android:padding="2dp"
         android:contentDescription="@string/contentdescription"
         android:scaleType="centerCrop"
-        android:src="@mipmap/default_user"
+        android:src="@mipmap/img_addavatar"
         android:layout_gravity="center_horizontal"/>
 
     <TextView
@@ -59,7 +59,6 @@
                 android:textColor="@color/cl_fca03d"
                 android:textSize="16sp"/>
 
-
             <EditText
                 android:id="@+id/edittext"
                 android:layout_width="match_parent"
@@ -74,6 +73,7 @@
                 android:textSize="15sp"/>
 
         </LinearLayout>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0.8dp"

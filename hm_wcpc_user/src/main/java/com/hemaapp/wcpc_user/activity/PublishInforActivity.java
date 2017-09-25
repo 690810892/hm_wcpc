@@ -112,7 +112,7 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
     private String start_lng, start_lat, startposition, success, fail, content, start_city;
     private String end_lng, end_lat, endposition, distance, starttime, personcount, fee="0.0";
     private String pos_lng, pos_lat, pos_address;
-    private String type="2", district;
+    private String district;
     private FeeCalculationInfor calinfor;
     private boolean isCalculated = false;
     private RouteSearch routeSearch;
@@ -123,10 +123,7 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_publishinfor);
         super.onCreate(savedInstanceState);
-        if(type.equals("1"))
-            title.setText("发布市内行程");
-        else
-            title.setText("发布跨城行程");
+        title.setText("发布跨城行程");
         routeSearch = new RouteSearch(this);
         routeSearch.setRouteSearchListener(this);
         user = hm_WcpcUserApplication.getInstance().getUser();
@@ -376,7 +373,6 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(mContext, FeeRuleActivity.class);
-                it.putExtra("keytype", type);
                 startActivity(it);
             }
         });
@@ -399,22 +395,20 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
             public void onClick(View v) {
                 Intent it ;
                 switch (v.getId()){
-                    case R.id.title_btn_right:
+                    case R.id.title_btn_right: //计费规则
                         it = new Intent(mContext, FeeRuleActivity.class);
-                        it.putExtra("keytype", type);
                         startActivity(it);
                         break;
-                    case R.id.textview_0:
+                    case R.id.textview_0: //选择出发地
                         it = new Intent(mContext, StartPositionMapActivity.class);
                         it.putExtra("lng", start_lng);
                         it.putExtra("lat", start_lat);
                         if(isNull(pos_lat) && isNull(pos_lng))
                             it.putExtra("isReturn", true);
                         it.putExtra("address", startposition);
-                        it.putExtra("type", type);
                         startActivityForResult(it, R.id.textview_0);
                         break;
-                    case R.id.textview_1:
+                    case R.id.textview_1: //选择目的地
                         if(!isNull(start_lng) && !isNull(start_lat)){
                             it = new Intent(mContext, EndPositionMapActivity.class);
                             it.putExtra("start_lng", start_lng);
@@ -422,7 +416,6 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
                             it.putExtra("end_lng", end_lng);
                             it.putExtra("end_lat", end_lat);
                             it.putExtra("city", start_city);
-                            it.putExtra("type", type);
                             startActivityForResult(it, R.id.textview_1);
                         }else {
                             showTextDialog("抱歉，请先选择出发地");
@@ -507,12 +500,12 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
         content = editText.getText().toString();
         if(isNull(content))
             content = "";
-        getNetWorker().tripsAdd(user.getToken(), type, "1", startposition, endposition, starttime, personcount,
+        getNetWorker().tripsAdd(user.getToken(), "2", "1", startposition, endposition, starttime, personcount,
                 isAgreed, fee, content, start_lng, start_lat, end_lng, end_lat, success, fail, distance, pos_lng, pos_lat, pos_address, district);
     }
 
     private void toCalculate(){
-        getNetWorker().feeCalculation(type, "0", distance, personcount, district);
+        getNetWorker().feeCalculation("2", "0", distance, personcount, district);
     }
 
     @Override
@@ -532,7 +525,7 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
                 if(isNull(pos_address))
                     pos_address = data.getStringExtra("pos_address");
                 text_startposition.setText(startposition);
-                text_startposition.setTextColor(mContext.getResources().getColor(R.color.word_black));
+                text_startposition.setTextColor(0xff3f3f3f);
                 if(isCalculated){
                     getReDistance();
                 }
@@ -542,7 +535,7 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
                 end_lat = data.getStringExtra("lat");
                 endposition = data.getStringExtra("data");
                 text_endposition.setText(endposition);
-                text_endposition.setTextColor(mContext.getResources().getColor(R.color.word_black));
+                text_endposition.setTextColor(0xffff9900);
                 if(isCalculated){
                     getReDistance();
                 }

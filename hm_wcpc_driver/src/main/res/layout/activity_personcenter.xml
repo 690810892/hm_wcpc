@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -93,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/imageview"
                         android:layout_marginTop="10dp"
-                        android:text="用户名称"
+                        android:text=""
                         android:textColor="#3f3f3f"
                         android:textSize="15sp"/>
 
@@ -116,7 +119,7 @@
                     android:layout_marginBottom="10dp"
                     android:drawableLeft="@mipmap/img_center_status_s"
                     android:drawablePadding="5dp"
-                    android:text="车主状态"
+                    android:text=""
                     android:textColor="@color/yellow"
                     android:textSize="12sp"/>
 
@@ -146,8 +149,8 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="15dp"
                     android:padding="15dp"
-                    android:text="切换登录状态"
-                    android:textColor="#626262"
+                    android:text="@string/tv_changestatus"
+                    android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
                 <ImageView
@@ -165,27 +168,8 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
                     android:padding="20dp"
-                    android:text="我的乘客订单"
-                    android:textColor="#626262"
-                    android:textSize="14sp"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_driver"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@color/xian"/>
-
-                <TextView
-                    android:id="@+id/textview_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/img_center_mytrip"
-                    android:drawableRight="@mipmap/triangle"
-                    android:drawablePadding="16dp"
-                    android:padding="20dp"
-                    android:text="我发布的行程"
-                    android:textColor="#626262"
+                    android:text="@string/tv_my_order"
+                    android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
                 <ImageView
@@ -203,8 +187,8 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
                     android:padding="20dp"
-                    android:text="我的账户"
-                    android:textColor="#626262"
+                    android:text="@string/tv_my_account"
+                    android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
                 <ImageView
@@ -222,8 +206,8 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
                     android:padding="20dp"
-                    android:text="账户密码修改"
-                    android:textColor="#626262"
+                    android:text="@string/tv_changepwd"
+                    android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
                 <ImageView
@@ -241,8 +225,8 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
                     android:padding="20dp"
-                    android:text="历史订单"
-                    android:textColor="#626262"
+                    android:text="@string/tv_history_order"
+                    android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
                 <ImageView
@@ -260,14 +244,15 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
                     android:padding="20dp"
-                    android:text="我的乘客"
-                    android:textColor="#626262"
+                    android:text="@string/tv_my_person"
+                    android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
             </LinearLayout>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginBottom="40dp"
                 android:src="@color/xian"/>
 
         </LinearLayout>

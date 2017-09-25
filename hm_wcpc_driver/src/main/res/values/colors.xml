@@ -8,12 +8,31 @@
     <color name="main_n1">#7a7a7a</color>
     <color name="bg_main_p1">#f4ff3c</color>
     <color name="item_checked">#070506</color>
-    <color name="qianhui">#a2a2a2</color>
+    <color name="qianhui">#606060</color>
     <color name="shenhui">#5e5e5e</color>
     <color name="yellow">#f49400</color>
     <color name="title_color">#f49400</color>
     <color name="word_black">#414141</color>
     <color name="word_color">#3f3f3f</color>
+
+    <color name="cl_333333">#333333</color>
+    <color name="cl_e3e3e3">#e3e3e3</color>
+    <color name="cl_9c9c9c">#9c9c9c</color>
+    <color name="cl_5e5e5e">#5e5e5e</color>
+    <color name="cl_e4e4e4">#e4e4e4</color>
+    <color name="cl_ff8400">#ff8400</color>
+    <color name="cl_4e4d5d">#4e4d5d</color>
+    <color name="cl_ff973f">#ff973f</color>
+    <color name="cl_1a1a1a">#1a1a1a</color>
+    <color name="cl_fca03d">#fca03d</color>
+    <color name="cl_37393b">#37393b</color>
+    <color name="cl_3f3f3f">#3f3f3f</color>
+    <color name="cl_525158">#525158</color>
+    <color name="cl_a0a0a0">#a0a0a0</color>
+    <color name="cl_fc6b01">#fc6b01</color>
+    <color name="cl_6cc143">#6cc143</color>
+    <color name="cl_575b61">#575b61</color>
+    <color name="cl_222222">#222222</color>
 
     <!-- 微信颜色 -->
     <color name="navpage">#FFE1E8EB</color>

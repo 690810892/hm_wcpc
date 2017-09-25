@@ -1,119 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
-    <include layout="@layout/title" />
+    <include layout="@layout/title_noline" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@id/textview_0"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:drawableLeft="@mipmap/img_set_introduction"
-            android:drawableRight="@mipmap/triangle"
-            android:drawablePadding="15dp"
-            android:gravity="center_vertical"
-            android:padding="15dp"
-            android:text="使用说明"
-            android:textColor="#626262"
-            android:textSize="14sp"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_driver"
-            android:src="@color/xian"
-            android:layout_marginLeft="15dp"/>
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@id/layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/img_set_clearcache"
-                android:drawablePadding="15dp"
-                android:padding="15dp"
-                android:text="清除缓存"
-                android:textColor="#626262"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@id/textview_1"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@mipmap/triangle"
-                android:layout_marginRight="15dp"
-                android:drawablePadding="5dp"
-                android:gravity="right|center_vertical"
-                android:text="12M"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@id/textview_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableRight="@mipmap/triangle"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:padding="15dp"
+                    android:text="@string/tv_set_using"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="15sp"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:id="@id/textview_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/triangle"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:text="@string/tv_aboutus"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="15sp"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
+
+                <LinearLayout
+                    android:id="@id/layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="15dp"
+                        android:padding="15dp"
+                        android:text="@string/tv_clearcash"
+                        android:textColor="@color/cl_5e5e5e"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:id="@id/textview_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/triangle"
+                        android:layout_marginRight="15dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="right|center_vertical"
+                        android:text="12M"
+                        android:textSize="14sp"
+                        android:textColor="@color/cl_9c9c9c"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:id="@id/textview_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/triangle"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:text="@string/tv_update"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="15sp"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:id="@id/textview_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/triangle"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:text="@string/tv_position"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="15sp"/>
+
+
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:src="@color/xian" />
+
+            <TextView
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:text="@string/tv_exit"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:textColor="@color/cl_fca03d"
                 android:textSize="14sp"
-                android:textColor="@color/qianhui"/>
+                android:gravity="center"/>
 
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_driver"
-            android:src="@color/xian"
-            android:layout_marginLeft="15dp"/>
+            android:layout_height="10dp"
+            android:src="@drawable/line_shadow" />
 
-        <TextView
-            android:id="@id/textview_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/img_set_update"
-            android:drawableRight="@mipmap/triangle"
-            android:drawablePadding="15dp"
-            android:padding="15dp"
-            android:text="软件更新"
-            android:textColor="#626262"
-            android:textSize="14sp"/>
+    </FrameLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_driver"
-            android:src="@color/xian"
-            android:layout_marginLeft="15dp"/>
 
-        <TextView
-            android:id="@id/textview_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/img_aboutus"
-            android:drawableRight="@mipmap/triangle"
-            android:drawablePadding="15dp"
-            android:padding="15dp"
-            android:text="关于我们"
-            android:textColor="#626262"
-            android:textSize="14sp"/>
-
-    </LinearLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/xian" />
-
-    <TextView
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bt_login"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:text="退出"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:textColor="#feffff"
-        android:textSize="14sp"
-        android:gravity="center"/>
 
 </LinearLayout>

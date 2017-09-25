@@ -34,7 +34,7 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:text="男"
-                android:textColor="#3f3f3f"
+                android:textColor="#575b61"
                 android:textSize="@dimen/textsize_8" />
 
             <ImageView
@@ -51,7 +51,7 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:text="女"
-                android:textColor="#3f3f3f"
+                android:textColor="#575b61"
                 android:textSize="@dimen/textsize_8" />
 
         </LinearLayout>
@@ -64,9 +64,9 @@
             android:layout_marginTop="@dimen/margin_25"
             android:background="@drawable/bg_pop_button"
             android:gravity="center"
-            android:padding="@dimen/margin_25"
+            android:padding="@dimen/margin_30"
             android:text="取消"
-            android:textColor="#f49400"
+            android:textColor="#979797"
             android:textSize="@dimen/textsize_8" />
     </LinearLayout>
 

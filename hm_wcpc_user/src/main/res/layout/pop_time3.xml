@@ -35,15 +35,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
-                android:layout_marginBottom="@dimen/margin_20"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="@dimen/margin_40"
-                android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:text="取消"
-                android:textColor="@color/qianhui"
+                android:textColor="@color/cl_a0a0a0"
                 android:textSize="@dimen/textsize_7" />
 
             <TextView
+                android:visibility="invisible"
                 android:id="@id/textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,13 +58,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
-                android:layout_marginBottom="@dimen/margin_20"
+                android:layout_marginBottom="15dp"
                 android:layout_marginRight="@dimen/margin_40"
-                android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="确定"
-                android:textColor="@color/qianhui"
+                android:textColor="#ff7e00"
                 android:textSize="@dimen/textsize_8" />
         </LinearLayout>
 

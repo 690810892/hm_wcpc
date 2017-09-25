@@ -1,664 +1,314 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/title"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/white"
-            android:paddingLeft="70dp"
-            android:paddingRight="70dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@id/layout_0"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@id/textview_0"
-                    android:layout_width="match_parent"
-                    android:layout_height="43dp"
-                    android:gravity="center"
-                    android:text="市内"
-                    android:textColor="@color/yellow"
-                    android:textSize="16sp"/>
-
-                <ImageView
-                    android:id="@id/imageview_0"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:visibility="visible"
-                    android:src="@color/yellow"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@id/layout_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textview_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="43dp"
-                    android:gravity="center"
-                    android:text="跨城"
-                    android:textColor="@color/qianhui"
-                    android:textSize="16sp"/>
-
-                <ImageView
-                    android:id="@id/imageview_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:visibility="invisible"
-                    android:src="@color/yellow"/>
-
-            </LinearLayout>
-        </LinearLayout>
+        <include layout="@layout/title_noline" />
 
         <FrameLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/white" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:src="@drawable/line_shadow" />
+
+        </FrameLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView_out"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ScrollView
-                android:id="@+id/scrollView_in"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@id/textview_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawableLeft="@mipmap/img_personcount"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@mipmap/img_triangle_down"
+                    android:padding="15dp"
+                    android:text="选择乘车人数"
+                    android:textColor="#a1a1a1"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:src="@color/xian" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="拼车成功"
+                    android:textColor="#5e5e5e"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@id/textview_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="济南市"
-                        android:textColor="#5e5e5e"
-                        android:textSize="15sp"/>
-
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:src="@color/xian"/>
-
-                    <TextView
-                        android:id="@id/textview_3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:padding="15dp"
-                        android:drawableLeft="@mipmap/img_personcount"
-                        android:drawableRight="@mipmap/img_triangle_down"
-                        android:text="选择乘车人数"
-                        android:textColor="#a1a1a1"
-                        android:drawablePadding="10dp"
-                        android:textSize="14sp"/>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:src="@color/xian"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="拼车成功"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="8dp"
-                        android:textColor="#5e5e5e"
-                        android:textSize="14sp"/>
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/bg_feerule"
+                    android:orientation="vertical"
+                    android:padding="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_feerule"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:padding="1dp"
-                        android:orientation="vertical">
+                        android:background="@drawable/bg_feerule_top"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_feerule_top"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="8dp"
+                            android:text="里程"
+                            android:textColor="#f5990c"
+                            android:textSize="13sp" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="里程"
-                                android:textColor="#f5990c"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="费用"
-                                android:textColor="#f5990c"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:src="#f89a14"/>
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="8dp"
+                            android:text="费用"
+                            android:textColor="#f5990c"
+                            android:textSize="13sp" />
 
-                            <TextView
-                                android:id="@id/textview_4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="15dp"
-                                android:paddingBottom="8dp"
-                                android:text="X公里内"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:id="@id/textview_5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="15dp"
-                                android:paddingBottom="8dp"
-                                android:text="X元"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@id/textview_6"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="15dp"
-                                android:text="X公里以上部分"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:id="@id/textview_7"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="15dp"
-                                android:text="X元/公里"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="拼车失败"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="8dp"
-                        android:textColor="#5e5e5e"
-                        android:textSize="14sp"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:src="#f89a14" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_feerule"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:padding="1dp"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@id/textview_4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_feerule_top"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="15dp"
+                            android:text="X公里内"
+                            android:textColor="#a8a8a8"
+                            android:textSize="13sp" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="里程"
-                                android:textColor="#f5990c"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="费用"
-                                android:textColor="#f5990c"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:src="#f89a14"/>
-
-                        <LinearLayout
+                        <TextView
+                            android:id="@id/textview_5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="15dp"
+                            android:text="X元"
+                            android:textColor="#a8a8a8"
+                            android:textSize="13sp" />
 
-                            <TextView
-                                android:id="@+id/fail_0"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="15dp"
-                                android:paddingBottom="8dp"
-                                android:text="X公里内"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:id="@+id/fail_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="15dp"
-                                android:paddingBottom="8dp"
-                                android:text="X元"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/fail_2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="15dp"
-                                android:text="X公里以上部分"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:id="@+id/fail_3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="15dp"
-                                android:text="X元/公里"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@id/textview_6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="8dp"
+                            android:text="X公里以上部分"
+                            android:textColor="#a8a8a8"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@id/textview_7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="8dp"
+                            android:text="X元/公里"
+                            android:textColor="#a8a8a8"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
-            </ScrollView>
 
-            <ScrollView
-                android:id="@+id/scrollView_out"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="拼车失败"
+                    android:textColor="#5e5e5e"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@id/textview_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="济南市"
-                        android:textColor="#5e5e5e"
-                        android:textSize="15sp"/>
-
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:src="@color/xian"/>
-
-                    <TextView
-                        android:id="@id/textview_3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:padding="15dp"
-                        android:drawableLeft="@mipmap/img_personcount"
-                        android:drawableRight="@mipmap/img_triangle_down"
-                        android:text="选择乘车人数"
-                        android:textColor="#a1a1a1"
-                        android:drawablePadding="10dp"
-                        android:textSize="14sp"/>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:src="@color/xian"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="拼车成功"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="8dp"
-                        android:textColor="#5e5e5e"
-                        android:textSize="14sp"/>
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/bg_feerule"
+                    android:orientation="vertical"
+                    android:padding="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_feerule"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:padding="1dp"
-                        android:orientation="vertical">
+                        android:background="@drawable/bg_feerule_top"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_feerule_top"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="8dp"
+                            android:text="里程"
+                            android:textColor="#f5990c"
+                            android:textSize="13sp" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="里程"
-                                android:textColor="#f5990c"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="费用"
-                                android:textColor="#f5990c"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:src="#f89a14"/>
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@id/textview_4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="15dp"
-                                android:paddingBottom="8dp"
-                                android:text="X公里内"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:id="@id/textview_5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="15dp"
-                                android:paddingBottom="8dp"
-                                android:text="X元"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@id/textview_6"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="15dp"
-                                android:text="X公里以上部分"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:id="@id/textview_7"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="15dp"
-                                android:text="X元/公里"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="8dp"
+                            android:text="费用"
+                            android:textColor="#f5990c"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="拼车失败"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="8dp"
-                        android:textColor="#5e5e5e"
-                        android:textSize="14sp"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:src="#f89a14" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_feerule"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:padding="1dp"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/fail_4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_feerule_top"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="15dp"
+                            android:text="X公里内"
+                            android:textColor="#a8a8a8"
+                            android:textSize="13sp" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="里程"
-                                android:textColor="#f5990c"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:text="费用"
-                                android:textColor="#f5990c"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:src="#f89a14"/>
-
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/fail_5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/fail_4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="15dp"
-                                android:paddingBottom="8dp"
-                                android:text="X公里内"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:id="@+id/fail_5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="15dp"
-                                android:paddingBottom="8dp"
-                                android:text="X元"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/fail_6"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="15dp"
-                                android:text="X公里以上部分"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                            <TextView
-                                android:id="@+id/fail_7"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:layout_weight="1"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="15dp"
-                                android:text="X元/公里"
-                                android:textColor="#a8a8a8"
-                                android:textSize="13sp"/>
-
-                        </LinearLayout>
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="15dp"
+                            android:text="X元"
+                            android:textColor="#a8a8a8"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/fail_6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="8dp"
+                            android:text="X公里以上部分"
+                            android:textColor="#a8a8a8"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/fail_7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="8dp"
+                            android:text="X元/公里"
+                            android:textColor="#a8a8a8"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
-            </ScrollView>
-        </FrameLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
     <ImageView
         android:id="@id/imageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:contentDescription="@string/contentdescription"
-        android:src="#60000000" />
+        android:src="#60000000"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/father"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:visibility="gone"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -672,19 +322,19 @@
                 android:padding="@dimen/margin_30"
                 android:text="取消"
                 android:textColor="#a0a0a0"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@id/textview_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="right"
                 android:layout_marginRight="5dp"
                 android:padding="15dp"
-                android:layout_centerVertical="true"
                 android:text="确定"
                 android:textColor="#a0a0a0"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@id/textview"
@@ -693,21 +343,20 @@
                 android:layout_gravity="center"
                 android:text="选择乘车人数"
                 android:textColor="@color/title_color"
-                android:textSize="16sp"
-                />
+                android:textSize="16sp" />
         </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:layout_marginBottom="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:background="@color/white"
-            android:scrollbars="none"
-            android:orientation="horizontal">
+            android:scrollbars="none">
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
@@ -717,9 +366,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:visibility="gone"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -733,19 +382,19 @@
                 android:padding="@dimen/margin_30"
                 android:text="取消"
                 android:textColor="#a0a0a0"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@id/textview_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="right"
                 android:layout_marginRight="5dp"
                 android:padding="15dp"
-                android:layout_centerVertical="true"
                 android:text="确定"
                 android:textColor="#a0a0a0"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@id/textview"
@@ -754,21 +403,20 @@
                 android:layout_gravity="center"
                 android:text="选择乘车人数"
                 android:textColor="@color/title_color"
-                android:textSize="16sp"
-                />
+                android:textSize="16sp" />
         </FrameLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:layout_marginBottom="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:background="@color/white"
-            android:scrollbars="none"
-            android:orientation="horizontal">
+            android:scrollbars="none">
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>

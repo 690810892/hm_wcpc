@@ -31,6 +31,7 @@ import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * Created by WangYuxia on 2016/5/6.
+ * 消息列表
  */
 public class NoticeListActivity extends BaseActivity {
 
@@ -335,7 +336,7 @@ public class NoticeListActivity extends BaseActivity {
             public void onClick(View v) {
                 text_order.setTextColor(mContext.getResources().getColor(R.color.yellow));
                 image_order.setVisibility(View.VISIBLE);
-                text_system.setTextColor(mContext.getResources().getColor(R.color.qianhui));
+                text_system.setTextColor(mContext.getResources().getColor(R.color.cl_a0a0a0));
                 image_system.setVisibility(View.INVISIBLE);
                 layout_order.setVisibility(View.VISIBLE);
                 layout_system.setVisibility(View.GONE);
@@ -346,7 +347,7 @@ public class NoticeListActivity extends BaseActivity {
         system.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text_order.setTextColor(mContext.getResources().getColor(R.color.qianhui));
+                text_order.setTextColor(mContext.getResources().getColor(R.color.cl_a0a0a0));
                 image_order.setVisibility(View.INVISIBLE);
                 text_system.setTextColor(mContext.getResources().getColor(R.color.yellow));
                 image_system.setVisibility(View.VISIBLE);
@@ -436,7 +437,6 @@ public class NoticeListActivity extends BaseActivity {
                 getNetWorker().noticeSaveOperate(user.getToken(), "0", "2", "1", "4");
             else
                 getNetWorker().noticeSaveOperate(user.getToken(), "0", "1", "1", "4");
-
         }
     }
 }

@@ -14,10 +14,10 @@
         android:id="@+id/father"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="center"
         android:background="@drawable/bg_pop_button"
         android:orientation="vertical"
-        android:layout_margin="10dp" >
+        android:layout_margin="15dp" >
 
         <TextView
             android:id="@id/textview"
@@ -25,9 +25,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:padding="15dp"
-            android:text="退出登录"
-            android:textColor="@color/black2"
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="45dp"
+            android:text="@string/tv_pop_exit"
+            android:textStyle="bold"
+            android:textColor="@color/cl_575b61"
             android:textSize="@dimen/textsize_8" />
 
         <ImageView
@@ -36,17 +38,44 @@
             android:contentDescription="@string/contentdescription"
             android:src="@color/xian" />
 
-        <TextView
-            android:id="@id/textview_1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/bg_pop_button"
-            android:gravity="center"
-            android:padding="15dp"
-            android:text="取消"
-            android:textColor="#f49400"
-            android:textSize="@dimen/textsize_8" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/textview_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_pop_button"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:padding="15dp"
+                android:text="@string/tv_cancel"
+                android:textColor="#979797"
+                android:textSize="@dimen/textsize_8" />
+
+            <ImageView
+                android:layout_width="@dimen/height_driver"
+                android:layout_height="45dp"
+                android:contentDescription="@string/contentdescription"
+                android:src="@color/xian" />
+
+            <TextView
+                android:id="@id/textview_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_pop_button"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:padding="15dp"
+                android:text="@string/tv_ok"
+                android:textColor="#f49400"
+                android:textSize="@dimen/textsize_8" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

@@ -39,10 +39,10 @@ public class ThankFeeRecyclerAdapter extends
 
         holder.textView.setText(types.get(position).getCount());
         if (types.get(position).isChecked()) {
-            holder.textView.setTextColor(0xfff49400);
+            holder.textView.setTextColor(0xffffffff);
             holder.view.setBackgroundResource(R.drawable.bg_selectcount);
         } else {
-            holder.textView.setTextColor(0xffa2a2a2);
+            holder.textView.setTextColor(0xff737373);
             holder.view.setBackgroundColor(0x00000000);
         }
 

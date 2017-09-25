@@ -56,7 +56,7 @@ import xtom.frame.util.XtomToastUtil;
 
 /**
  * Created by WangYuxia on 2016/5/10.
- *
+ * 发布行程 -- 选择目的地
  */
 public class EndPositionMapActivity extends BaseActivity implements LocationSource,
         AMapLocationListener, AMap.OnMapClickListener, RouteSearch.OnRouteSearchListener,
@@ -88,8 +88,7 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
     private LatLng start_latlng, end_latlng;
 
     private Marker startMarker, endMarker;
-    private boolean isFrist = true;
-    private String type, city, start_city;
+    private String city, start_city;
     private boolean isClicked =false;
 
     private Handler handler = new Handler() {
@@ -221,10 +220,6 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
 
         if(!isNull(end_lat) && !isNull(end_lng)){
             startSearch();
-            isFrist = false;
-        }else{
-            if(isNull(end_lat) && isNull(end_lng))
-                isFrist = true;
         }
         geocoderSearch = new GeocodeSearch(this);
         geocoderSearch.setOnGeocodeSearchListener(this);
@@ -346,7 +341,6 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         end_lat = mIntent.getStringExtra("end_lat");
         end_lng = mIntent.getStringExtra("end_lng");
         start_city = mIntent.getStringExtra("city");
-        type = mIntent.getStringExtra("type");
     }
 
     @Override
@@ -383,19 +377,11 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         layout_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if("1".equals(type)){
-                    Intent it = new Intent(mContext, SelectStartPositionActivity.class);
-                    if(isNull(citycode))
-                        citycode = XtomSharedPreferencesUtil.get(mContext, "city");
-                    it.putExtra("citycode", citycode);
-                    startActivityForResult(it, R.id.linearlayout);
-                }else{
-                    Intent it = new Intent(mContext, SelectEndPositionActivity.class);
-                    if(isNull(citycode))
-                        citycode = XtomSharedPreferencesUtil.get(mContext, "city");
-                    it.putExtra("citycode", citycode);
-                    startActivityForResult(it, R.id.linearlayout);
-                }
+                Intent it = new Intent(mContext, SelectEndPositionActivity.class);
+                if(isNull(citycode))
+                    citycode = XtomSharedPreferencesUtil.get(mContext, "city");
+                it.putExtra("citycode", citycode);
+                startActivityForResult(it, R.id.linearlayout);
 
             }
         });
@@ -515,13 +501,9 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
                 RegeocodeAddress address = result.getRegeocodeAddress();
                 city = address.getCity();
-                if(type.equals("1")&& !isNull(city) && !address.getCity().equals(start_city)){
-                    showTextDialog("抱歉，您发布的是市内行程，请重新选择");
-                    return;
-                }
 
-                if(type.equals("2") && !isNull(city) && start_city.equals(city)){
-                    showTextDialog("抱歉，您发布的是跨城行程，请重新选择");
+                if(!isNull(city) && start_city.equals(city)){
+                    showTextDialog("抱歉，您发布的行程不能在同一个城市，请重新选择");
                     return;
                 }
 

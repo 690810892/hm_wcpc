@@ -30,6 +30,7 @@ import xtom.frame.view.XtomListView;
 
 /**
  * Created by WangYuxia on 2016/5/24.
+ * 我的订单
  */
 public class OrderListAdapter extends HemaAdapter {
 

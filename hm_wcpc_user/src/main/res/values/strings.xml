@@ -52,6 +52,7 @@
     <string name="hint_oldpwd">旧密码</string>
     <string name="tv_paymoney">支付金额</string>
     <string name="tv_money">元</string>
+    <string name="tv_yue">约</string>
     <string name="tv_topay_by_feeaccount">余额支付</string>
     <string name="tv_topay_by_weixin">微信支付</string>
     <string name="tv_topay_by_alipay">支付宝支付</string>
@@ -76,6 +77,19 @@
     <string name="hint_card_no">请填写卡号</string>
     <string name="tv_save">保存</string>
     <string name="hint_charge_money">输入充值金额</string>
+    <string name="tv_start_position">出发地</string>
+    <string name="tv_end_position">目的地</string>
+    <string name="tv_start_time">出发时间</string>
+    <string name="tv_person_count">乘车人数</string>
+    <string name="tv_agree">我同意拼车</string>
+    <string name="tv_thank_fee">感谢费</string>
+    <string name="hint_thankfee">请选择感谢费，愿加感谢费更受司机欢迎</string>
+    <string name="tv_beizhu">备注</string>
+    <string name="hint_beizhu">请如实填写，确保接单的车主能满足你的要求，如是否携带大件行李，是否携带婴儿，是否携带宠物等。</string>
+    <string name="tv_book_price">预估价格</string>
+    <string name="tv_success">拼车成功</string>
+    <string name="tv_failed">拼车失败</string>
+    <string name="tv_submit_publish">确认发布</string>
 
 
 

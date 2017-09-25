@@ -45,12 +45,11 @@ import xtom.frame.util.XtomToastUtil;
 
 /**
  * Created by WangYuxia on 2016/5/10.
- * type = 1:市内行程
- * type = 2：跨市行程
+ * 发布行程 -- 选择出发地
  */
 public class StartPositionMapActivity
         extends BaseActivity implements LocationSource,
-        AMapLocationListener, AMap.OnMapClickListener, GeocodeSearch.OnGeocodeSearchListener{
+        AMapLocationListener, AMap.OnMapClickListener, GeocodeSearch.OnGeocodeSearchListener {
 
     private ImageView left;
     private TextView title;
@@ -75,7 +74,7 @@ public class StartPositionMapActivity
     private boolean isFrist = true;
     private String pos_lat, pos_lng, pos_address;
     private boolean isReturn = false;
-    private String type, city;
+    private String city;
     private String citycode;
 
     private Handler handler = new Handler() {
@@ -93,12 +92,12 @@ public class StartPositionMapActivity
         checkLocation();
     }
 
-    private void init(){
+    private void init() {
         prepareLocation();
-        if(isNull(lng)&& isNull(lat)){
+        if (isNull(lng) && isNull(lat)) {
             isFrist = true;
             initMap();
-        }else{
+        } else {
             isFrist = false;
             if (aMap == null)
                 aMap = mapView.getMap();
@@ -139,8 +138,7 @@ public class StartPositionMapActivity
 
         if (requestCode == 3) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED ||
-                    grantResults[1] != PackageManager.PERMISSION_GRANTED)//未获得定位权限
-            {
+                    grantResults[1] != PackageManager.PERMISSION_GRANTED) {//未获得定位权限
                 showTextDialog("没有定位权限，请添加后重试");
                 title.postDelayed(new Runnable() {
                     @Override
@@ -157,7 +155,7 @@ public class StartPositionMapActivity
     }
 
 
-    private void prepareLocation(){
+    private void prepareLocation() {
         locationClient = new AMapLocationClient(getApplicationContext());
         locationOption = new AMapLocationClientOption();
         // 设置定位模式为高精度模式
@@ -194,19 +192,19 @@ public class StartPositionMapActivity
                     lng = String.valueOf(loc.getLongitude());
                     lat = String.valueOf(loc.getLatitude());
                     citycode = loc.getCity();
-                    if(isNull(citycode)){
+                    if (isNull(citycode)) {
                         citycode = loc.getProvince();
                     }
                     XtomSharedPreferencesUtil.save(mContext, "city", citycode);
                     data = loc.getAddress();
                     latLonPoint = new LatLonPoint(loc.getLatitude(), loc.getLongitude());
-                    if(isReturn){
+                    if (isReturn) {
                         pos_lat = String.valueOf(loc.getLatitude());
                         pos_lng = String.valueOf(loc.getLongitude());
                         isReturn = false;
                     }
 
-                    if(isFrist){
+                    if (isFrist) {
                         latLonPoint = new LatLonPoint(Double.parseDouble(lat), Double.parseDouble(lng));
                         latlng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200,
@@ -217,8 +215,8 @@ public class StartPositionMapActivity
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latlng,
                             15);
                     aMap.moveCamera(update);
-                    if(!isFrist){
-                        if(marker != null)
+                    if (!isFrist) {
+                        if (marker != null)
                             marker.remove();
                         marker = aMap.addMarker(new MarkerOptions()
                                 .position(latlng)
@@ -226,7 +224,7 @@ public class StartPositionMapActivity
                                 .icon(BitmapDescriptorFactory
                                         .fromBitmap(BitmapFactory.
                                                 decodeResource(getResources(), R.mipmap.img_startposition_logo))));
-                    }else{
+                    } else {
                         isFrist = false;
                     }
                     break;
@@ -234,10 +232,10 @@ public class StartPositionMapActivity
                 case LocationUtils.MSG_LOCATION_STOP:
                     log_i("定位停止...");
                     break;
-                default:
-                    break;
             }
-        };
+        }
+
+        ;
     };
 
     private void initMap() {
@@ -304,7 +302,7 @@ public class StartPositionMapActivity
 
     @Override
     protected void findView() {
-       left = (ImageView) findViewById(R.id.title_btn_left);
+        left = (ImageView) findViewById(R.id.title_btn_left);
         title = (TextView) findViewById(R.id.title_text);
         right = (TextView) findViewById(R.id.title_btn_right);
         mapView = (MapView) findViewById(R.id.bmapView);
@@ -317,7 +315,6 @@ public class StartPositionMapActivity
         lng = mIntent.getStringExtra("lng");
         lat = mIntent.getStringExtra("lat");
         isReturn = mIntent.getBooleanExtra("isReturn", false);
-        type = mIntent.getStringExtra("type");
         data = mIntent.getStringExtra("address");
     }
 
@@ -337,11 +334,11 @@ public class StartPositionMapActivity
                 mIntent.putExtra("lng", String.valueOf(latlng.longitude));
                 mIntent.putExtra("lat", String.valueOf(latlng.latitude));
                 mIntent.putExtra("city", city);
-                if(!isNull(pos_lat))
+                if (!isNull(pos_lat))
                     mIntent.putExtra("pos_lat", pos_lat);
-                if(!isNull(pos_lng))
+                if (!isNull(pos_lng))
                     mIntent.putExtra("pos_lng", pos_lng);
-                if(!isNull(pos_address))
+                if (!isNull(pos_address))
                     mIntent.putExtra("pos_address", pos_address);
                 setResult(RESULT_OK, mIntent);
                 finish();
@@ -358,19 +355,11 @@ public class StartPositionMapActivity
         layout_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(type.equals("1")){
-                    Intent it = new Intent(mContext, SelectStartPositionActivity.class);
-                    if(isNull(citycode))
-                        citycode = XtomSharedPreferencesUtil.get(mContext, "city");
-                    it.putExtra("citycode", citycode);
-                    startActivityForResult(it, R.id.linearlayout);
-                }else{
-                    Intent it = new Intent(mContext, SelectEndPositionActivity.class);
-                    if(isNull(citycode))
-                        citycode = XtomSharedPreferencesUtil.get(mContext, "city");
-                    it.putExtra("citycode", citycode);
-                    startActivityForResult(it, R.id.linearlayout);
-                }
+                Intent it = new Intent(mContext, SelectEndPositionActivity.class);
+                if (isNull(citycode))
+                    citycode = XtomSharedPreferencesUtil.get(mContext, "city");
+                it.putExtra("citycode", citycode);
+                startActivityForResult(it, R.id.linearlayout);
 
             }
         });
@@ -378,9 +367,9 @@ public class StartPositionMapActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
-        switch (requestCode){
+        switch (requestCode) {
             case R.id.linearlayout:
                 lat = String.valueOf(data.getDoubleExtra("lat", 0.0));
                 lng = String.valueOf(data.getDoubleExtra("lng", 0.0));
@@ -420,7 +409,7 @@ public class StartPositionMapActivity
         startLocation();
     }
 
-    private void startLocation(){
+    private void startLocation() {
         // 启动定位
         locationClient.startLocation();
         mHandler.sendEmptyMessage(LocationUtils.MSG_LOCATION_START);
@@ -443,22 +432,17 @@ public class StartPositionMapActivity
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
                 RegeocodeAddress address = result.getRegeocodeAddress();
 
-                if(type.equals("1") && !isNull(city) && !city.equals(address.getCity())){
-                    showTextDialog("抱歉，您发布的是市内行程，请重新选择");
-                    return;
-                }
-
                 citycode = address.getCity();
-                if(isNull(citycode)){
+                if (isNull(citycode)) {
                     citycode = address.getProvince();
                 }
 
                 data = address.getFormatAddress();
-                if(!isNull(pos_lat) && !isNull(pos_lng)){
+                if (!isNull(pos_lat) && !isNull(pos_lng)) {
                     pos_address = data;
                 }
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
-                if(marker != null)
+                if (marker != null)
                     marker.remove();
                 marker = aMap.addMarker(new MarkerOptions()
                         .position(latlng)

@@ -1,100 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background">
 
-    <RelativeLayout
+    <include layout="@layout/title" />
+
+    <com.hemaapp.hm_FrameWork.view.RoundedImageView
+        android:id="@id/imageview"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/bg_avatar"
+        android:padding="2dp"
+        android:contentDescription="@string/contentdescription"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img_addavatar"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:background="@color/white">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/bg_driverhome"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"/>
-
-        <ImageView
-            android:id="@id/title_btn_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:paddingTop="@dimen/margin_20"
-            android:paddingBottom="@dimen/margin_20"
-            android:paddingLeft="@dimen/margin_30"
-            android:paddingRight="@dimen/margin_30"
-            android:src="@mipmap/img_title_back_white"
-            android:background="@color/transparent"
-            android:drawablePadding="5dp"
-            android:contentDescription="@string/contentdescription"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"
-            android:text="个人信息"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textsize_9" />
-
-        <TextView
-            android:id="@+id/title_btn_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:padding="10dp"
-            android:text="保存"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textsize_8"/>
-
-
-        <com.hemaapp.hm_FrameWork.view.RoundedImageView
-            android:id="@id/imageview"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/bg_avatar"
-            android:padding="2dp"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/contentdescription"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/default_driver" />
-
-    </RelativeLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_upload_image"
+        android:textColor="@color/cl_37393b"
+        android:gravity="center_horizontal"
+        android:textSize="14sp"
         android:layout_marginTop="10dp"
-        android:src="@color/xian"/>
+        android:layout_marginBottom="25dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/bg_login"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/white"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
                 android:gravity="center_vertical"
-                android:text="姓名"
-                android:textColor="#3f3f3f"
+                android:text="@string/tv_nickname"
+                android:textColor="@color/cl_222222"
                 android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:text="*"
                 android:textColor="#f49400"
                 android:textSize="15sp"/>
@@ -107,8 +69,8 @@
                 android:background="@color/transparent"
                 android:paddingRight="15dp"
                 android:maxLines="1"
-                android:hint="请填写姓名"
-                android:textColorHint="#a2a2a2"
+                android:hint="@string/hint_nickname"
+                android:textColorHint="@color/cl_9c9c9c"
                 android:textColor="@color/shenhui"
                 android:textSize="15sp"/>
 
@@ -130,15 +92,15 @@
                 android:layout_height="45dp"
                 android:layout_marginLeft="15dp"
                 android:gravity="center_vertical"
-                android:text="性别"
-                android:textColor="#3f3f3f"
+                android:text="@string/tv_sex"
+                android:textColor="@color/cl_222222"
                 android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:text="*"
                 android:textColor="#f49400"
                 android:textSize="15sp"/>
@@ -150,8 +112,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="15dp"
                 android:gravity="center_vertical"
-                android:text="请选择性别"
-                android:textColor="@color/shenhui"
+                android:text="@string/hint_sex"
+                android:textColor="@color/cl_9c9c9c"
                 android:textSize="15sp"/>
 
         </LinearLayout>

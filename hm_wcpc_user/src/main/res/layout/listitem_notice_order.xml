@@ -4,16 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:src="@color/background"/>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/xian"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +33,7 @@
             android:layout_marginTop="18dp"
             android:layout_toRightOf="@id/imageview"
             android:text="时间"
-            android:textColor="@color/qianhui"
+            android:textColor="@color/cl_a0a0a0"
             android:textSize="12sp"/>
 
         <TextView
@@ -58,7 +48,7 @@
             android:layout_toLeftOf="@id/imageview_1"
             android:layout_below="@id/textview_0"
             android:text="时间"
-            android:textColor="@color/shenhui"
+            android:textColor="@color/cl_5e5e5e"
             android:textSize="14sp"/>
 
         <ImageView

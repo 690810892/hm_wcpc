@@ -31,6 +31,7 @@ import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
  * Created by WangYuxia on 2016/5/24.
+ * 个人中心
  */
 public class PersonCenterInforActivity extends BaseActivity {
 
@@ -44,7 +45,6 @@ public class PersonCenterInforActivity extends BaseActivity {
 
     private TextView text_changeloginstatus;
     private TextView text_myorder;
-    private TextView text_mytrips;
     private TextView text_account;
     private TextView text_changepwd;
     private TextView text_history;
@@ -195,7 +195,6 @@ public class PersonCenterInforActivity extends BaseActivity {
         text_status = (TextView) findViewById(R.id.textview_1);
         text_changeloginstatus = (TextView) findViewById(R.id.textview_2);
         text_myorder = (TextView) findViewById(R.id.textview_3);
-        text_mytrips = (TextView) findViewById(R.id.textview_4);
         text_changepwd = (TextView) findViewById(R.id.textview_5);
         text_history = (TextView) findViewById(R.id.textview_6);
         text_chengke = (TextView) findViewById(R.id.textview_7);
@@ -218,7 +217,6 @@ public class PersonCenterInforActivity extends BaseActivity {
         setListener(image_avatar);
         setListener(text_changeloginstatus);
         setListener(text_myorder);
-        setListener(text_mytrips);
         setListener(text_changepwd);
         setListener(text_history);
         setListener(text_chengke);
@@ -231,11 +229,11 @@ public class PersonCenterInforActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent it;
                 switch (v.getId()){
-                    case R.id.title_btn_right2:
+                    case R.id.title_btn_right2: //设置
                         it = new Intent(mContext, SetActivity.class);
                         startActivity(it);
                         break;
-                    case R.id.imageview:
+                    case R.id.imageview: //个人信息编辑
                         it = new Intent(mContext, PersonInforActivity.class);
                         startActivity(it);
                         break;
@@ -244,10 +242,6 @@ public class PersonCenterInforActivity extends BaseActivity {
                         break;
                     case R.id.textview_3: //我的乘客订单
                         it = new Intent(mContext, MyOrderActivity.class);
-                        startActivity(it);
-                        break;
-                    case R.id.textview_4: //我的行程
-                        it = new Intent(mContext, MyTripsActivity.class);
                         startActivity(it);
                         break;
                     case R.id.textview_5: //账户密码修改
@@ -297,14 +291,14 @@ public class PersonCenterInforActivity extends BaseActivity {
         });
 
         if("0".equals(user.getLoginflag())){
-            text_xiuche.setTextColor(mContext.getResources().getColor(R.color.yellow));
+            text_xiuche.setTextColor(mContext.getResources().getColor(R.color.white));
             text_xiuche.setBackgroundResource(R.drawable.bg_changestatus);
-            text_chuche.setTextColor(mContext.getResources().getColor(R.color.qianhui));
+            text_chuche.setTextColor(0xff737373);
             text_chuche.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
         }else{
-            text_chuche.setTextColor(mContext.getResources().getColor(R.color.yellow));
+            text_chuche.setTextColor(mContext.getResources().getColor(R.color.white));
             text_chuche.setBackgroundResource(R.drawable.bg_changestatus);
-            text_xiuche.setTextColor(mContext.getResources().getColor(R.color.qianhui));
+            text_xiuche.setTextColor(0xff737373);
             text_xiuche.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
         }
 
@@ -312,9 +306,9 @@ public class PersonCenterInforActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 loginflag = "0";
-                text_xiuche.setTextColor(mContext.getResources().getColor(R.color.yellow));
+                text_xiuche.setTextColor(mContext.getResources().getColor(R.color.white));
                 text_xiuche.setBackgroundResource(R.drawable.bg_changestatus);
-                text_chuche.setTextColor(mContext.getResources().getColor(R.color.qianhui));
+                text_chuche.setTextColor(0xff737373);
                 text_chuche.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
             }
         });
@@ -323,9 +317,9 @@ public class PersonCenterInforActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 loginflag = "1";
-                text_chuche.setTextColor(mContext.getResources().getColor(R.color.yellow));
+                text_chuche.setTextColor(mContext.getResources().getColor(R.color.white));
                 text_chuche.setBackgroundResource(R.drawable.bg_changestatus);
-                text_xiuche.setTextColor(mContext.getResources().getColor(R.color.qianhui));
+                text_xiuche.setTextColor(0xff737373);
                 text_xiuche.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
             }
         });

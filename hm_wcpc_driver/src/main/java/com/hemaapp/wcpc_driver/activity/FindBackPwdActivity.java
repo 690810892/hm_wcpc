@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -23,23 +24,30 @@ import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
  * Created by WangYuxia on 2016/5/24.
+ * type = 1：忘记密码
  */
 public class FindBackPwdActivity extends BaseActivity {
+
     private ImageView left;
     private TextView title;
     private TextView right;
 
     private EditText usernameEditText;
-    private ImageView image_clear;
+    private ImageView img_clearinput;
     private TextView nextText;
     private EditText codeEditText;
     private TextView sendButton;
     private LinearLayout secondLayout;
     private TextView secondTextView;
 
+    private EditText edit_password;
+    private ImageView img_password;
+    private EditText edit_password_again;
+    private ImageView img_password_again;
+
     private String username;
     private TimeThread timeThread;
-    private String type;
+    private String type, keytype1 = "1", keytype2 = "1", password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +70,7 @@ public class FindBackPwdActivity extends BaseActivity {
             timeThread.cancel();
         super.onDestroy();
     }
+
     @Override
     protected void callBeforeDataBack(HemaNetTask netTask) {
         BaseHttpInformation information = (BaseHttpInformation) netTask
@@ -76,6 +85,9 @@ public class FindBackPwdActivity extends BaseActivity {
             case CODE_VERIFY:
                 showProgressDialog("正在验证随机码");
                 break;
+            case PASSWORD_RESET:
+                showProgressDialog("正在设置...");
+                break;
         }
     }
 
@@ -87,6 +99,7 @@ public class FindBackPwdActivity extends BaseActivity {
             case CLIENT_VERIFY:
             case CODE_GET:
             case CODE_VERIFY:
+            case PASSWORD_RESET:
                 cancelProgressDialog();
                 break;
         }
@@ -112,12 +125,25 @@ public class FindBackPwdActivity extends BaseActivity {
             case CODE_VERIFY:
                 HemaArrayResult<String> sResult = (HemaArrayResult<String>) baseResult;
                 String tempToken = sResult.getObjects().get(0);
-                Intent it = new Intent(mContext, ResetPwdActivity.class);
-                it.putExtra("username", username);
-                it.putExtra("tempToken", tempToken);
-                it.putExtra("keytype", type);
-                startActivity(it);
-                finish();
+                getNetWorker().passwordReset(tempToken, type, "2", password);
+                break;
+            case PASSWORD_RESET:
+                if("1".equals(type))
+                    XtomSharedPreferencesUtil.save(mContext, "password", password);
+                showTextDialog("设置密码成功");
+                title.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if("1".equals(type)){
+                            Intent it = new Intent(mContext, LoginActivity.class);
+                            startActivity(it);
+                            finish();
+                        }else {
+                            finish();
+                        }
+                    }
+                }, 1000);
                 break;
         }
     }
@@ -149,6 +175,9 @@ public class FindBackPwdActivity extends BaseActivity {
             case CODE_VERIFY:
                 showTextDialog(baseResult.getMsg());
                 break;
+            case PASSWORD_RESET:
+                showTextDialog(baseResult.getMsg());
+                break;
         }
     }
 
@@ -166,6 +195,9 @@ public class FindBackPwdActivity extends BaseActivity {
             case CODE_VERIFY:
                 showTextDialog("验证随机码失败");
                 break;
+            case PASSWORD_RESET:
+                showTextDialog("重设密码失败,请稍后重试");
+                break;
         }
     }
 
@@ -176,12 +208,17 @@ public class FindBackPwdActivity extends BaseActivity {
         title = (TextView) findViewById(R.id.title_text);
 
         usernameEditText = (EditText) findViewById(R.id.username);
-        image_clear = (ImageView) findViewById(R.id.imageview);
+        img_clearinput = (ImageView) findViewById(R.id.img_clearinput);
         nextText = (TextView) findViewById(R.id.button);
         codeEditText = (EditText) findViewById(R.id.code);
         secondTextView = (TextView) findViewById(R.id.second);
         secondLayout = (LinearLayout) findViewById(R.id.linearlayout);
         sendButton = (TextView) findViewById(R.id.sendcode);
+
+        edit_password = (EditText) findViewById(R.id.edit_password);
+        img_password = (ImageView) findViewById(R.id.img_pwd_visible);
+        edit_password_again = (EditText) findViewById(R.id.edit_password_again);
+        img_password_again = (ImageView) findViewById(R.id.img_pwd_visible1);
     }
 
     @Override
@@ -191,7 +228,7 @@ public class FindBackPwdActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-        right.setSystemUiVisibility(View.INVISIBLE);
+        right.setVisibility(View.INVISIBLE);
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,36 +237,63 @@ public class FindBackPwdActivity extends BaseActivity {
         });
 
         usernameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().length() > 0)
-                    image_clear.setVisibility(View.VISIBLE);
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length() > 0)
+                    img_clearinput.setVisibility(View.VISIBLE);
                 else
-                    image_clear.setVisibility(View.GONE);
+                    img_clearinput.setVisibility(View.INVISIBLE);
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
+            public void afterTextChanged(Editable editable) {
 
+            }
+        });
+        img_clearinput.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void afterTextChanged(Editable s) {
+            public void onClick(View view) {
+                usernameEditText.setText("");
+                img_clearinput.setVisibility(View.INVISIBLE);
             }
         });
 
-        image_clear.setOnClickListener(new View.OnClickListener() {
-
+        img_password.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                usernameEditText.setText("");
-                username = "";
+            public void onClick(View view) {
+                if("1".equals(keytype1)){
+                    edit_password.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                    img_password.setImageResource(R.mipmap.img_eye_open);
+                    keytype1 = "2";
+                }else{
+                    edit_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    img_password.setImageResource(R.mipmap.img_eye_close);
+                    keytype1 = "1";
+                }
+
+            }
+        });
+
+        img_password_again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if("1".equals(keytype2)){
+                    edit_password_again.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                    img_password_again.setImageResource(R.mipmap.img_eye_open);
+                    keytype2 = "2";
+                }else{
+                    edit_password_again.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    img_password_again.setImageResource(R.mipmap.img_eye_close);
+                    keytype2 = "1";
+                }
             }
         });
 
         sendButton.setOnClickListener(new SendButtonListener());
-        codeEditText.addTextChangedListener(new OnTextChangeListener());
         nextText.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -244,7 +308,33 @@ public class FindBackPwdActivity extends BaseActivity {
                     return;
                 }
 
+                password = edit_password.getText().toString();
+                String repeat = edit_password_again.getText().toString();
+                if(isNull(password)){
+                    showTextDialog("请输入密码");
+                    return;
+                }
+
+                if(isNull(repeat)){
+                    showTextDialog("请输入确认密码");
+                    return;
+                }
+
+                if(!password.equals(repeat)){
+                    showTextDialog("新密码与确认密码不一致，请重新填写");
+                    return;
+                }
+
+                if(!(password.length() >= 6 && password.length() <= 20)){
+                    showTextDialog("抱歉，密码长度为6-20位");
+                    return;
+                }
+
                 String code = codeEditText.getText().toString();
+                if(isNull(code)){
+                    showTextDialog("抱歉，请输入验证码");
+                    return;
+                }
                 getNetWorker().codeVerify(username, code);
             }
         });
@@ -266,7 +356,7 @@ public class FindBackPwdActivity extends BaseActivity {
                 return;
             }
 
-            getNetWorker().clientVerify(username,"2");
+            getNetWorker().clientVerify(username, "2");
         }
     }
 
@@ -291,7 +381,6 @@ public class FindBackPwdActivity extends BaseActivity {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    // ignore
                 }
                 curr--;
             }
@@ -320,39 +409,6 @@ public class FindBackPwdActivity extends BaseActivity {
                     activity.secondLayout.setVisibility(View.VISIBLE);
                     break;
             }
-        }
-    }
-
-    private class OnTextChangeListener implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            if(count > 0){
-                image_clear.setVisibility(View.VISIBLE);
-            }else
-                image_clear.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before,
-                                  int count) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            checkNextable();
-        }
-    }
-
-    private void checkNextable() {
-        String code = codeEditText.getText().toString();
-        // code.matches("\\d{4}$")
-        boolean c = !isNull(code);
-        if (c) {
-            nextText.setEnabled(true);
-        } else {
-            nextText.setEnabled(false);
         }
     }
 }
