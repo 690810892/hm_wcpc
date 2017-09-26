@@ -23,6 +23,7 @@ import com.hemaapp.wcpc_driver.module.User;
 
 /**
  * Created by WangYuxia on 2016/6/16.
+ * 我的账户
  */
 public class MyAccountActivity extends BaseActivity {
 
@@ -143,7 +144,6 @@ public class MyAccountActivity extends BaseActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it ;
                 switch (v.getId()){
                     case R.id.textview_3:
                         showSelectPopWindow();

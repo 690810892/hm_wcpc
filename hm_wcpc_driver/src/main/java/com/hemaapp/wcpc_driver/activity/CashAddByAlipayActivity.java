@@ -23,6 +23,7 @@ import com.hemaapp.wcpc_driver.module.User;
 
 /**
  * Created by WangYuxia on 2016/5/18.
+ * 支付宝提现
  */
 public class CashAddByAlipayActivity extends BaseActivity {
 

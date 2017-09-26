@@ -47,6 +47,8 @@ public class User extends HemaUser {
 	private String bankmobile; //银行预留手机号
 	private String alipay_no; //支付宝账号
 
+	private String mylength;
+
 	public User(JSONObject jsonObject) throws DataParseException {
 		super(jsonObject);
 		try {
@@ -79,6 +81,7 @@ public class User extends HemaUser {
 			bankcard = get(jsonObject, "bankcard");
 			bankmobile = get(jsonObject, "bankmobile");
 			alipay_no = get(jsonObject, "alipay_no");
+			mylength = get(jsonObject, "mylength");
 
 			log_i(toString());
 		} catch (JSONException e) {
@@ -93,7 +96,7 @@ public class User extends HemaUser {
                 String loginflag, String feeaccount, String token,
                 String android_must_update, String android_last_version,
                 String android_update_url, String bankuser, String bankname, String bankcard,
-                String bankmobile, String alipay_no) {
+                String bankmobile, String alipay_no, String mylength) {
 		super(token);
 		this.id = id;
 		this.username = username;
@@ -122,13 +125,13 @@ public class User extends HemaUser {
 		this.bankcard = bankcard;
 		this.bankmobile = bankmobile;
 		this.alipay_no = alipay_no;
+		this.mylength = mylength;
 	}
 
 	@Override
 	public String toString() {
 		return "User{" +
-				"alipay_no='" + alipay_no + '\'' +
-				", id='" + id + '\'' +
+				"id='" + id + '\'' +
 				", username='" + username + '\'' +
 				", email='" + email + '\'' +
 				", realname='" + realname + '\'' +
@@ -155,6 +158,8 @@ public class User extends HemaUser {
 				", bankname='" + bankname + '\'' +
 				", bankcard='" + bankcard + '\'' +
 				", bankmobile='" + bankmobile + '\'' +
+				", alipay_no='" + alipay_no + '\'' +
+				", mylength='" + mylength + '\'' +
 				'}';
 	}
 
@@ -200,6 +205,14 @@ public class User extends HemaUser {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public String getMylength() {
+		return mylength;
+	}
+
+	public void setMylength(String mylength) {
+		this.mylength = mylength;
 	}
 
 	public String getEmail() {

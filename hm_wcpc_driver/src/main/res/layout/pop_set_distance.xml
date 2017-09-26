@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/contentdescription"
+        android:src="#60000000" />
+
+    <LinearLayout
+        android:id="@+id/father"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:background="@drawable/bg_pop_button"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="@string/tv_pop_distance"
+            android:textColor="@color/cl_5e5e5e"
+            android:textSize="@dimen/textsize_7" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="15dp"
+            android:background="#eaeaea"
+            android:gravity="center"
+            android:orientation="horizontal">
+            
+            <EditText
+                android:id="@+id/edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"
+                android:background="@color/transparent"
+                android:textColor="@color/yellow"
+                android:textSize="17sp"
+                android:gravity="center"
+                android:text="0"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="15dp"
+                android:text="km"
+                android:textSize="15sp"
+                android:textColor="#575b61"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_driver"
+            android:contentDescription="@string/contentdescription"
+            android:src="@color/xian" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/textview_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@drawable/bg_pop_button"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="@string/tv_cancel"
+                android:textColor="#979797"
+                android:textSize="@dimen/textsize_8" />
+
+            <ImageView
+                android:layout_width="@dimen/height_driver"
+                android:layout_height="45dp"
+                android:contentDescription="@string/contentdescription"
+                android:src="@color/xian" />
+
+            <TextView
+                android:id="@id/textview_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@drawable/bg_pop_button"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="@string/tv_ok"
+                android:textColor="#f49400"
+                android:textSize="@dimen/textsize_8" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

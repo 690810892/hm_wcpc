@@ -93,6 +93,12 @@
     <string name="tv_my_account">我的账户</string>
     <string name="tv_history_order">历史订单</string>
     <string name="tv_my_person">我的乘客</string>
+    <string name="tv_order_orderby">订单排序</string>
+    <string name="tv_order_time">出发时间从早到晚</string>
+    <string name="tv_order_distance">始发地距离由近到远</string>
+    <string name="tv_position_love">偏好设置</string>
+    <string name="tv_default">默认</string>
+    <string name="tv_pop_distance">超过**公里不接单</string>
 
 
     <string name="unifiedorder_v3_wx">APP支付生成预支付订单</string>

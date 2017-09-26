@@ -7,6 +7,29 @@
 
     <include layout="@layout/title_noline" />
 
+    <LinearLayout
+        android:id="@+id/layout_orderby"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_orderby"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/tv_order_orderby"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:gravity="center"
+            android:textColor="@color/cl_a0a0a0"
+            android:textSize="15sp"
+            android:drawableRight="@mipmap/img_arrow_down"
+            android:drawablePadding="10dp"/>
+
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

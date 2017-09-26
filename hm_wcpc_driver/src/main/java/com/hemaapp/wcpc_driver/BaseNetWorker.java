@@ -431,11 +431,14 @@ public class BaseNetWorker extends HemaNetWorker {
 	/**
 	 * 司机端订单列表接口
 	 * */
-	public void driverOrderList(String token, String keytype, int page){
+	public void driverOrderList(String token, String keytype, int page, String order, String lng, String lat){
 		BaseHttpInformation information = BaseHttpInformation.DRIVER_ORDER_LIST;
 		HashMap<String, String> params = new HashMap<>();
 		params.put("token", token);
 		params.put("keytype", keytype);
+		params.put("order", order);
+		params.put("lng", lng);
+		params.put("lat", lat);
 		params.put("page", String.valueOf(page));
 
 		BaseNetTask task = new DriverOrderListTask(information, params);
@@ -601,6 +604,19 @@ public class BaseNetWorker extends HemaNetWorker {
 		params.put("parentid", parentid);
 
 		BaseNetTask task = new DistrictListTask(information, params);
+		executeTask(task);
+	}
+
+	/**
+	 * 设置接单距离接口
+	 * */
+	public void myLength(String token, String mylength){
+		BaseHttpInformation information = BaseHttpInformation.MY_LENGTH;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("mylength", mylength);
+
+		BaseNetTask task = new NoResultReturnTask(information, params);
 		executeTask(task);
 	}
 }

@@ -68,9 +68,9 @@ public class OrderListActivity extends BaseActivity {
         list.add(0,new OrderListViewPagerAdapter.Params("0")); //全部
         list.add(1,new OrderListViewPagerAdapter.Params("1")); //待支付
         list.add(2,new OrderListViewPagerAdapter.Params("2")); //未出行
-        list.add(2,new OrderListViewPagerAdapter.Params("3")); //已取消
-        list.add(2,new OrderListViewPagerAdapter.Params("4")); //待评价
-        list.add(2,new OrderListViewPagerAdapter.Params("5")); //已完成
+        list.add(3,new OrderListViewPagerAdapter.Params("3")); //已取消
+        list.add(4,new OrderListViewPagerAdapter.Params("4")); //待评价
+        list.add(5,new OrderListViewPagerAdapter.Params("5")); //已完成
         return list;
     }
 

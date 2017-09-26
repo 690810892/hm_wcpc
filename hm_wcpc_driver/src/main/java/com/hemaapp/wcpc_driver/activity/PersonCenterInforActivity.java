@@ -256,7 +256,7 @@ public class PersonCenterInforActivity extends BaseActivity {
                         it = new Intent(mContext, MyChengKeActivity.class);
                         startActivity(it);
                         break;
-                    case R.id.textview_8:
+                    case R.id.textview_8: //我的账户
                         it = new Intent(mContext, MyAccountActivity.class);
                         startActivity(it);
                         break;

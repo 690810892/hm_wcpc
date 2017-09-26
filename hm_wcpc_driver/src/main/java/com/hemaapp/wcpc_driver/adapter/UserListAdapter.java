@@ -21,6 +21,7 @@ import xtom.frame.view.XtomListView;
 
 /**
  * Created by WangYuxia on 2016/5/27.
+ * 我的乘客的数据司陪器
  */
 public class UserListAdapter extends HemaAdapter {
 

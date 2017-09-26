@@ -7,15 +7,15 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="15dp"
         android:src="@color/background"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_pop_button"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:paddingBottom="10dp">
 
         <com.hemaapp.hm_FrameWork.view.RoundedImageView
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/imageview"
             android:text="昵称"
-            android:textColor="@color/black2"
+            android:textColor="@color/cl_3f3f3f"
             android:textSize="14sp"
             android:layout_centerVertical="true"/>
 

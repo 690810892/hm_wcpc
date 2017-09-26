@@ -18,6 +18,7 @@ import com.hemaapp.wcpc_driver.module.User;
 
 /**
  * Created by WangYuxia on 2016/5/18.
+ * 编辑银行卡信息
  */
 public class EditBankCardActivity extends BaseActivity {
 

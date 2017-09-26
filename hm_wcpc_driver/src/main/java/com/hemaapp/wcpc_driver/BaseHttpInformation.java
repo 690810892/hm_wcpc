@@ -68,10 +68,6 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	 */
 	CLIENT_SAVE(10, "driver_save", "保存用户资料", false),
 	/**
-	 * 评论列表
-	 */
-	REPLY_LIST(11, "reply_list", "评论列表", false),
-	/**
 	 * 获取用户通知列表接口
 	 * */
 	NOTICE_LIST(12, "notice_list", "获取用户通知列表接口", false),
@@ -171,6 +167,10 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	 * 地区列表接口
 	 * */
 	DISTRICT_LIST(36, "district_list", "地区列表接口", false),
+	/**
+	 * 设置接单距离接口
+	 * */
+	MY_LENGTH(37, "my_length", "设置接单距离接口", false),
 	;
 
 	private int id;// 对应NetTask的id

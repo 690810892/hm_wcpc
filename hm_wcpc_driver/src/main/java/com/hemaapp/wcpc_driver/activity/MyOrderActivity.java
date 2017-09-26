@@ -1,9 +1,16 @@
 package com.hemaapp.wcpc_driver.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,6 +28,7 @@ import com.hemaapp.wcpc_driver.module.User;
 
 import java.util.ArrayList;
 
+import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.util.XtomToastUtil;
 import xtom.frame.view.XtomListView;
 import xtom.frame.view.XtomRefreshLoadmoreLayout;
@@ -35,6 +43,9 @@ public class MyOrderActivity extends BaseActivity {
     private TextView title;
     private TextView right;
 
+    private LinearLayout layout_orderby;
+    private TextView tv_orderby;
+
     private RefreshLoadmoreLayout layout;
     private XtomListView mListView;
     private ProgressBar progressBar;
@@ -42,6 +53,7 @@ public class MyOrderActivity extends BaseActivity {
     private ArrayList<OrderListInfor> orders = new ArrayList<>();
     private MyOrderListAdapter adapter_notice;
     private int page_notice = 0;
+    private String lng, lat, order="0";
 
     private User user;
 
@@ -50,11 +62,13 @@ public class MyOrderActivity extends BaseActivity {
         setContentView(R.layout.activity_my_person_order);
         super.onCreate(savedInstanceState);
         user = hm_WcpcDriverApplication.getInstance().getUser();
+        lng = XtomSharedPreferencesUtil.get(mContext, "lng");
+        lat = XtomSharedPreferencesUtil.get(mContext, "lat");
         getNoticeList();
     }
 
     private void getNoticeList(){
-        getNetWorker().driverOrderList(user.getToken(), "4", page_notice);
+        getNetWorker().driverOrderList(user.getToken(), "4", page_notice, order, lng, lat);
     }
 
     @Override
@@ -183,11 +197,15 @@ public class MyOrderActivity extends BaseActivity {
                 break;
         }
     }
+
     @Override
     protected void findView() {
         title = (TextView) findViewById(R.id.title_text);
         left = (ImageView) findViewById(R.id.title_btn_left);
         right = (TextView) findViewById(R.id.title_btn_right);
+
+        layout_orderby = (LinearLayout) findViewById(R.id.layout_orderby);
+        tv_orderby = (TextView) findViewById(R.id.tv_orderby);
 
         layout = (RefreshLoadmoreLayout) findViewById(R.id.refreshLoadmoreLayout);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
@@ -222,7 +240,65 @@ public class MyOrderActivity extends BaseActivity {
                 getNoticeList();
             }
         });
+
+        layout_orderby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupWindow();
+            }
+        });
     }
+
+    private PopupWindow mWindow;
+    private ViewGroup mViewGroup;
+    private TextView tv_orderby_time;
+    private TextView tv_orderby_distance;
+
+    private void showPopupWindow(){
+        if(progressBar.getVisibility() == View.VISIBLE)
+            return;
+
+        tv_orderby.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                R.mipmap.img_arrow_up, 0);
+
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_orderby, null);
+        tv_orderby_time = (TextView) mViewGroup.findViewById(R.id.textview);
+        tv_orderby_distance = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+
+        tv_orderby_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                order = "1";
+                page_notice = 0;
+                getNoticeList();
+                mWindow.dismiss();
+            }
+        });
+
+        tv_orderby_distance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                order = "2";
+                page_notice = 0;
+                getNetWorker();
+                mWindow.dismiss();
+            }
+        });
+        mWindow.showAsDropDown(layout_orderby);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

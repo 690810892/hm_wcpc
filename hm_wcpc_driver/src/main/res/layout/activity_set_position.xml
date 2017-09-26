@@ -7,4 +7,50 @@
 
     <include layout="@layout/title_noline" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/layout_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_position_love"
+                android:textColor="@color/cl_5e5e5e"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:drawableRight="@mipmap/triangle"
+                android:drawablePadding="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/tv_default"
+                android:textColor="@color/yellow"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:src="@drawable/line_shadow" />
+
+    </FrameLayout>
+
 </LinearLayout>

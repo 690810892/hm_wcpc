@@ -23,6 +23,7 @@ import com.hemaapp.wcpc_driver.module.User;
 
 /**
  * Created by WangYuxia on 2016/5/18.
+ * 银行卡提现
  */
 public class CashAddByUnionpayActivity extends BaseActivity {
 

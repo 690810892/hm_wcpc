@@ -11,11 +11,15 @@ import android.widget.TextView;
 import com.hemaapp.hm_FrameWork.HemaAdapter;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
 import com.hemaapp.wcpc_driver.BaseActivity;
+import com.hemaapp.wcpc_driver.BaseNetWorker;
 import com.hemaapp.wcpc_driver.BaseUtil;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.activity.CenterOrderDetailInforActivity;
 import com.hemaapp.wcpc_driver.activity.HistoryOrderActivity;
+import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.OrderListInfor;
+import com.hemaapp.wcpc_driver.module.User;
+import com.hemaapp.wcpc_driver.view.ButtonDialog;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,17 +30,18 @@ import xtom.frame.view.XtomListView;
 
 /**
  * Created by WangYuxia on 2016/5/27.
+ * 历史订单的数据适配器
  */
 public class HistoryOrderListAdapter extends HemaAdapter {
 
     public OrderListInfor order;
     private ArrayList<OrderListInfor> infors;
-    private XtomListView mListView;
+    private BaseNetWorker netWorker;
 
-    public HistoryOrderListAdapter(Context mContext, ArrayList<OrderListInfor> infors, XtomListView mListView) {
+    public HistoryOrderListAdapter(Context mContext, ArrayList<OrderListInfor> infors, BaseNetWorker netWorker) {
         super(mContext);
         this.infors = infors;
-        this.mListView = mListView;
+        this.netWorker = netWorker;
     }
 
     @Override
@@ -99,7 +104,7 @@ public class HistoryOrderListAdapter extends HemaAdapter {
         try {
             URL url = new URL(infor.getAvatar());
             holder.image_avatar.setCornerRadius(90);
-            ((BaseActivity)mContext).imageWorker.loadImage(new XtomImageTask(holder.image_avatar, url, mContext, mListView));
+            ((BaseActivity)mContext).imageWorker.loadImage(new XtomImageTask(holder.image_avatar, url, mContext));
         } catch (MalformedURLException e) {
             holder.image_avatar.setImageResource(R.mipmap.default_user);
         }
@@ -136,7 +141,7 @@ public class HistoryOrderListAdapter extends HemaAdapter {
                 String content = ((TextView)v).getText().toString();
                 order = (OrderListInfor) v.getTag(R.id.tag_0);
                 if("删除订单".equals(content))
-                    ((HistoryOrderActivity)mContext).delete(1);
+                    delete();
                 else{
                     Intent it = new Intent(mContext, CenterOrderDetailInforActivity.class);
                     it.putExtra("id", order.getId());
@@ -144,6 +149,35 @@ public class HistoryOrderListAdapter extends HemaAdapter {
                 }
             }
         });
+    }
+
+    private ButtonDialog mDialog;
+
+    private void delete(){
+        if (mDialog == null) {
+            mDialog = new ButtonDialog(mContext);
+            mDialog.setLeftButtonText("取消");
+            mDialog.setRightButtonText("确定");
+            mDialog.setText("您确定清空订单?一旦清空无法找回");
+            mDialog.setButtonListener(new ButtonListener());
+            mDialog.setRightButtonTextColor(mContext.getResources().getColor(R.color.yellow));
+        }
+        mDialog.show();
+    }
+
+    private class ButtonListener implements ButtonDialog.OnButtonListener {
+
+        @Override
+        public void onLeftButtonClick(ButtonDialog dialog) {
+            dialog.cancel();
+        }
+
+        @Override
+        public void onRightButtonClick(ButtonDialog dialog) {
+            dialog.cancel();
+            User user = hm_WcpcDriverApplication.getInstance().getUser();
+            netWorker.orderOperate(user.getToken(), "1", order.getId(), "", "");
+        }
     }
 
     private void findview(ViewHolder holder, View view){

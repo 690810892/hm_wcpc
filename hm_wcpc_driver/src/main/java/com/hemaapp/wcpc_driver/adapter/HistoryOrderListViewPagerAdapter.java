@@ -1,4 +1,4 @@
-package com.hemaapp.wcpc_user.adapter;
+package com.hemaapp.wcpc_driver.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,14 +12,14 @@ import com.hemaapp.hm_FrameWork.HemaNetWorker;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout;
-import com.hemaapp.wcpc_user.BaseHttpInformation;
-import com.hemaapp.wcpc_user.BaseNetTaskExecuteListener;
-import com.hemaapp.wcpc_user.BaseNetWorker;
-import com.hemaapp.wcpc_user.R;
-import com.hemaapp.wcpc_user.activity.OrderListActivity;
-import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
-import com.hemaapp.wcpc_user.module.OrderListInfor;
-import com.hemaapp.wcpc_user.module.User;
+import com.hemaapp.wcpc_driver.BaseHttpInformation;
+import com.hemaapp.wcpc_driver.BaseNetTaskExecuteListener;
+import com.hemaapp.wcpc_driver.BaseNetWorker;
+import com.hemaapp.wcpc_driver.R;
+import com.hemaapp.wcpc_driver.activity.HistoryOrderActivity;
+import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
+import com.hemaapp.wcpc_driver.module.OrderListInfor;
+import com.hemaapp.wcpc_driver.module.User;
 
 import java.util.ArrayList;
 
@@ -29,18 +29,18 @@ import xtom.frame.view.XtomListView;
 import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
- * Created by wangyuxia on 2017/9/19.
- * 订单列表 viewPager的数据适配器
+ * Created by wangyuxia on 2017/9/26.
+ * 历史订单的数据适配器
  */
-public class OrderListViewPagerAdapter extends PagerAdapter {
+public class HistoryOrderListViewPagerAdapter extends PagerAdapter {
     private ArrayList<Params> paramsList;
-    private OrderListActivity mContext;
+    private HistoryOrderActivity mContext;
     private Params currParams;
     private String tabTitles[] = new String[]{"全部", "待支付", "未出行", "已取消", "待评价", "已完成"};
     private int pos;
     private boolean isFrist = true;
 
-    public OrderListViewPagerAdapter(OrderListActivity mContext, ArrayList<Params> paramsList, int position) {
+    public HistoryOrderListViewPagerAdapter(HistoryOrderActivity mContext, ArrayList<Params> paramsList, int position) {
         this.paramsList = paramsList;
         this.mContext = mContext;
         this.pos = position;
@@ -121,13 +121,13 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
         private XtomListView listView;
         private ProgressBar progressBar;
         private ArrayList<OrderListInfor> goodsList = new ArrayList<>();
-        private MyOrderListAdapter adapter;
-        private OrderListActivity activity;
+        private HistoryOrderListAdapter adapter;
+        private HistoryOrderActivity activity;
         private BaseNetWorker netWorker;
         private Params params;
         private User user;
 
-        private OnTaskExecuteListener(OrderListActivity mContext, View v, Params params,
+        private OnTaskExecuteListener(HistoryOrderActivity mContext, View v, Params params,
                                       BaseNetWorker netWorker) {
             super(mContext);
             this.activity = mContext;
@@ -137,7 +137,7 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
             this.listView = (XtomListView) layout.findViewById(R.id.listview);
             this.netWorker = netWorker;
             this.params = params;
-            user = hm_WcpcUserApplication.getInstance().getUser();
+            user = hm_WcpcDriverApplication.getInstance().getUser();
         }
 
         @Override
@@ -145,7 +145,7 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
             BaseHttpInformation information = (BaseHttpInformation) netTask
                     .getHttpInformation();
             switch (information) {
-                case CLIENT_ORDER_LIST:
+                case DRIVER_ORDER_LIST:
                     break;
                 case ORDER_OPERATE:
                     activity.showProgressDialog("请稍后...");
@@ -158,7 +158,7 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
             BaseHttpInformation information = (BaseHttpInformation) netTask
                     .getHttpInformation();
             switch (information) {
-                case CLIENT_ORDER_LIST:
+                case DRIVER_ORDER_LIST:
                     progressBar.setVisibility(View.GONE);
                     layout.setVisibility(View.VISIBLE);
                     break;
@@ -175,7 +175,7 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
             BaseHttpInformation information = (BaseHttpInformation) netTask
                     .getHttpInformation();
             switch (information) {
-                case CLIENT_ORDER_LIST:
+                case DRIVER_ORDER_LIST:
                     String page = netTask.getParams().get("page");
                     HemaPageArrayResult<OrderListInfor> gResult = (HemaPageArrayResult<OrderListInfor>) baseResult;
                     ArrayList<OrderListInfor> notices = gResult.getObjects();
@@ -184,7 +184,7 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
                         goodsList.clear();
                         goodsList.addAll(notices);
 
-                        hm_WcpcUserApplication application = hm_WcpcUserApplication
+                        hm_WcpcDriverApplication application = hm_WcpcDriverApplication
                                 .getInstance();
                         int sysPagesize = application.getSysInitInfo()
                                 .getSys_pagesize();
@@ -204,14 +204,14 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
                     freshData();
                     break;
                 case ORDER_OPERATE:
-                    this.netWorker.clientOrderList(user.getToken(), params.type_name, 0);
+                    this.netWorker.driverOrderList(user.getToken(), params.type_name, 0, "", "", "");
                     break;
             }
         }
 
         private void freshData() {
             if (adapter == null) {
-                adapter = new MyOrderListAdapter(activity, goodsList, netWorker);
+                adapter = new HistoryOrderListAdapter(activity, goodsList, netWorker);
                 adapter.setEmptyString("该状态订单您已处理完毕。");
                 listView.setAdapter(adapter);
             } else {
@@ -226,7 +226,7 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
             BaseHttpInformation information = (BaseHttpInformation) netTask
                     .getHttpInformation();
             switch (information) {
-                case CLIENT_ORDER_LIST:
+                case DRIVER_ORDER_LIST:
                     String page = netTask.getParams().get("page");
                     if ("0".equals(page)) {// 刷新
                         layout.refreshFailed();
@@ -247,7 +247,7 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
             BaseHttpInformation information = (BaseHttpInformation) netTask
                     .getHttpInformation();
             switch (information) {
-                case CLIENT_ORDER_LIST:
+                case DRIVER_ORDER_LIST:
                     String page = netTask.getParams().get("page");
                     if ("0".equals(page)) {// 刷新
                         layout.refreshFailed();
@@ -273,19 +273,19 @@ public class OrderListViewPagerAdapter extends PagerAdapter {
         private OnStartListener(Params params, HemaNetWorker netWorker, View v) {
             this.params = params;
             this.netWorker = (BaseNetWorker) netWorker;
-            user = hm_WcpcUserApplication.getInstance().getUser();
+            user = hm_WcpcDriverApplication.getInstance().getUser();
         }
 
         @Override
         public void onStartRefresh(XtomRefreshLoadmoreLayout v) {
             current_page = 0;
-            netWorker.clientOrderList(user.getToken(), params.type_name, current_page);
+            netWorker.driverOrderList(user.getToken(), params.type_name, current_page, "", "", "");
         }
 
         @Override
         public void onStartLoadmore(XtomRefreshLoadmoreLayout v) {
             current_page++;
-            netWorker.clientOrderList(user.getToken(), params.type_name, current_page);
+            netWorker.driverOrderList(user.getToken(), params.type_name, current_page, "", "", "");
         }
     }
 
