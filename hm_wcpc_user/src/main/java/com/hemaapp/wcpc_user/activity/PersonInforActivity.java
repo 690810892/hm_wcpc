@@ -49,6 +49,7 @@ public class PersonInforActivity extends BaseActivity {
 
     private ImageView left;
     private TextView right;
+    private TextView title;
 
     private RoundedImageView image_avatar;
     private EditText edit_username;
@@ -320,6 +321,7 @@ public class PersonInforActivity extends BaseActivity {
 
     @Override
     protected void findView() {
+        title = (TextView) findViewById(R.id.title_text);
         left = (ImageView) findViewById(R.id.title_btn_left);
         right = (TextView) findViewById(R.id.title_btn_right);
 
@@ -335,12 +337,15 @@ public class PersonInforActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+        title.setText("编辑个人信息");
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        right.setText("保存");
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

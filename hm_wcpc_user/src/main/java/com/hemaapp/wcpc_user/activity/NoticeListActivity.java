@@ -1,10 +1,17 @@
 package com.hemaapp.wcpc_user.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,6 +29,7 @@ import com.hemaapp.wcpc_user.adapter.OrderListAdapter;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.NoticeListInfor;
 import com.hemaapp.wcpc_user.module.User;
+import com.hemaapp.wcpc_user.view.ButtonDialog;
 
 import java.util.ArrayList;
 
@@ -327,7 +335,7 @@ public class NoticeListActivity extends BaseActivity {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showButtonDialog(flag);
+                showClearWindow();
             }
         });
 
@@ -404,39 +412,43 @@ public class NoticeListActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private HemaButtonDialog mDialog;
-    private void showButtonDialog(String flag){
-        if (mDialog == null) {
-            mDialog = new HemaButtonDialog(mContext);
-            mDialog.setLeftButtonText("取消");
-            mDialog.setRightButtonText("确定");
-            mDialog.setText("确定要清空所有信息?");
-            mDialog.setRightButtonTextColor(mContext.getResources().getColor(R.color.yellow));
-        }
-        mDialog.setButtonListener(new ButtonListener(flag));
-        mDialog.show();
-    }
+    private PopupWindow mWindow;
+    private ViewGroup mViewGroup;
+    private TextView ok;
+    private TextView cancel;
 
-    private class ButtonListener implements HemaButtonDialog.OnButtonListener {
-
-        private String type;
-        public ButtonListener(String type){
-            this.type = type;
+    private void showClearWindow() {
+        if (mWindow != null) {
+            mWindow.dismiss();
         }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_clear, null);
+        cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
 
-        @Override
-        public void onLeftButtonClick(HemaButtonDialog dialog) {
-            dialog.cancel();
-        }
-
-        @Override
-        public void onRightButtonClick(HemaButtonDialog dialog) {
-            dialog.cancel();
-            User user = hm_WcpcUserApplication.getInstance().getUser();
-            if("1".equals(type))
-                getNetWorker().noticeSaveOperate(user.getToken(), "0", "2", "1", "4");
-            else
-                getNetWorker().noticeSaveOperate(user.getToken(), "0", "1", "1", "4");
-        }
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                if("1".equals(flag))
+                    getNetWorker().noticeSaveOperate(user.getToken(), "0", "2", "1", "4");
+                else
+                    getNetWorker().noticeSaveOperate(user.getToken(), "0", "1", "1", "4");
+            }
+        });
     }
 }

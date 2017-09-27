@@ -1,8 +1,14 @@
 package com.hemaapp.wcpc_driver.activity;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -234,6 +240,43 @@ public class NoticeListActivity extends BaseActivity {
         });
     }
 
+    private PopupWindow mWindow;
+    private ViewGroup mViewGroup;
+    private TextView ok;
+    private TextView cancel;
+
+    private void showClearWindow() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_clear, null);
+        cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                getNetWorker().noticeSaveOperate(user.getToken(), "0", "1", "2", "4" );
+            }
+        });
+    }
+
     private HemaButtonDialog dialog;
     private void showDialog(){
         if (dialog == null) {
@@ -258,7 +301,7 @@ public class NoticeListActivity extends BaseActivity {
         @Override
         public void onRightButtonClick(HemaButtonDialog dialog) {
             dialog.cancel();
-            ((NoticeListActivity)mContext).getNetWorker().noticeSaveOperate(user.getToken(), "0", "1", "2", "4" );
+
         }
     }
 }

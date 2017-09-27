@@ -40,7 +40,7 @@
     <string name="tv_toreply">待评价</string>
     <string name="tv_tocomplete">已完成</string>
     <string name="tv_center_mytrip">我发布的行程</string>
-    <string name="tv_changepwd">修改密码</string>
+    <string name="tv_changepwd">修改登录密码</string>
     <string name="tv_set">设置</string>
     <string name="tv_share">软件分享</string>
     <string name="tv_feedback">意见反馈</string>
@@ -90,6 +90,7 @@
     <string name="tv_success">拼车成功</string>
     <string name="tv_failed">拼车失败</string>
     <string name="tv_submit_publish">确认发布</string>
+    <string name="tv_paypwd">支付密码</string>
 
 
 

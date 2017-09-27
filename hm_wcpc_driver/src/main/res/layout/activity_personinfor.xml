@@ -64,10 +64,11 @@
             <TextView
                 android:id="@+id/textview_2"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
                 android:background="@color/transparent"
                 android:paddingRight="15dp"
+                android:gravity="center_vertical"
                 android:maxLines="1"
                 android:hint="@string/hint_nickname"
                 android:textColorHint="@color/cl_9c9c9c"
@@ -83,13 +84,13 @@
         <LinearLayout
             android:id="@id/layout_0"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:background="@color/white"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
                 android:gravity="center_vertical"
                 android:text="@string/tv_sex"
@@ -126,13 +127,13 @@
         <LinearLayout
             android:id="@id/layout_0"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:background="@color/white"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
                 android:gravity="center_vertical"
                 android:text="电话"
@@ -181,13 +182,13 @@
         <LinearLayout
             android:id="@id/layout_1"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:background="@color/white"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
                 android:gravity="center_vertical"
                 android:text="证件"
@@ -223,13 +224,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:background="@color/white"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
                 android:gravity="center_vertical"
                 android:text="证件号"

@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private ImageView image_left;
     private ImageView image_right;
     private ImageView image_point;
+    private ImageView title_btn_feedback;
 
     private AutoChangeViewPager pager;
     private RelativeLayout layout_pager;
@@ -189,6 +190,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         image_left = (ImageView) findViewById(R.id.title_btn_left);
         image_right = (ImageView) findViewById(R.id.title_btn_right_image);
         image_point = (ImageView) findViewById(R.id.title_point);
+        title_btn_feedback = (ImageView) findViewById(R.id.title_btn_feedback);
 
         pager = (AutoChangeViewPager) findViewById(R.id.viewpager);
         layout_pager = (RelativeLayout) findViewById(R.id.layout);
@@ -206,6 +208,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         image_right.setOnClickListener(this);
         tv_my_trips.setOnClickListener(this);
         tv_publish.setOnClickListener(this);
+        title_btn_feedback.setOnClickListener(this);
     }
 
     @Override
@@ -233,7 +236,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 if(user == null){
                     ToLogin.showLogin(mContext);
                 }else{
-                    it = new Intent(mContext, MyTripsListActivity.class);
+                    it = new Intent(mContext, MyCurrentTripActivity.class);
                     startActivity(it);
                 }
                 break;
@@ -242,6 +245,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     ToLogin.showLogin(mContext);
                 }else{
                     it = new Intent(mContext, PublishInforActivity.class);
+                    startActivity(it);
+                }
+                break;
+            case R.id.title_btn_feedback:
+                if(user == null){
+                    ToLogin.showLogin(mContext);
+                }else{
+                    it = new Intent(mContext, FeedBackActivity.class);
                     startActivity(it);
                 }
                 break;

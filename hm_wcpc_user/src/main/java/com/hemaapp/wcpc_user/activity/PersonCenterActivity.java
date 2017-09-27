@@ -220,7 +220,7 @@ public class PersonCenterActivity extends BaseActivity implements View.OnClickLi
         f_right.setOnClickListener(this);
 
         image_avatar.setOnClickListener(this);
-        layout_mypurse.setOnClickListener(this);
+//        layout_mypurse.setOnClickListener(this);
         text_youhuiquan.setOnClickListener(this);
         text_feeaccount.setOnClickListener(this);
         text_charge.setOnClickListener(this);
@@ -375,8 +375,10 @@ public class PersonCenterActivity extends BaseActivity implements View.OnClickLi
                 it = new Intent(mContext, ChargeMoneyActivity.class);
                 startActivity(it);
                 break;
-            case R.id.textview_5: //提现
-                showSelectPopWindow();
+            case R.id.textview_5: //提现，现在切换成支付密码
+//                showSelectPopWindow();
+                it = new Intent(mContext, ResetPayPasswordActivity.class);
+                startActivity(it);
                 break;
             case R.id.layout_0:
                 it = new Intent(mContext, OrderListActivity.class);

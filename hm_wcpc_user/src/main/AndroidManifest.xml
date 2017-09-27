@@ -401,6 +401,7 @@
             android:name=".activity.SelectCityActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.MyCurrentTripActivity" />
     </application>
 
 </manifest>

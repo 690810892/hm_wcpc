@@ -145,9 +145,9 @@ public class MyTripsViewPagerAdapter extends PagerAdapter {
             BaseHttpInformation information = (BaseHttpInformation) netTask
                     .getHttpInformation();
             switch (information) {
-                case MY_TRIPS_LIST:
+                case CLIENT_ORDER_LIST:
                     break;
-                case MY_TRIPS_OPERATE:
+                case ORDER_OPERATE:
                     activity.showProgressDialog("请稍后...");
                     break;
             }
@@ -158,11 +158,11 @@ public class MyTripsViewPagerAdapter extends PagerAdapter {
             BaseHttpInformation information = (BaseHttpInformation) netTask
                     .getHttpInformation();
             switch (information) {
-                case MY_TRIPS_LIST:
+                case CLIENT_ORDER_LIST:
                     progressBar.setVisibility(View.GONE);
                     layout.setVisibility(View.VISIBLE);
                     break;
-                case MY_TRIPS_OPERATE:
+                case ORDER_OPERATE:
                     activity.cancelProgressDialog();
                     break;
             }
@@ -175,7 +175,7 @@ public class MyTripsViewPagerAdapter extends PagerAdapter {
             BaseHttpInformation information = (BaseHttpInformation) netTask
                     .getHttpInformation();
             switch (information) {
-                case MY_TRIPS_LIST:
+                case CLIENT_ORDER_LIST:
                     String page = netTask.getParams().get("page");
                     HemaPageArrayResult<MyTripsInfor> gResult = (HemaPageArrayResult<MyTripsInfor>) baseResult;
                     ArrayList<MyTripsInfor> notices = gResult.getObjects();
@@ -203,7 +203,7 @@ public class MyTripsViewPagerAdapter extends PagerAdapter {
                     }
                     freshData();
                     break;
-                case MY_TRIPS_OPERATE:
+                case ORDER_OPERATE:
                     this.netWorker.clientOrderList(user.getToken(), params.type_name, 0);
                     break;
             }
@@ -235,7 +235,7 @@ public class MyTripsViewPagerAdapter extends PagerAdapter {
                         layout.loadmoreFailed();
                     }
                     break;
-                case MY_TRIPS_OPERATE:
+                case ORDER_OPERATE:
                     activity.showTextDialog(baseResult.getMsg());
                     break;
             }
@@ -256,7 +256,7 @@ public class MyTripsViewPagerAdapter extends PagerAdapter {
                         layout.loadmoreFailed();
                     }
                     break;
-                case MY_TRIPS_OPERATE:
+                case ORDER_OPERATE:
                     activity.showTextDialog("操作失败，请稍后重试");
                     break;
             }
