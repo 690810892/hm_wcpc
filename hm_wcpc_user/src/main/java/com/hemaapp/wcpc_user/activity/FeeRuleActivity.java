@@ -58,7 +58,7 @@ public class FeeRuleActivity extends BaseActivity {
 
     private void getInfor(){
         String district = XtomSharedPreferencesUtil.get(mContext, "district");
-        getNetWorker().feeRuleList("0", "2", district);
+        getNetWorker().feeRuleList("0", district);
     }
 
     @Override

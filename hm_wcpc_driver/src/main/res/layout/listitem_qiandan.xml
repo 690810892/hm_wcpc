@@ -35,7 +35,7 @@
                 android:layout_marginBottom="12dp"
                 android:drawableLeft="@mipmap/img_starttime"
                 android:text="出发时间"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_5e5e5e"
                 android:textSize="12sp"/>
 
             <TextView
@@ -45,7 +45,7 @@
                 android:layout_marginRight="15dp"
                 android:text="行程状态"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/yellow"
+                android:textColor="@color/cl_4e4d5d"
                 android:textSize="14sp"
                 android:gravity="right"/>
 
@@ -88,7 +88,7 @@
                         android:layout_toRightOf="@id/imageview"
                         android:layout_marginTop="15dp"
                         android:text="用户名称"
-                        android:textColor="@color/shenhui"
+                        android:textColor="@color/cl_3f3f3f"
                         android:textSize="14sp"/>
 
                     <ImageView
@@ -109,7 +109,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="16dp"
                         android:text="乘车次数"
-                        android:textColor="@color/qianhui"
+                        android:textColor="@color/cl_a0a0a0"
                         android:textSize="12sp"/>
 
                     <LinearLayout
@@ -134,7 +134,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="起始点"
-                            android:textColor="@color/shenhui"
+                            android:textColor="#616161"
                             android:textSize="13sp"
                             android:maxLines="1"
                             android:ellipsize="end"/>
@@ -164,7 +164,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:text="目的地"
-                            android:textColor="@color/shenhui"
+                            android:textColor="#616161"
                             android:textSize="13sp"
                             android:maxLines="1"
                             android:ellipsize="end"/>
@@ -202,7 +202,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:text="计费"
-                        android:textColor="@color/shenhui"
+                        android:textColor="@color/cl_5e5e5e"
                         android:textSize="12sp"/>
 
                     <TextView
@@ -212,7 +212,7 @@
                         android:layout_toRightOf="@id/textview_5"
                         android:layout_marginLeft="10dp"
                         android:text="180"
-                        android:textColor="#f26d5f"
+                        android:textColor="#ff9c58"
                         android:textSize="18sp"
                         android:layout_centerVertical="true"/>
 
@@ -226,7 +226,7 @@
                         android:layout_toRightOf="@id/textview_8"
                         android:paddingTop="2dp"
                         android:text="元"
-                        android:textColor="#f59287"
+                        android:textColor="#ff9c58"
                         android:textSize="12sp"/>
 
                     <TextView
@@ -235,7 +235,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:gravity="center"
-                        android:background="@drawable/bt_login"
+                        android:background="@drawable/bt_qiangdan"
                         android:padding="5dp"
                         android:layout_marginRight="15dp"
                         android:text="立刻抢单"

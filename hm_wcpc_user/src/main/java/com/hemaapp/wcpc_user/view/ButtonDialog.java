@@ -17,7 +17,6 @@ import xtom.frame.XtomObject;
  */
 public class ButtonDialog extends XtomObject {
     private Dialog mDialog;
-    private ViewGroup mContent;
     private TextView mTextView;
     private TextView leftButton;
     private TextView rightButton;
@@ -27,8 +26,7 @@ public class ButtonDialog extends XtomObject {
         mDialog = new Dialog(context, R.style.dialog);
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.button_dialog, null);
-        mContent = (ViewGroup) view.findViewById(R.id.content);
-        mTextView = (TextView) view.findViewById(R.id.textview);
+        mTextView = (TextView) view.findViewById(R.id.tv_content);
         leftButton = (TextView) view.findViewById(R.id.left);
         leftButton.setOnClickListener(new View.OnClickListener() {
 
@@ -55,12 +53,12 @@ public class ButtonDialog extends XtomObject {
     /**
      * 给弹框添加自定义View
      *
-     * @param v 自定义View
+     * 自定义View
      */
-    public void setView(View v) {
-        mContent.removeAllViews();
-        mContent.addView(v);
-    }
+//    public void setView(View v) {
+//        mContent.removeAllViews();
+//        mContent.addView(v);
+//    }
 
     public void setText(String text) {
         mTextView.setText(text);

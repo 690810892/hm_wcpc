@@ -29,6 +29,7 @@ import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
  * Created by WangYuxia on 2016/5/13.
+ * 加入行程
  */
 public class JoinTripsActivity extends BaseActivity {
 
@@ -84,7 +85,7 @@ public class JoinTripsActivity extends BaseActivity {
 
     //计算费用
     private void toCalcuteMoney() {
-        getNetWorker().feeCalculation(keytype, franchisee_id, distance, personcount, district);
+        getNetWorker().feeCalculation(franchisee_id, distance, personcount, district);
     }
 
     @Override

@@ -161,6 +161,7 @@
                     android:src="@color/xian"/>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@id/textview_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -173,6 +174,7 @@
                     android:textSize="14sp"/>
 
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_driver"
                     android:layout_marginLeft="10dp"
@@ -188,25 +190,6 @@
                     android:drawablePadding="16dp"
                     android:padding="20dp"
                     android:text="@string/tv_my_account"
-                    android:textColor="@color/cl_5e5e5e"
-                    android:textSize="14sp"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_driver"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@color/xian"/>
-
-                <TextView
-                    android:id="@id/textview_5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/img_center_changepwd"
-                    android:drawableRight="@mipmap/triangle"
-                    android:drawablePadding="16dp"
-                    android:padding="20dp"
-                    android:text="@string/tv_changepwd"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
@@ -237,6 +220,27 @@
                     android:src="@color/xian"/>
 
                 <TextView
+                    android:id="@id/textview_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/img_center_changepwd"
+                    android:drawableRight="@mipmap/triangle"
+                    android:drawablePadding="16dp"
+                    android:padding="20dp"
+                    android:text="@string/tv_changepwd"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@color/xian"/>
+
+                <TextView
+                    android:visibility="gone"
                     android:id="@id/textview_7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -31,6 +31,7 @@ import xtom.frame.image.load.XtomImageTask;
 
 /**
  * Created by WangYuxia on 2016/5/24.
+ * 订单详情
  */
 public class OrderDetailInforActivity extends BaseActivity {
 

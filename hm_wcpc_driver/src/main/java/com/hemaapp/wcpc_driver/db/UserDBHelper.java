@@ -180,7 +180,8 @@ public class UserDBHelper extends DBHelper {
 					cursor.getString(20), cursor.getString(21),
 					cursor.getString(22), cursor.getString(23),
 					cursor.getString(24), cursor.getString(25),
-					cursor.getString(26), cursor.getString(27));
+					cursor.getString(26), cursor.getString(27),
+					cursor.getString(28));
 		}
 		cursor.close();
 		db.close();

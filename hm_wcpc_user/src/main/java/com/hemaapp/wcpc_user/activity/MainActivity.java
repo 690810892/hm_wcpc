@@ -114,6 +114,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             adapter.setInfors(infors);
             adapter.notifyDataSetChanged();
         }
+        if(user != null)
+            getNetWorker().noticeUnread(user.getToken(), "2", "1");
+        else{
+            if(count == 0)
+                image_point.setVisibility(View.INVISIBLE);
+            else
+                image_point.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -147,12 +155,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case ADVERTISE_LIST:
                 HemaPageArrayResult<AddListInfor> aResult = (HemaPageArrayResult<AddListInfor>) baseResult;
                 infors = aResult.getObjects();
-                user = hm_WcpcUserApplication.getInstance().getUser();
-                if(user != null)
-                    getNetWorker().noticeUnread(user.getToken(), "2", "1");
-                else{
-                    initPage();
-                }
                 break;
             case NOTICE_UNREAD:
                 HemaArrayResult<String> cResult = (HemaArrayResult<String>) baseResult;

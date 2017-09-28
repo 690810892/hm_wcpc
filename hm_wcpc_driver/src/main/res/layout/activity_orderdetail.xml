@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/bg_linearLayout">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <include layout="@layout/title"/>
 
@@ -45,7 +48,7 @@
                         android:layout_marginRight="15dp"
                         android:text="元"
                         android:textSize="12sp"
-                        android:textColor="#f26d5f"/>
+                        android:textColor="@color/cl_4e4d5d"/>
 
                     <TextView
                         android:id="@id/textview_0"
@@ -56,7 +59,7 @@
                         android:layout_marginRight="2dp"
                         android:layout_marginTop="12dp"
                         android:text="15"
-                        android:textColor="#f26d5f"
+                        android:textColor="@color/cl_4e4d5d"
                         android:textSize="16sp"/>
 
                 </RelativeLayout>
@@ -96,7 +99,7 @@
                         android:layout_toRightOf="@id/imageview"
                         android:layout_marginTop="22dp"
                         android:text="用户名称"
-                        android:textColor="@color/shenhui"
+                        android:textColor="@color/cl_3f3f3f"
                         android:textSize="14sp"/>
 
                     <ImageView
@@ -117,7 +120,7 @@
                         android:layout_marginTop="22dp"
                         android:layout_marginLeft="10dp"
                         android:text="乘车次数"
-                        android:textColor="@color/qianhui"
+                        android:textColor="@color/cl_a0a0a0"
                         android:textSize="13sp"/>
 
                     <TextView
@@ -170,7 +173,7 @@
                     android:text="今天"
                     android:drawableLeft="@mipmap/img_starttime"
                     android:drawablePadding="10dp"
-                    android:textColor="#737373"
+                    android:textColor="@color/cl_5e5e5e"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:textSize="12sp"/>
@@ -192,7 +195,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="13dp"
                         android:text="起始点"
-                        android:textColor="@color/shenhui"
+                        android:textColor="@color/cl_3f3f3f"
                         android:textSize="13sp" />
 
                 </LinearLayout>
@@ -216,7 +219,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="13dp"
                         android:text="目的地"
-                        android:textColor="@color/shenhui"
+                        android:textColor="@color/cl_3f3f3f"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -260,7 +263,7 @@
                         android:gravity="center_vertical"
                         android:paddingRight="15dp"
                         android:text="是否愿意拼车"
-                        android:textColor="@color/word_black"
+                        android:textColor="@color/cl_3f3f3f"
                         android:textSize="@dimen/textsize_7" />
 
                     <TextView
@@ -270,7 +273,7 @@
                         android:gravity="center_vertical|right"
                         android:layout_marginRight="15dp"
                         android:text="愿意"
-                        android:textColor="@color/qianhui"
+                        android:textColor="@color/cl_a0a0a0"
                         android:textSize="14sp"/>
 
                 </LinearLayout>
@@ -302,7 +305,7 @@
                         android:gravity="center_vertical"
                         android:paddingRight="15dp"
                         android:text="感谢费"
-                        android:textColor="@color/word_black"
+                        android:textColor="@color/cl_a0a0a0"
                         android:textSize="@dimen/textsize_7" />
 
                     <TextView
@@ -344,7 +347,7 @@
                         android:gravity="center_vertical"
                         android:paddingRight="15dp"
                         android:text="备注"
-                        android:textColor="@color/word_black"
+                        android:textColor="@color/cl_3f3f3f"
                         android:textSize="@dimen/textsize_7" />
                     </LinearLayout>
 
@@ -354,7 +357,7 @@
                     android:layout_height="wrap_content"
                     android:minHeight="60dp"
                     android:text="备注内容"
-                    android:textColor="@color/qianhui"
+                    android:textColor="@color/cl_a0a0a0"
                     android:layout_marginLeft="15dp"
                     android:textSize="14sp" />
 
@@ -385,8 +388,8 @@
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:gravity="center"
-                android:textColor="@color/yellow"
-                android:background="@drawable/bt_addpingjia"
+                android:textColor="@color/white"
+                android:background="@drawable/bt_login"
                 android:textSize="15sp"/>
 
         </LinearLayout>

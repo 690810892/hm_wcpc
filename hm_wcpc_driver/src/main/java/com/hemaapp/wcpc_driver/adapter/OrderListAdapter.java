@@ -86,7 +86,7 @@ public class OrderListAdapter extends HemaAdapter {
 
     private void setData(ViewHolder holder, View view, OrderListInfor infor, int position){
         holder.text_time.setText(BaseUtil.transTimeChat(infor.getBegintime()));
-        holder.text_takepersoncount.setText("乘车人数"+infor.getNumbers()+"人");
+        holder.text_status.setText("乘车人数"+infor.getNumbers()+"人");
         try {
             URL url = new URL(infor.getAvatar());
             holder.image_avatar.setCornerRadius(90);
@@ -101,6 +101,7 @@ public class OrderListAdapter extends HemaAdapter {
         else
             holder.image_sex.setImageResource(R.mipmap.img_sex_girl);
         holder.text_takecount.setText("乘车次数 "+infor.getTakecount()+"次");
+        holder.tv_person_count.setText("乘车人数 " + infor.getNumbers());
         holder.text_startaddress.setText(infor.getStartaddress());
         holder.text_endaddress.setText(infor.getEndaddress());
         if(infor.getIs_pool().equals("1"))
@@ -178,7 +179,7 @@ public class OrderListAdapter extends HemaAdapter {
 
     private void findview(ViewHolder holder, View view){
         holder.text_time = (TextView) view.findViewById(R.id.textview);
-        holder.text_takepersoncount = (TextView) view.findViewById(R.id.textview_0);
+        holder.text_status = (TextView) view.findViewById(R.id.textview_0);
         holder.image_avatar = (RoundedImageView) view.findViewById(R.id.imageview);
         holder.text_realname = (TextView) view.findViewById(R.id.textview_1);
         holder.image_sex = (ImageView) view.findViewById(R.id.imageview_0);
@@ -187,11 +188,12 @@ public class OrderListAdapter extends HemaAdapter {
         holder.text_endaddress = (TextView) view.findViewById(R.id.textview_3);
         holder.text_money = (TextView) view.findViewById(R.id.textview_8);
         holder.text_operate = (TextView) view.findViewById(R.id.textview_9);
+        holder.tv_person_count = (TextView) view.findViewById(R.id.tv_person_count);
     }
 
     private static class ViewHolder{
         TextView text_time;
-        TextView text_takepersoncount;
+        TextView text_status;
         RoundedImageView image_avatar;
         TextView text_realname;
         ImageView image_sex;
@@ -200,5 +202,6 @@ public class OrderListAdapter extends HemaAdapter {
         TextView text_endaddress;
         TextView text_money;
         TextView text_operate;
+        TextView tv_person_count;
     }
 }

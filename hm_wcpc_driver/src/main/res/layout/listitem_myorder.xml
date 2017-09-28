@@ -9,16 +9,11 @@
         android:layout_height="10dp"
         android:src="@color/background" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/xian"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +30,7 @@
                 android:layout_marginBottom="12dp"
                 android:drawableLeft="@mipmap/img_starttime"
                 android:text="出发时间"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_5e5e5e"
                 android:textSize="12sp"/>
 
             <TextView
@@ -55,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_driver"
             android:layout_marginLeft="10dp"
-            android:src="@color/xian"/>
+            android:src="@color/xian" />
 
         <RelativeLayout
             android:id="@id/layout"
@@ -67,11 +62,11 @@
                 android:id="@id/imageview"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@mipmap/default_user"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
-                android:scaleType="centerCrop"/>
+                android:layout_marginTop="15dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/default_user" />
 
             <TextView
                 android:id="@id/textview_1"
@@ -80,56 +75,56 @@
                 android:layout_toRightOf="@id/imageview"
                 android:layout_marginTop="15dp"
                 android:text="用户名称"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_3f3f3f"
                 android:textSize="14sp"/>
 
             <ImageView
                 android:id="@id/imageview_0"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@mipmap/img_sex_boy"
-                android:scaleType="centerCrop"
-                android:layout_toRightOf="@id/textview_1"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:layout_toRightOf="@id/textview_1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/img_sex_boy" />
 
             <TextView
                 android:id="@id/textview_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/imageview_0"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="16dp"
+                android:layout_toRightOf="@id/imageview_0"
                 android:text="乘车次数"
-                android:textColor="@color/qianhui"
-                android:textSize="12sp"/>
+                android:textColor="@color/cl_a0a0a0"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:id="@id/layout_0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_below="@id/textview_1"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/imageview"
                 android:layout_toLeftOf="@id/imageview_1"
+                android:layout_toRightOf="@id/imageview"
                 android:gravity="center_vertical"
-                android:layout_below="@id/textview_1">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/img_startposition"/>
+                    android:src="@mipmap/img_startposition" />
 
                 <TextView
                     android:id="@id/textview_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="起始点"
-                    android:textColor="@color/shenhui"
-                    android:textSize="13sp"
+                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:text="起始点"
+                    android:textColor="#616161"
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -137,29 +132,29 @@
                 android:id="@id/layout_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp"
+                android:layout_below="@id/layout_0"
                 android:layout_marginBottom="15dp"
-                android:layout_toRightOf="@id/imageview"
+                android:layout_marginTop="8dp"
                 android:layout_toLeftOf="@id/imageview_1"
+                android:layout_toRightOf="@id/imageview"
                 android:gravity="center_vertical"
-                android:layout_below="@id/layout_0">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/img_endposition"/>
+                    android:src="@mipmap/img_endposition" />
 
                 <TextView
                     android:id="@id/textview_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="目的地"
-                    android:textColor="@color/shenhui"
-                    android:textSize="13sp"
+                    android:ellipsize="end"
                     android:maxLines="1"
-                    android:ellipsize="end"/>
+                    android:text="目的地"
+                    android:textColor="#616161"
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -170,7 +165,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:src="@mipmap/triangle"/>
+                android:src="@mipmap/triangle" />
 
         </RelativeLayout>
 
@@ -178,14 +173,14 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_driver"
             android:layout_marginLeft="10dp"
-            android:src="@color/xian"/>
+            android:src="@color/xian" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
             android:paddingLeft="15dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@id/textview_5"
@@ -194,19 +189,19 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:text="计费"
-                android:textColor="@color/shenhui"
-                android:textSize="12sp"/>
+                android:textColor="@color/cl_5e5e5e"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@id/textview_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/textview_5"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/textview_5"
                 android:text="180"
-                android:textColor="#f26d5f"
-                android:textSize="18sp"
-                android:layout_centerVertical="true"/>
+                android:textColor="#ff9c58"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@id/textview_7"
@@ -218,25 +213,44 @@
                 android:layout_toRightOf="@id/textview_8"
                 android:paddingTop="2dp"
                 android:text="元"
-                android:textColor="#f59287"
-                android:textSize="12sp"/>
+                android:textColor="#ff9c58"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_person_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/textview_9"
+                android:paddingTop="2dp"
+                android:text="乘车人数"
+                android:textColor="@color/cl_4e4d5d"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@id/textview_9"
                 android:layout_width="72dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:background="@drawable/bg_operate"
-                android:padding="5dp"
                 android:layout_marginRight="15dp"
+                android:background="@drawable/bg_operate"
+                android:gravity="center"
+                android:padding="5dp"
                 android:text="联系对方"
                 android:textColor="@color/shenhui"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </RelativeLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/xian"/>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"

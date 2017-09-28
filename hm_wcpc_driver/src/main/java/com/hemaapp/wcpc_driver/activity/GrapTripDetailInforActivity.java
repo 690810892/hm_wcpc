@@ -31,6 +31,7 @@ import xtom.frame.image.load.XtomImageTask;
 
 /**
  * Created by WangYuxia on 2016/5/25.
+ * 抢单详情
  */
 public class GrapTripDetailInforActivity extends BaseActivity {
     private ImageView left;

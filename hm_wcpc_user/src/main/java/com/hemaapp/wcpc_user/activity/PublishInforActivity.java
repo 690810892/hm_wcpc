@@ -500,12 +500,12 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
         content = editText.getText().toString();
         if(isNull(content))
             content = "";
-        getNetWorker().tripsAdd(user.getToken(), "2", "1", startposition, endposition, starttime, personcount,
+        getNetWorker().tripsAdd(user.getToken(), startposition, endposition, starttime, personcount,
                 isAgreed, fee, content, start_lng, start_lat, end_lng, end_lat, success, fail, distance, pos_lng, pos_lat, pos_address, district);
     }
 
     private void toCalculate(){
-        getNetWorker().feeCalculation("2", "0", distance, personcount, district);
+        getNetWorker().feeCalculation("0", distance, personcount, district);
     }
 
     @Override
