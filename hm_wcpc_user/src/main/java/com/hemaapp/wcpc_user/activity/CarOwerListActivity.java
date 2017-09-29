@@ -72,7 +72,7 @@ public class CarOwerListActivity extends BaseActivity {
     }
 
     private void getTripsList(){
-        getNetWorker().tripsList(keytype, lng+","+lat, orderby, page, district);
+        getNetWorker().tripsList("", keytype, lng+","+lat, orderby, page, district);
     }
 
     @Override

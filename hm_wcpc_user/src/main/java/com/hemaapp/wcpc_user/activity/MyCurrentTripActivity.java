@@ -3,6 +3,7 @@ package com.hemaapp.wcpc_user.activity;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,9 +36,14 @@ import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
+import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.wcpc_user.BaseActivity;
+import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.R;
+import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
+import com.hemaapp.wcpc_user.module.CurrentTripsInfor;
+import com.hemaapp.wcpc_user.module.User;
 import com.hemaapp.wcpc_user.view.LocationUtils;
 
 import xtom.frame.util.XtomToastUtil;
@@ -69,13 +75,26 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     private String map_title;
 
     private String lng, lat;
+    private User user;
+    private CurrentTripsInfor infor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_current_trip);
         super.onCreate(savedInstanceState);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
-        checkLocation();
+
+        user = hm_WcpcUserApplication.getInstance().getUser();
+        getNetWorker().currentTrips(user.getToken());
+    }
+
+    private void initData(){
+        if(infor == null){ //没有当前行程
+            checkLocation();
+            layout_bottom.setVisibility(View.GONE);
+        }else{
+
+        }
     }
 
     private void checkLocation() {
@@ -167,22 +186,44 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
 
     @Override
     protected void callBeforeDataBack(HemaNetTask hemaNetTask) {
-
+        BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
+        switch (information){
+            case CURRENT_TRIPS:
+                showProgressDialog("请稍后...");
+                break;
+        }
     }
 
     @Override
     protected void callAfterDataBack(HemaNetTask hemaNetTask) {
-
+        BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
+        switch (information){
+            case CURRENT_TRIPS:
+                cancelProgressDialog();
+                break;
+        }
     }
 
     @Override
     protected void callBackForServerSuccess(HemaNetTask hemaNetTask, HemaBaseResult hemaBaseResult) {
-
+        BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
+        switch (information){
+            case CURRENT_TRIPS:
+                HemaArrayResult<CurrentTripsInfor> cResult = (HemaArrayResult<CurrentTripsInfor>) hemaBaseResult;
+                infor = cResult.getObjects().get(0);
+                initData();
+                break;
+        }
     }
 
     @Override
     protected void callBackForGetDataFailed(HemaNetTask hemaNetTask, int i) {
-
+        BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
+        switch (information){
+            case CURRENT_TRIPS:
+                showTextDialog("抱歉，获取当前行程失败");
+                break;
+        }
     }
 
     @Override

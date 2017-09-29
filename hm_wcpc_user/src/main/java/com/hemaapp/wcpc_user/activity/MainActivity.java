@@ -133,6 +133,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case NOTICE_UNREAD:
                 break;
+            case CAN_TRIPS:
+                showProgressDialog("请稍后...");
+                break;
         }
     }
 
@@ -141,6 +144,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
         switch (information){
             case ADVERTISE_LIST:
+            case CAN_TRIPS:
                 cancelProgressDialog();
                 break;
             case NOTICE_UNREAD:
@@ -161,6 +165,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 count = Integer.parseInt(isNull(cResult.getObjects().get(0))?"0":cResult.getObjects().get(0));
                 initPage();
                 break;
+            case CAN_TRIPS:
+                HemaArrayResult<String> sResult = (HemaArrayResult<String>) baseResult;
+                String keytype = sResult.getObjects().get(0);
+                if("1".equals(keytype)){
+                    Intent it = new Intent(mContext, PublishInforActivity.class);
+                    startActivity(it);
+                }else{
+                    showTextDialog("抱歉，您有尚未结束的行程，无法发布");
+                    return;
+                }
+                break;
         }
     }
 
@@ -170,6 +185,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         switch (information){
             case ADVERTISE_LIST:
                 showTextDialog("获取数据失败");
+                break;
+            case CAN_TRIPS:
+                showTextDialog("检查失败，请稍后重试");
                 break;
         }
     }
@@ -181,7 +199,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 .getHttpInformation();
         switch (information) {
             case ADVERTISE_LIST:
-                showTextDialog("获取数据失败");
+            case CAN_TRIPS:
+                showTextDialog(baseResult.getMsg());
                 break;
         }
     }
@@ -245,10 +264,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case R.id.tv_publish:
                 if(user == null){
                     ToLogin.showLogin(mContext);
-                }else{
-                    it = new Intent(mContext, PublishInforActivity.class);
-                    startActivity(it);
-                }
+                }else
+                    getNetWorker().canTrips(user.getToken());
                 break;
             case R.id.title_btn_feedback:
                 if(user == null){

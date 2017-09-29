@@ -8,6 +8,7 @@ import com.hemaapp.wcpc_user.nettask.AccountRecordListTask;
 import com.hemaapp.wcpc_user.nettask.AdvertiseListTask;
 import com.hemaapp.wcpc_user.nettask.AlipayTradeTask;
 import com.hemaapp.wcpc_user.nettask.BankListTask;
+import com.hemaapp.wcpc_user.nettask.CanTripsTask;
 import com.hemaapp.wcpc_user.nettask.ClientAddTask;
 import com.hemaapp.wcpc_user.nettask.ClientGetTask;
 import com.hemaapp.wcpc_user.nettask.ClientLoginTask;
@@ -15,6 +16,7 @@ import com.hemaapp.wcpc_user.nettask.ClientOrderGetTask;
 import com.hemaapp.wcpc_user.nettask.ClientOrderListTask;
 import com.hemaapp.wcpc_user.nettask.CodeVerifyTask;
 import com.hemaapp.wcpc_user.nettask.CouponsListTask;
+import com.hemaapp.wcpc_user.nettask.CurrentTripsTask;
 import com.hemaapp.wcpc_user.nettask.DataListTask;
 import com.hemaapp.wcpc_user.nettask.DistrictListTask;
 import com.hemaapp.wcpc_user.nettask.DriverGetTask;
@@ -312,9 +314,10 @@ public class BaseNetWorker extends HemaNetWorker {
 	/**
 	 * 行程列表接口
 	 * */
-	public void tripsList(String keytype, String keyid, String orderby, int page, String district){
+	public void tripsList(String token, String keytype, String keyid, String orderby, int page, String district){
 		BaseHttpInformation information = BaseHttpInformation.TRIPS_LIST;
 		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
 		params.put("keytype", keytype);
 		params.put("keyid", keyid);
 		params.put("orderby", orderby);
@@ -775,6 +778,30 @@ public class BaseNetWorker extends HemaNetWorker {
 		params.put("parentid", parentid);
 
 		BaseNetTask task = new DistrictListTask(information, params);
+		executeTask(task);
+	}
+
+	/**
+	 * 是否可以发布行程接口
+	 * */
+	public void canTrips(String token){
+		BaseHttpInformation information = BaseHttpInformation.CAN_TRIPS;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+
+		BaseNetTask task = new CanTripsTask(information, params);
+		executeTask(task);
+	}
+
+	/**
+	 * 用户当前行程接口
+	 * */
+	public void currentTrips(String token){
+		BaseHttpInformation information = BaseHttpInformation.CURRENT_TRIPS;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+
+		BaseNetTask task = new CurrentTripsTask(information, params);
 		executeTask(task);
 	}
 }

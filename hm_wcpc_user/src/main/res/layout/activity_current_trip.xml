@@ -18,6 +18,110 @@
             android:layout_marginTop="1dp" />
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#80ffffff">
+
+            <RelativeLayout
+                android:id="@id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp">
+
+                <TextView
+                    android:id="@id/textview_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/imageview"
+                    android:layout_marginTop="15dp"
+                    android:text="用户名称"
+                    android:textColor="@color/cl_3f3f3f"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:id="@id/imageview_0"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@mipmap/img_sex_boy"
+                    android:scaleType="centerCrop"
+                    android:layout_toRightOf="@id/textview_1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="16dp"/>
+
+                <LinearLayout
+                    android:id="@id/layout_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/imageview"
+                    android:layout_toLeftOf="@id/imageview_1"
+                    android:gravity="center_vertical"
+                    android:layout_below="@id/textview_1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/img_startposition"/>
+
+                    <TextView
+                        android:id="@id/textview_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="起始点"
+                        android:textColor="@color/cl_3f3f3f"
+                        android:textSize="13sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@id/layout_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:paddingBottom="15dp"
+                    android:layout_toRightOf="@id/imageview"
+                    android:layout_toLeftOf="@id/imageview_1"
+                    android:gravity="center_vertical"
+                    android:layout_below="@id/layout_0">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/img_endposition"/>
+
+                    <TextView
+                        android:id="@id/textview_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="目的地"
+                        android:textColor="@color/cl_3f3f3f"
+                        android:textSize="13sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@id/imageview_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/triangle"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@id/linearlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

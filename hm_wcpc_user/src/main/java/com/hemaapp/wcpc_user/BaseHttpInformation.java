@@ -207,6 +207,14 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	 * 地区列表接口
 	 * */
 	DISTRICT_LIST(44, "district_list", "地区列表接口", false),
+	/**
+	 * 是否可以发布行程接口
+	 * */
+	CAN_TRIPS(45, "can_trips", "是否可以发布行程接口", false),
+	/**
+	 * 用户当前行程接口
+	 * */
+	CURRENT_TRIPS(46, "current_trips", "用户当前行程接口", false),
 	;
 
 	private int id;// 对应NetTask的id
