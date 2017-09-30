@@ -28,6 +28,9 @@ public class CurrentTripsInfor extends XtomObject{
     private String carnumber; //
     private String lng; //
     private String lat; //
+    private String realname;
+    private String sex;
+    private String avatar;
 
     public CurrentTripsInfor(JSONObject jsonObject) throws DataParseException {
         if(jsonObject != null){
@@ -49,6 +52,9 @@ public class CurrentTripsInfor extends XtomObject{
                 carnumber = get(jsonObject, "carnumber");
                 lng = get(jsonObject, "lng");
                 lat = get(jsonObject, "lat");
+                realname = get(jsonObject, "realname");
+                sex = get(jsonObject, "sex");
+                avatar = get(jsonObject, "avatar");
 
                 log_e(toString());
             } catch (JSONException e) {
@@ -77,6 +83,9 @@ public class CurrentTripsInfor extends XtomObject{
                 ", carnumber='" + carnumber + '\'' +
                 ", lng='" + lng + '\'' +
                 ", lat='" + lat + '\'' +
+                ", realname='" + realname + '\'' +
+                ", sex='" + sex + '\'' +
+                ", avatar='" + avatar + '\'' +
                 '}';
     }
 
@@ -110,6 +119,18 @@ public class CurrentTripsInfor extends XtomObject{
 
     public String getLng_end() {
         return lng_end;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 
     public String getLat_end() {

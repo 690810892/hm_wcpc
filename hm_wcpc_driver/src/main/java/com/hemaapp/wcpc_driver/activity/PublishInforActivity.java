@@ -230,9 +230,9 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
     private void toCalculate(){
         User user = hm_WcpcDriverApplication.getInstance().getUser();
         if(flag == 0)
-            getNetWorker().feeCalculation("1", user.getFranchisee_id(), in_distance, in_personcount, district);
+            getNetWorker().feeCalculation(user.getFranchisee_id(), in_distance, in_personcount, district);
         else
-            getNetWorker().feeCalculation("2", user.getFranchisee_id(), out_distance, out_personcount, district);
+            getNetWorker().feeCalculation(user.getFranchisee_id(), out_distance, out_personcount, district);
     }
 
     @Override
@@ -478,7 +478,7 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
                     return;
                 }
 
-                getNetWorker().tripsAdd(getUser().getToken(), "1", "2", in_startaddress, in_endaddress, in_starttime,
+                getNetWorker().tripsAdd(getUser().getToken(), in_startaddress, in_endaddress, in_starttime,
                         in_personcount,"", "", "", in_start_lng, in_start_lat, in_end_lng, in_end_lat, in_money_success,
                         in_momey_failed, in_distance, lng, lat, address, district);
             }
@@ -512,7 +512,7 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
                     return;
                 }
 
-                getNetWorker().tripsAdd(getUser().getToken(), "2", "2", out_startaddress, out_endaddress, out_starttime,
+                getNetWorker().tripsAdd(getUser().getToken(), out_startaddress, out_endaddress, out_starttime,
                         out_personcount,"", "", "", out_start_lng, out_start_lat, out_end_lng, out_end_lat, out_money_success,
                         out_money_failed, out_distance, lng, lat, address, district);
             }

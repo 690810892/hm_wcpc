@@ -82,7 +82,7 @@ public class FeeRuleActivity extends BaseActivity {
 
     private void getInfor(String keytype){
         String district = XtomSharedPreferencesUtil.get(mContext, "district");
-        getNetWorker().feeRuleList( user.getFranchisee_id(), keytype, district);
+        getNetWorker().feeRuleList( user.getFranchisee_id(), district);
     }
 
     private void setTopBackGround(int type){

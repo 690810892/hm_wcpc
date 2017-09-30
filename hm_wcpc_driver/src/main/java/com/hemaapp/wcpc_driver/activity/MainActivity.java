@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void getTripsList(){
-        getNetWorker().tripsList("1", lng+","+lat, "0", page_trips, district);
+        getNetWorker().tripsList(user.getToken(), "1", lng+","+lat, "0", page_trips, district);
     }
 
     @Override

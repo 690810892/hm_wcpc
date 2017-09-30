@@ -101,7 +101,7 @@ public class DriverMapDetailInforActivity extends BaseActivity
     }
 
     private void toSearch(){
-        final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(
+        RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(
                 fromPointExra, toPointExra);
         RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo,
                 RouteSearch.DrivingDefault, null, null, "");
@@ -191,7 +191,6 @@ public class DriverMapDetailInforActivity extends BaseActivity
                 carRoutes.add(new Route(name, time, distance, null, drivePath,
                         null, fromPointExra, toPointExra));
             }
-
             startDriverUI();
         } else {
             log_i("驾车路线查询失败");

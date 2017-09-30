@@ -196,11 +196,10 @@ public class BaseNetWorker extends HemaNetWorker {
 	/**
 	 *  计费规则接口
 	 * */
-	public void feeRuleList(String franchisee_id, String keytype, String district){
+	public void feeRuleList(String franchisee_id, String district){
 		BaseHttpInformation information = BaseHttpInformation.FEE_RULE_LIST;
 		HashMap<String, String> params = new HashMap<>();
 		params.put("franchisee_id", franchisee_id);
-		params.put("keytype", keytype);
 		params.put("district", district);
 
 		BaseNetTask task = new FeeRuleListTask(information, params);
@@ -225,10 +224,9 @@ public class BaseNetWorker extends HemaNetWorker {
 	/**
 	 * 费用计算接口
 	 * */
-	public void feeCalculation(String keytype, String franchisee_id, String distance, String numbers, String district){
+	public void feeCalculation(String franchisee_id, String distance, String numbers, String district){
 		BaseHttpInformation information = BaseHttpInformation.FEE_CALCULATION;
 		HashMap<String, String> params = new HashMap<>();
-		params.put("keytype", keytype);// 临时令牌
 		params.put("franchisee_id", franchisee_id);
 		params.put("distance", distance);
 		params.put("numbers", numbers);
@@ -241,15 +239,13 @@ public class BaseNetWorker extends HemaNetWorker {
 	/**
 	 * 发布行程接口
 	 * */
-	public void tripsAdd(String token, String keytype, String clienttype, String startaddress, String endaddress,
+	public void tripsAdd(String token, String startaddress, String endaddress,
                          String begintime, String numbers, String carpoolflag, String thankfee, String remarks,
                          String lng_start, String lat_start, String lng_end, String lat_end, String successfee,
                          String failfee, String distance, String lng, String lat, String address, String district){
 		BaseHttpInformation information = BaseHttpInformation.TRIPS_ADD;
 		HashMap<String, String> params = new HashMap<>();
 		params.put("token", token);
-		params.put("keytype", keytype);
-		params.put("clienttype", clienttype);
 		params.put("startaddress", startaddress);
 		params.put("endaddress", endaddress);
 		params.put("begintime", begintime);
@@ -276,9 +272,10 @@ public class BaseNetWorker extends HemaNetWorker {
 	/**
 	 * 行程列表接口
 	 * */
-	public void tripsList(String keytype, String keyid, String orderby, int page, String district){
+	public void tripsList(String token, String keytype, String keyid, String orderby, int page, String district){
 		BaseHttpInformation information = BaseHttpInformation.TRIPS_LIST;
 		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
 		params.put("keytype", keytype);
 		params.put("keyid", keyid);
 		params.put("orderby", orderby);

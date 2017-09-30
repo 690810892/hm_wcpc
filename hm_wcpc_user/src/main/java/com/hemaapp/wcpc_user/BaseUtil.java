@@ -60,9 +60,11 @@ public class BaseUtil {
 //		if (distance < 1000) {
 //			ds += (distance + "m");
 //		} else {
-			float km = distance / 1000;
-			ds += (String.format(Locale.getDefault(), "%.3f", km));
+//			float km = distance / 1000;
+//		ds += (String.format(Locale.getDefault(), "%.3f", km));
 //		}
+		float km = distance;
+		ds += (String.format(Locale.getDefault(), "%.3f", km));
 		return ds;
 	}
 

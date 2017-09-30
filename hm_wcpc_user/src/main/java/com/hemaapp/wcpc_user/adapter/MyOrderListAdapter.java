@@ -16,7 +16,6 @@ import com.hemaapp.wcpc_user.BaseNetWorker;
 import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.activity.CancelOrderActivity;
-import com.hemaapp.wcpc_user.activity.CarOwerHomePageActivity;
 import com.hemaapp.wcpc_user.activity.OrderDetialInforActivity;
 import com.hemaapp.wcpc_user.activity.OrderListActivity;
 import com.hemaapp.wcpc_user.activity.PingJiaActivity;
@@ -136,16 +135,16 @@ public class MyOrderListAdapter extends HemaAdapter {
         else
             holder.text_money.setText(infor.getFailfee());
 
-        holder.image_avatar.setTag(R.id.button, infor);
-        holder.image_avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OrderListInfor infor = (OrderListInfor) v.getTag(R.id.button);
-                Intent it = new Intent(mContext, CarOwerHomePageActivity.class);
-                it.putExtra("id", infor.getDriver_id());
-                mContext.startActivity(it);
-            }
-        });
+//        holder.image_avatar.setTag(R.id.button, infor);
+//        holder.image_avatar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                OrderListInfor infor = (OrderListInfor) v.getTag(R.id.button);
+//                Intent it = new Intent(mContext, CarOwerHomePageActivity.class);
+//                it.putExtra("id", infor.getDriver_id());
+//                mContext.startActivity(it);
+//            }
+//        });
 
         view.setTag(R.id.button_0, infor);
         view.setOnClickListener(new View.OnClickListener() {

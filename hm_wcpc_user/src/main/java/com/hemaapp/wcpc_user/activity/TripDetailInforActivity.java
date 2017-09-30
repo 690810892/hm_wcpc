@@ -250,14 +250,14 @@ public class TripDetailInforActivity extends BaseActivity {
             }
         });
 
-        image_avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(mContext, CarOwerHomePageActivity.class);
-                it.putExtra("id", infor.getClient_id());
-                mContext.startActivity(it);
-            }
-        });
+//        image_avatar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent it = new Intent(mContext, CarOwerHomePageActivity.class);
+//                it.putExtra("id", infor.getClient_id());
+//                mContext.startActivity(it);
+//            }
+//        });
 
         image_map.setOnClickListener(new View.OnClickListener() {
             @Override

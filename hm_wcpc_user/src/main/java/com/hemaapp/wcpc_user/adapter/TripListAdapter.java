@@ -13,7 +13,6 @@ import com.hemaapp.hm_FrameWork.view.RoundedImageView;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.R;
-import com.hemaapp.wcpc_user.activity.CarOwerHomePageActivity;
 import com.hemaapp.wcpc_user.activity.TripDetailInforActivity;
 import com.hemaapp.wcpc_user.module.TripListInfor;
 
@@ -101,16 +100,16 @@ public class TripListAdapter extends HemaAdapter {
         holder.text_personcount.setText("剩余"+(isNull(infor.getRemainnum())?"0":infor.getRemainnum())+"座");
         holder.text_money.setText(infor.getSuccessfee());
 
-        holder.image_avater.setTag(R.id.button, infor);
-        holder.image_avater.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TripListInfor infor = (TripListInfor) v.getTag(R.id.button);
-                Intent it = new Intent(mContext, CarOwerHomePageActivity.class);
-                it.putExtra("id", infor.getClient_id());
-                mContext.startActivity(it);
-            }
-        });
+//        holder.image_avater.setTag(R.id.button, infor);
+//        holder.image_avater.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                TripListInfor infor = (TripListInfor) v.getTag(R.id.button);
+//                Intent it = new Intent(mContext, CarOwerHomePageActivity.class);
+//                it.putExtra("id", infor.getClient_id());
+//                mContext.startActivity(it);
+//            }
+//        });
 
         view.setTag(R.id.textview, infor);
         view.setOnClickListener(new View.OnClickListener() {
