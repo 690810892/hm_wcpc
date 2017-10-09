@@ -128,6 +128,11 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
         routeSearch.setRouteSearchListener(this);
         user = hm_WcpcUserApplication.getInstance().getUser();
         district = XtomSharedPreferencesUtil.get(mContext, "district");
+        if(!isNull(startposition)){
+            text_startposition.setTextColor(0xff3f3f3f);
+            text_startposition.setText(startposition);
+        }
+
         initTime();
         initDay();
         initHour(0);
@@ -357,6 +362,10 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
 
     @Override
     protected void getExras() {
+        start_lng = mIntent.getStringExtra("start_lng");
+        start_lat = mIntent.getStringExtra("start_lat");
+        startposition = mIntent.getStringExtra("start_position");
+        start_city = mIntent.getStringExtra("start_city");
     }
 
     @Override

@@ -109,7 +109,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     private LatLng latlng;
     private String map_title;
 
-    private String lng, lat;
+    private String lng, lat, start_city;
     private User user;
     private CurrentTripsInfor infor;
 
@@ -347,7 +347,8 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         switch (information){
             case CURRENT_TRIPS:
                 HemaArrayResult<CurrentTripsInfor> cResult = (HemaArrayResult<CurrentTripsInfor>) hemaBaseResult;
-                infor = cResult.getObjects().get(0);
+                if(cResult.getObjects() != null && cResult.getObjects().size() > 0)
+                    infor = cResult.getObjects().get(0);
                 initData();
                 break;
         }
@@ -527,6 +528,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                 RegeocodeAddress ad = result.getRegeocodeAddress();
                 map_title = isNull(ad.getBuilding())? ad.getFormatAddress():ad.getBuilding();
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+                start_city = ad.getCity();
                 if(marker != null)
                     marker.remove();
                 marker = aMap.addMarker(new MarkerOptions()
@@ -578,6 +580,18 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         View view = LayoutInflater.from(mContext).inflate(R.layout.listitem_marker1, null);
 //        TextView textView  = (TextView) view.findViewById(R.id.textview);
 //        textView.setText(map_title);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(mContext, PublishInforActivity.class);
+                it.putExtra("start_lng", lng);
+                it.putExtra("start_lat", lat);
+                it.putExtra("start_position", map_title);
+                it.putExtra("start_city", start_city);
+
+                startActivity(it);
+            }
+        });
         return view;
     }
 

@@ -26,6 +26,7 @@ import xtom.frame.view.XtomListView;
 
 /**
  * Created by WangYuxia on 2016/6/24.
+ * 选择目的地
  */
 public class SelectEndPositionActivity extends BaseActivity implements PoiSearch.OnPoiSearchListener {
 
@@ -103,6 +104,8 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                content = s.toString();
+                toStartSearch();
             }
 
             @Override

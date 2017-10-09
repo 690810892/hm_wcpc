@@ -105,7 +105,6 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         city = XtomSharedPreferencesUtil.get(mContext, "city");
         aMap = mapView.getMap();
         checkLocation();
-
     }
 
     //检测是否有定位权限
@@ -191,24 +190,18 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
                     end_lng = String.valueOf(loc.getLongitude());
                     end_lat = String.valueOf(loc.getLatitude());
                     data = loc.getAddress();
-
                     citycode = loc.getCity();
                     if(isNull(citycode)){
                         citycode = loc.getProvince();
                     }
-
                     latLonPoint = new LatLonPoint(loc.getLatitude(), loc.getLongitude());
-
                     end_latlng = new LatLng(Double.parseDouble(end_lat), Double.parseDouble(end_lng));
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(end_latlng,
-                            15);
+                            12);
                     aMap.moveCamera(update);
                     break;
                 //停止定位
                 case LocationUtils.MSG_LOCATION_STOP:
-                    log_i("定位停止...");
-                    break;
-                default:
                     break;
             }
         };
@@ -501,7 +494,6 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
                 RegeocodeAddress address = result.getRegeocodeAddress();
                 city = address.getCity();
-
                 if(!isNull(city) && start_city.equals(city)){
                     showTextDialog("抱歉，您发布的行程不能在同一个城市，请重新选择");
                     return;
@@ -513,14 +505,13 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
                 }
 
                 data = result.getRegeocodeAddress().getFormatAddress();
-
                 if(!isNull(address.getBuilding()))
                     data = data + address.getBuilding();
                 else if(!isNull(address.getStreetNumber().getStreet())){
                     data = data+address.getStreetNumber().getNumber();
                 }
 
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(end_latlng, 15));
+                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(end_latlng, 10));
                 if (endMarker == null) {
                     endMarker = aMap.addMarker(new MarkerOptions()
                             .position(end_latlng)
