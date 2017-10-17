@@ -30,7 +30,6 @@ import com.hemaapp.wcpc_user.view.AutoChangeViewPager;
 
 import java.util.ArrayList;
 
-import cn.sharesdk.framework.ShareSDK;
 import xtom.frame.util.XtomToastUtil;
 
 /**
@@ -48,6 +47,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private RelativeLayout layout_pager;
 
     private TextView tv_my_trips; //我的行程
+    private TextView tv_car_owner; //跨城车主
     private TextView tv_publish;
 
     private User user;
@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         if(user == null){
             image_point.setVisibility(View.INVISIBLE);
         }
-        ShareSDK.initSDK(this);
+
         startGeTuiPush();
         getAdvertiseList();
     }
@@ -88,7 +88,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void onDestroy() {
-        ShareSDK.stopSDK(this);
         stopGeTuiPush();
         super.onDestroy();
     }
@@ -96,7 +95,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void initPage(){
         adapter = new TopAddViewPagerAdapter(mContext, infors,
                 layout_pager);
-        adapter.setInfors(infors);
         adapter.notifyDataSetChanged();
         pager.setAdapter(adapter);
         pager.setOnPageChangeListener(new PageChangeListener(adapter));
@@ -214,9 +212,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         title_btn_feedback = (ImageView) findViewById(R.id.title_btn_feedback);
 
         pager = (AutoChangeViewPager) findViewById(R.id.viewpager);
-        layout_pager = (RelativeLayout) findViewById(R.id.layout);
+        layout_pager = (RelativeLayout) findViewById(R.id.relativelayout);
         tv_my_trips = (TextView) findViewById(R.id.tv_my_trip);
         tv_publish = (TextView) findViewById(R.id.tv_publish);
+        tv_car_owner = (TextView) findViewById(R.id.tv_car_owner);
     }
 
     @Override
@@ -230,6 +229,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         tv_my_trips.setOnClickListener(this);
         tv_publish.setOnClickListener(this);
         title_btn_feedback.setOnClickListener(this);
+        tv_car_owner.setOnClickListener(this);
     }
 
     @Override
@@ -261,6 +261,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     startActivity(it);
                 }
                 break;
+            case R.id.tv_car_owner:
+                it = new Intent(mContext, CarOwerListActivity.class);
+                startActivity(it);
+                break;
             case R.id.tv_publish:
                 if(user == null){
                     ToLogin.showLogin(mContext);
@@ -291,6 +295,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             if (mAdapter != null) {
                 ViewGroup indicator = mAdapter.getIndicator();
                 if (indicator != null) {
+                    indicator.setVisibility(View.VISIBLE);
                     RadioButton rbt = (RadioButton) indicator.getChildAt(arg0);
                     if (rbt != null)
                         rbt.setChecked(true);

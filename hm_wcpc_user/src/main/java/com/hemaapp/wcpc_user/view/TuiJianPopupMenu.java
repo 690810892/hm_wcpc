@@ -105,13 +105,13 @@ public class TuiJianPopupMenu extends XtomObject {
   
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));  
-        if(params.height > 540)
-        	params.height = 540;
+        if(params.height > 660)
+        	params.height = 660;
         listView.setLayoutParams(params);
         
         LayoutParams p = new LayoutParams(params.width, params.height+20);
-        if(p.height>540)
-        	p.height = 580;
+        if(p.height>680)
+        	p.height = 690;
         layout.setLayoutParams(p);
     }  
 

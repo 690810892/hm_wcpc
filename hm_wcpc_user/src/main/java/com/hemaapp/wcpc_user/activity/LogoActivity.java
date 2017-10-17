@@ -32,6 +32,7 @@ import com.hemaapp.wcpc_user.module.SysInitInfo;
 import com.hemaapp.wcpc_user.module.User;
 import com.hemaapp.wcpc_user.view.LocationUtils;
 
+import cn.sharesdk.framework.ShareSDK;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**

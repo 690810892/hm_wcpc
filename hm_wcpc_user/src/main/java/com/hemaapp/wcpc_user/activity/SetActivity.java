@@ -45,7 +45,6 @@ import xtom.frame.util.XtomToastUtil;
 
 import static com.hemaapp.hm_FrameWork.HemaUtil.getAppVersionForSever;
 import static com.hemaapp.hm_FrameWork.HemaUtil.isNeedUpDate;
-import static com.hemaapp.wcpc_user.BaseHttpInformation.INIT;
 
 /**
  * Created by WangYuxia on 2016/5/19.

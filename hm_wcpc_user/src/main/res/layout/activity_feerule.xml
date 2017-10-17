@@ -15,10 +15,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@color/white" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="15dp"
+                    android:text="济南市"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="15sp"
+                    android:gravity="center"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:contentDescription="@string/contentdescription"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/transparent"
+                    android:contentDescription="@string/contentdescription"/>
+
+            </LinearLayout>
+
+
+
 
             <ImageView
                 android:layout_width="match_parent"

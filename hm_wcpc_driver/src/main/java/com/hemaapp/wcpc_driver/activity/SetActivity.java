@@ -284,8 +284,8 @@ public class SetActivity extends BaseActivity {
         mWindow.setAnimationStyle(R.style.PopupAnimation);
         mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
                 R.layout.pop_exit, null);
-        exit = (TextView) mViewGroup.findViewById(R.id.textview);
-        cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        exit = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        cancel = (TextView) mViewGroup.findViewById(R.id.textview_0);
         mWindow.setContentView(mViewGroup);
         mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
 

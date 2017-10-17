@@ -31,6 +31,7 @@ public class FeeRuleActivity extends BaseActivity {
     private TextView title;
     private TextView right;
 
+    private TextView tv_city;
     private TextView out_text_count;
     private TextView out_text_distance, out_text_distance_fee, out_text_distance_over, out_text_distance_over_fee;
     private TextView out_fail_distance, out_fail_fee, out_fail_distance_over, out_fail_fee_over;
@@ -54,6 +55,7 @@ public class FeeRuleActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getInfor();
         city = XtomSharedPreferencesUtil.get(mContext, "city");
+        tv_city.setText(city);
     }
 
     private void getInfor(){
@@ -108,6 +110,7 @@ public class FeeRuleActivity extends BaseActivity {
         right = (TextView) findViewById(R.id.title_btn_right);
         title = (TextView) findViewById(R.id.title_text);
 
+        tv_city = (TextView) findViewById(R.id.tv_city);
         out_text_count = (TextView) findViewById(R.id.textview_3);
         out_text_distance = (TextView) findViewById(R.id.textview_4);
         out_text_distance_fee = (TextView) findViewById(R.id.textview_5);

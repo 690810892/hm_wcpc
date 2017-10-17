@@ -31,8 +31,7 @@ import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * Created by WangYuxia on 2016/5/6.
- * type = 1:市内车主
- * type = 2:跨城车主
+ * 跨城车主
  */
 public class CarOwerListActivity extends BaseActivity {
 
@@ -49,7 +48,7 @@ public class CarOwerListActivity extends BaseActivity {
     private ProgressBar progressBar;
     private XtomListView mListView;
 
-    private String type, keytype, lng, lat, orderby = "0", district;
+    private String keytype, lng, lat, orderby = "0", district;
     private int page = 0, index = 0;
     private ArrayList<TripListInfor> infors = new ArrayList<>();
     private TripListAdapter adapter;
@@ -58,13 +57,8 @@ public class CarOwerListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_carowerlist);
         super.onCreate(savedInstanceState);
-        if("1".equals(type)) {
-            title.setText("市内车主");
-            keytype = "2";
-        } else {
-            title.setText("跨城车主");
-            keytype = "3";
-        }
+        title.setText("跨城车主");
+        keytype = "3";
         lng = XtomSharedPreferencesUtil.get(mContext, "lng");
         lat = XtomSharedPreferencesUtil.get(mContext, "lat");
         district = XtomSharedPreferencesUtil.get(mContext, "district");
@@ -205,7 +199,6 @@ public class CarOwerListActivity extends BaseActivity {
 
     @Override
     protected void getExras() {
-        type = mIntent.getStringExtra("type");
     }
 
     @Override

@@ -55,7 +55,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 			String user = "id text primary key, username text, email text, realname text,mobile text, password text, paypassword text, "
 					+ " sex text, avatar text, avatarbig text, lng text, lat text, IDtype text, IDnumber text, regdate text, franchisee_id text, "
 					+ "servicecount text, loginflag text, feeaccount text, token text, android_must_update text, android_last_version text, android_update_url text,"
-					+ "bankuser text, bankname text, bankcard text, bankmobile text, alipay_no text ";
+					+ "bankuser text, bankname text, bankcard text, bankmobile text, alipay_no text, mylength text ";
 			String userSQL = "create table " + USER + " (" + user + ")";
 			db.execSQL(userSQL);
 

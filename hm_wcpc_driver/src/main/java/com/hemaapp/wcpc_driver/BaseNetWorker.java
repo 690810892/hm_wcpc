@@ -185,7 +185,8 @@ public class BaseNetWorker extends HemaNetWorker {
 		BaseHttpInformation information = BaseHttpInformation.PASSWORD_RESET;
 		HashMap<String, String> params = new HashMap<>();
 		params.put("temp_token", temp_token);// 临时令牌
-		params.put("new_password", new_password);// 新密码
+		params.put("new_password", Md5Util.getMd5(XtomConfig.DATAKEY
+				+ Md5Util.getMd5(new_password)));// 新密码
 		params.put("keytype", keytype);// 密码类型 1：登陆密码 2：支付密码
 		params.put("clienttype", clienttype);
 

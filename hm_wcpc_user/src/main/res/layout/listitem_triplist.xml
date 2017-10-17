@@ -30,7 +30,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:text="今天 16:00"
-            android:textColor="@color/shenhui"
+            android:textColor="@color/cl_5e5e5e"
             android:textSize="12sp"/>
 
         <ImageView
@@ -61,8 +61,8 @@
                 android:layout_toRightOf="@id/imageview"
                 android:layout_marginTop="15dp"
                 android:text="用户名称"
-                android:textColor="@color/shenhui"
-                android:textSize="14sp"/>
+                android:textColor="@color/cl_3f3f3f"
+                android:textSize="15sp"/>
 
             <ImageView
                 android:id="@id/imageview_0"
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="起始点"
-                    android:textColor="@color/shenhui"
+                    android:textColor="@color/cl_3f3f3f"
                     android:textSize="13sp"
                     android:maxLines="1"
                     android:ellipsize="end"/>
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="目的地"
-                    android:textColor="@color/shenhui"
+                    android:textColor="@color/cl_3f3f3f"
                     android:textSize="13sp"
                     android:maxLines="1"
                     android:ellipsize="end"/>
@@ -174,7 +174,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:text="车牌号"
-                android:textColor="@color/shenhui"
+                android:textColor="@color/cl_5e5e5e"
                 android:textSize="12sp"/>
 
             <TextView
@@ -194,7 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
                 android:text="元"
-                android:textColor="#f26d5f"
+                android:textColor="@color/cl_4e4d5d"
                 android:textSize="12sp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"/>
@@ -205,12 +205,11 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/textview_7"
                 android:text="180"
-                android:textColor="#f26d5f"
-                android:textSize="15sp"
+                android:textColor="@color/cl_4e4d5d"
+                android:textSize="16sp"
                 android:layout_centerVertical="true"/>
             
         </RelativeLayout>
-
     </LinearLayout>
 
     <ImageView

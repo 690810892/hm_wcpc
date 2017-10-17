@@ -31,7 +31,7 @@ public class hm_WcpcUserApplication extends HemaApplication {
 		Locale.setDefault(Locale.CHINESE);
 		//压缩图片的最大大小
 		XtomConfig.MAX_IMAGE_SIZE = 400;
-		
+
 		//是否进行数字加密
 		XtomConfig.DIGITAL_CHECK = true;
 		XtomConfig.DATAKEY = "9qk2hKHaRTysJqCS"; //后台配置的加密内容，每个项目都不同

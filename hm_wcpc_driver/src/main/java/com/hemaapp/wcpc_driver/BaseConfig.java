@@ -20,7 +20,7 @@ public class BaseConfig {
 	/**
 	 * 后台服务接口根路径
 	 */
-	public static final String SYS_ROOT = "http://124.128.23.74:8008/group3/hm_sfzc/";
+	public static final String SYS_ROOT = "http://124.128.23.74:8008/group24/hm_xjc/";
 //	public static final String SYS_ROOT = "http://101.200.191.117/hm_sfzc/";
 
 	/**

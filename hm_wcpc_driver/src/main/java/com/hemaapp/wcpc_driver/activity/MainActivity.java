@@ -86,6 +86,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         user = hm_WcpcDriverApplication.getInstance().getUser();
         image_point_title.setVisibility(View.INVISIBLE);
+        image_publish.setVisibility(View.GONE);
         if(user == null)
             image_point_title.setVisibility(View.INVISIBLE);
         getNoticeUnread();
@@ -163,7 +164,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void getOrderList(){
-        getNetWorker().driverOrderList(getUser().getToken(), "4", page_order, "", "", "");
+        String lng = XtomSharedPreferencesUtil.get(mContext, "lng");
+        String lat = XtomSharedPreferencesUtil.get(mContext, "lat");
+        getNetWorker().driverOrderList(getUser().getToken(), "4", page_order, "1", lng, lat);
     }
 
     private void getTripsList(){
@@ -222,13 +225,13 @@ public class MainActivity extends BaseActivity {
             case DRIVER_ORDER_LIST:
                 progressBar.setVisibility(View.GONE);
                 layout_myorder.setVisibility(View.VISIBLE);
-                image_publish.setVisibility(View.VISIBLE);
+//                image_publish.setVisibility(View.VISIBLE);
                 layout_qiandan.setVisibility(View.GONE);
                 break;
             case TRIPS_LIST:
                 progressBar.setVisibility(View.GONE);
                 layout_myorder.setVisibility(View.GONE);
-                image_publish.setVisibility(View.GONE);
+//                image_publish.setVisibility(View.GONE);
                 layout_qiandan.setVisibility(View.VISIBLE);
                 break;
             case GRAP_TRIPS:
@@ -451,7 +454,7 @@ public class MainActivity extends BaseActivity {
                 text_myorder.setTextColor(mContext.getResources().getColor(R.color.yellow));
                 image_myorder.setVisibility(View.VISIBLE);
                 layout_myorder.setVisibility(View.VISIBLE);
-                image_publish.setVisibility(View.VISIBLE);
+//                image_publish.setVisibility(View.VISIBLE);
                 text_qiandan.setTextColor(mContext.getResources().getColor(R.color.shenhui));
                 image_qiandan.setVisibility(View.INVISIBLE);
                 layout_qiandan.setVisibility(View.GONE);
@@ -465,7 +468,7 @@ public class MainActivity extends BaseActivity {
                 text_myorder.setTextColor(mContext.getResources().getColor(R.color.yellow));
                 image_myorder.setVisibility(View.INVISIBLE);
                 layout_myorder.setVisibility(View.GONE);
-                image_publish.setVisibility(View.GONE);
+//                image_publish.setVisibility(View.GONE);
                 text_qiandan.setTextColor(mContext.getResources().getColor(R.color.yellow));
                 image_qiandan.setVisibility(View.VISIBLE);
                 layout_qiandan.setVisibility(View.VISIBLE);

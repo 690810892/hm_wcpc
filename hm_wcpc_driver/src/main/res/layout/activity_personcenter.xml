@@ -161,20 +161,18 @@
                     android:src="@color/xian"/>
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@id/textview_3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/img_center_myorder"
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:text="@string/tv_my_order"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
                 <ImageView
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_driver"
                     android:layout_marginLeft="10dp"
@@ -188,7 +186,7 @@
                     android:drawableLeft="@mipmap/img_account"
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:text="@string/tv_my_account"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
@@ -207,7 +205,7 @@
                     android:drawableLeft="@mipmap/img_center_history"
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:text="@string/tv_history_order"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
@@ -226,13 +224,12 @@
                     android:drawableLeft="@mipmap/img_center_changepwd"
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:text="@string/tv_changepwd"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
                 <ImageView
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_driver"
                     android:layout_marginLeft="10dp"
@@ -240,14 +237,13 @@
                     android:src="@color/xian"/>
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@id/textview_7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/img_center_chengke"
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:text="@string/tv_my_person"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>

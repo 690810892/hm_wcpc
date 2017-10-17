@@ -56,7 +56,7 @@ public class CurrentTripsInfor extends XtomObject{
                 sex = get(jsonObject, "sex");
                 avatar = get(jsonObject, "avatar");
 
-                log_e(toString());
+                log_i(toString());
             } catch (JSONException e) {
                 throw new DataParseException(e);
             }

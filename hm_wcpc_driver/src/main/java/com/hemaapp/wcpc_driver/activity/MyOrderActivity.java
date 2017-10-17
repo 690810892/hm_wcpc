@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,7 +25,9 @@ import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.adapter.MyOrderListAdapter;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.OrderListInfor;
+import com.hemaapp.wcpc_driver.module.TypeInfor;
 import com.hemaapp.wcpc_driver.module.User;
+import com.hemaapp.wcpc_driver.view.TypePopupMenu;
 
 import java.util.ArrayList;
 
@@ -249,56 +252,61 @@ public class MyOrderActivity extends BaseActivity {
         });
     }
 
-    private PopupWindow mWindow;
-    private ViewGroup mViewGroup;
-    private TextView tv_orderby_time;
-    private TextView tv_orderby_distance;
+    private TypePopupMenu orderPopMenu = null;
+    private ArrayList<TypeInfor> orderItems;
 
     private void showPopupWindow(){
         if(progressBar.getVisibility() == View.VISIBLE)
             return;
-
+        tv_orderby.setTextColor(0xff212121);
         tv_orderby.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                 R.mipmap.img_arrow_up, 0);
 
-        if (mWindow != null) {
-            mWindow.dismiss();
+        if (orderPopMenu == null) {
+            orderItems = new ArrayList<>();
+            orderItems.add(new TypeInfor("1", "出发时间从早到晚"));
+            orderItems.add(new TypeInfor("2", "始发地距离由近到远"));
+        }else{
+            int index = 0;
+            for(int i = 0; i < orderItems.size(); i++){
+                if(order.equals(orderItems.get(i).getId()))
+                    index = i;
+            }
+            orderPopMenu.setitems(orderItems, index);
         }
-        mWindow = new PopupWindow(mContext);
-        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
-        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
-        mWindow.setBackgroundDrawable(new BitmapDrawable());
-        mWindow.setFocusable(true);
-        mWindow.setAnimationStyle(R.style.PopupAnimation);
-        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
-                R.layout.pop_orderby, null);
-        tv_orderby_time = (TextView) mViewGroup.findViewById(R.id.textview);
-        tv_orderby_distance = (TextView) mViewGroup.findViewById(R.id.textview_0);
-        mWindow.setContentView(mViewGroup);
-        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
 
-        tv_orderby_time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                order = "1";
-                page_notice = 0;
-                getNoticeList();
-                mWindow.dismiss();
-            }
-        });
-
-        tv_orderby_distance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                order = "2";
-                page_notice = 0;
-                getNetWorker();
-                mWindow.dismiss();
-            }
-        });
-        mWindow.showAsDropDown(layout_orderby);
+        orderPopMenu.setlistviewclick(popItemClickListener);
+        orderPopMenu.setondismisslisener(new OnDismissListener());
+        orderPopMenu.showAsDropDown(tv_orderby);
     }
 
+    private AdapterView.OnItemClickListener popItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                long id) {
+            TypeInfor item = (TypeInfor) parent.getItemAtPosition(position);
+            tv_orderby.setText(item.getName());
+            order = item.getId();
+            for (TypeInfor it : orderItems)
+                it.setCheck(false);
+
+            orderPopMenu.dimiss();
+            progressBar.setVisibility(View.VISIBLE);
+            page_notice = 0;
+            getNoticeList();
+            item.setCheck(true);
+        }
+    };
+
+    private class OnDismissListener implements PopupWindow.OnDismissListener {
+
+        @Override
+        public void onDismiss() {
+            tv_orderby.setTextColor(0xff3f3f3f);
+            tv_orderby.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                    R.mipmap.img_arrow_down, 0);
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

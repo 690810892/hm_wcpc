@@ -544,7 +544,7 @@ public class PublishInforActivity extends BaseActivity implements RouteSearch.On
                 end_lat = data.getStringExtra("lat");
                 endposition = data.getStringExtra("data");
                 text_endposition.setText(endposition);
-                text_endposition.setTextColor(0xffff9900);
+                text_endposition.setTextColor(0xff3f3f3f);
                 if(isCalculated){
                     getReDistance();
                 }

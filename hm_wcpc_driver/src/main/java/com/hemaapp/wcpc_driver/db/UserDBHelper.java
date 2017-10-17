@@ -52,8 +52,8 @@ public class UserDBHelper extends DBHelper {
 					+ USER
 					+ " ( id, username, email, realname, mobile, password, paypassword, sex, avatar, avatarbig, lng, lat, IDtype, "
 					+ "IDnumber, regdate, franchisee_id, servicecount, loginflag, feeaccount, token, android_must_update, android_last_version, android_update_url,"
-					+ "bankuser, bankname, bankcard, bankmobile, alipay_no )"
-					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "bankuser, bankname, bankcard, bankmobile, alipay_no, mylength )"
+					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			Object[] bindArgs = new Object[] { user.getId(),
 					user.getUsername(), user.getEmail(), user.getRealname(),
 					user.getMobile(),user.getPassword(), user.getPaypassword(),
@@ -63,7 +63,8 @@ public class UserDBHelper extends DBHelper {
 					user.getLoginflag(), user.getFeeaccount(),
 					user.getToken(), user.getAndroid_must_update(),
 					user.getAndroid_last_version(), user.getAndroid_update_url(),
-					user.getBankuser(), user.getBankname(), user.getBankcard(), user.getBankmobile(), user.getAlipay_no()};
+					user.getBankuser(), user.getBankname(), user.getBankcard(),
+					user.getBankmobile(), user.getAlipay_no(), user.getMylength()};
 			db.execSQL(sql, bindArgs);
 		} catch (SQLException e) {
 			success = false;
@@ -83,7 +84,7 @@ public class UserDBHelper extends DBHelper {
 					+ USER
 					+ " set id=?, username=?, email=?, realname=?, mobile=?, password=?, paypassword=?, sex=?, avatar=?, avatarbig=?, lng=?, lat=?, IDtype=?, "
 					+ "IDnumber=?, regdate=?, franchisee_id=?, servicecount=?, loginflag=?, feeaccount=?, token=?, android_must_update=?, android_last_version=?, android_update_url=?,"
-					+ "bankuser=?, bankname=?, bankcard=?, bankmobile=?, alipay_no=? "
+					+ "bankuser=?, bankname=?, bankcard=?, bankmobile=?, alipay_no=?, mylength=? "
 					+ " where id = '" + user.getId() + "'");
 			Object[] bindArgs = new Object[] { user.getId(),
 					user.getUsername(), user.getEmail(), user.getRealname(),
@@ -94,7 +95,8 @@ public class UserDBHelper extends DBHelper {
 					user.getLoginflag(), user.getFeeaccount(),
 					user.getToken(), user.getAndroid_must_update(),
 					user.getAndroid_last_version(), user.getAndroid_update_url(),
-					user.getBankuser(), user.getBankname(), user.getBankcard(), user.getBankmobile(), user.getAlipay_no()};
+					user.getBankuser(), user.getBankname(), user.getBankcard(), user.getBankmobile(),
+					user.getAlipay_no(), user.getMylength()};
 			db.execSQL(sql, bindArgs);
 		} catch (SQLException e) {
 			success = false;
@@ -161,7 +163,7 @@ public class UserDBHelper extends DBHelper {
 		User user = null;
 		String sql = "select id, username, email, realname, mobile, password, paypassword, sex, avatar, avatarbig, lng, lat, IDtype,"
 				+" IDnumber, regdate, franchisee_id, servicecount, loginflag, feeaccount, token, android_must_update, android_last_version, android_update_url,"
-				+" bankuser, bankname, bankcard, bankmobile, alipay_no from "
+				+" bankuser, bankname, bankcard, bankmobile, alipay_no, mylength from "
 				+ USER + " where username = '" + username + "'";
 		SQLiteDatabase db = getWritableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);

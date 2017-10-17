@@ -1,15 +1,16 @@
 package com.hemaapp.wcpc_user.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompatSideChannelService;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -53,19 +54,14 @@ import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.CurrentTripsInfor;
-import com.hemaapp.wcpc_user.module.OrderListInfor;
 import com.hemaapp.wcpc_user.module.Route;
 import com.hemaapp.wcpc_user.module.User;
 import com.hemaapp.wcpc_user.view.DrivingRoute;
 import com.hemaapp.wcpc_user.view.LocationUtils;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import xtom.frame.image.load.XtomImageTask;
-import xtom.frame.net.XtomHttpUtil;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.util.XtomToastUtil;
 
@@ -77,7 +73,7 @@ import xtom.frame.util.XtomToastUtil;
  */
 public class MyCurrentTripActivity extends BaseActivity implements LocationSource,
         AMapLocationListener, AMap.OnMapClickListener, GeocodeSearch.OnGeocodeSearchListener,
-        AMap.InfoWindowAdapter, RouteSearch.OnRouteSearchListener{
+        AMap.InfoWindowAdapter, RouteSearch.OnRouteSearchListener {
 
     private TextView title;
     private TextView right;
@@ -112,6 +108,10 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     private String lng, lat, start_city;
     private User user;
     private CurrentTripsInfor infor;
+    private RouteSearch routeSearch;
+    private ArrayList<Route> carRoutes = new ArrayList<>();
+    private LatLonPoint toPointExra;
+    private LatLonPoint fromPointExra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,32 +123,72 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         getNetWorker().currentTrips(user.getToken());
     }
 
-    private void initData(){
-        if(infor == null){ //没有当前行程
-            checkLocation();
+    private void initData() {
+        checkLocation();
+        if (infor == null) { //没有当前行程
             layout_top.setVisibility(View.GONE);
             layout_bottom.setVisibility(View.GONE);
-        }else{
+        } else {
             initOrderInfor();
             layout_top.setVisibility(View.VISIBLE);
             layout_bottom.setVisibility(View.VISIBLE);
             drawRoute();
+            initStart();
+            initEnd();
         }
     }
 
-    private RouteSearch routeSearch;
-    private ArrayList<Route> carRoutes = new ArrayList<>();
-    private LatLonPoint toPointExra;
-    private LatLonPoint fromPointExra;
+    private void initEnd() {
+        aMap.setOnMapClickListener(this);
+        aMap.setMyLocationEnabled(true);
 
-    private void drawRoute(){
+        if (!isNull(infor.getLat_end()) && !isNull(infor.getLng_end())) {
+            startSearch();
+        }
+        geocoderSearch = new GeocodeSearch(this);
+        geocoderSearch.setOnGeocodeSearchListener(this);
+    }
+
+    private void startSearch() {
+        LatLng end_latlng = new LatLng(Double.parseDouble(infor.getLat_end()), Double.parseDouble(infor.getLng_end()));
+        Marker endMarker = aMap.addMarker(new MarkerOptions()
+                .position(end_latlng)
+                .title("终点")
+                .icon(BitmapDescriptorFactory
+                        .fromBitmap(BitmapFactory.
+                                decodeResource(getResources(), R.mipmap.img_endposition_logo))));
+
+        toPointExra = new LatLonPoint(Double.parseDouble(infor.getLat_end()), Double.parseDouble(infor.getLng_end()));
+        RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(
+                fromPointExra, toPointExra);
+        RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo,
+                RouteSearch.DrivingDefault, null, null, "");
+        routeSearch.calculateDriveRouteAsyn(query);
+    }
+
+    private void initStart() {
+        LatLng start_latlng = new LatLng(Double.parseDouble(infor.getLat_start()),
+                Double.parseDouble(infor.getLat_start()));
+        Marker startMarker = aMap.addMarker(new MarkerOptions()
+                .position(start_latlng)
+                .title("起点")
+                .icon(BitmapDescriptorFactory
+                        .fromBitmap(BitmapFactory.
+                                decodeResource(getResources(), R.mipmap.img_startposition_logo))));
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(start_latlng,
+                15);
+        aMap.moveCamera(update);
+    }
+
+
+    private void drawRoute() {
         routeSearch = new RouteSearch(this);
         routeSearch.setRouteSearchListener(this);
         fromPointExra = new LatLonPoint(Double.parseDouble(infor.getLat_start()), Double.parseDouble(infor.getLng_start()));
         toPointExra = new LatLonPoint(Double.parseDouble(infor.getLat_end()), Double.parseDouble(infor.getLat_end()));
     }
 
-    private void startDriverUI(){
+    private void startDriverUI() {
         DrivePath drivePath = carRoutes.get(0).getDrivePath();
         if (drivePath != null) {
             DrivingRoute drivingRouteOverlay = new DrivingRoute(
@@ -161,8 +201,8 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         }
     }
 
-    private void initOrderInfor(){
-        switch (infor.getStatus()){
+    private void initOrderInfor() {
+        switch (infor.getStatus()) {
             case "0": //待接单，不显示司机信息
                 image_avatar.setVisibility(View.GONE);
                 tv_nickname.setVisibility(View.INVISIBLE);
@@ -171,7 +211,8 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                 tv_status.setTextColor(0xff25a4df);
                 tv_car_brand.setVisibility(View.INVISIBLE);
                 layout_order.setClickable(false);
-                tv_car_no.setText(View.INVISIBLE);
+                tv_car_no.setVisibility(View.INVISIBLE);
+
                 bt_ok.setVisibility(View.GONE);
                 bt_cancel.setVisibility(View.VISIBLE);
                 bt_cancel.setText("取消订单");
@@ -186,10 +227,10 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                 Double d_lng = Double.parseDouble(lng);
                 Double d_lat = Double.parseDouble(lat);
                 Double distance = BaseUtil.GetDistance(d_lat, d_lng, Double.parseDouble(infor.getLat()), Double.parseDouble(infor.getLng()));
-                tv_status.setText("距离"+BaseUtil.transDistance(Float.parseFloat(String.valueOf(distance))));
+                tv_status.setText("距离" + BaseUtil.transDistance(Float.parseFloat(String.valueOf(distance))));
                 tv_status.setTextColor(0xff25a4df);
                 tv_car_brand.setVisibility(View.VISIBLE);
-                tv_car_no.setText(View.VISIBLE);
+                tv_car_no.setVisibility(View.VISIBLE);
                 bt_ok.setVisibility(View.VISIBLE);
                 bt_ok.setText("确认上车");
                 bt_cancel.setVisibility(View.VISIBLE);
@@ -203,7 +244,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                 tv_status.setText("到达目的地");
                 tv_status.setTextColor(getResources().getColor(R.color.yellow));
                 tv_car_brand.setVisibility(View.VISIBLE);
-                tv_car_no.setText(View.VISIBLE);
+                tv_car_no.setVisibility(View.VISIBLE);
                 bt_ok.setVisibility(View.VISIBLE);
                 bt_ok.setText("去支付");
                 bt_cancel.setVisibility(View.GONE);
@@ -212,7 +253,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
 
         tv_startaddress.setText(infor.getStartaddress());
         tv_endaddress.setText(infor.getEndaddress());
-        if("0".equals(infor.getIs_pool()))
+        if ("0".equals(infor.getIs_pool()))
             tv_money.setText(infor.getFailfee());
         else
             tv_money.setText(infor.getSuccessfee());
@@ -224,6 +265,10 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             img_sex.setImageResource(R.mipmap.img_sex_girl);
         tv_car_brand.setText(infor.getCarbrand());
         tv_car_no.setText(infor.getCarnumber());
+        if ("1".equals(infor.getIs_pool()))
+            tv_money.setText(infor.getSuccessfee());
+        else
+            tv_money.setText(infor.getFailfee());
         layout_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,7 +294,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         }
     }
 
-    private void init(){
+    private void init() {
         prepareLocation();
         if (aMap == null) {
             aMap = mapView.getMap();
@@ -262,7 +307,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         }
     }
 
-    private void prepareLocation(){
+    private void prepareLocation() {
         locationClient = new AMapLocationClient(getApplicationContext());
         locationOption = new AMapLocationClientOption();
         // 设置定位模式为高精度模式
@@ -295,7 +340,6 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         aMap.setInfoWindowAdapter(this);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -324,7 +368,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     @Override
     protected void callBeforeDataBack(HemaNetTask hemaNetTask) {
         BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
-        switch (information){
+        switch (information) {
             case CURRENT_TRIPS:
                 showProgressDialog("请稍后...");
                 break;
@@ -334,7 +378,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     @Override
     protected void callAfterDataBack(HemaNetTask hemaNetTask) {
         BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
-        switch (information){
+        switch (information) {
             case CURRENT_TRIPS:
                 cancelProgressDialog();
                 break;
@@ -344,10 +388,10 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     @Override
     protected void callBackForServerSuccess(HemaNetTask hemaNetTask, HemaBaseResult hemaBaseResult) {
         BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
-        switch (information){
+        switch (information) {
             case CURRENT_TRIPS:
                 HemaArrayResult<CurrentTripsInfor> cResult = (HemaArrayResult<CurrentTripsInfor>) hemaBaseResult;
-                if(cResult.getObjects() != null && cResult.getObjects().size() > 0)
+                if (cResult.getObjects() != null && cResult.getObjects().size() > 0)
                     infor = cResult.getObjects().get(0);
                 initData();
                 break;
@@ -357,7 +401,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     @Override
     protected void callBackForGetDataFailed(HemaNetTask hemaNetTask, int i) {
         BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
-        switch (information){
+        switch (information) {
             case CURRENT_TRIPS:
                 showTextDialog("抱歉，获取当前行程失败");
                 break;
@@ -405,7 +449,18 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         layout_bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showTextDialog("此处要跳转到高德地图来处理");
+                if (isAvilible(mContext, "com.autonavi.minimap")) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    Uri uri = Uri.parse("androidamap://navi?sourceApplication="+mContext.getResources().getString(R.string.app_name)
+                            +"&amp;poiname="+infor.getStartaddress()+"g&amp;lat="+infor.getLat()+"&amp;lon="+infor.getLng_start()
+                            +"&amp;dev=1&amp;style=2");
+                    intent.setData(uri);
+                    startActivity(intent);
+                } else {
+                    showTextDialog("您尚未安装高德地图或地图版本过低");
+                }
             }
         });
 
@@ -438,11 +493,29 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         });
     }
 
+    public static boolean isAvilible(Context context, String packageName) {
+        //获取packagemanager
+        final PackageManager packageManager = context.getPackageManager();
+        //获取所有已安装程序的包信息
+        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+        //用于存储所有已安装程序的包名
+        List<String> packageNames = new ArrayList<>();
+        //从pinfo中将包名字逐一取出，压入pName list中
+        if (packageInfos != null) {
+            for (int i = 0; i < packageInfos.size(); i++) {
+                String packName = packageInfos.get(i).packageName;
+                packageNames.add(packName);
+            }
+        }
+        //判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
+        return packageNames.contains(packageName);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
-        switch (requestCode){
+        switch (requestCode) {
             case R.id.layout:
             case R.id.layout_1:
                 getNetWorker().currentTrips(user.getToken());
@@ -474,22 +547,24 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                     break;
                 // 定位完成
                 case LocationUtils.MSG_LOCATION_FINISH:
-                    AMapLocation loc = (AMapLocation) msg.obj;
-                    lng = String.valueOf(loc.getLongitude());
-                    lat = String.valueOf(loc.getLatitude());
-                    XtomSharedPreferencesUtil.save(mContext, "lng", lng);
-                    XtomSharedPreferencesUtil.save(mContext, "lat", lat);
-                    latLonPoint = new LatLonPoint(loc.getLatitude(), loc.getLongitude());
+                    if (infor == null) {
+                        AMapLocation loc = (AMapLocation) msg.obj;
+                        lng = String.valueOf(loc.getLongitude());
+                        lat = String.valueOf(loc.getLatitude());
+                        XtomSharedPreferencesUtil.save(mContext, "lng", lng);
+                        XtomSharedPreferencesUtil.save(mContext, "lat", lat);
+                        latLonPoint = new LatLonPoint(loc.getLatitude(), loc.getLongitude());
 
-                    latLonPoint = new LatLonPoint(Double.parseDouble(lat), Double.parseDouble(lng));
-                    latlng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
-                    RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200,
-                            GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
-                    geocoderSearch.getFromLocationAsyn(query);// 设置同步逆地理编码请求
+                        latLonPoint = new LatLonPoint(Double.parseDouble(lat), Double.parseDouble(lng));
+                        latlng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+                        RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200,
+                                GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+                        geocoderSearch.getFromLocationAsyn(query);// 设置同步逆地理编码请求
 
-                    CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latlng,
-                            15);
-                    aMap.moveCamera(update);
+                        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latlng,
+                                15);
+                        aMap.moveCamera(update);
+                    }
                     break;
                 //停止定位
                 case LocationUtils.MSG_LOCATION_STOP:
@@ -504,7 +579,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
         startLocation();
     }
 
-    private void startLocation(){
+    private void startLocation() {
         // 启动定位
         locationClient.startLocation();
         mHandler.sendEmptyMessage(LocationUtils.MSG_LOCATION_START);
@@ -526,10 +601,10 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
                 RegeocodeAddress ad = result.getRegeocodeAddress();
-                map_title = isNull(ad.getBuilding())? ad.getFormatAddress():ad.getBuilding();
+                map_title = isNull(ad.getBuilding()) ? ad.getFormatAddress() : ad.getBuilding();
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
                 start_city = ad.getCity();
-                if(marker != null)
+                if (marker != null)
                     marker.remove();
                 marker = aMap.addMarker(new MarkerOptions()
                         .position(latlng)
@@ -578,8 +653,6 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     @Override
     public View getInfoWindow(Marker marker) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.listitem_marker1, null);
-//        TextView textView  = (TextView) view.findViewById(R.id.textview);
-//        textView.setText(map_title);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

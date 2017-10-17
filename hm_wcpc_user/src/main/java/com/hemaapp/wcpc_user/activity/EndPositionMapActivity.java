@@ -134,7 +134,6 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
         if (requestCode == 3) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED ||
                     grantResults[1] != PackageManager.PERMISSION_GRANTED){//未获得定位权限
