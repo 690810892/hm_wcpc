@@ -27,7 +27,7 @@ public class ButtonDialog extends XtomObject {
         mDialog = new Dialog(context, R.style.dialog);
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.button_dialog, null);
-        mContent = (ViewGroup) view.findViewById(R.id.content);
+        mContent = (ViewGroup) view.findViewById(R.id.father);
         mTextView = (TextView) view.findViewById(R.id.textview);
         leftButton = (TextView) view.findViewById(R.id.left);
         leftButton.setOnClickListener(new View.OnClickListener() {

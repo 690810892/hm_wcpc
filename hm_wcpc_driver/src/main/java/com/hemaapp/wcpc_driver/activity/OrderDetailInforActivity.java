@@ -275,7 +275,7 @@ public class OrderDetailInforActivity extends BaseActivity {
                 String value = ((TextView) v).getText().toString();
                 if("接到乘客".equals(value)){
                     getNetWorker().orderOperate(user.getToken(), "7", order_id, "", "");
-                }else if("送达".equals(value)){
+                }else if(value.contains("送达")){
                     getNetWorker().orderOperate(user.getToken(), "2", order_id, "", "");
                 }
             }

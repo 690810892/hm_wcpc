@@ -175,6 +175,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
         String version = HemaUtil.getAppVersionForSever(mContext);
         if (HemaUtil.isNeedUpDate(version, sysVersion)) {
             upGrade.alert();
+
         } else {
             // 登录
             checkLogin();
@@ -250,8 +251,6 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
                 hm_WcpcUserApplication.getInstance().setUser(null);
                 XtomSharedPreferencesUtil.save(mContext, "isAutoLogin", "false");
                 toMain();
-                break;
-            default:
                 break;
         }
     }
@@ -350,6 +349,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
                     XtomSharedPreferencesUtil.save(mContext, "address", address);
                     XtomSharedPreferencesUtil.save(mContext, "district", loc.getProvince() + loc.getCity());
                     XtomSharedPreferencesUtil.save(mContext, "city", city);
+                    checkLogin();
                     break;
                 //停止定位
                 case LocationUtils.MSG_LOCATION_STOP:

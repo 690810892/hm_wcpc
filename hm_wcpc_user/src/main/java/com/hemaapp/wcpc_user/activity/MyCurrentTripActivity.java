@@ -210,9 +210,8 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                 tv_status.setText("等待接单");
                 tv_status.setTextColor(0xff25a4df);
                 tv_car_brand.setVisibility(View.INVISIBLE);
-                layout_order.setClickable(false);
+                layout_order.setEnabled(false);
                 tv_car_no.setVisibility(View.INVISIBLE);
-
                 bt_ok.setVisibility(View.GONE);
                 bt_cancel.setVisibility(View.VISIBLE);
                 bt_cancel.setText("取消订单");
@@ -221,7 +220,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                 image_avatar.setVisibility(View.VISIBLE);
                 tv_nickname.setVisibility(View.VISIBLE);
                 img_sex.setVisibility(View.VISIBLE);
-                layout_order.setClickable(true);
+                layout_order.setEnabled(true);
                 lng = XtomSharedPreferencesUtil.get(mContext, "lng");
                 lat = XtomSharedPreferencesUtil.get(mContext, "lat");
                 Double d_lng = Double.parseDouble(lng);
@@ -236,11 +235,11 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                 bt_cancel.setVisibility(View.VISIBLE);
                 bt_cancel.setText("取消订单");
                 break;
-            case "2":
+            case "2": //待支付
                 image_avatar.setVisibility(View.VISIBLE);
                 tv_nickname.setVisibility(View.VISIBLE);
                 img_sex.setVisibility(View.VISIBLE);
-                layout_order.setClickable(true);
+                layout_order.setEnabled(true);
                 tv_status.setText("到达目的地");
                 tv_status.setTextColor(getResources().getColor(R.color.yellow));
                 tv_car_brand.setVisibility(View.VISIBLE);
