@@ -1,6 +1,7 @@
 package com.hemaapp.wcpc_user.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -428,5 +429,18 @@ public class RegisterStepThreeActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    //读取相册的权限
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 3) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                imageWay.album();
+            } else {
+                showTextDialog("没有相册权限，请添加后重试");
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

@@ -137,7 +137,6 @@ public class OrderDetialInforActivity extends BaseActivity {
                         text_operate_1.setVisibility(View.GONE);
                         text_operate_0.setVisibility(View.GONE);
                     }
-
                     text_operate_0.setText("确认上车");
                     text_operate_1.setText("取消订单");
                 } else { //已送达
@@ -214,6 +213,8 @@ public class OrderDetialInforActivity extends BaseActivity {
                     else
                         textView1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.img_agree_n, 0,
                                 0, 0);
+                }else{
+                    textView1.setVisibility(View.INVISIBLE);
                 }
                 layout.addView(view);
             }
@@ -351,6 +352,7 @@ public class OrderDetialInforActivity extends BaseActivity {
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_OK, mIntent);
                 finish();
             }
         });
@@ -397,6 +399,13 @@ public class OrderDetialInforActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected boolean onKeyBack() {
+        setResult(RESULT_OK, mIntent);
+        finish();
+        return true;
     }
 
     private ButtonDialog mDialog;

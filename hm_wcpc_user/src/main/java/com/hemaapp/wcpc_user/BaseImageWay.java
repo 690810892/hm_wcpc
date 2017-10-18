@@ -1,11 +1,15 @@
 package com.hemaapp.wcpc_user;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,13 +131,38 @@ public class BaseImageWay extends XtomObject {
 	private void click(int which) {
 		switch (which) {
 		case 0:
-			album();
+			checkAlbum();
 			break;
 		case 1:
 			camera();
 			break;
 		case 2:
 			break;
+		}
+	}
+
+	//检查相册权限
+	private void checkAlbum(){
+		if(mContext != null){
+			if (ContextCompat.checkSelfPermission(mContext,
+					Manifest.permission.WRITE_EXTERNAL_STORAGE)
+					!= PackageManager.PERMISSION_GRANTED) {//判断是否拥有读取相册的权限
+				ActivityCompat.requestPermissions(mContext,
+						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,},
+						3);
+			} else {
+				album();
+			}
+		}else if(mFragment != null){
+			if (ContextCompat.checkSelfPermission(mFragment.getActivity(),
+					Manifest.permission.WRITE_EXTERNAL_STORAGE)
+					!= PackageManager.PERMISSION_GRANTED) {//判断是否拥有读取相册的权限
+				ActivityCompat.requestPermissions(mFragment.getActivity(),
+						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+						3);
+			} else {
+				album();
+			}
 		}
 	}
 

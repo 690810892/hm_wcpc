@@ -266,6 +266,7 @@ public class MyOrderActivity extends BaseActivity {
             orderItems = new ArrayList<>();
             orderItems.add(new TypeInfor("1", "出发时间从早到晚"));
             orderItems.add(new TypeInfor("2", "始发地距离由近到远"));
+            orderPopMenu = new TypePopupMenu(mContext, orderItems, 0);
         }else{
             int index = 0;
             for(int i = 0; i < orderItems.size(); i++){
@@ -284,7 +285,7 @@ public class MyOrderActivity extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
-            TypeInfor item = (TypeInfor) parent.getItemAtPosition(position);
+            TypeInfor item = orderItems.get(position);
             tv_orderby.setText(item.getName());
             order = item.getId();
             for (TypeInfor it : orderItems)

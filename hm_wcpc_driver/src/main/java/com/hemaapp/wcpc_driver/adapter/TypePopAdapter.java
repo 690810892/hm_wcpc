@@ -72,9 +72,9 @@ public class TypePopAdapter extends HemaAdapter {
         TypeInfor type = types.get(i);
         holder.text_type.setText(type.getName());
         if(i == index)
-            holder.text_type.setTextColor(0xff212121);
-        else
             holder.text_type.setTextColor(0xff3f3f3f);
+        else
+            holder.text_type.setTextColor(0xff5e5e5e);
         return view;
     }
 

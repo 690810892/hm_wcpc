@@ -225,7 +225,9 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                 lat = XtomSharedPreferencesUtil.get(mContext, "lat");
                 Double d_lng = Double.parseDouble(lng);
                 Double d_lat = Double.parseDouble(lat);
-                Double distance = BaseUtil.GetDistance(d_lat, d_lng, Double.parseDouble(infor.getLat()), Double.parseDouble(infor.getLng()));
+                Double distance = BaseUtil.GetDistance(d_lat, d_lng,
+                        Double.parseDouble(isNull(infor.getLat())? "0.0" : infor.getLat()),
+                        Double.parseDouble(isNull(infor.getLng())? "0.0" : infor.getLng()));
                 tv_status.setText("距离" + BaseUtil.transDistance(Float.parseFloat(String.valueOf(distance))));
                 tv_status.setTextColor(0xff25a4df);
                 tv_car_brand.setVisibility(View.VISIBLE);
@@ -268,14 +270,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             tv_money.setText(infor.getSuccessfee());
         else
             tv_money.setText(infor.getFailfee());
-        layout_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(mContext, OrderDetialInforActivity.class);
-                it.putExtra("id", infor.getId());
-                mContext.startActivity(it);
-            }
-        });
+
     }
 
     private void checkLocation() {
@@ -463,6 +458,15 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             }
         });
 
+
+        layout_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(mContext, OrderDetialInforActivity.class);
+                it.putExtra("id", infor.getOrder_id());
+                startActivityForResult(it, R.id.layout_1);
+            }
+        });
         //取消订单
         bt_cancel.setOnClickListener(new View.OnClickListener() {
             @Override

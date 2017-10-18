@@ -57,9 +57,9 @@ public class HistoryOrderActivity extends BaseActivity {
     private ArrayList<HistoryOrderListViewPagerAdapter.Params> getParams(){
         ArrayList<HistoryOrderListViewPagerAdapter.Params> list = new ArrayList<>();
         list.add(0,new HistoryOrderListViewPagerAdapter.Params("0")); //全部
-        list.add(3,new HistoryOrderListViewPagerAdapter.Params("1")); //已取消
-        list.add(4,new HistoryOrderListViewPagerAdapter.Params("2")); //待评价
-        list.add(5,new HistoryOrderListViewPagerAdapter.Params("3")); //已完成
+        list.add(1,new HistoryOrderListViewPagerAdapter.Params("1")); //已取消
+        list.add(2,new HistoryOrderListViewPagerAdapter.Params("2")); //待评价
+        list.add(3,new HistoryOrderListViewPagerAdapter.Params("3")); //已完成
         return list;
     }
 
