@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><!--广告的轮播图--><!--create by uu--><!--Date:2016.09.24-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="horizontal" />
+</FrameLayout>

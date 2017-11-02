@@ -30,6 +30,7 @@
             android:textSize="35sp"/>
 
         <TextView
+            android:id="@+id/tv_danwei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/textview_0"

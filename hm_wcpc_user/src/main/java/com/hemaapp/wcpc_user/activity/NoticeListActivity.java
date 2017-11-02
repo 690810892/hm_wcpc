@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,7 +46,7 @@ public class NoticeListActivity extends BaseActivity {
 
     private ImageView left;
     private TextView title;
-    private TextView right;
+    private ImageView right;
 
     private LinearLayout order;
     private TextView text_order;
@@ -62,7 +63,7 @@ public class NoticeListActivity extends BaseActivity {
     private XtomListView list_system;
     private ProgressBar progressBar;
 
-    private String flag = "1"; //flag = 1:订单消息，flag = 2：系统消息
+    private String flag = "2"; //flag = 1:订单消息，flag = 2：系统消息
     private ArrayList<NoticeListInfor> orders = new ArrayList<>();
     private int page_order = 0;
     private NoticeListAdapter adapter_order;
@@ -74,6 +75,7 @@ public class NoticeListActivity extends BaseActivity {
     private User user;
     private int count_order;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_noticelist);
@@ -82,12 +84,12 @@ public class NoticeListActivity extends BaseActivity {
         getNoticeUnread();
     }
 
-    private void getNoticeUnread(){
+    private void getNoticeUnread() {
         getNetWorker().noticeUnread(user.getToken(), "2", "1");
     }
 
-    private void getNoticeList(String keytype, int page){
-        getNetWorker().noticeList(user.getToken(), keytype, "1", page);
+    private void getNoticeList(int page) {
+        getNetWorker().noticeList(user.getToken(), "1", "1", page);
     }
 
     @Override
@@ -116,10 +118,10 @@ public class NoticeListActivity extends BaseActivity {
                 break;
             case NOTICE_LIST:
                 progressBar.setVisibility(View.GONE);
-                if("1".equals(flag)){
+                if ("1".equals(flag)) {
                     layout_order.setVisibility(View.VISIBLE);
                     layout_system.setVisibility(View.GONE);
-                }else{
+                } else {
                     layout_order.setVisibility(View.GONE);
                     layout_system.setVisibility(View.VISIBLE);
                 }
@@ -141,93 +143,61 @@ public class NoticeListActivity extends BaseActivity {
         switch (information) {
             case NOTICE_UNREAD:
                 HemaArrayResult<String> sResult = (HemaArrayResult<String>) baseResult;
-                count_order = Integer.parseInt(isNull(sResult.getObjects().get(0))?"0": sResult.getObjects().get(0));
-                if(count_order == 0)
+                count_order = Integer.parseInt(isNull(sResult.getObjects().get(0)) ? "0" : sResult.getObjects().get(0));
+                if (count_order == 0)
                     image_point.setVisibility(View.INVISIBLE);
-                else{
+                else {
                     image_point.setVisibility(View.VISIBLE);
                 }
-                getNoticeList("2", page_order);
+                getNoticeList(page_order);
                 break;
             case NOTICE_LIST:
                 String page = netTask.getParams().get("page");
-                String keytype = netTask.getParams().get("keytype");
                 HemaPageArrayResult<NoticeListInfor> cResult = (HemaPageArrayResult<NoticeListInfor>) baseResult;
                 ArrayList<NoticeListInfor> cashs = cResult.getObjects();
                 hm_WcpcUserApplication application = hm_WcpcUserApplication.getInstance();
                 int sysPagesize = application.getSysInitInfo()
                         .getSys_pagesize();
-
                 if ("0".equals(page)) {// 刷新
-                    if("2".equals(keytype)){
-                        layout_order.refreshSuccess();
-                        orders.clear();
-                        orders.addAll(cashs);
+                    layout_system.refreshSuccess();
+                    notices.clear();
+                    notices.addAll(cashs);
 
-                        if (cashs.size() < sysPagesize)
-                            layout_order.setLoadmoreable(false);
-                        else
-                            layout_order.setLoadmoreable(true);
-                    }else{
-                        layout_system.refreshSuccess();
-                        notices.clear();
-                        notices.addAll(cashs);
-
-                        if (cashs.size() < sysPagesize)
-                            layout_system.setLoadmoreable(false);
-                        else
-                            layout_system.setLoadmoreable(true);
-                    }
+                    if (cashs.size() < sysPagesize)
+                        layout_system.setLoadmoreable(false);
+                    else
+                        layout_system.setLoadmoreable(true);
 
                 } else {// 更多
-                    if("2".equals(keytype)){
-                        layout_order.loadmoreSuccess();
-                        if (cashs.size() > 0)
-                            orders.addAll(cashs);
-                        else {
-                            layout_order.setLoadmoreable(false);
-                            XtomToastUtil.showShortToast(mContext, "已经到最后啦");
-                        }
-                    }else{
-                        layout_system.loadmoreSuccess();
-                        if (cashs.size() > 0)
-                            notices.addAll(cashs);
-                        else {
-                            layout_system.setLoadmoreable(false);
-                            XtomToastUtil.showShortToast(mContext, "已经到最后啦");
-                        }
+                    layout_system.loadmoreSuccess();
+                    if (cashs.size() > 0)
+                        notices.addAll(cashs);
+                    else {
+                        layout_system.setLoadmoreable(false);
+                        XtomToastUtil.showShortToast(mContext, "已经到最后啦");
                     }
                 }
                 freshData();
                 break;
             case NOTICE_SAVEOPERATE:
-                if("1".equals(flag)){
                     String operatetype = netTask.getParams().get("operatetype");
-                    if("3".equals(operatetype)){
+                    if ("3".equals(operatetype)) {
                         orders.remove(adapter_order.deleteinfor);
                         adapter_order.notifyDataSetChanged();
-                    }else if("1".equals(operatetype)){
+                    } else if ("1".equals(operatetype)) {
                         adapter_order.deleteinfor.setLooktype("2");
                         adapter_order.notifyDataSetChanged();
-                    }else if("4".equals(operatetype)){
+                    } else if ("2".equals(operatetype)) {
+                        getNoticeUnread();
+                    } else if ("4".equals(operatetype)) {
                         getNoticeUnread();
                     }
-                }else{
-                    String operatetype = netTask.getParams().get("operatetype");
-                    if("3".equals(operatetype)){
-                        notices.remove(adapter_notice.deleteinfor);
-                        adapter_notice.notifyDataSetChanged();
-                    }else if("4".equals(operatetype)){
-                        notices.clear();
-                        adapter_notice.notifyDataSetChanged();
-                    }
-                }
                 break;
         }
     }
 
     private void freshData() {
-        if("1".equals(flag)){
+        if ("1".equals(flag)) {
             if (adapter_order == null) {
                 adapter_order = new NoticeListAdapter(mContext, orders);
                 adapter_order.setEmptyString("暂时没有记录");
@@ -236,7 +206,7 @@ public class NoticeListActivity extends BaseActivity {
                 adapter_order.setEmptyString("暂时没有记录");
                 adapter_order.notifyDataSetChanged();
             }
-        }else{
+        } else {
             if (adapter_notice == null) {
                 adapter_notice = new OrderListAdapter(mContext, notices);
                 adapter_notice.setEmptyString("暂时没有记录");
@@ -257,13 +227,13 @@ public class NoticeListActivity extends BaseActivity {
             case NOTICE_LIST:
                 String page = netTask.getParams().get("page");
                 if ("0".equals(page)) {// 刷新
-                    if("1".equals(flag))
+                    if ("1".equals(flag))
                         layout_order.refreshFailed();
                     else
                         layout_system.refreshFailed();
                     freshData();
                 } else {// 更多
-                    if("1".equals(flag))
+                    if ("1".equals(flag))
                         layout_order.loadmoreFailed();
                     else
                         layout_system.loadmoreFailed();
@@ -280,13 +250,13 @@ public class NoticeListActivity extends BaseActivity {
             case NOTICE_LIST:
                 String page = netTask.getParams().get("page");
                 if ("0".equals(page)) {// 刷新
-                    if("1".equals(flag))
+                    if ("1".equals(flag))
                         layout_order.refreshFailed();
                     else
                         layout_system.refreshFailed();
                     freshData();
                 } else {// 更多
-                    if("1".equals(flag))
+                    if ("1".equals(flag))
                         layout_order.loadmoreFailed();
                     else
                         layout_system.loadmoreFailed();
@@ -298,7 +268,7 @@ public class NoticeListActivity extends BaseActivity {
     @Override
     protected void findView() {
         left = (ImageView) findViewById(R.id.title_btn_left);
-        right = (TextView) findViewById(R.id.title_btn_right);
+        right = (ImageView) findViewById(R.id.title_btn_right);
         title = (TextView) findViewById(R.id.title_text);
 
         order = (LinearLayout) findViewById(R.id.layout_0);
@@ -331,56 +301,16 @@ public class NoticeListActivity extends BaseActivity {
                 finish();
             }
         });
-        right.setText("清空");
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showClearWindow();
+                showPopWindow();
             }
         });
-
-        order.setOnClickListener(new View.OnClickListener() {
+        list_order.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                text_order.setTextColor(mContext.getResources().getColor(R.color.yellow));
-                image_order.setVisibility(View.VISIBLE);
-                text_system.setTextColor(mContext.getResources().getColor(R.color.cl_a0a0a0));
-                image_system.setVisibility(View.INVISIBLE);
-                layout_order.setVisibility(View.VISIBLE);
-                layout_system.setVisibility(View.GONE);
-                flag = "1";
-            }
-        });
-
-        system.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text_order.setTextColor(mContext.getResources().getColor(R.color.cl_a0a0a0));
-                image_order.setVisibility(View.INVISIBLE);
-                text_system.setTextColor(mContext.getResources().getColor(R.color.yellow));
-                image_system.setVisibility(View.VISIBLE);
-                layout_order.setVisibility(View.GONE);
-                layout_system.setVisibility(View.VISIBLE);
-                flag = "2";
-                if(isFrist){
-                    isFrist = false;
-                    progressBar.setVisibility(View.VISIBLE);
-                    getNoticeList("1", page_notice);
-                }
-            }
-        });
-
-        layout_order.setOnStartListener(new XtomRefreshLoadmoreLayout.OnStartListener() {
-            @Override
-            public void onStartRefresh(XtomRefreshLoadmoreLayout xtomRefreshLoadmoreLayout) {
-                page_order = 0;
-               getNoticeUnread();
-            }
-
-            @Override
-            public void onStartLoadmore(XtomRefreshLoadmoreLayout xtomRefreshLoadmoreLayout) {
-                page_order ++;
-                getNoticeList("2", page_order);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getNetWorker().noticeSaveOperate(user.getToken(), notices.get(position).getId(), "1", "1");
             }
         });
 
@@ -388,25 +318,25 @@ public class NoticeListActivity extends BaseActivity {
             @Override
             public void onStartRefresh(XtomRefreshLoadmoreLayout xtomRefreshLoadmoreLayout) {
                 page_notice = 0;
-                getNoticeList("1", page_notice);
+                getNoticeList(page_notice);
             }
 
             @Override
             public void onStartLoadmore(XtomRefreshLoadmoreLayout xtomRefreshLoadmoreLayout) {
-                page_notice ++;
-                getNoticeList("1", page_notice);
+                page_notice++;
+                getNoticeList(page_notice);
             }
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
-        switch (requestCode){
+        switch (requestCode) {
             case R.id.layout:
                 page_order = 0;
-                getNoticeList("1", page_order);
+                getNoticeList(page_order);
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -444,10 +374,48 @@ public class NoticeListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
-                if("1".equals(flag))
-                    getNetWorker().noticeSaveOperate(user.getToken(), "0", "2", "1", "4");
-                else
-                    getNetWorker().noticeSaveOperate(user.getToken(), "0", "1", "1", "4");
+                getNetWorker().noticeSaveOperate(user.getToken(), "0", "1", "4");
+            }
+        });
+    }
+
+    private void showPopWindow() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_sex, null);
+        TextView boy = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView girl = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        TextView cancel = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        boy.setText("清空");
+        girl.setText("全部已读");
+        boy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                showClearWindow();
+            }
+        });
+        girl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                getNetWorker().noticeSaveOperate(user.getToken(), "0", "1", "2");
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
             }
         });
     }

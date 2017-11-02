@@ -46,12 +46,20 @@ public class User extends HemaUser {
 	private String bankcard; //卡号
 	private String bankmobile; //银行预留手机号
 	private String alipay_no; //支付宝账号
+	private String alipay_name;
 
 	private String mylength;
+	private String filenumber;
+	private String totalpoint; //	总评分	计算平均星级
+	private String replycount; //	被评分次数
 
 	public User(JSONObject jsonObject) throws DataParseException {
 		super(jsonObject);
 		try {
+			totalpoint= get(jsonObject, "totalpoint");
+			replycount= get(jsonObject, "replycount");
+			alipay_name= get(jsonObject, "alipay_name");
+			filenumber = get(jsonObject, "filenumber");
 			id = get(jsonObject, "id");
 			username = get(jsonObject, "username");
 			email = get(jsonObject, "email");
@@ -96,10 +104,14 @@ public class User extends HemaUser {
                 String loginflag, String feeaccount, String token,
                 String android_must_update, String android_last_version,
                 String android_update_url, String bankuser, String bankname, String bankcard,
-                String bankmobile, String alipay_no, String mylength) {
+                String bankmobile, String alipay_no, String mylength, String filenumber,String alipay_name,String totalpoint,String replycount) {
 		super(token);
 		this.id = id;
+		this.totalpoint = totalpoint;
+		this.replycount = replycount;
+		this.alipay_name = alipay_name;
 		this.username = username;
+		this.filenumber = filenumber;
 		this.email = email;
 		this.realname = realname;
 		this.mobile = mobile;
@@ -159,7 +171,9 @@ public class User extends HemaUser {
 				", bankcard='" + bankcard + '\'' +
 				", bankmobile='" + bankmobile + '\'' +
 				", alipay_no='" + alipay_no + '\'' +
+				", alipay_name='" + alipay_name + '\'' +
 				", mylength='" + mylength + '\'' +
+				", filenumber='" + filenumber + '\'' +
 				'}';
 	}
 
@@ -169,6 +183,18 @@ public class User extends HemaUser {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getTotalpoint() {
+		if (isNull(totalpoint))
+			totalpoint="0";
+		return totalpoint;
+	}
+
+	public String getReplycount() {
+		if (isNull(replycount))
+			replycount="0";
+		return replycount;
 	}
 
 	public String getAndroid_must_update() {
@@ -193,6 +219,18 @@ public class User extends HemaUser {
 
 	public String getAvatar() {
 		return avatar;
+	}
+
+	public String getAlipay_name() {
+		return alipay_name;
+	}
+
+	public void setAlipay_name(String alipay_name) {
+		this.alipay_name = alipay_name;
+	}
+
+	public void setPaypassword(String paypassword) {
+		this.paypassword = paypassword;
 	}
 
 	public String getAvatarbig() {
@@ -221,6 +259,10 @@ public class User extends HemaUser {
 
 	public String getFeeaccount() {
 		return feeaccount;
+	}
+
+	public String getFilenumber() {
+		return filenumber;
 	}
 
 	public String getIDnumber() {

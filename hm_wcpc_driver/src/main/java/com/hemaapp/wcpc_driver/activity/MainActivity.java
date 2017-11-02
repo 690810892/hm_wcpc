@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,9 +24,11 @@ import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout;
 import com.hemaapp.wcpc_driver.BaseActivity;
 import com.hemaapp.wcpc_driver.BaseHttpInformation;
+import com.hemaapp.wcpc_driver.EventBusModel;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.adapter.OrderListAdapter;
 import com.hemaapp.wcpc_driver.adapter.TripListAdapter;
+import com.hemaapp.wcpc_driver.getui.GeTuiIntentService;
 import com.hemaapp.wcpc_driver.getui.PushUtils;
 import com.hemaapp.wcpc_driver.getui.ServiceLocationGPS;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
@@ -32,9 +36,15 @@ import com.hemaapp.wcpc_driver.module.OrderListInfor;
 import com.hemaapp.wcpc_driver.module.TripListInfor;
 import com.hemaapp.wcpc_driver.module.User;
 import com.iflytek.sunflower.FlowerCollector;
+import com.igexin.sdk.PushManager;
+import com.igexin.sdk.PushService;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
+import xtom.frame.net.XtomHttpUtil;
+import xtom.frame.util.XtomDeviceUuidFactory;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.util.XtomToastUtil;
 import xtom.frame.view.XtomListView;
@@ -79,25 +89,45 @@ public class MainActivity extends BaseActivity {
 
     private long time;// 用于判断二次点击返回键的时间间隔
     private boolean isSuccess = false;
-
+    private static MainActivity activity;
+    public static MainActivity getInstance() {
+        return activity;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        activity = this;
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         user = hm_WcpcDriverApplication.getInstance().getUser();
         image_point_title.setVisibility(View.INVISIBLE);
         image_publish.setVisibility(View.GONE);
         if(user == null)
             image_point_title.setVisibility(View.INVISIBLE);
         getNoticeUnread();
-        getOrderList();
+        image_point_title.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getOrderList();
+            }
+        }, 2000);
+
         lng = XtomSharedPreferencesUtil.get(mContext, "lng");
         lat = XtomSharedPreferencesUtil.get(mContext, "lat");
         district = XtomSharedPreferencesUtil.get(mContext, "district");
         startGeTuiPush();
         startService();
     }
-
+    public void onEventMainThread(EventBusModel event) {
+        switch (event.getType()) {
+            case REFRESH_MAIN_DATA:
+                break;
+            case CLIENT_ID:
+                saveDevice(event.getContent());
+                break;
+        }
+    }
     private void startService(){
         if ((ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -120,28 +150,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-        if (requestCode == 3) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED ||
-                    grantResults[1] != PackageManager.PERMISSION_GRANTED)//未获得定位权限
-            {
-                showTextDialog("没有定位权限，无法获取抢单数据");
-                left.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                }, 1500);
-            } else {
-                startService();
-            }
-            return;
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
     protected boolean onKeyBack() {
         if ((System.currentTimeMillis() - time) >= 2000) {
             XtomToastUtil.showShortToast(mContext, "再按一次返回键退出程序");
@@ -156,7 +164,8 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         stopGeTuiPush();
         super.onDestroy();
-        com.hemaapp.wcpc_driver.getui.PushReceiver.stop();
+        EventBus.getDefault().unregister(this);
+        //com.hemaapp.wcpc_driver.getui.PushReceiver.stop();
     }
 
     private void getNoticeUnread(){
@@ -164,12 +173,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void getOrderList(){
-        String lng = XtomSharedPreferencesUtil.get(mContext, "lng");
-        String lat = XtomSharedPreferencesUtil.get(mContext, "lat");
+        lng = XtomSharedPreferencesUtil.get(mContext, "lng");
+        lat = XtomSharedPreferencesUtil.get(mContext, "lat");
         getNetWorker().driverOrderList(getUser().getToken(), "4", page_order, "1", lng, lat);
     }
 
     private void getTripsList(){
+        lng = XtomSharedPreferencesUtil.get(mContext, "lng");
+        lat = XtomSharedPreferencesUtil.get(mContext, "lat");
         getNetWorker().tripsList(user.getToken(), "1", lng+","+lat, "0", page_trips, district);
     }
 
@@ -179,6 +190,7 @@ public class MainActivity extends BaseActivity {
         FlowerCollector.onResume(mContext);
         FlowerCollector.onPageStart("MainActivity");
         super.onResume();
+        checkPermission();
         if(!isFrist && flag == 1){
             page_trips = 0;
             getTripsList();
@@ -465,7 +477,7 @@ public class MainActivity extends BaseActivity {
         view_qiangdan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text_myorder.setTextColor(mContext.getResources().getColor(R.color.yellow));
+                text_myorder.setTextColor(mContext.getResources().getColor(R.color.shenhui));
                 image_myorder.setVisibility(View.INVISIBLE);
                 layout_myorder.setVisibility(View.GONE);
 //                image_publish.setVisibility(View.GONE);
@@ -476,7 +488,12 @@ public class MainActivity extends BaseActivity {
                 if(isFrist){
                     isFrist = false;
                     progressBar.setVisibility(View.VISIBLE);
-                    getTripsList();
+                    image_point_title.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getTripsList();
+                        }
+                    }, 1000);
                 }
             }
         });
@@ -545,7 +562,6 @@ public class MainActivity extends BaseActivity {
     private PushReceiver pushReceiver;
 
     private void startGeTuiPush() {
-        com.igexin.sdk.PushManager.getInstance().initialize(mContext);
         registerPushReceiver();
     }
 
@@ -605,4 +621,76 @@ public class MainActivity extends BaseActivity {
     }
 
 	/* 推送相关end */
+
+    /*个推相关*/
+    // DemoPushService.class 自定义服务名称, 核心服务
+    private Class userPushService = PushService.class;
+    private static final int REQUEST_PERMISSION = 0;
+
+    private void checkPermission() {
+        PackageManager pkgManager = getPackageManager();
+
+        // 读写 sd card 权限非常重要, android6.0默认禁止的, 建议初始化之前就弹窗让用户赋予该权限
+        boolean sdCardWritePermission =
+                pkgManager.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+
+        // read phone state用于获取 imei 设备信息
+        boolean phoneSatePermission =
+                pkgManager.checkPermission(Manifest.permission.READ_PHONE_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+
+        if (Build.VERSION.SDK_INT >= 23 && !sdCardWritePermission || !phoneSatePermission) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE},
+                    REQUEST_PERMISSION);
+        } else {
+            PushManager.getInstance().initialize(this.getApplicationContext(), userPushService);
+        }
+
+        // 注册 intentService 后 PushDemoReceiver 无效, sdk 会使用 DemoIntentService 传递数据,
+        // AndroidManifest 对应保留一个即可(如果注册 DemoIntentService, 可以去掉 PushDemoReceiver, 如果注册了
+        // IntentService, 必须在 AndroidManifest 中声明)
+        PushManager.getInstance().initialize(mContext.getApplicationContext(), PushService.class);
+        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode == 3) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED ||
+                    grantResults[1] != PackageManager.PERMISSION_GRANTED){//未获得定位权限
+            } else {
+                startService();
+            }
+            return;
+        }
+
+        if (requestCode == REQUEST_PERMISSION) {
+            if ((grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                PushManager.getInstance().initialize(this.getApplicationContext(), userPushService);
+            } else {
+                Log.e("MainActivity", "We highly recommend that you need to grant the special permissions before initializing the SDK, otherwise some "
+                        + "functions will not work");
+                PushManager.getInstance().initialize(this.getApplicationContext(), userPushService);
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    public void saveDevice(String channelId) {
+        User user = getApplicationContext().getUser();
+        if (user == null) {
+            return;
+        }
+        String deviceId = PushUtils.getUserId(mContext);
+        if (isNull(deviceId)) {// 如果deviceId为空时，保存为手机串号
+            deviceId = XtomDeviceUuidFactory.get(mContext);
+        }
+        getNetWorker().deviceSave(user.getToken(),
+                deviceId,  channelId);
+    }
+
+    /*个推相关结束*/
 }

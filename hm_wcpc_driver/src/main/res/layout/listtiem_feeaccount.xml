@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    
+    <TextView
+        android:id="@id/textview_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="记录分类"
+        android:textColor="#202020"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@id/textview_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="记录分类"
+        android:textColor="@color/cl_a0a0a0"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@id/textview_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_0"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:text="-10"
+        android:textColor="#35b87f"
+        android:textSize="14sp"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_driver"
+        android:layout_below="@id/textview_1"
+        android:src="@color/xian"/>
+
+</RelativeLayout>

@@ -214,7 +214,7 @@
                                 android:id="@+id/textview_4"
                                 android:layout_width="match_parent"
                                 android:layout_height="45dp"
-                                android:drawableRight="@mipmap/img_agree_n"
+                                android:drawableRight="@mipmap/img_agree_s"
                                 android:gravity="center_vertical"
                                 android:paddingRight="15dp"
                                 android:text="@string/tv_agree"
@@ -228,8 +228,9 @@
                             android:layout_height="@dimen/height_driver"
                             android:layout_marginLeft="38dp"
                             android:src="@color/xian" />
-
+                        <!--我愿意包车-->
                         <LinearLayout
+                            android:id="@+id/lv_charter"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
                             android:orientation="horizontal">
@@ -242,37 +243,22 @@
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@mipmap/img_thankfee" />
+                                    android:src="@mipmap/img_agree_no" />
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tv_charter"
                                 android:layout_width="match_parent"
                                 android:layout_height="45dp"
+                                android:drawableRight="@mipmap/img_agree_n"
                                 android:gravity="center_vertical"
-                                android:text="@string/tv_thank_fee"
+                                android:paddingRight="15dp"
+                                android:text="@string/tv_charter"
                                 android:textColor="@color/word_black"
                                 android:textSize="@dimen/textsize_7" />
 
                         </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_driver"
-                            android:layout_marginLeft="38dp"
-                            android:src="@color/xian" />
-
-                        <TextView
-                            android:id="@+id/textview_5"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:drawablePadding="5dp"
-                            android:drawableRight="@mipmap/img_triangle_down"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="38dp"
-                            android:paddingRight="15dp"
-                            android:text="@string/hint_thankfee"
-                            android:textColor="@color/qianhui"
-                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <ImageView
@@ -340,6 +326,39 @@
                         android:src="@color/xian" />
 
                     <LinearLayout
+                        android:id="@+id/lv_coupon"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="@string/tv_coupon"
+                            android:textColor="@color/cl_5e5e5e"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_coupon"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@mipmap/triangle"
+                            android:gravity="center_vertical|right"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="0元"
+                            android:textColor="@color/cl_5e5e5e"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -351,23 +370,49 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginTop="10dp">
 
-                            <LinearLayout
+                            <FrameLayout
                                 android:id="@id/layout_3"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/bg_content"
-                                android:gravity="center_horizontal">
+                                android:background="@drawable/bg_content">
 
-                                <TextView
-                                    android:id="@id/textview_6"
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:paddingBottom="14dp"
-                                    android:paddingTop="14dp"
-                                    android:text="@string/tv_book_price"
-                                    android:textColor="#676672"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
+                                    android:layout_gravity="center"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingTop="14dp"
+                                        android:text="@string/tv_rice"
+                                        android:textColor="@color/yellow"
+                                        android:textSize="14sp" />
+                                    <TextView
+                                        android:id="@id/textview_6"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingBottom="14dp"
+                                        android:paddingTop="4dp"
+                                        android:text="0元"
+                                        android:layout_gravity="center"
+                                        android:textColor="@color/yellow"
+                                        android:textSize="16sp" />
+                                </LinearLayout>
+                                <TextView
+                                    android:id="@+id/tv_feeinfor"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingBottom="3dp"
+                                    android:paddingTop="3dp"
+                                    android:text="  费用明细  "
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/bg_feeinfor"
+                                    android:layout_gravity="right|bottom"
+                                    android:textColor="@color/yellow"
+                                    android:textSize="14sp" />
+                            </FrameLayout>
 
                             <LinearLayout
                                 android:id="@id/layout_4"
@@ -444,7 +489,7 @@
                                         android:layout_centerHorizontal="true"
                                         android:paddingBottom="10dp"
                                         android:paddingTop="15dp"
-                                        android:text="@string/tv_success"
+                                        android:text="@string/tv_failed"
                                         android:textColor="@color/cl_4e4d5d"
                                         android:textSize="14sp" />
 

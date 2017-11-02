@@ -368,7 +368,7 @@ public class OrderDetialInforActivity extends BaseActivity {
             public void onClick(View view) {
                 String value = ((TextView) view).getText().toString();
                 if (value.contains("确认上车")) {
-                    getNetWorker().orderOperate(user.getToken(), "8", id, "", "");
+                    //getNetWorker().orderOperate(user.getToken(), "8", id, "", "");
                 } else if (value.contains("去支付")) {
                     Intent it = new Intent(mContext, ToPayActivity.class);
                     it.putExtra("id", id);
@@ -392,6 +392,7 @@ public class OrderDetialInforActivity extends BaseActivity {
                     startActivityForResult(it, R.id.layout_1);
                 } else if (value.contains("去评价")) {
                     it = new Intent(mContext, PingJiaActivity.class);
+                    it.putExtra("driver_id", infor.getDriver_id());
                     it.putExtra("id", id);
                     startActivityForResult(it, R.id.layout);
                 } else if(value.contains("删除订单")){
@@ -432,7 +433,7 @@ public class OrderDetialInforActivity extends BaseActivity {
         @Override
         public void onRightButtonClick(ButtonDialog dialog) {
             dialog.cancel();
-            getNetWorker().orderOperate(user.getToken(), "6", id, "", "");
+            //getNetWorker().orderOperate(user.getToken(), "6", id, "", "");
         }
     }
 

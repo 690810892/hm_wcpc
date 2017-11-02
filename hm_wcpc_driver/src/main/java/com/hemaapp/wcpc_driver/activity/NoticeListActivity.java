@@ -39,7 +39,7 @@ public class NoticeListActivity extends BaseActivity {
 
     private ImageView left;
     private TextView title;
-    private TextView right;
+    private ImageView right;
 
     private RefreshLoadmoreLayout layout;
     private XtomListView mListView;
@@ -142,6 +142,9 @@ public class NoticeListActivity extends BaseActivity {
                 }else if("1".equals(operatetype)){
                     adapter_notice.deleteinfor.setLooktype("2");
                     adapter_notice.notifyDataSetChanged();
+                }else {
+                    page_notice=0;
+                    getNoticeList("1", page_notice);
                 }
                 break;
         }
@@ -196,7 +199,7 @@ public class NoticeListActivity extends BaseActivity {
     protected void findView() {
         title = (TextView) findViewById(R.id.title_text);
         left = (ImageView) findViewById(R.id.title_btn_left);
-        right = (TextView) findViewById(R.id.title_btn_right);
+        right = (ImageView) findViewById(R.id.title_btn_right);
 
         layout = (RefreshLoadmoreLayout) findViewById(R.id.refreshLoadmoreLayout);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
@@ -210,7 +213,6 @@ public class NoticeListActivity extends BaseActivity {
     @Override
     protected void setListener() {
         title.setText("消息");
-        right.setText("清空");
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,7 +223,7 @@ public class NoticeListActivity extends BaseActivity {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                showPopWindow();
             }
         });
 
@@ -272,7 +274,7 @@ public class NoticeListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
-                getNetWorker().noticeSaveOperate(user.getToken(), "0", "1", "2", "4" );
+                getNetWorker().noticeSaveOperate(user.getToken(), "0", "2", "4" );
             }
         });
     }
@@ -303,5 +305,45 @@ public class NoticeListActivity extends BaseActivity {
             dialog.cancel();
 
         }
+    }
+    private void showPopWindow() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_sex, null);
+        TextView boy = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView girl = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        TextView cancel = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        boy.setText("清空");
+        girl.setText("全部已读");
+        boy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                showClearWindow();
+            }
+        });
+        girl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                getNetWorker().noticeSaveOperate(user.getToken(), "0", "2", "2");
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
     }
 }

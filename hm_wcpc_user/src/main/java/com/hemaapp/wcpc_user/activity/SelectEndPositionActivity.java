@@ -19,9 +19,11 @@ import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.adapter.SelectPositionAdapter;
+import com.hemaapp.wcpc_user.module.DistrictInfor;
 
 import java.util.List;
 
+import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.view.XtomListView;
 
 /**
@@ -38,18 +40,30 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
 
     private PoiSearch.Query query;// Poi查询条件类
     private PoiSearch poiSearch;//搜索
-    private List<PoiItem> poiItems ;
+    private List<PoiItem> poiItems;
 
     private SelectPositionAdapter adapter;
 
     private String citycode;
     private String content;
-
+    private String hint,start_cityid;
+    private boolean selectEnd = false;
+private DistrictInfor districtInfor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_searchendposition);
         super.onCreate(savedInstanceState);
-        text_city.setText(citycode);
+        if (!selectEnd) {
+            String citys = XtomSharedPreferencesUtil.get(mContext, "citys");
+            if (!isNull(citys) && !citys.contains(citycode)) {
+                citycode = "济南市";
+            }
+            text_city.setText(citycode);
+        } else {
+            if (isNull(citycode))
+                citycode = "选择城市";
+            text_city.setText(citycode);
+        }
     }
 
     @Override
@@ -84,6 +98,13 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
     @Override
     protected void getExras() {
         citycode = mIntent.getStringExtra("citycode");
+        hint = mIntent.getStringExtra("hint");
+        selectEnd = mIntent.getBooleanExtra("selectEnd", false);
+        start_cityid= mIntent.getStringExtra("start_cityid");
+        if (isNull(hint))
+            hint = "你要去哪";
+        districtInfor= (DistrictInfor) mIntent.getSerializableExtra("districtInfor");
+
     }
 
     @Override
@@ -93,10 +114,11 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
             public void onClick(View v) {
                 Intent it = new Intent(mContext, SelectCityActivity.class);
                 it.putExtra("city", citycode);
+                it.putExtra("start_cityid", start_cityid);
                 startActivityForResult(it, R.id.layout);
             }
         });
-
+        editText.setHint(hint);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -110,7 +132,7 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length() > 0)
+                if (s.toString().length() > 0)
                     text_search.setText("搜索");
                 else
                     text_search.setText("取消");
@@ -121,11 +143,11 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
             @Override
             public void onClick(View v) {
                 String value = ((TextView) v).getText().toString();
-                if(value.equals("取消"))
+                if (value.equals("取消"))
                     finish();
                 else {
                     content = editText.getText().toString();
-                    if(isNull(content)){
+                    if (isNull(content)) {
                         showTextDialog("抱歉，请输入搜索内容");
                         return;
                     }
@@ -138,12 +160,14 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(adapter != null && !adapter.isEmpty()){
+                if (adapter != null && !adapter.isEmpty()) {
                     PoiItem item = poiItems.get(position);
                     mIntent.putExtra("lng", item.getLatLonPoint().getLongitude());
                     mIntent.putExtra("lat", item.getLatLonPoint().getLatitude());
                     mIntent.putExtra("name", item.getTitle());
                     mIntent.putExtra("city", item.getCityName());
+                    if (districtInfor!=null)
+                    mIntent.putExtra("districtInfor", districtInfor);
                     setResult(RESULT_OK, mIntent);
                     finish();
                 }
@@ -151,7 +175,7 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
         });
     }
 
-    private void toStartSearch(){
+    private void toStartSearch() {
         String style = "汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|" +
                 "医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|" +
                 "金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施";
@@ -167,7 +191,7 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
          * */
         query.setPageSize(100);// 设置每页最多返回多少条poiitem
         query.setPageNum(0);//设置查询页码
-        poiSearch = new PoiSearch(this,query);//初始化poiSearch对象
+        poiSearch = new PoiSearch(this, query);//初始化poiSearch对象
         poiSearch.setOnPoiSearchListener(this);//设置回调数据的监听器
         poiSearch.searchPOIAsyn();//开始搜索
     }
@@ -182,11 +206,11 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
 //                    List<SuggestionCity> suggestionCities = poiResult
 //                            .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
 
-                    if(adapter == null){
+                    if (adapter == null) {
                         adapter = new SelectPositionAdapter(mContext, poiItems);
                         adapter.setEmptyString("抱歉，没有搜索到相关信息");
                         listView.setAdapter(adapter);
-                    }else{
+                    } else {
                         adapter.setItems(poiItems);
                         adapter.setEmptyString("抱歉，没有搜索到相关信息");
                         adapter.notifyDataSetChanged();
@@ -196,7 +220,7 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
                 Toast.makeText(mContext, "该距离内没有找到结果", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(mContext, "异常代码---"+i, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "异常代码---" + i, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -207,11 +231,12 @@ public class SelectEndPositionActivity extends BaseActivity implements PoiSearch
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
-        switch (requestCode){
+        switch (requestCode) {
             case R.id.layout:
                 citycode = data.getStringExtra("name");
+                districtInfor= (DistrictInfor) data.getSerializableExtra("infor");
                 text_city.setText(citycode);
                 break;
         }

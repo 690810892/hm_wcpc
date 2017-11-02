@@ -38,7 +38,10 @@ import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.R;
+import com.hemaapp.wcpc_user.module.DistrictInfor;
 import com.hemaapp.wcpc_user.view.LocationUtils;
+
+import java.util.ArrayList;
 
 import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.util.XtomToastUtil;
@@ -76,10 +79,15 @@ public class StartPositionMapActivity
     private boolean isReturn = false;
     private String city;
     private String citycode;
+    private String name;
 
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            XtomToastUtil.showLongToast(StartPositionMapActivity.this, data);
+            String citys = XtomSharedPreferencesUtil.get(mContext, "citys");
+            if (!isNull(citys) && !citys.contains(citycode)) {
+                XtomToastUtil.showLongToast(StartPositionMapActivity.this, "该城市暂未开通，请耐心等待");
+            } else
+                XtomToastUtil.showLongToast(StartPositionMapActivity.this, data);
         }
     };
 
@@ -196,7 +204,7 @@ public class StartPositionMapActivity
                         citycode = loc.getProvince();
                     }
                     XtomSharedPreferencesUtil.save(mContext, "city", citycode);
-                    data = loc.getAddress();
+                    data = loc.getCity() + loc.getAoiName();
                     latLonPoint = new LatLonPoint(loc.getLatitude(), loc.getLongitude());
                     if (isReturn) {
                         pos_lat = String.valueOf(loc.getLatitude());
@@ -227,6 +235,14 @@ public class StartPositionMapActivity
                     } else {
                         isFrist = false;
                     }
+
+//                    if (!isNull(citys)&&!citys.contains(citycode)){
+//                        Intent it = new Intent(mContext, SelectEndPositionActivity.class);
+//                        if (isNull(citycode))
+//                            citycode = XtomSharedPreferencesUtil.get(mContext, "city");
+//                        it.putExtra("citycode", citycode);
+//                        startActivityForResult(it, R.id.linearlayout);
+//                    }
                     break;
                 //停止定位
                 case LocationUtils.MSG_LOCATION_STOP:
@@ -316,6 +332,7 @@ public class StartPositionMapActivity
         lat = mIntent.getStringExtra("lat");
         isReturn = mIntent.getBooleanExtra("isReturn", false);
         data = mIntent.getStringExtra("address");
+        citycode = mIntent.getStringExtra("citycode");
     }
 
     @Override
@@ -329,11 +346,26 @@ public class StartPositionMapActivity
                     XtomToastUtil.showShortToast(mContext, "请点击地图选择地点!");
                     return;
                 }
-
+                String citys = XtomSharedPreferencesUtil.get(mContext, "citys");
+                String cityid = "";
+                if (!isNull(citys) && !citys.contains(citycode)) {
+                    XtomToastUtil.showLongToast(StartPositionMapActivity.this, "该城市暂未开通，请耐心等待");
+                    return;
+                }
+                ArrayList<DistrictInfor> allCitys = new ArrayList<DistrictInfor>();
+                allCitys.addAll(MainActivity.getInstance().getCitys());
+                for (DistrictInfor districtInfor : allCitys) {
+                    if (districtInfor.getName().contains(citycode)) {
+                        cityid = districtInfor.getCity_id();
+                        break;
+                    }
+                }
+                mIntent.putExtra("cityid", cityid);
                 mIntent.putExtra("data", data);
+                mIntent.putExtra("district", name);
                 mIntent.putExtra("lng", String.valueOf(latlng.longitude));
                 mIntent.putExtra("lat", String.valueOf(latlng.latitude));
-                mIntent.putExtra("city", city);
+                mIntent.putExtra("city", citycode);
                 if (!isNull(pos_lat))
                     mIntent.putExtra("pos_lat", pos_lat);
                 if (!isNull(pos_lng))
@@ -359,6 +391,7 @@ public class StartPositionMapActivity
                 if (isNull(citycode))
                     citycode = XtomSharedPreferencesUtil.get(mContext, "city");
                 it.putExtra("citycode", citycode);
+                it.putExtra("hint", "从哪出发");
                 startActivityForResult(it, R.id.linearlayout);
 
             }
@@ -373,7 +406,7 @@ public class StartPositionMapActivity
             case R.id.linearlayout:
                 lat = String.valueOf(data.getDoubleExtra("lat", 0.0));
                 lng = String.valueOf(data.getDoubleExtra("lng", 0.0));
-                String name = data.getStringExtra("name");
+                name = data.getStringExtra("name");
                 text_search.setText(name);
                 city = data.getStringExtra("city");
 
@@ -391,7 +424,7 @@ public class StartPositionMapActivity
     @Override
     public void onLocationChanged(AMapLocation location) {
         if (mListener != null && location != null) {
-            mListener.onLocationChanged(location);// 显示系统小蓝点
+           // mListener.onLocationChanged(location);// 显示系统小蓝点
             float bearing = aMap.getCameraPosition().bearing;
             aMap.setMyLocationRotateAngle(bearing);// 设置小蓝点旋转角度
 
@@ -436,8 +469,10 @@ public class StartPositionMapActivity
                 if (isNull(citycode)) {
                     citycode = address.getProvince();
                 }
-
-                data = address.getFormatAddress();
+                if (address.getAois() != null&&address.getAois().size()>0)
+                    data = address.getCity() + address.getAois().get(0).getAoiName();
+                else
+                    data = address.getFormatAddress();
                 if (!isNull(pos_lat) && !isNull(pos_lng)) {
                     pos_address = data;
                 }

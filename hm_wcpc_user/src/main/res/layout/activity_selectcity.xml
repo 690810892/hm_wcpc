@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="12dp"
+        android:visibility="gone"
         android:text="当前定位城市:"
         android:textColor="#2f2f2f"
         android:textSize="14sp" />

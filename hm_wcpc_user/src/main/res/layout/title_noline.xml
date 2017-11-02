@@ -4,7 +4,12 @@
     android:id="@id/title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/white" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -16,26 +21,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center_vertical"
-            android:paddingTop="@dimen/margin_20"
+            android:background="@color/transparent"
+            android:contentDescription="@string/contentdescription"
+            android:drawablePadding="5dp"
             android:paddingBottom="@dimen/margin_20"
             android:paddingLeft="@dimen/margin_30"
             android:paddingRight="@dimen/margin_30"
-            android:src="@mipmap/img_title_back"
-            android:background="@color/transparent"
-            android:drawablePadding="5dp"
-            android:contentDescription="@string/contentdescription"/>
+            android:paddingTop="@dimen/margin_20"
+            android:src="@mipmap/img_title_back" />
 
         <TextView
             android:id="@+id/title_btn_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right|center_vertical"
             android:layout_marginRight="5dp"
             android:padding="10dp"
-            android:layout_centerVertical="true"
             android:text=""
             android:textColor="@color/cl_333333"
-            android:textSize="@dimen/textsize_8"/>
+            android:textSize="@dimen/textsize_8" />
 
         <TextView
             android:id="@id/title_text"

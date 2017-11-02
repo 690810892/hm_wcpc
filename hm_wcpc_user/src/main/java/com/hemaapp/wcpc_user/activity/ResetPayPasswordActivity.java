@@ -23,6 +23,8 @@ import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.User;
 
+import xtom.frame.XtomConfig;
+import xtom.frame.util.Md5Util;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
@@ -50,15 +52,14 @@ public class ResetPayPasswordActivity extends BaseActivity {
 
     private String username;
     private TimeThread timeThread;
-    private String keytype1 = "1", keytype2 = "1", password;
+    private String keytype1 = "1", keytype2 = "1", password, keytype;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_findbackpwd);
         super.onCreate(savedInstanceState);
-        title.setText("设置支付密码");
         username = XtomSharedPreferencesUtil.get(mContext, "username");
-        if(!isNull(username)){
+        if (!isNull(username)) {
             usernameEditText.setText(username);
             usernameEditText.setSelection(username.length());
         }
@@ -70,6 +71,7 @@ public class ResetPayPasswordActivity extends BaseActivity {
             timeThread.cancel();
         super.onDestroy();
     }
+
     @Override
     protected void callBeforeDataBack(HemaNetTask netTask) {
         BaseHttpInformation information = (BaseHttpInformation) netTask
@@ -124,9 +126,12 @@ public class ResetPayPasswordActivity extends BaseActivity {
             case CODE_VERIFY:
                 HemaArrayResult<String> sResult = (HemaArrayResult<String>) baseResult;
                 String tempToken = sResult.getObjects().get(0);
-                getNetWorker().passwordReset(tempToken,"2", "1", password);
+                getNetWorker().passwordReset(tempToken, "2", "1", password);
                 break;
             case PASSWORD_RESET:
+                User user = hm_WcpcUserApplication.getInstance().getUser();
+                user.setPaypassword(Md5Util.getMd5(XtomConfig.DATAKEY
+                        + Md5Util.getMd5(password)));
                 showTextDialog("设置密码成功");
                 title.postDelayed(new Runnable() {
 
@@ -141,7 +146,7 @@ public class ResetPayPasswordActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode!= RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
         switch (requestCode) {
             case R.id.textview:
@@ -214,6 +219,9 @@ public class ResetPayPasswordActivity extends BaseActivity {
 
     @Override
     protected void getExras() {
+        keytype = mIntent.getStringExtra("keytype");
+        if (isNull(keytype))
+            keytype = "1";
     }
 
     @Override
@@ -225,7 +233,10 @@ public class ResetPayPasswordActivity extends BaseActivity {
                 finish();
             }
         });
-
+        if (keytype.equals("1"))
+            title.setText("设置支付密码");
+        else
+            title.setText("忘记支付密码");
         usernameEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -233,7 +244,7 @@ public class ResetPayPasswordActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() > 0)
+                if (charSequence.length() > 0)
                     img_clearinput.setVisibility(View.VISIBLE);
                 else
                     img_clearinput.setVisibility(View.INVISIBLE);
@@ -255,11 +266,11 @@ public class ResetPayPasswordActivity extends BaseActivity {
         img_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if("1".equals(keytype1)){
-                    edit_password.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                if ("1".equals(keytype1)) {
+                    edit_password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     img_password.setImageResource(R.mipmap.img_eye_open);
                     keytype1 = "2";
-                }else{
+                } else {
                     edit_password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     img_password.setImageResource(R.mipmap.img_eye_close);
                     keytype1 = "1";
@@ -271,11 +282,11 @@ public class ResetPayPasswordActivity extends BaseActivity {
         img_password_again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if("1".equals(keytype2)){
-                    edit_password_again.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                if ("1".equals(keytype2)) {
+                    edit_password_again.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     img_password_again.setImageResource(R.mipmap.img_eye_open);
                     keytype2 = "2";
-                }else{
+                } else {
                     edit_password_again.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     img_password_again.setImageResource(R.mipmap.img_eye_close);
                     keytype2 = "1";
@@ -293,35 +304,35 @@ public class ResetPayPasswordActivity extends BaseActivity {
                     return;
                 }
 
-                if(!username.equals(usernameEditText.getText().toString())){
+                if (!username.equals(usernameEditText.getText().toString())) {
                     showTextDialog("抱歉，当前手机号与获取\n验证码的手机号不同,请重新获取");
                     return;
                 }
 
                 password = edit_password.getText().toString();
                 String repeat = edit_password_again.getText().toString();
-                if(isNull(password)){
+                if (isNull(password)) {
                     showTextDialog("请输入密码");
                     return;
                 }
 
-                if(isNull(repeat)){
+                if (isNull(repeat)) {
                     showTextDialog("请输入确认密码");
                     return;
                 }
 
-                if(!password.equals(repeat)){
+                if (!password.equals(repeat)) {
                     showTextDialog("新密码与确认密码不一致，请重新填写");
                     return;
                 }
 
-                if(!(password.length() >= 6 && password.length() <= 20)){
+                if (!(password.length() >= 6 && password.length() <= 20)) {
                     showTextDialog("抱歉，密码长度为6-20位");
                     return;
                 }
 
                 String code = codeEditText.getText().toString();
-                if(isNull(code)){
+                if (isNull(code)) {
                     showTextDialog("抱歉，请输入验证码");
                     return;
                 }

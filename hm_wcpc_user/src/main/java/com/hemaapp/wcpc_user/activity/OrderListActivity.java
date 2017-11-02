@@ -192,7 +192,7 @@ public class OrderListActivity extends BaseActivity {
         public void onRightButtonClick(ButtonDialog dialog) {
             dialog.cancel();
             User user = hm_WcpcUserApplication.getInstance().getUser();
-            getNetWorker().orderOperate(user.getToken(), "5", "0", "", "");
+           // getNetWorker().orderOperate(user.getToken(), "5", "0", "", "");
         }
     }
 

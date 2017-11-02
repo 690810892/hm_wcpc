@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hm_framework/hm_framework.iml" filepath="$PROJECT_DIR$/hm_framework/hm_framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hm_wcpc.iml" filepath="$PROJECT_DIR$/hm_wcpc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hm_wcpc_driver/hm_wcpc_driver.iml" filepath="$PROJECT_DIR$/hm_wcpc_driver/hm_wcpc_driver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hm_wcpc_user/hm_wcpc_user.iml" filepath="$PROJECT_DIR$/hm_wcpc_user/hm_wcpc_user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/onekeyshare/onekeyshare.iml" filepath="$PROJECT_DIR$/onekeyshare/onekeyshare.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pickerview/pickerview.iml" filepath="$PROJECT_DIR$/pickerview/pickerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sharesdk/sharesdk.iml" filepath="$PROJECT_DIR$/sharesdk/sharesdk.iml" />
+    </modules>
+  </component>
+</project>

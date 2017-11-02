@@ -59,8 +59,8 @@
     <!-- 修改成你在sharesdk后台注册的应用的appkey" -->
 
     <Wechat
-        AppId="wx22d8579a18f9e0eb"
-        AppSecret="dbda30e681a37b284161b59a826d49d8"
+        AppId="wx5c3400f5fe253fb4"
+        AppSecret="3904d936f0e6ce37e16d77d63e278881"
         BypassApproval="false"
         Enable="true"
         Id="1"
@@ -80,7 +80,7 @@
     <QQ
         AppId="1104594492"
         AppKey="U7yRL5gP6OJXcEtW "
-        Enable="false"
+        Enable="true"
         Id="3"
         ShareByAppClient="true"
         SortId="3" />
@@ -98,7 +98,7 @@
     <QZone
         AppId="100371282"
         AppKey="aed9b0303e3ed1e27bae87c33761161d"
-        Enable="false"
+        Enable="true"
         Id="5"
         ShareByAppClient="false"
         SortId="5" />
@@ -119,16 +119,16 @@
     -->
 
     <WechatMoments
-        AppId="wx08b49dcf9ea3c412"
-        AppSecret="a4c6ea1198cb8dc344240e9c7dbb38d3"
+        AppId="wx5c3400f5fe253fb4"
+        AppSecret="3904d936f0e6ce37e16d77d63e278881"
         BypassApproval="false"
         Enable="true"
         Id="7"
         SortId="7" />
 
     <WechatFavorite
-        AppId="wx27bb2394152d0728"
-        AppSecret="64020361b8ec4c99936c0e3999a9f249"
+        AppId="wx5c3400f5fe253fb4"
+        AppSecret="3904d936f0e6ce37e16d77d63e278881"
         Enable="false"
         Id="6"
         SortId="6" />

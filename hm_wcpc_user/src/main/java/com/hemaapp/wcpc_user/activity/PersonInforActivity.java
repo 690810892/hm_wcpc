@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +57,7 @@ public class PersonInforActivity extends BaseActivity {
     private EditText edit_username;
     private LinearLayout layout_sex;
     private TextView text_sex;
+    private TextView tvInvit;
 
     private User user;
     private String realname, sex;
@@ -80,7 +83,6 @@ public class PersonInforActivity extends BaseActivity {
             imagePathCamera = savedInstanceState.getString("imagePathCamera");
             imageWay = new BaseImageWay(mContext, 1, 2);
         }
-
         user = hm_WcpcUserApplication.getInstance().getUser();
         getNetWorker().clientGet(user.getToken(), user.getId());
     }
@@ -136,7 +138,7 @@ public class PersonInforActivity extends BaseActivity {
             return;
         Uri selectedImageUri = data.getData();
         // 获取图片路径
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = {MediaStore.Images.Media.DATA};
         final CursorLoader loader = new CursorLoader(mContext);
         loader.setUri(selectedImageUri);
         loader.setProjection(proj);
@@ -201,7 +203,7 @@ public class PersonInforActivity extends BaseActivity {
         return file;
     }
 
-    private void initUserData(){
+    private void initUserData() {
         try {
             URL url = new URL(user.getAvatar());
             image_avatar.setCornerRadius(90);
@@ -214,6 +216,7 @@ public class PersonInforActivity extends BaseActivity {
         edit_username.setSelection(realname.length());
         sex = user.getSex();
         text_sex.setText(sex);
+        tvInvit.setText(user.getInvitecode());
     }
 
     @Override
@@ -261,10 +264,10 @@ public class PersonInforActivity extends BaseActivity {
                 initUserData();
                 break;
             case CLIENT_SAVE:
-                if(!isNull(tempPath)){
+                if (!isNull(tempPath)) {
                     getNetWorker().fileUpload(user.getToken(), "1", "0", "0", "0", "无",
                             tempPath);
-                }else{
+                } else {
                     showTextDialog(baseResult.getMsg());
                     right.postDelayed(new Runnable() {
                         @Override
@@ -295,7 +298,8 @@ public class PersonInforActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case CLIENT_GET:
-            case CLIENT_SAVE:;
+            case CLIENT_SAVE:
+                ;
             case FILE_UPLOAD:
                 showTextDialog(baseResult.getMsg());
                 break;
@@ -329,6 +333,7 @@ public class PersonInforActivity extends BaseActivity {
         edit_username = (EditText) findViewById(R.id.edittext);
         layout_sex = (LinearLayout) findViewById(R.id.layout_0);
         text_sex = (TextView) findViewById(R.id.textview_0);
+        tvInvit = (TextView) findViewById(R.id.tv_invit);
     }
 
     @Override
@@ -350,7 +355,7 @@ public class PersonInforActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 realname = edit_username.getText().toString();
-                if(isNull(realname)){
+                if (isNull(realname)) {
                     showTextDialog("请填写姓名");
                     return;
                 }
@@ -358,18 +363,18 @@ public class PersonInforActivity extends BaseActivity {
                 String content = "^[\u4E00-\u9FA5]+$";
                 char[] str = realname.toCharArray();
                 int count = 0;
-                for(int i = 0; i<str.length; i++){
+                for (int i = 0; i < str.length; i++) {
                     char c = str[i];
-                    if(String.valueOf(c).matches(content))
+                    if (String.valueOf(c).matches(content))
                         count++;
                 }
-                int length = realname.length()+count;
+                int length = realname.length() + count;
                 if (length > 16) {
                     showTextDialog("昵称不能超过16个字符,请重新填写");
                     return;
                 }
 
-                if(isNull(sex)){
+                if (isNull(sex)) {
                     showTextDialog("请选择性别");
                     return;
                 }
@@ -381,12 +386,12 @@ public class PersonInforActivity extends BaseActivity {
         setListener(layout_sex);
     }
 
-    private void setListener(View view){
+    private void setListener(View view) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mInputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0); //强制隐藏键盘
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.imageview:
                         imageWay.show();
                         break;
@@ -401,7 +406,7 @@ public class PersonInforActivity extends BaseActivity {
         });
     }
 
-    private void showPopWindow(int type){
+    private void showPopWindow(int type) {
         if (mWindow != null) {
             mWindow.dismiss();
         }
@@ -418,10 +423,10 @@ public class PersonInforActivity extends BaseActivity {
         cancel = (TextView) mViewGroup.findViewById(R.id.textview_2);
         mWindow.setContentView(mViewGroup);
         mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
-        if(type == 0){
+        if (type == 0) {
             boy.setText("男");
             girl.setText("女");
-        }else{
+        } else {
 //            boy.setText("身份证");
 //            girl.setText("驾驶证");
         }
@@ -430,29 +435,29 @@ public class PersonInforActivity extends BaseActivity {
         setListener(cancel, type);
     }
 
-    private void setListener(View view, final int type){
+    private void setListener(View view, final int type) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
                 switch (v.getId()) {
                     case R.id.textview: // 男
-                        if(type == 0){
+                        if (type == 0) {
                             sex = "男";
                             text_sex.setText(sex);
                             text_sex.setTextColor(mContext.getResources().getColor(R.color.cl_3f3f3f));
-                        }else{
+                        } else {
 //                            IDtype = "1";
 //                            text_kind.setText("身份证");
 //                            text_kind.setTextColor(mContext.getResources().getColor(R.color.cl_3f3f3f));
                         }
                         break;
                     case R.id.textview_0: // 女
-                        if(type == 0){
+                        if (type == 0) {
                             sex = "女";
                             text_sex.setText(sex);
                             text_sex.setTextColor(mContext.getResources().getColor(R.color.cl_3f3f3f));
-                        }else{
+                        } else {
 //                            IDtype = "2";
 //                            text_kind.setText("驾驶证");
 //                            text_kind.setTextColor(mContext.getResources().getColor(R.color.cl_3f3f3f));

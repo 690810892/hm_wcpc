@@ -62,6 +62,8 @@ public class CouponListAdapter extends HemaAdapter {
             holder.image_bg = (ImageView) convertView.findViewById(R.id.imageview);
             holder.text_money = (TextView) convertView.findViewById(R.id.textview_0);
             holder.text_regdate = (TextView) convertView.findViewById(R.id.textview_1);
+            holder.text_danwei = (TextView) convertView.findViewById(R.id.tv_danwei);
+
             convertView.setTag(R.id.TAG, holder);
         }else{
             holder = (ViewHolder) convertView.getTag(R.id.TAG);
@@ -70,10 +72,19 @@ public class CouponListAdapter extends HemaAdapter {
         holder.text_money.setText(infor.getValue());
         if("1".equals(infor.getUseflag())){
             holder.image_bg.setImageResource(R.mipmap.bg_coupon_used);
+            holder.text_regdate.setTextColor(0xffffffff);
+            holder.text_money.setTextColor(0xffffffff);
+            holder.text_danwei.setTextColor(0xffffffff);
         }else if("1".equals(infor.getDateflag())){
             holder.image_bg.setImageResource(R.mipmap.bg_coupon_outdate);
+            holder.text_regdate.setTextColor(0xffffffff);
+            holder.text_money.setTextColor(0xffffffff);
+            holder.text_danwei.setTextColor(0xffffffff);
         }else {
             holder.image_bg.setImageResource(R.mipmap.bg_coupon_using);
+            holder.text_money.setTextColor(0xfff49400);
+            holder.text_regdate.setTextColor(0xfff49400);
+            holder.text_danwei.setTextColor(0xfff49400);
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -92,5 +103,6 @@ public class CouponListAdapter extends HemaAdapter {
         ImageView image_bg;
         TextView text_money;
         TextView text_regdate;
+        TextView text_danwei;
     }
 }

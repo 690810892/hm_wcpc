@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'android-apt'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
@@ -7,10 +7,25 @@ android {
     defaultConfig {
         applicationId "com.hemaapp.wcpc_user"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 22
         versionCode 100
         versionName "1.0.0"
+        multiDexEnabled true
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "3f3iFCbmVu8PI7VMth7tQ1",
+                GETUI_APP_KEY   : "UQQ0aO133Q9KUbNMNkV3n",
+                GETUI_APP_SECRET: "f8oSTkU2Qx5w2dP5hZUXB2",
+        ]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        // your debug keystore
+        debug {
+            keyAlias 'hm_wcpc_user'
+            keyPassword '123456Aa'
+            storePassword '123456Aa'
+            storeFile file("hm_wcpc_user.jks")
+        }
     }
 
     buildTypes {
@@ -19,7 +34,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -38,4 +55,12 @@ dependencies {
     compile project(':hm_framework')
     compile project(':onekeyshare')
     compile 'com.android.support:design:25.0.1'
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:multidex:1.0.0'
+    compile project(':pickerview')
+    compile files('libs/UPPayAssistEx.jar')
+    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
 }

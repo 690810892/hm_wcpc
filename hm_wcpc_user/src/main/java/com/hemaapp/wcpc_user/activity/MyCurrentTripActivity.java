@@ -13,6 +13,7 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.overlay.DrivingRouteOverlay;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
@@ -54,9 +56,9 @@ import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.CurrentTripsInfor;
+import com.hemaapp.wcpc_user.module.ReplyItems;
 import com.hemaapp.wcpc_user.module.Route;
 import com.hemaapp.wcpc_user.module.User;
-import com.hemaapp.wcpc_user.view.DrivingRoute;
 import com.hemaapp.wcpc_user.view.LocationUtils;
 
 import java.util.ArrayList;
@@ -132,9 +134,9 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             initOrderInfor();
             layout_top.setVisibility(View.VISIBLE);
             layout_bottom.setVisibility(View.VISIBLE);
-            drawRoute();
-            initStart();
-            initEnd();
+            //drawRoute();
+//            initStart();
+//            initEnd();
         }
     }
 
@@ -191,9 +193,9 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     private void startDriverUI() {
         DrivePath drivePath = carRoutes.get(0).getDrivePath();
         if (drivePath != null) {
-            DrivingRoute drivingRouteOverlay = new DrivingRoute(
+            DrivingRouteOverlay drivingRouteOverlay = new DrivingRouteOverlay(
                     this, aMap, drivePath, carRoutes.get(0).getFromPoint(),
-                    carRoutes.get(0).getToPoint());
+                    carRoutes.get(0).getToPoint(),null);
             drivingRouteOverlay.removeFromMap();
             drivingRouteOverlay.addToMap();
             drivingRouteOverlay.zoomToSpan();
@@ -202,62 +204,85 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     }
 
     private void initOrderInfor() {
-        switch (infor.getStatus()) {
-            case "0": //待接单，不显示司机信息
-                image_avatar.setVisibility(View.GONE);
-                tv_nickname.setVisibility(View.INVISIBLE);
-                img_sex.setVisibility(View.INVISIBLE);
-                tv_status.setText("等待接单");
-                tv_status.setTextColor(0xff25a4df);
-                tv_car_brand.setVisibility(View.INVISIBLE);
-                layout_order.setEnabled(false);
-                tv_car_no.setVisibility(View.INVISIBLE);
-                bt_ok.setVisibility(View.GONE);
-                bt_cancel.setVisibility(View.VISIBLE);
-                bt_cancel.setText("取消订单");
-                break;
-            case "1": //已接单，显示司机信息
-                image_avatar.setVisibility(View.VISIBLE);
-                tv_nickname.setVisibility(View.VISIBLE);
-                img_sex.setVisibility(View.VISIBLE);
-                layout_order.setEnabled(true);
-                lng = XtomSharedPreferencesUtil.get(mContext, "lng");
-                lat = XtomSharedPreferencesUtil.get(mContext, "lat");
-                Double d_lng = Double.parseDouble(lng);
-                Double d_lat = Double.parseDouble(lat);
-                Double distance = BaseUtil.GetDistance(d_lat, d_lng,
-                        Double.parseDouble(isNull(infor.getLat())? "0.0" : infor.getLat()),
-                        Double.parseDouble(isNull(infor.getLng())? "0.0" : infor.getLng()));
-                tv_status.setText("距离" + BaseUtil.transDistance(Float.parseFloat(String.valueOf(distance))));
-                tv_status.setTextColor(0xff25a4df);
-                tv_car_brand.setVisibility(View.VISIBLE);
-                tv_car_no.setVisibility(View.VISIBLE);
-                bt_ok.setVisibility(View.VISIBLE);
-                bt_ok.setText("确认上车");
-                bt_cancel.setVisibility(View.VISIBLE);
-                bt_cancel.setText("取消订单");
-                break;
-            case "2": //待支付
-                image_avatar.setVisibility(View.VISIBLE);
-                tv_nickname.setVisibility(View.VISIBLE);
-                img_sex.setVisibility(View.VISIBLE);
-                layout_order.setEnabled(true);
-                tv_status.setText("到达目的地");
-                tv_status.setTextColor(getResources().getColor(R.color.yellow));
-                tv_car_brand.setVisibility(View.VISIBLE);
-                tv_car_no.setVisibility(View.VISIBLE);
-                bt_ok.setVisibility(View.VISIBLE);
-                bt_ok.setText("去支付");
-                bt_cancel.setVisibility(View.GONE);
-                break;
+        if(infor.getStatus().equals("0")){
+            image_avatar.setVisibility(View.GONE);
+            tv_nickname.setVisibility(View.INVISIBLE);
+            img_sex.setVisibility(View.INVISIBLE);
+            tv_status.setText("等待接单");
+            tv_status.setTextColor(0xff25a4df);
+            tv_car_brand.setVisibility(View.INVISIBLE);
+            layout_order.setEnabled(false);
+            tv_car_no.setVisibility(View.INVISIBLE);
+            bt_ok.setVisibility(View.GONE);
+            bt_cancel.setVisibility(View.VISIBLE);
+            bt_cancel.setText("取消订单");
+        }else{
+            image_avatar.setVisibility(View.VISIBLE);
+            tv_nickname.setVisibility(View.VISIBLE);
+            img_sex.setVisibility(View.VISIBLE);
+            layout_order.setEnabled(true);
+            tv_car_brand.setVisibility(View.VISIBLE);
+            tv_car_no.setVisibility(View.VISIBLE);
+            bt_ok.setVisibility(View.VISIBLE);
+//            switch (infor.getPayflag()) {
+//                case "0": //未支付
+//                    if ("0".equals(infor.getReachflag())) { //未送达
+//                        if ("0".equals(infor.getStatusflag())) {
+//                            bt_cancel.setVisibility(View.VISIBLE);
+//                            bt_ok.setVisibility(View.VISIBLE);
+//                        } else {
+//                            bt_cancel.setVisibility(View.GONE);
+//                            bt_ok.setVisibility(View.GONE);
+//                        }
+//                        bt_ok.setText("确认上车");
+//                        bt_cancel.setText("取消订单");
+//                        lng = XtomSharedPreferencesUtil.get(mContext, "lng");
+//                        lat = XtomSharedPreferencesUtil.get(mContext, "lat");
+//                        Double d_lng = Double.parseDouble(lng);
+//                        Double d_lat = Double.parseDouble(lat);
+//                        Double distance = BaseUtil.GetDistance(d_lat, d_lng,
+//                                Double.parseDouble(isNull(infor.getLat())? "0.0" : infor.getLat()),
+//                                Double.parseDouble(isNull(infor.getLng())? "0.0" : infor.getLng()));
+//                        tv_status.setText("距离" + BaseUtil.transDistance(Float.parseFloat(String.valueOf(distance))));
+//                        tv_status.setTextColor(0xff25a4df);
+//                    } else { //已送达
+//                        bt_ok.setVisibility(View.VISIBLE);
+//                        bt_cancel.setVisibility(View.GONE);
+//                        bt_ok.setText("去支付");
+//                        tv_status.setText("到达目的地");
+//                        tv_status.setTextColor(getResources().getColor(R.color.yellow));
+//                    }
+//                    break;
+//                case "1": //已支付
+//                    tv_status.setText("待评价");
+//                    tv_status.setTextColor(getResources().getColor(R.color.yellow));
+//                    bt_ok.setVisibility(View.GONE);
+//                    bt_cancel.setVisibility(View.VISIBLE);
+//                    bt_cancel.setText("去评价");
+//                    break;
+//                case "2": //已评价
+//                    tv_status.setText("已完成");
+//                    tv_status.setTextColor(getResources().getColor(R.color.yellow));
+//                    layout_bottom.setVisibility(View.VISIBLE);
+//                    bt_ok.setVisibility(View.GONE);
+//                    bt_cancel.setVisibility(View.VISIBLE);
+//                    bt_cancel.setText("删除订单");
+//                    break;
+//                case "3": //已取消
+//                    tv_status.setText("已取消");
+//                    tv_status.setTextColor(getResources().getColor(R.color.yellow));
+//                    bt_ok.setVisibility(View.GONE);
+//                    bt_cancel.setVisibility(View.VISIBLE);
+//                    bt_cancel.setText("删除订单");
+//                    break;
+//            }
         }
-
         tv_startaddress.setText(infor.getStartaddress());
         tv_endaddress.setText(infor.getEndaddress());
-        if ("0".equals(infor.getIs_pool()))
-            tv_money.setText(infor.getFailfee());
-        else
-            tv_money.setText(infor.getSuccessfee());
+//        if ("0".equals(infor.getIs_pool()))
+//            tv_money.setText(infor.getFailfee());
+//        else
+//            tv_money.setText(infor.getSuccessfee());
 
         tv_nickname.setText(infor.getRealname());
         if ("男".equals(infor.getSex()))
@@ -266,10 +291,10 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             img_sex.setImageResource(R.mipmap.img_sex_girl);
         tv_car_brand.setText(infor.getCarbrand());
         tv_car_no.setText(infor.getCarnumber());
-        if ("1".equals(infor.getIs_pool()))
-            tv_money.setText(infor.getSuccessfee());
-        else
-            tv_money.setText(infor.getFailfee());
+//        if ("1".equals(infor.getIs_pool()))
+//            tv_money.setText(infor.getSuccessfee());
+//        else
+//            tv_money.setText(infor.getFailfee());
 
     }
 
@@ -296,6 +321,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             aMap.setLocationSource(this);// 设置定位监听
             aMap.getUiSettings().setZoomControlsEnabled(false);
             aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+            aMap.setMyLocationType(AMap.LOCATION_TYPE_MAP_FOLLOW);
             geocoderSearch = new GeocodeSearch(this);
             geocoderSearch.setOnGeocodeSearchListener(this);
         }
@@ -329,7 +355,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
      * 注册监听
      */
     private void registerListener() {
-        aMap.setOnMapClickListener(this);
+//        aMap.setOnMapClickListener(this);
         aMap.setMyLocationEnabled(true);
         aMap.setInfoWindowAdapter(this);
     }
@@ -448,7 +474,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                     Uri uri = Uri.parse("androidamap://navi?sourceApplication="+mContext.getResources().getString(R.string.app_name)
-                            +"&amp;poiname="+infor.getStartaddress()+"g&amp;lat="+infor.getLat()+"&amp;lon="+infor.getLng_start()
+                            +"&amp;poiname="+infor.getStartaddress()+"g&amp;lat="+infor.getLat_start()+"&amp;lon="+infor.getLng_start()
                             +"&amp;dev=1&amp;style=2");
                     intent.setData(uri);
                     startActivity(intent);
@@ -463,7 +489,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(mContext, OrderDetialInforActivity.class);
-                it.putExtra("id", infor.getOrder_id());
+                it.putExtra("id", infor.getId());
                 startActivityForResult(it, R.id.layout_1);
             }
         });
@@ -472,7 +498,7 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             @Override
             public void onClick(View view) {
                 Intent it = new Intent(mContext, CancelOrderActivity.class);
-                it.putExtra("id", infor.getOrder_id());
+                it.putExtra("id", infor.getId());
                 startActivityForResult(it, R.id.layout_1);
             }
         });
@@ -481,16 +507,17 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
             @Override
             public void onClick(View view) {
                 String value = ((TextView) view).getText().toString();
+                log_e("--------------- value = " + value);
                 if ("去支付".equals(value)) {
                     Intent it = new Intent(mContext, ToPayActivity.class);
-                    it.putExtra("id", infor.getOrder_id());
-                    if ("1".equals(infor.getIs_pool()))
-                        it.putExtra("total_fee", infor.getSuccessfee());
-                    else
-                        it.putExtra("total_fee", infor.getFailfee());
+                    it.putExtra("id", infor.getId());
+//                    if ("1".equals(infor.getIs_pool()))
+//                        it.putExtra("total_fee", infor.getSuccessfee());
+//                    else
+//                        it.putExtra("total_fee", infor.getFailfee());
                     startActivityForResult(it, R.id.layout);
-                } else if ("确认上车".equals(value)) {
-                    getNetWorker().orderOperate(user.getToken(), "8", infor.getOrder_id(), "", "");
+                } else if (value.contains("确认上车")) {
+                   // getNetWorker().orderOperate(user.getToken(), "8", infor.getId(), "", "");
                 }
             }
         });
@@ -705,4 +732,5 @@ public class MyCurrentTripActivity extends BaseActivity implements LocationSourc
     public void onWalkRouteSearched(WalkRouteResult walkRouteResult, int i) {
 
     }
+
 }

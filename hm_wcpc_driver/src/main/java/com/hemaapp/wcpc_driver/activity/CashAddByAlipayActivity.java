@@ -35,6 +35,7 @@ public class CashAddByAlipayActivity extends BaseActivity {
     private TextView text_notice;
     private LinearLayout layout_mycount;
     private TextView text_mycount;
+    private TextView text_myname;
     private TextView text_money;
     private FrameLayout layout_inputvalue;
     private LinearLayout layout_noticevalue;
@@ -43,7 +44,7 @@ public class CashAddByAlipayActivity extends BaseActivity {
     private TextView text_submit;
 
     private User user;
-    private String applyfee, paypassword, alipay_no;
+    private String applyfee, paypassword, alipay_no,alipay_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class CashAddByAlipayActivity extends BaseActivity {
             text_notice.setVisibility(View.GONE);
             layout_mycount.setVisibility(View.VISIBLE);
             text_mycount.setText(user.getAlipay_no());
+            text_myname.setText(user.getAlipay_name());
         }
         text_money.setText((isNull(user.getFeeaccount())?"0":user.getFeeaccount()));
     }
@@ -159,6 +161,7 @@ public class CashAddByAlipayActivity extends BaseActivity {
         edit_value = (EditText) findViewById(R.id.edittext);
         edit_password = (EditText) findViewById(R.id.edittext_0);
         text_submit = (TextView) findViewById(R.id.button);
+        text_myname= (TextView) findViewById(R.id.tv_name);
     }
 
     @Override
@@ -210,6 +213,7 @@ public class CashAddByAlipayActivity extends BaseActivity {
                     case R.id.layout:
                         it = new Intent(mContext, EditAlipayActivity.class);
                         it.putExtra("data", user.getAlipay_no());
+                        it.putExtra("name", user.getAlipay_name());
                         startActivityForResult(it, R.id.layout);
                         break;
                     case R.id.layout_2:
@@ -221,7 +225,7 @@ public class CashAddByAlipayActivity extends BaseActivity {
                         break;
                     case R.id.button:
                         if(isNull(alipay_no)){
-                            showTextDialog("请编辑支付宝账号");
+                            showTextDialog("请绑定支付宝账号");
                             return;
                         }
 
@@ -231,16 +235,16 @@ public class CashAddByAlipayActivity extends BaseActivity {
                             return;
                         }
 
-                        if(Integer.parseInt(applyfee) > Double.parseDouble(user.getFeeaccount())){
+                        if(Float.parseFloat(applyfee) > Float.parseFloat(user.getFeeaccount())){
                             showTextDialog("抱歉，您的钱包余额不足，无法提现");
                             return;
                         }
 
-                        Integer money = Integer.parseInt(applyfee) % 100;
-                        if(money != 0){
-                            showTextDialog("抱歉，您提现的金额必须是100的整数倍");
-                            return;
-                        }
+//                        Integer money = Integer.parseInt(applyfee) % 100;
+//                        if(money != 0){
+//                            showTextDialog("抱歉，您提现的金额必须是100的整数倍");
+//                            return;
+//                        }
 
                         paypassword = edit_password.getText().toString();
                         if(isNull(paypassword)){
@@ -262,9 +266,12 @@ public class CashAddByAlipayActivity extends BaseActivity {
         switch (requestCode){
             case R.id.layout:
                 alipay_no = data.getStringExtra("data");
+                alipay_name = data.getStringExtra("name");
                 user.setAlipay_no(alipay_no);
+                user.setAlipay_name(alipay_name);
                 layout_mycount.setVisibility(View.VISIBLE);
                 text_mycount.setText(alipay_no);
+                text_myname.setText(alipay_name);
                 text_notice.setVisibility(View.GONE);
                 break;
         }

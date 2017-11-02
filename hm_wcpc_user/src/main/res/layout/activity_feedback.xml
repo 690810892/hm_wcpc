@@ -7,20 +7,62 @@
     <include
         layout="@layout/title"
         android:layout_width="match_parent"
-        android:layout_height="65dp"/>
+        android:layout_height="65dp" />
 
-    <EditText
-        android:id="@id/edittext"
+    <ScrollView
+        android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/bg_login"
-        android:hint="@string/hint_feedback"
-        android:textColor="@color/cl_3f3f3f"
-        android:textColorHint="@color/cl_5e5e5e"
-        android:textSize="14sp"
-        android:gravity="left|top"
-        android:padding="15dp"/>
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@id/edittext"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_login"
+                android:gravity="left|top"
+                android:hint="@string/hint_feedback"
+                android:padding="15dp"
+                android:textColor="@color/cl_3f3f3f"
+                android:textColorHint="@color/cl_5e5e5e"
+                android:textSize="14sp" />
+
+            <com.hemaapp.wcpc_user.view.MyGridView
+                android:id="@+id/gridview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="@color/transparent"
+                android:listSelector="@color/transparent"
+                android:numColumns="4"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="20dp"
+                android:scrollbars="none"
+                android:verticalSpacing="5dp" />
+
+            <TextView
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/bt_login"
+                android:gravity="center"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="提交"
+                android:textColor="#feffff"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

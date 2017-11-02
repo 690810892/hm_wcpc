@@ -49,6 +49,7 @@ import xtom.frame.util.XtomFileUtil;
 public class PersonInforActivity extends BaseActivity {
     private ImageView left;
     private TextView right;
+    private TextView title;
 
     private RoundedImageView image_avatar;
     private TextView edit_username;
@@ -58,7 +59,7 @@ public class PersonInforActivity extends BaseActivity {
     private LinearLayout layout_kind; //证件分类
     private TextView text_kind;
     private TextView edit_number;
-    private EditText edit_email;
+    private TextView edit_driver;
 
     private User user;
     private String realname, sex, IDtype, IDnumber, email, mobile;
@@ -140,7 +141,7 @@ public class PersonInforActivity extends BaseActivity {
             return;
         Uri selectedImageUri = data.getData();
         // 获取图片路径
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = {MediaStore.Images.Media.DATA};
         final CursorLoader loader = new CursorLoader(mContext);
         loader.setUri(selectedImageUri);
         loader.setProjection(proj);
@@ -205,7 +206,7 @@ public class PersonInforActivity extends BaseActivity {
         return file;
     }
 
-    private void initUserData(){
+    private void initUserData() {
         try {
             URL url = new URL(user.getAvatar());
             image_avatar.setCornerRadius(90);
@@ -219,25 +220,25 @@ public class PersonInforActivity extends BaseActivity {
         text_sex.setText(sex);
 
         IDtype = user.getIDtype();
-        if("1".equals(IDtype)) {
+        if ("1".equals(IDtype)) {
             text_kind.setText("身份证");
             text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-        }else if("2".equals(IDtype)){
+        } else if ("2".equals(IDtype)) {
             text_kind.setText("驾驶证");
             text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
         }
         IDnumber = user.getIDnumber();
-        if(!isNull(IDnumber)){
+        if (!isNull(IDnumber)) {
             edit_number.setText(IDnumber);
         }
-        email = user.getEmail();
-        if(!isNull(email)){
-            edit_email.setText(email);
-            edit_email.setSelection(email.length());
-        }
-
+//        email = user.getEmail();
+//        if(!isNull(email)){
+//            edit_email.setText(email);
+//            edit_email.setSelection(email.length());
+//        }
+        edit_driver.setText(user.getFilenumber());
         mobile = user.getMobile();
-        if(!isNull(mobile)){
+        if (!isNull(mobile)) {
             edit_mobile.setText(mobile);
         }
     }
@@ -287,10 +288,10 @@ public class PersonInforActivity extends BaseActivity {
                 initUserData();
                 break;
             case CLIENT_SAVE:
-                if(!isNull(tempPath)){
+                if (!isNull(tempPath)) {
                     getNetWorker().fileUpload(user.getToken(), "11", "0", "0", "0", "无",
                             tempPath);
-                }else{
+                } else {
                     showTextDialog(baseResult.getMsg());
                     right.postDelayed(new Runnable() {
                         @Override
@@ -319,7 +320,8 @@ public class PersonInforActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case CLIENT_GET:
-            case CLIENT_SAVE:;
+            case CLIENT_SAVE:
+                ;
             case FILE_UPLOAD:
                 showTextDialog(baseResult.getMsg());
                 break;
@@ -347,6 +349,7 @@ public class PersonInforActivity extends BaseActivity {
     protected void findView() {
         left = (ImageView) findViewById(R.id.title_btn_left);
         right = (TextView) findViewById(R.id.title_btn_right);
+        title = (TextView) findViewById(R.id.title_text);
 
         image_avatar = (RoundedImageView) findViewById(R.id.imageview);
         edit_username = (TextView) findViewById(R.id.textview_2);
@@ -357,7 +360,7 @@ public class PersonInforActivity extends BaseActivity {
         text_kind = (TextView) findViewById(R.id.textview_1);
 
         edit_number = (TextView) findViewById(R.id.textview_4);
-        edit_email = (EditText) findViewById(R.id.edittext_1);
+        edit_driver = (TextView) findViewById(R.id.tv_driver);
     }
 
     @Override
@@ -366,83 +369,85 @@ public class PersonInforActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
+        title.setText("个人资料");
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        right.setText("");
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                realname = edit_username.getText().toString();
-                if(isNull(realname)){
-                    showTextDialog("请填写姓名");
-                    return;
-                }
-
-                String content = "^[\u4E00-\u9FA5]+$";
-                char[] str = realname.toCharArray();
-                int count = 0;
-                for(int i = 0; i<str.length; i++){
-                    char c = str[i];
-                    if(String.valueOf(c).matches(content))
-                        count++;
-                }
-                int length = realname.length()+count;
-                if (length > 16) {
-                    showTextDialog("昵称不能超过16个字符,请重新填写");
-                    return;
-                }
-
-                IDnumber = edit_number.getText().toString();
-                if(isNull(IDtype)){
-                    showTextDialog("抱歉，请选择证件类型");
-                    return;
-                }
-
-                if(isNull(IDnumber)){
-                    showTextDialog("抱歉，请填写证件号");
-                    return;
-                }
-                if(!isNull(IDnumber) && IDtype.equals("1")){
-                    IDCard card = new IDCard();
-                    if(!card.verify(IDnumber)){
-                        showTextDialog(card.getCodeError());
-                        return;
-                    }
-                }
-
-                email =edit_email.getText().toString();
-                mobile = edit_mobile.getText().toString();
-                if(isNull(mobile)){
-                    showTextDialog("请填写联系电话");
-                    return;
-                }
-                if(isNull(email)){
-                    showTextDialog("请填写邮箱");
-                    return;
-                }
-
-                if(!email.contains("@")){
-                    showTextDialog("邮箱的格式不正确，请重新填写");
-                    return;
-                }
-
-                getNetWorker().clientSave(user.getToken(), realname, sex, email, IDtype, IDnumber, mobile);
+//                realname = edit_username.getText().toString();
+//                if (isNull(realname)) {
+//                    showTextDialog("请填写姓名");
+//                    return;
+//                }
+//
+//                String content = "^[\u4E00-\u9FA5]+$";
+//                char[] str = realname.toCharArray();
+//                int count = 0;
+//                for (int i = 0; i < str.length; i++) {
+//                    char c = str[i];
+//                    if (String.valueOf(c).matches(content))
+//                        count++;
+//                }
+//                int length = realname.length() + count;
+//                if (length > 16) {
+//                    showTextDialog("昵称不能超过16个字符,请重新填写");
+//                    return;
+//                }
+//
+//                IDnumber = edit_number.getText().toString();
+//                if (isNull(IDtype)) {
+//                    showTextDialog("抱歉，请选择证件类型");
+//                    return;
+//                }
+//
+//                if (isNull(IDnumber)) {
+//                    showTextDialog("抱歉，请填写证件号");
+//                    return;
+//                }
+//                if (!isNull(IDnumber) && IDtype.equals("1")) {
+//                    IDCard card = new IDCard();
+//                    if (!card.verify(IDnumber)) {
+//                        showTextDialog(card.getCodeError());
+//                        return;
+//                    }
+//                }
+//
+//                email = edit_driver.getText().toString();
+//                mobile = edit_mobile.getText().toString();
+//                if (isNull(mobile)) {
+//                    showTextDialog("请填写联系电话");
+//                    return;
+//                }
+//                if (isNull(email)) {
+//                    showTextDialog("请填写邮箱");
+//                    return;
+//                }
+//
+//                if (!email.contains("@")) {
+//                    showTextDialog("邮箱的格式不正确，请重新填写");
+//                    return;
+//                }
+//
+//                getNetWorker().clientSave(user.getToken(), realname, sex, email, IDtype, IDnumber, mobile);
             }
         });
-        setListener(image_avatar);
+//        setListener(image_avatar);
 //        setListener(layout_sex);
 //        setListener(layout_kind);
     }
 
-    private void setListener(View view){
+    private void setListener(View view) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mInputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0); //强制隐藏键盘
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.imageview:
                         imageWay.show();
                         break;
@@ -457,7 +462,7 @@ public class PersonInforActivity extends BaseActivity {
         });
     }
 
-    private void showPopWindow(int type){
+    private void showPopWindow(int type) {
         if (mWindow != null) {
             mWindow.dismiss();
         }
@@ -474,10 +479,10 @@ public class PersonInforActivity extends BaseActivity {
         cancel = (TextView) mViewGroup.findViewById(R.id.textview_2);
         mWindow.setContentView(mViewGroup);
         mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
-        if(type == 0){
+        if (type == 0) {
             boy.setText("男");
             girl.setText("女");
-        }else{
+        } else {
             boy.setText("身份证");
             girl.setText("驾驶证");
         }
@@ -486,29 +491,29 @@ public class PersonInforActivity extends BaseActivity {
         setListener(cancel, type);
     }
 
-    private void setListener(View view, final int type){
+    private void setListener(View view, final int type) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
                 switch (v.getId()) {
                     case R.id.textview: // 男
-                        if(type == 0){
+                        if (type == 0) {
                             sex = "男";
                             text_sex.setText(sex);
                             text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-                        }else{
+                        } else {
                             IDtype = "1";
                             text_kind.setText("身份证");
                             text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
                         }
                         break;
                     case R.id.textview_0: // 女
-                        if(type == 0){
+                        if (type == 0) {
                             sex = "女";
                             text_sex.setText(sex);
                             text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-                        }else{
+                        } else {
                             IDtype = "2";
                             text_kind.setText("驾驶证");
                             text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));

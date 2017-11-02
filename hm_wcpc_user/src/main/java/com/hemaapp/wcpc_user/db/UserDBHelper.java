@@ -53,8 +53,8 @@ public class UserDBHelper extends DBHelper {
 					+ USER
 					+ " ( id, username, email, realname, mobile, password, paypassword, sex, avatar, avatarbig, lng, lat, IDtype, "
 					+ "IDnumber, regdate, takecount, feeaccount, token, android_must_update, android_last_version, android_update_url, carbrand, carnumber, score, "
-					+ "bankuser, bankname, bankcard, bankmobile, alipay_no ) "
-					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "bankuser, bankname, bankcard, bankmobile, alipay_no,invitecode ) "
+					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			Object[] bindArgs = new Object[] { user.getId(),
 					user.getUsername(), user.getEmail(), user.getRealname(),
 					user.getMobile(),user.getPassword(), user.getPaypassword(),
@@ -65,7 +65,7 @@ public class UserDBHelper extends DBHelper {
 					user.getAndroid_last_version(), user.getAndroid_update_url(),
 					user.getCarbrand(), user.getCarnumber(), user.getScore(),
 			user.getBankuser(), user.getBankname(), user.getBankcard(), user.getBankmobile(),
-			user.getAlipay_no()};
+			user.getAlipay_no(),user.getInvitecode()};
 			db.execSQL(sql, bindArgs);
 		} catch (SQLException e) {
 			success = false;
@@ -85,7 +85,7 @@ public class UserDBHelper extends DBHelper {
 					+ USER
 					+ " set id=?, username=?, email=?, realname=?, mobile=?, password=?, paypassword=?, sex=?, avatar=?, avatarbig=?, lng=?, lat=?, IDtype=?, "
 					+ "IDnumber=?, regdate=?, takecount=?, feeaccount=?, token=?, android_must_update=?, android_last_version=?, android_update_url=?, carbrand=?, carnumber=?, score=?,"
-					+ "bankuser=?, bankname=?, bankcard=?, bankmobile=?, alipay_no=?  "
+					+ "bankuser=?, bankname=?, bankcard=?, bankmobile=?, alipay_no=?, invitecode=?  "
 					+ " where id = '" + user.getId() + "'");
 			Object[] bindArgs = new Object[] { user.getId(),
 					user.getUsername(), user.getEmail(), user.getRealname(),
@@ -97,7 +97,7 @@ public class UserDBHelper extends DBHelper {
 					user.getAndroid_last_version(), user.getAndroid_update_url(),
 					user.getCarbrand(), user.getCarnumber(), user.getScore(),
 			user.getBankuser(), user.getBankname(), user.getBankcard(), user.getBankmobile(),
-			user.getAlipay_no()};
+			user.getAlipay_no(),user.getInvitecode()};
 			db.execSQL(sql, bindArgs);
 		} catch (SQLException e) {
 			success = false;
@@ -164,7 +164,7 @@ public class UserDBHelper extends DBHelper {
 		User user = null;
 		String sql = "select id, username, email, realname, mobile, password, paypassword, sex, avatar, avatarbig, lng, lat, IDtype,"
 		+" IDnumber, regdate, takecount, feeaccount, token, android_must_update, android_last_version, android_update_url, carbrand, carnumber, score,"
-				+ "bankuser, bankname, bankcard, bankmobile, alipay_no from "
+				+ "bankuser, bankname, bankcard, bankmobile, alipay_no,invitecode from "
 		+ USER + " where username = '" + username + "'";
 		SQLiteDatabase db = getWritableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);
@@ -184,7 +184,7 @@ public class UserDBHelper extends DBHelper {
 					cursor.getString(22), cursor.getString(23),
 					cursor.getString(24), cursor.getString(25),
 					cursor.getString(26), cursor.getString(27),
-					cursor.getString(28));
+					cursor.getString(28),cursor.getString(29));
 		}
 		cursor.close();
 		db.close();

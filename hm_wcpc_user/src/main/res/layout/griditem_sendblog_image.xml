@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <FrameLayout
+        android:layout_width="85dp"
+        android:layout_height="85dp" >
+
+        <com.hemaapp.hm_FrameWork.view.RoundedImageView
+            android:id="@+id/imageview"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom"
+            android:scaleType="centerCrop"
+            android:src="@color/background" />
+
+        <ImageButton
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="3dp"
+            android:background="@mipmap/edit_clear" />
+    </FrameLayout>
+
+</LinearLayout>

@@ -4,11 +4,15 @@ import android.content.Context;
 
 import com.hemaapp.hm_FrameWork.HemaNetWorker;
 import com.hemaapp.hm_FrameWork.HemaUtil;
+import com.hemaapp.wcpc_driver.nettask.AccountRecordListTask;
+import com.hemaapp.wcpc_driver.nettask.AdviceAddTask;
+import com.hemaapp.wcpc_driver.nettask.AlipayTradeTask;
 import com.hemaapp.wcpc_driver.nettask.BankListTask;
 import com.hemaapp.wcpc_driver.nettask.ClientGetTask;
 import com.hemaapp.wcpc_driver.nettask.ClientLoginTask;
 import com.hemaapp.wcpc_driver.nettask.ClientTripsGetTask;
 import com.hemaapp.wcpc_driver.nettask.CodeVerifyTask;
+import com.hemaapp.wcpc_driver.nettask.ComplainAddTask;
 import com.hemaapp.wcpc_driver.nettask.DataListTask;
 import com.hemaapp.wcpc_driver.nettask.DistrictListTask;
 import com.hemaapp.wcpc_driver.nettask.DriverOrderGetTask;
@@ -18,11 +22,15 @@ import com.hemaapp.wcpc_driver.nettask.FeeRuleListTask;
 import com.hemaapp.wcpc_driver.nettask.FileUploadTask;
 import com.hemaapp.wcpc_driver.nettask.InitTask;
 import com.hemaapp.wcpc_driver.nettask.MyClientListTask;
+import com.hemaapp.wcpc_driver.nettask.MyReplyListTask;
 import com.hemaapp.wcpc_driver.nettask.MyTripsListTask;
 import com.hemaapp.wcpc_driver.nettask.NoResultReturnTask;
 import com.hemaapp.wcpc_driver.nettask.NoticeListTask;
 import com.hemaapp.wcpc_driver.nettask.NoticeUnreadTask;
 import com.hemaapp.wcpc_driver.nettask.TripsListTask;
+import com.hemaapp.wcpc_driver.nettask.UnionTradeTask;
+import com.hemaapp.wcpc_driver.nettask.WeiXinPayTask;
+import com.hemaapp.wcpc_driver.nettask.WorkStatusGetTask;
 
 import java.util.HashMap;
 
@@ -188,7 +196,7 @@ public class BaseNetWorker extends HemaNetWorker {
 		params.put("new_password", Md5Util.getMd5(XtomConfig.DATAKEY
 				+ Md5Util.getMd5(new_password)));// 新密码
 		params.put("keytype", keytype);// 密码类型 1：登陆密码 2：支付密码
-		params.put("clienttype", clienttype);
+		params.put("clienttype", "2");
 
 		BaseNetTask task = new NoResultReturnTask(information, params);
 		executeTask(task);
@@ -286,6 +294,16 @@ public class BaseNetWorker extends HemaNetWorker {
 		BaseNetTask task = new TripsListTask(information, params);
 		executeTask(task);
 	}
+	public void tripsList(String token, String keytype,int page){
+		BaseHttpInformation information = BaseHttpInformation.TRIPS_LIST;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("keytype", keytype);
+		params.put("page", String.valueOf(page));
+
+		BaseNetTask task = new TripsListTask(information, params);
+		executeTask(task);
+	}
 
 	/**
 	 * 获取用户个人资料接口
@@ -318,14 +336,13 @@ public class BaseNetWorker extends HemaNetWorker {
 	/**
 	 * 保存用户通知操作接口
 	 * */
-	public void noticeSaveOperate(String token, String id, String keytype, String clienttype, String operatetype ){
+	public void noticeSaveOperate(String token, String id,  String clienttype, String operatetype ){
 		BaseHttpInformation information = BaseHttpInformation.NOTICE_SAVEOPERATE;
 		HashMap<String, String> params = new HashMap<>();
 		params.put("token", token);
 		params.put("id", id);
-		params.put("keytype", keytype);
 		params.put("operatetype", operatetype);
-		params.put("clienttype", clienttype);
+		params.put("clienttype", "2");
 
 		BaseNetTask task = new NoResultReturnTask(information, params);
 		executeTask(task);
@@ -421,6 +438,19 @@ public class BaseNetWorker extends HemaNetWorker {
 		params.put("keyid", keyid);
 		params.put("reason_str", reason_str);
 		params.put("content", content);
+
+		BaseNetTask task = new NoResultReturnTask(information, params);
+		executeTask(task);
+	}
+	public void orderOperate(String token, String keytype, String trip_id,  String cancel_reason_ids, String cancel_reason,String param) {
+		BaseHttpInformation information = BaseHttpInformation.ORDER_OPERATE;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("keytype", keytype);
+		params.put("trip_id", trip_id);
+		params.put("cancel_reason_ids", cancel_reason_ids);
+		params.put("cancel_reason", cancel_reason);
+		params.put("param", param);
 
 		BaseNetTask task = new NoResultReturnTask(information, params);
 		executeTask(task);
@@ -536,12 +566,13 @@ public class BaseNetWorker extends HemaNetWorker {
 	/**
 	 * 支付宝信息保存接口
 	 * */
-	public void alipaySave(String token, String alipay_no){
+	public void alipaySave(String token, String alipay_no, String alipay_name){
 		BaseHttpInformation information = BaseHttpInformation.ALIPAY_SAVE;
 		HashMap<String, String> params = new HashMap<>();
 		params.put("token", token);// 登陆令牌
 		params.put("clienttype", "2");
 		params.put("alipay_no", alipay_no);
+		params.put("alipay_name", alipay_name);
 
 		BaseNetTask task = new NoResultReturnTask(information, params);
 		executeTask(task);
@@ -615,6 +646,156 @@ public class BaseNetWorker extends HemaNetWorker {
 		params.put("mylength", mylength);
 
 		BaseNetTask task = new NoResultReturnTask(information, params);
+		executeTask(task);
+	}
+	public void tripsOperate(String token, String keytype, String trip_id, String param){
+		BaseHttpInformation information = BaseHttpInformation.TRIPS_SAVEOPERATE;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("trip_id", trip_id);
+		params.put("keytype", keytype);
+		params.put("param", param);
+
+		BaseNetTask task = new NoResultReturnTask(information, params);
+		executeTask(task);
+	}
+	public void workStatusGet(String token){
+		BaseHttpInformation information = BaseHttpInformation.WORKSTATUS_GET;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+
+		BaseNetTask task = new WorkStatusGetTask(information, params);
+		executeTask(task);
+	}
+	public void openWorkStatus(String token, String lng, String lat, String address){
+		BaseHttpInformation information = BaseHttpInformation.OPEN_WORKSTATUS;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("lng", lng);
+		params.put("lat", lat);
+		params.put("address", address);
+
+		BaseNetTask task = new NoResultReturnTask(information, params);
+		executeTask(task);
+	}
+	/**
+	 * 账户明细接口
+	 */
+	public void accountRecordList(String token, String begindate, String enddate, int page) {
+		BaseHttpInformation information = BaseHttpInformation.ACCOUNT_RECORD_LIST;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("begindate", begindate);
+		params.put("enddate", enddate);
+		params.put("page", String.valueOf(page));
+
+		BaseNetTask task = new AccountRecordListTask(information, params);
+		executeTask(task);
+	}
+	/**
+	 * 获取支付宝交易签名串
+	 */
+	public void alipay(String token, String keytype, String keyid, String total_fee) {
+		BaseHttpInformation information = BaseHttpInformation.ALIPAY;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);// 登陆令牌
+		params.put("paytype", "1");
+		params.put("keytype", keytype);
+		params.put("keyid", keyid);
+		params.put("total_fee", total_fee);
+
+		BaseNetTask task = new AlipayTradeTask(information, params);
+		executeTask(task);
+	}
+
+	/**
+	 * 获取银联交易签名串
+	 */
+	public void unionpay(String token, String keytype, String keyid, String total_fee) {
+		BaseHttpInformation information = BaseHttpInformation.UNIONPAY;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);// 登陆令牌
+		params.put("paytype", "2");
+		params.put("keytype", keytype);
+		params.put("keyid", keyid);
+		params.put("total_fee", total_fee);
+
+		BaseNetTask task = new UnionTradeTask(information, params);
+		executeTask(task);
+	}
+
+	/**
+	 * 获取微信交易签名串
+	 */
+	public void weixin(String token, String keytype, String keyid, String total_fee) {
+		BaseHttpInformation information = BaseHttpInformation.WEI_XIN;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);// 登陆令牌
+		params.put("paytype", "3");
+		params.put("keytype", keytype);
+		params.put("keyid", keyid);
+		params.put("total_fee", total_fee);
+
+		BaseNetTask task = new WeiXinPayTask(information, params);
+		executeTask(task);
+	}
+
+	/**
+	 * 添加评论接口
+	 */
+	public void replyAdd(String token, String keytype, String keyid, String reply_str,
+						 String point, String content, String reply_str_text) {
+		BaseHttpInformation information = BaseHttpInformation.REPLY_ADD;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("keytype", keytype);
+		params.put("keyid", keyid);
+		params.put("reply_str", reply_str);
+		params.put("point", point);
+		params.put("content", content);
+		params.put("reply_str_text", reply_str_text);
+		BaseNetTask task = new NoResultReturnTask(information, params);
+		executeTask(task);
+	}
+	public void complainAdd(String token, String trip_id, String driver_id, String idstr, String idstr_text, String content) {
+		BaseHttpInformation information = BaseHttpInformation.COMPLAIN_ADD;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("trip_id", trip_id);
+		params.put("driver_id", driver_id);
+		params.put("idstr", idstr);
+		params.put("idstr_text", idstr_text);
+		params.put("content", content);
+		BaseNetTask task = new ComplainAddTask(information, params);
+		executeTask(task);
+	}
+	public void replyList(String token, String keytype, String keyid, int page) {
+		BaseHttpInformation information = BaseHttpInformation.REPLY_LIST;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("keytype", keytype);
+		params.put("keyid", keyid);
+		params.put("page", String.valueOf(page));
+
+		BaseNetTask task = new MyReplyListTask(information, params);
+		executeTask(task);
+	}
+	/**
+	 * 意见反馈接口
+	 */
+	public void adviceAdd(String token, String device, String version,
+						  String brand, String system, String content, String clienttype) {
+		BaseHttpInformation information = BaseHttpInformation.ADVICE_ADD;
+		HashMap<String, String> params = new HashMap<>();
+		params.put("token", token);
+		params.put("devicetype", device);
+		params.put("version", version);
+		params.put("mobilebrand", brand);
+		params.put("systemtype", system);
+		params.put("content", content);
+		params.put("clienttype", "2");
+
+		BaseNetTask task = new AdviceAddTask(information, params);
 		executeTask(task);
 	}
 }

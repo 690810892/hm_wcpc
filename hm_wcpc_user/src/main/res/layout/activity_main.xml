@@ -4,7 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/white"/>
     <!--标题栏-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,6 +43,7 @@
             android:layout_centerVertical="true"
             android:src="@mipmap/img_title_feedback"
             android:padding="10dp"
+            android:visibility="gone"
             android:layout_marginLeft="5dp"/>
 
         <ImageView
@@ -73,8 +77,12 @@
             android:id="@id/viewpager"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:visibility="gone"
             android:background="@drawable/bg_firstpage" />
-
+        <com.hemaapp.wcpc_user.view.ImageCarouselBanner
+            android:id="@+id/image_carousel_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
         <RelativeLayout
             android:id="@id/relativelayout"
             android:layout_width="match_parent"
@@ -136,6 +144,7 @@
                 android:gravity="center_vertical"
                 android:padding="15dp"
                 android:text="@string/tv_out_owner"
+                android:visibility="gone"
                 android:textSize="16sp"
                 android:textColor="@color/cl_3f3f3f"/>
 

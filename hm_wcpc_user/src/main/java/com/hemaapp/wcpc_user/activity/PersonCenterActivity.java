@@ -3,12 +3,15 @@ package com.hemaapp.wcpc_user.activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -26,6 +29,7 @@ import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.SysInitInfo;
 import com.hemaapp.wcpc_user.module.User;
+import com.hemaapp.wcpc_user.view.SystemBarTintManager0;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -79,13 +83,29 @@ public class PersonCenterActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+            SystemBarTintManager0 tintManager = new SystemBarTintManager0(this);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(R.color.transparent);//通知栏所需颜色
+        }
         setContentView(R.layout.activity_personcenter);
         super.onCreate(savedInstanceState);
         sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
         user = hm_WcpcUserApplication.getInstance().getUser();
         getNetWorker().clientGet(user.getToken(), user.getId());
     }
-
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
     private void initUserData(){
         try {
             URL url = new URL(user.getAvatar());

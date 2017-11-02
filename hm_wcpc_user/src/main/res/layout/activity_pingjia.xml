@@ -126,6 +126,7 @@
                 android:layout_marginBottom="40dp"
                 android:text="跳过此页"
                 android:paddingTop="12dp"
+                android:visibility="invisible"
                 android:paddingBottom="12dp"
                 android:textColor="#f79a12"
                 android:textSize="14sp"

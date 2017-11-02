@@ -171,6 +171,26 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	 * 设置接单距离接口
 	 * */
 	MY_LENGTH(37, "my_length", "设置接单距离接口", false),
+	TRIPS_SAVEOPERATE(37, "trips_saveoperate", "保存行程操作接口", false),
+	WORKSTATUS_GET(37, "driver_workstatus_get", "获取司机首页各种状态接口", false),
+	OPEN_WORKSTATUS(37, "driver_open_async_workstatus", "司机开启异地接单接口", false),
+	ACCOUNT_RECORD_LIST(27, "account_record_list", "账户明细接口", false),
+	/**
+	 * 获取支付宝交易签名串(内含我方交易单号)接口
+	 */
+	ALIPAY(28, "OnlinePay/Alipay/alipaysign_get.php", "获取支付宝交易签名串", false),
+	/**
+	 * 获取银联交易签名串(内含我方交易单号)接口
+	 */
+	UNIONPAY(29, "OnlinePay/Unionpay/unionpay_get.php", "获取银联交易签名串", false),
+	/**
+	 * 获取微信预支付交易会话标识(内含我方交易单号)接口
+	 * */
+	WEI_XIN(30, "OnlinePay/Weixinpay/weixinpay_get.php", "获取微信交易签名串", false),
+	COMPLAIN_ADD(44, "complain_add", "投诉", false),
+	REPLY_ADD(11, "reply_add", "添加评论接口", false),
+	REPLY_LIST(11, "reply_list", "评论列表", false),
+	ADVICE_ADD(7, "advice_add", "意见反馈", false),
 	;
 
 	private int id;// 对应NetTask的id
@@ -205,6 +225,15 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 		hm_WcpcDriverApplication application = hm_WcpcDriverApplication.getInstance();
 		SysInitInfo info = application.getSysInitInfo();
 		path = info.getSys_web_service() + urlPath;
+
+		if (this.equals(ALIPAY))
+			path = info.getSys_plugins() + urlPath;
+
+		if (this.equals(UNIONPAY))
+			path = info.getSys_plugins() + urlPath;
+
+		if (this.equals(WEI_XIN))
+			path = info.getSys_plugins() + urlPath;
 		return path;
 	}
 

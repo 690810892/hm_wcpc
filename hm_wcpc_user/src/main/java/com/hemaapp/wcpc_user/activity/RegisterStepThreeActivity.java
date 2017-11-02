@@ -27,11 +27,15 @@ import com.hemaapp.wcpc_user.BaseConfig;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.BaseImageWay;
 import com.hemaapp.wcpc_user.R;
+import com.hemaapp.wcpc_user.module.ClientAdd;
 import com.hemaapp.wcpc_user.module.User;
 import com.hemaapp.wcpc_user.view.IDCard;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import xtom.frame.XtomActivityManager;
 import xtom.frame.XtomConfig;
@@ -59,6 +63,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
     private String username;
     private String tempToken;
     private String password;
+    private String invitecode;
 
     public BaseImageWay imageWay;
     private String tempPath;
@@ -71,6 +76,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
     private TextView boy;
     private TextView girl;
     private TextView cancel;
+    private ClientAdd clientAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +189,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
         }
         return file;
     }
+
     @Override
     protected void callBeforeDataBack(HemaNetTask netTask) {
         BaseHttpInformation information = (BaseHttpInformation) netTask
@@ -226,17 +233,24 @@ public class RegisterStepThreeActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case CLIENT_ADD:
+                HemaArrayResult<ClientAdd> sResult = (HemaArrayResult<ClientAdd>) baseResult;
+                clientAdd = sResult.getObjects().get(0);
+                String token = clientAdd.getToken();
                 if (isNull(tempPath)) {
-                    getNetWorker().clientLogin(username, password);
+                    if (clientAdd.getCoupon_count().equals("0"))
+                        getNetWorker().clientLogin(username, password);
+                    else
+                        showCouponWindow();
                 } else {
-                    HemaArrayResult<String> sResult = (HemaArrayResult<String>) baseResult;
-                    String token = sResult.getObjects().get(0);
                     getNetWorker().fileUpload(token, "1", "0", "0", "0", "无",
                             tempPath);
                 }
                 break;
             case FILE_UPLOAD:
-                getNetWorker().clientLogin(username, password);
+                if (clientAdd.getCoupon_count().equals("0"))
+                    getNetWorker().clientLogin(username, password);
+                else
+                    showCouponWindow();
                 break;
             case CLIENT_LOGIN:
                 HemaArrayResult<User> uResult = (HemaArrayResult<User>) baseResult;
@@ -320,6 +334,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
         username = mIntent.getStringExtra("username");
         password = mIntent.getStringExtra("password");
         tempToken = mIntent.getStringExtra("tempToken");
+        invitecode = mIntent.getStringExtra("invitecode");
     }
 
     @Override
@@ -337,7 +352,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 nickname = edit_username.getText().toString();
-                if(isNull(nickname)){
+                if (isNull(nickname)) {
                     showTextDialog("请填写姓名");
                     return;
                 }
@@ -345,25 +360,26 @@ public class RegisterStepThreeActivity extends BaseActivity {
                 String content = "^[\u4E00-\u9FA5]+$";
                 char[] str = nickname.toCharArray();
                 int count = 0;
-                for(int i = 0; i<str.length; i++){
+                for (int i = 0; i < str.length; i++) {
                     char c = str[i];
-                    if(String.valueOf(c).matches(content))
+                    if (String.valueOf(c).matches(content))
                         count++;
                 }
-                int length = nickname.length()+count;
+                int length = nickname.length() + count;
                 if (length > 16) {
                     showTextDialog("昵称不能超过16个字符,请重新填写");
                     return;
                 }
 
-                if(isNull(sex)){
+                if (isNull(sex)) {
                     showTextDialog("请选择性别");
                     return;
                 }
 
                 String district_name = XtomSharedPreferencesUtil.get(mContext, "district_name");
-
-                getNetWorker().clientAdd(tempToken, username, password, nickname, sex, district_name);
+                if (isNull(invitecode))
+                    invitecode = "";
+                getNetWorker().clientAdd(tempToken, username, password, nickname, sex, district_name, invitecode);
             }
         });
 
@@ -384,7 +400,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
 
     }
 
-    private void showPopWindow(){
+    private void showPopWindow() {
         if (mWindow != null) {
             mWindow.dismiss();
         }
@@ -408,7 +424,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
         setListener(cancel);
     }
 
-    private void setListener(View view){
+    private void setListener(View view) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -442,5 +458,36 @@ public class RegisterStepThreeActivity extends BaseActivity {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void showCouponWindow() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_couple, null);
+        TextView count = (TextView) mViewGroup.findViewById(R.id.tv_count);
+        TextView price = (TextView) mViewGroup.findViewById(R.id.tv_price);
+        TextView price2 = (TextView) mViewGroup.findViewById(R.id.tv_price2);
+        TextView tv_time = (TextView) mViewGroup.findViewById(R.id.tv_time);
+        TextView tv_button = (TextView) mViewGroup.findViewById(R.id.tv_button);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        count.setText("恭喜您获得" + clientAdd.getCoupon_count() + "张");
+        price.setText(clientAdd.getCoupon_value() + "元");
+        price2.setText(clientAdd.getCoupon_value());
+        tv_time.setText("有效期至 " + clientAdd.getCoupon_dateline());
+        tv_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getNetWorker().clientLogin(username, password);
+            }
+        });
     }
 }

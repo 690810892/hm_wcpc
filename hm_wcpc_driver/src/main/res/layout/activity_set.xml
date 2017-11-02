@@ -80,12 +80,59 @@
                         android:layout_marginRight="15dp"
                         android:drawablePadding="5dp"
                         android:gravity="right|center_vertical"
-                        android:text="12M"
+                        android:text="0M"
                         android:textSize="14sp"
                         android:textColor="@color/cl_9c9c9c"/>
 
                 </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
 
+                <TextView
+                    android:id="@+id/tv_xieyi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/triangle"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:text="用户协议"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="15sp"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:id="@+id/tv_share"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/triangle"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:text="软件分享"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="15sp"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_driver"
+                    android:src="@color/xian"
+                    android:layout_marginLeft="15dp"/>
+
+                <TextView
+                    android:id="@+id/tv_advice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/triangle"
+                    android:drawablePadding="15dp"
+                    android:padding="15dp"
+                    android:text="意见反馈"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="15sp"/>
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_driver"
@@ -102,24 +149,6 @@
                     android:text="@string/tv_update"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="15sp"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_driver"
-                    android:src="@color/xian"
-                    android:layout_marginLeft="15dp"/>
-
-                <TextView
-                    android:id="@id/textview_4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@mipmap/triangle"
-                    android:drawablePadding="15dp"
-                    android:padding="15dp"
-                    android:text="@string/tv_position"
-                    android:textColor="@color/cl_5e5e5e"
-                    android:textSize="15sp"/>
-
 
             </LinearLayout>
             <ImageView

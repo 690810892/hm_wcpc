@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="TAG" type="id"/>
+    <item name="tv_button" type="id"/>
     <item name="title" type="id"/>
     <item name="title_btn_left" type="id"/>
     <item name="title_btn_right" type="id"/>

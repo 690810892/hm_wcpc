@@ -217,6 +217,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:visibility="invisible"
                 android:id="@+id/tv_person_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

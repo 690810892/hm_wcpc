@@ -48,10 +48,12 @@ public class User extends HemaUser {
 	private String bankcard; //卡号
 	private String bankmobile; //银行预留手机号
 	private String alipay_no; //支付宝账号
+	private String invitecode; //
 
 	public User(JSONObject jsonObject) throws DataParseException {
 		super(jsonObject);
 		try {
+			invitecode= get(jsonObject, "invitecode");
 			id = get(jsonObject, "id");
 			username = get(jsonObject, "username");
 			email = get(jsonObject, "email");
@@ -97,10 +99,11 @@ public class User extends HemaUser {
                 String token, String android_must_update, String android_last_version,
                 String android_update_url, String carbrand, String carnumber, String score,
                 String bankuser, String bankname, String bankcard, String bankmobile,
-                String alipay_no) {
+                String alipay_no,String invitecode) {
 		super(token);
 		this.id = id;
 		this.username = username;
+		this.invitecode = invitecode;
 		this.email = email;
 		this.realname = realname;
 		this.mobile = mobile;
@@ -132,8 +135,7 @@ public class User extends HemaUser {
 	@Override
 	public String toString() {
 		return "User{" +
-				"alipay_no='" + alipay_no + '\'' +
-				", id='" + id + '\'' +
+				"id='" + id + '\'' +
 				", username='" + username + '\'' +
 				", email='" + email + '\'' +
 				", realname='" + realname + '\'' +
@@ -161,6 +163,8 @@ public class User extends HemaUser {
 				", bankname='" + bankname + '\'' +
 				", bankcard='" + bankcard + '\'' +
 				", bankmobile='" + bankmobile + '\'' +
+				", alipay_no='" + alipay_no + '\'' +
+				", invitecode='" + invitecode + '\'' +
 				'}';
 	}
 
@@ -182,6 +186,10 @@ public class User extends HemaUser {
 
 	public String getAndroid_update_url() {
 		return android_update_url;
+	}
+
+	public String getInvitecode() {
+		return invitecode;
 	}
 
 	public String getPassword() {
@@ -206,6 +214,10 @@ public class User extends HemaUser {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public void setPaypassword(String paypassword) {
+		this.paypassword = paypassword;
 	}
 
 	public String getEmail() {

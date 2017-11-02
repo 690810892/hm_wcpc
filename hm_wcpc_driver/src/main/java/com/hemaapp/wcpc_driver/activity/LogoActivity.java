@@ -42,6 +42,8 @@ public class LogoActivity extends BaseActivity {
         hm_WcpcDriverApplication application = getApplicationContext();
         infor = application.getSysInitInfo();
         user = application.getUser();
+        lng = XtomSharedPreferencesUtil.get(mContext, "lng");
+        lat = XtomSharedPreferencesUtil.get(mContext, "lat");
         init();
     }
 
@@ -159,7 +161,7 @@ public class LogoActivity extends BaseActivity {
     }
 
     private void toMain() {
-        Intent it = new Intent(mContext, MainActivity.class);
+        Intent it = new Intent(mContext, MainNewActivity.class);
         startActivity(it);
         finish();
     }

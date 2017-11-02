@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="@color/white"
+        android:src="@color/background" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp">
+
+        <com.hemaapp.hm_FrameWork.view.RoundedImageView
+            android:id="@+id/iv_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/default_user" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="7dp"
+            android:paddingTop="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="名称"
+                    android:textColor="@color/word_black"
+                    android:textSize="@dimen/textsize_7.5" />
+
+
+                <RatingBar
+                    android:id="@+id/rb_level"
+                    style="@style/RadingStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:isIndicator="true"
+                    android:maxHeight="25dp"
+                    android:minHeight="8dp"
+                    android:rating="3"
+                    android:stepSize="1" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="20170101"
+                android:paddingTop="3dp"
+                android:textColor="@color/cl_9c9c9c"
+                android:textSize="@dimen/textsize_6.5" />
+            <TextView
+                android:id="@+id/tv_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="起始点"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@mipmap/img_startposition"
+                android:paddingTop="5dp"
+                android:textColor="@color/shenhui"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/tv_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="重点"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@mipmap/img_endposition"
+                android:paddingTop="1dp"
+                android:textColor="@color/shenhui"
+                android:textSize="13sp" />
+            <com.hemaapp.wcpc_driver.view.FlowLayout.TagFlowLayout
+                android:id="@+id/multitextview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="0dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

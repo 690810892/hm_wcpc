@@ -135,6 +135,8 @@ public class MyOrderListAdapter extends HemaAdapter {
         else
             holder.text_money.setText(infor.getFailfee());
 
+        holder.text_remaincount.setVisibility(View.INVISIBLE);
+
 //        holder.image_avatar.setTag(R.id.button, infor);
 //        holder.image_avatar.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -175,6 +177,7 @@ public class MyOrderListAdapter extends HemaAdapter {
                 } else if ("去评价".equals(value)) {
                     it = new Intent(mContext, PingJiaActivity.class);
                     it.putExtra("id", order.getId());
+                    it.putExtra("driver_id", order.getDriver_id());
                     ((OrderListActivity) mContext).startActivityForResult(it, R.id.layout_0);
                 } else if ("取消订单".equals(value)) {
                     it = new Intent(mContext, CancelOrderActivity.class);
@@ -212,7 +215,7 @@ public class MyOrderListAdapter extends HemaAdapter {
         public void onRightButtonClick(HemaButtonDialog dialog) {
             dialog.cancel();
             User user = hm_WcpcUserApplication.getInstance().getUser();
-            netWorker.orderOperate(user.getToken(), "6", order.getId(), "", "");
+            //netWorker.orderOperate(user.getToken(), "6", order.getId(), "", "");
         }
     }
 
@@ -228,6 +231,7 @@ public class MyOrderListAdapter extends HemaAdapter {
         holder.text_carnumbers = (TextView) view.findViewById(R.id.textview_5);
         holder.text_money = (TextView) view.findViewById(R.id.textview_8);
         holder.text_operate = (TextView) view.findViewById(R.id.textview_9);
+        holder.text_remaincount = (TextView) view.findViewById(R.id.tv_remain_count);
     }
 
     private static class ViewHolder {
@@ -240,6 +244,7 @@ public class MyOrderListAdapter extends HemaAdapter {
         TextView text_endaddress;
         TextView text_carbrand;
         TextView text_carnumbers;
+        TextView text_remaincount;
         TextView text_money;
         TextView text_operate;
     }

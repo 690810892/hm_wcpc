@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:locale="en">
 
-    <string name="app_name">万城拼车</string>
+    <string name="app_name">小叫车</string>
     <string name="contentdescription"></string>
 
     <string name="tv_login">登录</string>
@@ -42,7 +42,7 @@
     <string name="tv_toreply">待评价</string>
     <string name="tv_tocomplete">已完成</string>
     <string name="tv_center_mytrip">我发布的行程</string>
-    <string name="tv_changepwd">修改登录密码</string>
+    <string name="tv_changepwd">密码管理</string>
     <string name="tv_set">设置</string>
     <string name="tv_share">软件分享</string>
     <string name="tv_feedback">意见反馈</string>
@@ -62,7 +62,7 @@
     <string name="tv_pop_exit">确定要退出当前账号吗?</string>
     <string name="tv_ok">确定</string>
     <string name="tv_cancel">取消</string>
-    <string name="hint_cancel">取消</string>
+    <string name="hint_cancel">其他原因</string>
     <string name="tv_reply">星级评价</string>
     <string name="hint_reply">还想说点啥</string>
     <string name="tv_inputmoney">输入提现金额</string>
@@ -83,17 +83,20 @@
     <string name="tv_end_position">目的地</string>
     <string name="tv_start_time">出发时间</string>
     <string name="tv_person_count">乘车人数</string>
-    <string name="tv_agree">我同意拼车</string>
+    <string name="tv_agree">拼车</string>
+    <string name="tv_charter">包车</string>
     <string name="tv_thank_fee">感谢费</string>
     <string name="hint_thankfee">请选择感谢费，愿加感谢费更受司机欢迎</string>
     <string name="tv_beizhu">备注</string>
-    <string name="hint_beizhu">请如实填写，确保接单的车主能满足你的要求，如是否携带大件行李，是否携带婴儿，是否携带宠物等。</string>
+    <string name="hint_beizhu">请如实填写，确保接单的车主能够满足您的要求。小叫车平台默认可免费携带行李长宽高均不得超过30*30*30cm,为保障您的出行安全及便利，如携带儿童建议您多购买一乘车位。</string>
     <string name="tv_book_price">预估价格</string>
+    <string name="tv_rice">优惠价</string>
     <string name="tv_success">拼车成功</string>
     <string name="tv_failed">拼车失败</string>
     <string name="tv_submit_publish">确认发布</string>
     <string name="tv_paypwd">支付密码</string>
     <string name="tv_out_owner">跨城车主</string>
+    <string name="tv_coupon">使用代金券</string>
 
 
 

@@ -6,12 +6,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.listener.CustomListener;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
+import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.adapter.FeeAccountListAdapter;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
@@ -19,6 +22,8 @@ import com.hemaapp.wcpc_user.module.FeeAccountInfor;
 import com.hemaapp.wcpc_user.module.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import xtom.frame.util.XtomToastUtil;
 import xtom.frame.view.XtomListView;
@@ -32,7 +37,7 @@ public class MyFeeAccountActivity extends BaseActivity {
 
     private ImageView left;
     private TextView title;
-    private TextView right;
+    private ImageView right;
 
     private RefreshLoadmoreLayout layout;
     private ProgressBar progressBar;
@@ -42,17 +47,31 @@ public class MyFeeAccountActivity extends BaseActivity {
     private ArrayList<FeeAccountInfor> infors = new ArrayList<>();
     private FeeAccountListAdapter adapter;
     private User user;
-
+    private String start="",end="";
+    private Calendar selectedDate;//系统当前时间
+    private Calendar startDate;
+    private Calendar endDate;
+    private TimePickerView pvDate,pvDate2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_feeaccount);
         super.onCreate(savedInstanceState);
         user = hm_WcpcUserApplication.getInstance().getUser();
         getTripsList();
+        title.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                selectedDate = Calendar.getInstance();
+                startDate = Calendar.getInstance();
+                endDate = Calendar.getInstance();
+                startDate.set(1931, 1, 10);
+                endDate.set(2120, 2, 28);
+            }
+        }, 100);
     }
 
     private void getTripsList(){
-        getNetWorker().accountRecordList(user.getToken(), page);
+        getNetWorker().accountRecordList(user.getToken(),start,end, page);
     }
 
     @Override
@@ -163,7 +182,7 @@ public class MyFeeAccountActivity extends BaseActivity {
     @Override
     protected void findView() {
         left = (ImageView) findViewById(R.id.title_btn_left);
-        right = (TextView) findViewById(R.id.title_btn_right);
+        right = (ImageView) findViewById(R.id.title_btn_right);
         title = (TextView) findViewById(R.id.title_text);
 
         layout = (RefreshLoadmoreLayout) findViewById(R.id.refreshLoadmoreLayout);
@@ -178,7 +197,7 @@ public class MyFeeAccountActivity extends BaseActivity {
     @Override
     protected void setListener() {
         title.setText("余额明细");
-        right.setVisibility(View.INVISIBLE);
+        right.setImageResource(R.mipmap.img_right_time);
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,6 +216,84 @@ public class MyFeeAccountActivity extends BaseActivity {
             public void onStartLoadmore(XtomRefreshLoadmoreLayout xtomRefreshLoadmoreLayout) {
                 page ++;
                 getTripsList();
+            }
+        });
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pvDate = new TimePickerView.Builder(mContext, new TimePickerView.OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {//选中事件回调
+                        start=BaseUtil.getTime2(date);
+                       // tvRemindRegdate.setText(BaseUtil.getTime(date));
+                    }
+                }).setDate(selectedDate)
+                        .setRangDate(startDate, endDate)
+                        .setLayoutRes(R.layout.pickerview_custom_time, new CustomListener() {
+
+                            @Override
+                            public void customLayout(View v) {
+                                final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
+                                tvSubmit.setText("下一步");
+                                final TextView tvtitle = (TextView) v.findViewById(R.id.tv_title);
+                                tvtitle.setText("选择开始时间");
+                                TextView ivCancel = (TextView) v.findViewById(R.id.iv_cancel);
+                                tvSubmit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        pvDate.returnData();
+                                        pvDate.dismiss();
+                                        pvDate2 = new TimePickerView.Builder(mContext, new TimePickerView.OnTimeSelectListener() {
+                                            @Override
+                                            public void onTimeSelect(Date date, View v) {//选中事件回调
+                                                end=BaseUtil.getTime2(date);
+                                                getTripsList();
+                                                // tvRemindRegdate.setText(BaseUtil.getTime(date));
+                                            }
+                                        }).setDate(selectedDate)
+                                                .setRangDate(startDate, endDate)
+                                                .setLayoutRes(R.layout.pickerview_custom_time, new CustomListener() {
+
+                                                    @Override
+                                                    public void customLayout(View v) {
+                                                        final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
+                                                        final TextView tvtitle = (TextView) v.findViewById(R.id.tv_title);
+                                                        tvSubmit.setText("确定");
+                                                        tvtitle.setText("选择截止时间");
+                                                        TextView ivCancel = (TextView) v.findViewById(R.id.iv_cancel);
+                                                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                pvDate2.returnData();
+                                                                pvDate2.dismiss();
+                                                            }
+                                                        });
+                                                        ivCancel.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                pvDate2.dismiss();
+                                                            }
+                                                        });
+                                                    }
+                                                }).setType(new boolean[]{true, true, true, false, false, false})
+                                                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                                                .setDividerColor(0xff1aad19)
+                                                .build();
+                                        pvDate2.show();
+                                    }
+                                });
+                                ivCancel.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        pvDate.dismiss();
+                                    }
+                                });
+                            }
+                        }).setType(new boolean[]{true, true, true, false, false, false})
+                        .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                        .setDividerColor(0xff1aad19)
+                        .build();
+                pvDate.show();
             }
         });
     }

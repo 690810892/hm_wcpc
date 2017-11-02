@@ -28,9 +28,11 @@ public class EditAlipayActivity extends BaseActivity {
 
     private EditText editText;
     private ImageView img_clear;
+    private EditText ev_name;
+    private ImageView img_clear2;
 
     private User user;
-    private String account;
+    private String account,name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,10 @@ public class EditAlipayActivity extends BaseActivity {
         if(!isNull(account)){
             editText.setText(account);
             editText.setSelection(account.length());
+        }
+        if(!isNull(name)){
+            ev_name.setText(name);
+            ev_name.setSelection(name.length());
         }
     }
 
@@ -73,6 +79,7 @@ public class EditAlipayActivity extends BaseActivity {
                     @Override
                     public void run() {
                         mIntent.putExtra("data", account);
+                        mIntent.putExtra("name", name);
                         setResult(RESULT_OK, mIntent);
                         finish();
                     }
@@ -108,11 +115,14 @@ public class EditAlipayActivity extends BaseActivity {
         title = (TextView) findViewById(R.id.title_text);
         editText = (EditText) findViewById(R.id.edittext);
         img_clear = (ImageView) findViewById(R.id.imageview);
+        ev_name = (EditText) findViewById(R.id.ev_name);
+        img_clear2 = (ImageView) findViewById(R.id.imageview2);
     }
 
     @Override
     protected void getExras() {
         account = mIntent.getStringExtra("data");
+        name = mIntent.getStringExtra("name");
     }
 
     @Override
@@ -134,8 +144,12 @@ public class EditAlipayActivity extends BaseActivity {
                     showTextDialog("请输入支付宝账号");
                     return;
                 }
-
-                getNetWorker().alipaySave(user.getToken(), account);
+                name = ev_name.getText().toString();
+                if(isNull(name)){
+                    showTextDialog("请输入姓名");
+                    return;
+                }
+                getNetWorker().alipaySave(user.getToken(), account,name);
             }
         });
 
@@ -161,6 +175,29 @@ public class EditAlipayActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 editText.setText("");
+            }
+        });
+        ev_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().length() > 0)
+                    img_clear2.setVisibility(View.VISIBLE);
+                else
+                    img_clear2.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+        img_clear2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ev_name.setText("");
             }
         });
     }

@@ -1,11 +1,16 @@
 package com.hemaapp.wcpc_user.activity;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hemaapp.hm_FrameWork.HemaNetTask;
@@ -13,6 +18,8 @@ import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
+import com.hemaapp.wcpc_user.EventBusConfig;
+import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.adapter.TagListAdapter;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
@@ -21,6 +28,8 @@ import com.hemaapp.wcpc_user.module.User;
 import com.hemaapp.wcpc_user.view.FlowLayout.TagFlowLayout;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by WangYuxia on 2016/5/20.
@@ -36,7 +45,7 @@ public class CancelOrderActivity extends BaseActivity {
     private EditText editText;
     private TextView text_submit;
 
-    private String order_id, content, reply_str;
+    private String order_id, content, reply_str,reply_id;
     private ArrayList<DataInfor> infors = new ArrayList<>();
     private TagListAdapter adapter;
     private User user;
@@ -111,6 +120,7 @@ public class CancelOrderActivity extends BaseActivity {
                 break;
             case ORDER_OPERATE:
                 showTextDialog("取消成功");
+                EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
                 title.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -180,18 +190,65 @@ public class CancelOrderActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 for(int i = 0; i< infors.size(); i++){
-                    if(infors.get(i).isChecked())
-                        reply_str = infors.get(i).getId();
-                }
+                    if(infors.get(i).isChecked()){
+                        if (isNull(reply_str)) {
+                            reply_str = infors.get(i).getName();
+                            reply_id= infors.get(i).getId();
+                        }else {
+                            reply_str = reply_str + "," + infors.get(i).getName();
+                            reply_id= reply_id + "," + infors.get(i).getId();
+                        }
+                    }
 
-                if(isNull(reply_str)){
-                    showTextDialog("请选择取消订单的原因");
-                    return;
                 }
 
                 content = editText.getText().toString();
-                getNetWorker().orderOperate(user.getToken(), "4", order_id, reply_str, content);
+                if(isNull(content)){
+                    content="";
+                }
+                showDialog();
             }
         });
     }
+    private PopupWindow mWindow;
+    private ViewGroup mViewGroup;
+    private TextView exit;
+    private TextView cancel;
+    private TextView pop_content;
+
+    private void showDialog(){
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_exit, null);
+        exit = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        cancel = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        pop_content = (TextView) mViewGroup.findViewById(R.id.textview);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        pop_content.setText("确定取消订单？");
+        cancel.setText("再等一会");
+        exit.setText("确定取消");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                getNetWorker().orderOperate(user.getToken(), "1", order_id, reply_str,reply_id,content);
+            }
+        });
+    }
+
 }

@@ -25,13 +25,19 @@
                     android:layout_height="100dp"
                     android:src="@mipmap/bg_driverhome"
                     android:scaleType="centerCrop"/>
-
+                <ImageView
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:src="#00000000"
+                    android:scaleType="centerCrop"/>
                 <ImageView
                     android:id="@id/title_btn_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
                     android:paddingTop="@dimen/margin_20"
+                    android:layout_below="@id/view"
                     android:paddingBottom="@dimen/margin_20"
                     android:paddingLeft="@dimen/margin_30"
                     android:paddingRight="@dimen/margin_30"
@@ -47,6 +53,7 @@
                     android:layout_gravity="right|center_vertical"
                     android:layout_alignParentRight="true"
                     android:paddingTop="@dimen/margin_20"
+                    android:layout_below="@id/view"
                     android:paddingBottom="@dimen/margin_20"
                     android:paddingLeft="@dimen/margin_30"
                     android:paddingRight="@dimen/margin_30"
@@ -62,6 +69,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center"
                     android:text="个人中心"
+                    android:layout_below="@id/view"
                     android:textColor="@color/white"
                     android:textSize="@dimen/textsize_9" />
 

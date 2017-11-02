@@ -2,11 +2,14 @@ package com.hemaapp.wcpc_driver.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -18,14 +21,17 @@ import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
 import com.hemaapp.wcpc_driver.BaseActivity;
 import com.hemaapp.wcpc_driver.BaseHttpInformation;
+import com.hemaapp.wcpc_driver.EventBusModel;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.User;
+import com.hemaapp.wcpc_driver.view.SystemBarTintManager0;
 import com.iflytek.sunflower.FlowerCollector;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import de.greenrobot.event.EventBus;
 import xtom.frame.image.load.XtomImageTask;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 
@@ -37,7 +43,7 @@ public class PersonCenterInforActivity extends BaseActivity {
 
     private ImageView left;
     private ImageView right;
-
+    private ImageView view;
     private RoundedImageView image_avatar;
     private TextView text_realname;
     private ImageView image_sex;
@@ -48,7 +54,7 @@ public class PersonCenterInforActivity extends BaseActivity {
     private TextView text_account;
     private TextView text_changepwd;
     private TextView text_history;
-    private TextView text_chengke;
+    private TextView text_reply;
 
     private User user;
     private PopupWindow mWindow;
@@ -65,13 +71,27 @@ public class PersonCenterInforActivity extends BaseActivity {
         setContentView(R.layout.activity_personcenter);
         super.onCreate(savedInstanceState);
         user = hm_WcpcDriverApplication.getInstance().getUser();
+        EventBus.getDefault().register(this);
+        getNetWorker().clientGet(user.getToken(), user.getId());
+    }
+    public void onEventMainThread(EventBusModel event) {
+        switch (event.getType()) {
+            case REFRESH_USER:
+                getNetWorker().clientGet(user.getToken(), user.getId());
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     protected void onResume() {
         FlowerCollector.onResume(mContext);
         FlowerCollector.onPageStart("PushReceiver");
-        getNetWorker().clientGet(user.getToken(), user.getId());
         super.onResume();
     }
 
@@ -197,7 +217,7 @@ public class PersonCenterInforActivity extends BaseActivity {
         text_myorder = (TextView) findViewById(R.id.textview_3);
         text_changepwd = (TextView) findViewById(R.id.textview_5);
         text_history = (TextView) findViewById(R.id.textview_6);
-        text_chengke = (TextView) findViewById(R.id.textview_7);
+        text_reply = (TextView) findViewById(R.id.textview_7);
         text_account = (TextView) findViewById(R.id.textview_8);
     }
 
@@ -219,7 +239,7 @@ public class PersonCenterInforActivity extends BaseActivity {
         setListener(text_myorder);
         setListener(text_changepwd);
         setListener(text_history);
-        setListener(text_chengke);
+        setListener(text_reply);
         setListener(text_account);
     }
 
@@ -240,20 +260,20 @@ public class PersonCenterInforActivity extends BaseActivity {
                     case R.id.textview_2: //选择状态
                         showStatusPopWindow();
                         break;
-                    case R.id.textview_3: //我的乘客订单
-                        it = new Intent(mContext, MyOrderActivity.class);
-                        startActivity(it);
+                    case R.id.textview_3: //我的乘客订单----已删
+//                        it = new Intent(mContext, MyOrderActivity.class);
+//                        startActivity(it);
                         break;
                     case R.id.textview_5: //账户密码修改
-                        it = new Intent(mContext, ChangePwdActivity.class);
+                        it = new Intent(mContext, PassWord0Activity.class);
                         startActivity(it);
                         break;
                     case R.id.textview_6: //历史订单
-                        it = new Intent(mContext, HistoryOrderActivity.class);
+                        it = new Intent(mContext, HistoryActivity.class);
                         startActivity(it);
                         break;
-                    case R.id.textview_7: //我的乘客
-                        it = new Intent(mContext, MyChengKeActivity.class);
+                    case R.id.textview_7: //我的评价
+                        it = new Intent(mContext, ReplyListActivity.class);
                         startActivity(it);
                         break;
                     case R.id.textview_8: //我的账户

@@ -38,5 +38,35 @@
             android:padding="15dp"/>
 
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/bg_login">
 
+        <EditText
+            android:id="@+id/ev_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text=""
+            android:hint="请输入姓名"
+            android:padding="15dp"
+            android:textColorHint="@color/cl_5e5e5e"
+            android:textColor="@color/cl_3f3f3f"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:visibility="invisible"
+            android:id="@+id/imageview2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/img_clearinput"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="15dp"/>
+
+    </RelativeLayout>
 </LinearLayout>

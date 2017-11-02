@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:locale="en">
 
-    <string name="app_name">万城拼车(司机端)</string>
+    <string name="app_name">小叫车(司机端)</string>
     <string name="contentdescription"></string>
 
     <string name="tv_login">登录</string>
@@ -63,7 +63,7 @@
     <string name="tv_reply">星级评价</string>
     <string name="hint_reply">还想说点啥</string>
     <string name="tv_inputmoney">输入提现金额</string>
-    <string name="hint_money">注：提现金额需为100的整数倍</string>
+    <string name="hint_money">注：仅限每周一可提现</string>
     <string name="hint_inputpwd">输入支付密码</string>
     <string name="tv_submit_apply">提交申请</string>
     <string name="hint_alipay">请输入支付宝账号</string>

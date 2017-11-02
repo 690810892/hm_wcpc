@@ -16,21 +16,20 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="135dp"
+                android:layout_height="145dp"
                 android:background="@color/white">
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:src="@mipmap/bg_driverhome"
                     android:scaleType="centerCrop"/>
-
                 <ImageView
                     android:id="@id/title_btn_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
-                    android:paddingTop="@dimen/margin_20"
+                    android:paddingTop="25dp"
                     android:paddingBottom="@dimen/margin_20"
                     android:paddingLeft="@dimen/margin_30"
                     android:paddingRight="@dimen/margin_30"
@@ -45,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:layout_alignParentRight="true"
-                    android:paddingTop="@dimen/margin_20"
+                    android:paddingTop="25dp"
                     android:paddingBottom="@dimen/margin_20"
                     android:paddingLeft="@dimen/margin_30"
                     android:paddingRight="@dimen/margin_30"
@@ -58,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="25dp"
                     android:layout_gravity="center"
                     android:text="个人中心"
                     android:textColor="@color/white"
@@ -68,7 +67,7 @@
                     android:id="@id/imageview"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:layout_marginTop="65dp"
+                    android:layout_marginTop="70dp"
                     android:background="@drawable/bg_avatar"
                     android:padding="2dp"
                     android:layout_centerHorizontal="true"
@@ -168,6 +167,7 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
                     android:padding="15dp"
+                    android:visibility="gone"
                     android:text="@string/tv_my_order"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
@@ -175,6 +175,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_driver"
+                    android:visibility="gone"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:src="@color/xian"/>
@@ -225,7 +226,7 @@
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
                     android:padding="15dp"
-                    android:text="@string/tv_changepwd"
+                    android:text="密码管理"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 
@@ -240,11 +241,11 @@
                     android:id="@id/textview_7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/img_center_chengke"
+                    android:drawableLeft="@mipmap/img_center_reply"
                     android:drawableRight="@mipmap/triangle"
                     android:drawablePadding="16dp"
                     android:padding="15dp"
-                    android:text="@string/tv_my_person"
+                    android:text="我的评价"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="14sp"/>
 

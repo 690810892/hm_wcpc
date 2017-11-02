@@ -19,6 +19,7 @@ import com.hemaapp.hm_FrameWork.emoji.ParseEmojiMsgUtil;
 import com.hemaapp.wcpc_driver.activity.LoginActivity;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -68,7 +69,13 @@ public class BaseUtil {
 //		}
 		return ds;
 	}
-
+	//除
+	public static String divide(String v1, String v2,int scale ) {
+		//如果精确范围小于0，抛出异常信息
+		BigDecimal b1 = new BigDecimal(v1);
+		BigDecimal b2 = new BigDecimal(v2);
+		return b1.divide(b2,scale,BigDecimal.ROUND_HALF_UP).toString();
+	}
 	/**
 	 * 计算两点间的距离
 	 *
@@ -92,7 +99,10 @@ public class BaseUtil {
 		s = Math.round(s * 10000) / 10000;
 		return s;
 	}
-
+	public static String getTime2(Date date) {//可根据需要自行截取数据显示
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		return format.format(date);
+	}
 	/**
 	 * 退出登录
 	 */

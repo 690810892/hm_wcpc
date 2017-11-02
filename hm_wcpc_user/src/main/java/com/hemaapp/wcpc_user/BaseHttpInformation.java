@@ -119,6 +119,7 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	 * 行程列表接口
 	 * */
 	TRIPS_LIST(22, "trips_list", "行程列表接口", false),
+	TRIPS_SAVEOPERATE(22, "trips_saveoperate", "保存行程操作接口", false),
 	/**
 	 * 车主行程详情接口
 	 * */
@@ -182,7 +183,7 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	/**
 	 * 订单操作接口
 	 * */
-	ORDER_OPERATE(38, "order_operate", "订单操作接口", false),
+	ORDER_OPERATE(38, "trips_saveoperate", "订单操作接口", false),
 	/**
 	 * 数据获取接口
 	 * */
@@ -198,7 +199,7 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	/**
 	 * 订单保存(去支付时调用)接口
 	 * */
-	ORDER_SAVE(42, "order_save", "订单保存(去支付时调用)接口", false),
+	ORDER_SAVE(42, "feeaccount_remove", "余额支付接口", false),
 	/**
 	 * 司机详情接口
 	 * */
@@ -215,6 +216,14 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	 * 用户当前行程接口
 	 * */
 	CURRENT_TRIPS(46, "current_trips", "用户当前行程接口", false),
+	/**
+	 * 已开通地区列表接口
+	 * */
+	CITY_LIST(44, "city_list", "地区列表接口", false),
+	TIME_RULE(44, "time_rule_get", "获取平台时间规则接口", false),
+	FEE_RULE(44, "fee_rule_list", "计费规则接口", false),
+	COMPLAIN_ADD(44, "complain_add", "投诉", false),
+	DRIVER_POSITION_GET(44, "driver_position_get", "获取司机位置", false),
 	;
 
 	private int id;// 对应NetTask的id

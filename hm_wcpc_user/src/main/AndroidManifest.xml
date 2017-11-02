@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hemaapp.wcpc_user">
 
     <!--整个应用中需要的权限-->
@@ -21,18 +22,37 @@
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 个推  start -->
+    <!-- 浮动通知权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 自定义权限 -->
+    <uses-permission android:name="getui.permission.GetuiService.${applicationId}" />
 
+    <permission
+        android:name="getui.permission.GetuiService.${applicationId}"
+        android:protectionLevel="normal"></permission>
+    <!-- 使用银联所需权限 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc.hce"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
+
+    <!-- 个推 end -->
     <application
         android:name=".hm_WcpcUserApplication"
         android:allowBackup="true"
-        android:hardwareAccelerated="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        tools:replace="name,icon,label,theme,hardwareAccelerated"
         android:theme="@style/AppBaseTheme" >
 
         <activity
             android:name=".activity.LogoActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,58 +64,57 @@
         <!-- 高德地图ApiKey -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="ff307ed31a43aa15e9efa7ed19acda9f" />
+            android:value="0425813ce3b41c4777b20a5fec5ca7dd" />
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
         <!--高德地图结束-->
 
-        <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-            <!--
-            	Adapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter的类，
-            	这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。
-            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
-            <meta-data android:name="Adapter" android:value="cn.sharesdk.demo.MyAdapter" />
-            -->
+        <!--<activity-->
+            <!--android:name="com.mob.tools.MobUIShell"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+            <!--android:windowSoftInputMode="stateHidden|adjustResize" >-->
+            <!--&lt;!&ndash;-->
+            	<!--Adapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter的类，-->
+            	<!--这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。-->
+            	<!--开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。-->
+            <!--<meta-data android:name="Adapter" android:value="cn.sharesdk.demo.MyAdapter" />-->
+            <!--&ndash;&gt;-->
 
-            <!--
-            	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
-            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
-            -->
-            <intent-filter>
-                <data android:scheme="db-41N5YNw0Y4NMeB9k" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
+            <!--&lt;!&ndash;-->
+            	<!--Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是-->
+            	<!--“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权-->
+            <!--&ndash;&gt;-->
+            <!--<intent-filter>-->
+                <!--<data android:scheme="db-41N5YNw0Y4NMeB9k" />-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
+                <!--<category android:name="android.intent.category.BROWSABLE"/>-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
         <meta-data
             android:name="PUSH_APPID"
-            android:value="W9cTzlz82a6yhqdQ9siL15" /> <!-- 替换为第三方应用的APPID -->
+            android:value="${GETUI_APP_ID}" />
         <meta-data
             android:name="PUSH_APPKEY"
-            android:value="SnxEwNEBVL7aqkkOpfUva9" /> <!-- 替换为第三方应用的APPKEY -->
+            android:value="${GETUI_APP_KEY}" />
         <meta-data
             android:name="PUSH_APPSECRET"
-            android:value="4dLRz98bSo9koGvzju8Hi9" /> <!-- 替换为第三方应用的APPSECRET -->
+            android:value="${GETUI_APP_SECRET}" />
         <!-- 配置SDK核心服务 -->
         <service
             android:name="com.igexin.sdk.PushService"
             android:exported="true"
             android:label="NotificationCenter"
-            android:process=":pushservice" />
-        <service
-            android:name="com.igexin.sdk.PushServiceUser"
-            android:exported="true"
-            android:label="NotificationCenterUser" />
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.service.message" />
+            </intent-filter>
+        </service>
 
-        <receiver android:name="com.igexin.sdk.PushReceiver" >
+        <receiver android:name="com.igexin.sdk.PushReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -107,13 +126,6 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name="com.igexin.sdk.PushManagerReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.pushmanager" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name="com.igexin.sdk.PushActivity"
@@ -121,20 +133,13 @@
             android:exported="false"
             android:process=":pushservice"
             android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name="com.igexin.sdk.GActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:process=":pushservice"
-            android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
         <service
             android:name="com.igexin.download.DownloadService"
             android:process=":pushservice" />
 
-        <receiver android:name="com.igexin.download.DownloadReceiver" >
+        <receiver android:name="com.igexin.download.DownloadReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -142,42 +147,47 @@
 
         <provider
             android:name="com.igexin.download.DownloadProvider"
-            android:authorities="downloads.com.hemaapp.wcpc_user"
+            android:authorities="downloads.${applicationId}"
             android:exported="true"
-            android:process=":pushservice" /> <!-- 替换为第三方应用的包名 -->
-
-        <activity
-            android:name="com.igexin.getuiext.activity.GetuiExtActivity"
-            android:configChanges="orientation|keyboard|keyboardHidden"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:process=":pushservice"
-            android:taskAffinity="android.task.myServicetask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <receiver
-            android:name="com.igexin.getuiext.service.PayloadReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4" />
-                <action android:name="com.igexin.sdk.action.W9cTzlz82a6yhqdQ9siL15" /> <!-- 替换为第三方应用的APPID -->
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="com.igexin.getuiext.service.GetuiExtService"
             android:process=":pushservice" />
 
-        <!-- 配置第三方Receiver -->
-        <receiver
-            android:name=".getui.PushReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.W9cTzlz82a6yhqdQ9siL15" /> <!-- 替换为第三方应用的APPID -->
-            </intent-filter>
-        </receiver>
+        <activity
+            android:name="com.igexin.sdk.GActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:process=":pushservice"
+            android:taskAffinity="com.igexin.sdk.PushActivityTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--本地需要的service-->
+        <!-- 用户自定义服务继承自GTIntentService,作为SDK与APP桥梁服务,用来接收各种消息和命令回复-->
+        <service
+            android:name="com.hemaapp.wcpc_user.getui.PushService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":pushservice" />
+        <service android:name="com.hemaapp.wcpc_user.getui.GeTuiIntentService" />
         <!-- 个推SDK配置结束 -->
 
+        <!-- shareSDK相关 -->
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!--
+            	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
+            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
+            -->
+            <intent-filter>
+                <data android:scheme="db-7janx53ilz11gbs" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!-- 微信分享回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -194,37 +204,46 @@
 
         <!-- QQ分享 -->
 
-        <!-- QQ客户端回调 -->
-        <activity
-            android:name="cn.sharesdk.tencent.qq.ResultReceiver"
-            android:launchMode="singleTask"
-            android:noHistory="true" >
+        <!--&lt;!&ndash; QQ客户端回调 &ndash;&gt;-->
+        <!--<activity-->
+            <!--android:name="cn.sharesdk.tencent.qq.ResultReceiver"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:noHistory="true" >-->
 
-            <!--
-            	如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW
-            	事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，
-            	则分享结束以后不能得到正确的回调
-            -->
-            <intent-filter android:priority="1000" >
-                <data android:scheme="tencent1104901782" />
+            <!--&lt;!&ndash;-->
+            	<!--如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW-->
+            	<!--事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，-->
+            	<!--则分享结束以后不能得到正确的回调-->
+            <!--&ndash;&gt;-->
+            <!--<intent-filter android:priority="1000" >-->
+                <!--<data android:scheme="tencent1104901782" />-->
 
-                <action android:name="android.intent.action.VIEW" />
+                <!--<action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <!-- shareSDK相关end -->
 
-        <!-- 银联在线支付 -->
-
+        <!-- 银联支付 -->
+        <uses-library
+            android:name="org.simalliance.openmobileapi"
+            android:required="false"/>
         <activity
             android:name="com.unionpay.uppay.PayActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.unionpay.UPPayWapActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <!-- 银联支付 end -->
 
         <!-- 支付宝快捷支付 -->
         <activity
@@ -236,6 +255,7 @@
 
         <activity
             android:name=".activity.ShowActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
@@ -273,11 +293,20 @@
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.SendActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.FeeRuleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.StartPositionMapActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.StartMapActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
@@ -399,6 +428,46 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SelectCityActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyCurrentTrip2Activity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PersonCenterNewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyPurseNewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PassWord0Activity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FeeInforActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SelectCity2Activity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FeeRuleListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TouSuActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AlbumActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.MyCurrentTripActivity" />

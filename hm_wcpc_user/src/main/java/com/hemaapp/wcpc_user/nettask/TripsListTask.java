@@ -3,6 +3,7 @@ package com.hemaapp.wcpc_user.nettask;
 import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.BaseNetTask;
+import com.hemaapp.wcpc_user.module.CurrentTripsInfor;
 import com.hemaapp.wcpc_user.module.TripListInfor;
 
 import org.json.JSONObject;
@@ -30,16 +31,16 @@ public class TripsListTask extends BaseNetTask {
         return new Result(jsonObject);
     }
 
-    private class Result extends HemaPageArrayResult<TripListInfor> {
+    private class Result extends HemaPageArrayResult<CurrentTripsInfor> {
 
         public Result(JSONObject jsonObject) throws DataParseException {
             super(jsonObject);
         }
 
         @Override
-        public TripListInfor parse(JSONObject jsonObject)
+        public CurrentTripsInfor parse(JSONObject jsonObject)
                 throws DataParseException {
-            return new TripListInfor(jsonObject);
+            return new CurrentTripsInfor(jsonObject);
         }
 
     }

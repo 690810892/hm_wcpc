@@ -13,6 +13,7 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.overlay.DrivingRouteOverlay;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.BusRouteResult;
 import com.amap.api.services.route.DrivePath;
@@ -112,7 +113,7 @@ public class DriverMapDetailInforActivity extends BaseActivity
         DrivePath drivePath = carRoutes.get(0).getDrivePath();
         if (drivePath != null) {
 //            aMap.clear();// 清理地图上的所有覆盖物
-            DrivingRoute drivingRouteOverlay = new DrivingRoute(
+            DrivingRouteOverlay  drivingRouteOverlay = new DrivingRouteOverlay(
                     this, aMap, drivePath, carRoutes.get(0).getFromPoint(),
                     carRoutes.get(0).getToPoint());
             drivingRouteOverlay.removeFromMap();
@@ -201,6 +202,7 @@ public class DriverMapDetailInforActivity extends BaseActivity
     public void onWalkRouteSearched(WalkRouteResult walkRouteResult, int i) {
 
     }
+
 
     /**
      * 方法必须重写

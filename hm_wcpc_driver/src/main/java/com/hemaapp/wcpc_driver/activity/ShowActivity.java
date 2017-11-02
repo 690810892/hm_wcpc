@@ -39,7 +39,7 @@ public class ShowActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_show);
         super.onCreate(savedInstanceState);
-        String[] imgs = new String[] { "start_1.png", "start_2.png"};
+        String[] imgs = new String[] { "start_1.png", "start_2.png", "start_3.png"};
         mAdapter = new ShowAdapter(mContext, imgs, layout);
         mViewPager.setAdapter(mAdapter);
     }
@@ -168,7 +168,7 @@ public class ShowActivity extends BaseActivity {
     }
 
     private void toMain(){
-        Intent it = new Intent(mContext, MainActivity.class);
+        Intent it = new Intent(mContext, MainNewActivity.class);
         startActivity(it);
         finish();
     }

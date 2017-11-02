@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hemaapp.hm_FrameWork.HemaNetTask;
+import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseActivity;
@@ -39,7 +40,7 @@ public class SelectCityActivity extends BaseActivity {
     private TextView text_loccity;
     private ListView listView;
     private LetterListView letterListView;
-    private String city;
+    private String city,start_cityid;
 
     private ArrayList<DistrictInfor> allDistricts = new ArrayList<>();
     private TextView overlay; //点击字母索引列表后，出现的额内容
@@ -58,12 +59,13 @@ public class SelectCityActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_selectcity);
         super.onCreate(savedInstanceState);
-        text_loccity.setText("当前定位城市："+city);
+       // text_loccity.setText("当前定位城市："+city);
         handler = new Handler();
         overlayThread = new OverlayThread();
         initOverlay();
         pinyinComparator = new PinyinComparator();
-        getNetWorker().districtList("-1");
+//        getNetWorker().districtList("-1");
+        getNetWorker().cityList(start_cityid);
     }
 
     private void initOverlay() {
@@ -93,6 +95,7 @@ public class SelectCityActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case DISTRICT_LIST:
+            case CITY_LIST:
                 showProgressDialog("正在获取城市列表");
                 break;
             default:
@@ -106,6 +109,7 @@ public class SelectCityActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case DISTRICT_LIST:
+            case CITY_LIST:
                 cancelProgressDialog();
                 break;
             default:
@@ -123,6 +127,15 @@ public class SelectCityActivity extends BaseActivity {
             case DISTRICT_LIST:
                 HemaPageArrayResult<DistrictInfor> dResult = (HemaPageArrayResult<DistrictInfor>) baseResult;
                 allDistricts = dResult.getObjects();
+
+                Collections.sort(allDistricts, pinyinComparator);
+                mLocationAdapter.setList(allDistricts);
+                setAdapter(allDistricts);
+                mLocationAdapter.notifyDataSetChanged();
+                break;
+            case CITY_LIST:
+                HemaArrayResult<DistrictInfor> CResult = (HemaArrayResult<DistrictInfor>) baseResult;
+                allDistricts = CResult.getObjects();
 
                 Collections.sort(allDistricts, pinyinComparator);
                 mLocationAdapter.setList(allDistricts);
@@ -153,6 +166,7 @@ public class SelectCityActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case DISTRICT_LIST:
+            case CITY_LIST:
                 showTextDialog(baseResult.getMsg());
                 break;
             default:
@@ -166,6 +180,7 @@ public class SelectCityActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case DISTRICT_LIST:
+            case CITY_LIST:
                 showTextDialog("获取地区列表失败");
                 break;
             default:
@@ -186,6 +201,9 @@ public class SelectCityActivity extends BaseActivity {
     @Override
     protected void getExras() {
         city = mIntent.getStringExtra("city");
+        start_cityid= mIntent.getStringExtra("start_cityid");
+        if (isNull(start_cityid))
+            start_cityid="0";
     }
 
     @Override
@@ -205,6 +223,7 @@ public class SelectCityActivity extends BaseActivity {
 
     public void onItemClick(DistrictInfor infor){
         mIntent.putExtra("name", infor.getName());
+        mIntent.putExtra("infor", infor);
         setResult(RESULT_OK, mIntent);
         finish();
     }

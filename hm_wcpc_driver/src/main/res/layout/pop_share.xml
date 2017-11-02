@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/allitem"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="#60000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="0dp"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="分享到"
+                android:visibility="gone"
+                android:textColor="#818181"
+                android:textSize="@dimen/textsize_7" />
+
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/bg_pop"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/wechat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@mipmap/share_wechat"
+                    android:gravity="center"
+                    android:text="    微信    "
+                    android:textColor="@color/qianhui"
+                    android:textSize="@dimen/textsize_7" />
+
+                <TextView
+                    android:id="@+id/moment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@mipmap/share_moment"
+                    android:gravity="center"
+                    android:text="  朋友圈  "
+                    android:textColor="@color/qianhui"
+                    android:textSize="@dimen/textsize_7" />
+
+                <TextView
+                    android:id="@+id/qq"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@mipmap/share_qq"
+                    android:gravity="center"
+                    android:text="    QQ    "
+                    android:textColor="@color/qianhui"
+                    android:textSize="@dimen/textsize_7" />
+
+                <TextView
+                    android:id="@+id/zone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@mipmap/share_zone"
+                    android:gravity="center"
+                    android:text="QQ空间"
+                    android:textColor="@color/qianhui"
+                    android:textSize="@dimen/textsize_7" />
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:src="#99ACB0"
+            android:background="@color/white"/>
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@drawable/bg_share_cancel"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="取消"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/textsize_8" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -14,15 +14,18 @@ import android.text.SpannableString;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amap.api.maps.model.LatLng;
 import com.hemaapp.hm_FrameWork.emoji.EmojiParser;
 import com.hemaapp.hm_FrameWork.emoji.ParseEmojiMsgUtil;
 import com.hemaapp.wcpc_user.activity.LoginActivity;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import xtom.frame.XtomActivityManager;
@@ -67,7 +70,45 @@ public class BaseUtil {
 //        ds += (String.format(Locale.getDefault(), "%.3f", km));
         return ds;
     }
+    public static String getTime(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return format.format(date);
+    }
+    public static String getTime2(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+    public static String TransTimeHour(String time, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
+        try {
+            Date e = sdf.parse(time);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.getDefault());
+            return dateFormat.format(e);
+        } catch (Exception var5) {
+            return null;
+        }
+    }
+    public static int compareTime(String time1, String time2) {
+        // TODO Auto-generated method stub
+        DateFormat df = new SimpleDateFormat("HH:mm:ss");//创建日期转换对象HH:mm:ss为时分秒，年月日为yyyy-MM-dd
+        try {
+            Date dt1 = df.parse(time1);//将字符串转换为date类型
+            Date dt2 = df.parse(time2);
+            if(dt1.getTime()>=dt2.getTime())//比较时间大小,如果dt1大于dt2
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return -1;
+        }
+    }
     /**
      * 计算两点间的距离
      *
@@ -90,6 +131,8 @@ public class BaseUtil {
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
+
+
     }
 
     /**
@@ -466,5 +509,31 @@ public class BaseUtil {
             image_3.setImageResource(R.mipmap.img_pingjia_s);
             image_4.setImageResource(R.mipmap.img_pingjia_s);
         }
+    }
+    // 功能：判断点是否在多边形内
+    // 方法：求解通过该点的水平线与多边形各边的交点
+    // 结论：单边交点为奇数，成立!
+    //参数：
+    // POINT p   指定的某个点
+    // LPPOINT ptPolygon 多边形的各个顶点坐标（首末点可以不一致）
+    public static boolean PtInPolygon(LatLng point, List<LatLng> APoints) {
+        int nCross = 0;
+        for (int i = 0; i < APoints.size(); i++)   {
+            LatLng p1 = APoints.get(i);
+            LatLng p2 = APoints.get((i + 1) % APoints.size());
+            // 求解 y=p.y 与 p1p2 的交点
+            if ( p1.longitude == p2.longitude)      // p1p2 与 y=p0.y平行
+                continue;
+            if ( point.longitude <  Math.min(p1.longitude, p2.longitude))   // 交点在p1p2延长线上
+                continue;
+            if ( point.longitude >= Math.max(p1.longitude, p2.longitude))   // 交点在p1p2延长线上
+                continue;
+            // 求交点的 X 坐标 --------------------------------------------------------------
+            double x = (double)(point.longitude - p1.longitude) * (double)(p2.latitude - p1.latitude) / (double)(p2.longitude - p1.longitude) + p1.latitude;
+            if ( x > point.latitude )
+                nCross++; // 只统计单边交点
+        }
+        // 单边交点为偶数，点在多边形之外 ---
+        return (nCross % 2 == 1);
     }
 }

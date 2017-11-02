@@ -47,6 +47,7 @@ public class RegistorStepOneActivity extends BaseActivity {
     private ImageView image_clear_pwd;
     private EditText repeatEditText;
     private ImageView image_reclear;
+    private EditText inviteEditText;
 
     private TextView text_submit;
 
@@ -122,6 +123,7 @@ public class RegistorStepOneActivity extends BaseActivity {
                 it.putExtra("username", username);
                 it.putExtra("password", password);
                 it.putExtra("tempToken", tempToken);
+                it.putExtra("invitecode", inviteEditText.getText().toString());
                 startActivity(it);
                 break;
         }
@@ -181,7 +183,7 @@ public class RegistorStepOneActivity extends BaseActivity {
         image_clear_pwd = (ImageView) findViewById(R.id.img_pwd_visible);
         repeatEditText = (EditText) findViewById(R.id.edit_password_again);
         image_reclear = (ImageView) findViewById(R.id.img_pwd_visible1);
-
+        inviteEditText= (EditText) findViewById(R.id.edit_invite);
         text_submit = (TextView) findViewById(R.id.button);
     }
 

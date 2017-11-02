@@ -28,6 +28,7 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.overlay.DrivingRouteOverlay;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
@@ -40,15 +41,19 @@ import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
+import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
+import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseActivity;
+import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.R;
+import com.hemaapp.wcpc_user.module.DistrictInfor;
 import com.hemaapp.wcpc_user.module.Route;
-import com.hemaapp.wcpc_user.view.DrivingRoute;
 import com.hemaapp.wcpc_user.view.LocationUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import xtom.frame.util.XtomSharedPreferencesUtil;
@@ -88,9 +93,10 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
     private LatLng start_latlng, end_latlng;
 
     private Marker startMarker, endMarker;
-    private String city, start_city;
-    private boolean isClicked =false;
-
+    private String city, start_city, start_cityid, end_city, end_cityid;
+    private boolean isClicked = false;
+    private ArrayList<DistrictInfor> allDistricts = new ArrayList<>();
+    private DistrictInfor districtInfor=null;
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             XtomToastUtil.showLongToast(EndPositionMapActivity.this, data);
@@ -105,6 +111,7 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         city = XtomSharedPreferencesUtil.get(mContext, "city");
         aMap = mapView.getMap();
         checkLocation();
+        getNetWorker().cityList(start_cityid);
     }
 
     //检测是否有定位权限
@@ -123,12 +130,12 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         }
     }
 
-    private void init(){
+    private void init() {
         routeSearch = new RouteSearch(this);
         routeSearch.setRouteSearchListener(this);
         fromPointExra = new LatLonPoint(Double.parseDouble(start_lat), Double.parseDouble(start_lng));
         prepareLocation();
-        initStart();
+        // initStart();
         initEnd();
     }
 
@@ -136,7 +143,7 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 3) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED ||
-                    grantResults[1] != PackageManager.PERMISSION_GRANTED){//未获得定位权限
+                    grantResults[1] != PackageManager.PERMISSION_GRANTED) {//未获得定位权限
                 showTextDialog("没有定位权限，请添加后重试");
                 title.postDelayed(new Runnable() {
                     @Override
@@ -152,7 +159,7 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private void prepareLocation(){
+    private void prepareLocation() {
         locationClient = new AMapLocationClient(getApplicationContext());
         locationOption = new AMapLocationClientOption();
         // 设置定位模式为高精度模式
@@ -188,9 +195,9 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
                     AMapLocation loc = (AMapLocation) msg.obj;
                     end_lng = String.valueOf(loc.getLongitude());
                     end_lat = String.valueOf(loc.getLatitude());
-                    data = loc.getAddress();
+                    data = loc.getCity()+loc.getAoiName();
                     citycode = loc.getCity();
-                    if(isNull(citycode)){
+                    if (isNull(citycode)) {
                         citycode = loc.getProvince();
                     }
                     latLonPoint = new LatLonPoint(loc.getLatitude(), loc.getLongitude());
@@ -203,21 +210,45 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
                 case LocationUtils.MSG_LOCATION_STOP:
                     break;
             }
-        };
+        }
+
+        ;
     };
 
-    private void initEnd(){
-        aMap.setOnMapClickListener(this);
+    private void initEnd() {
+        //aMap.setOnMapClickListener(this);
         aMap.setMyLocationEnabled(true);
 
-        if(!isNull(end_lat) && !isNull(end_lng)){
-            startSearch();
+        if (!isNull(end_lat) && !isNull(end_lng)) {
+            end_latlng = new LatLng(Double.parseDouble(end_lat), Double.parseDouble(end_lng));
+            endMarker = aMap.addMarker(new MarkerOptions()
+                    .position(end_latlng)
+                    .title("终点")
+                    .icon(BitmapDescriptorFactory
+                            .fromBitmap(BitmapFactory.
+                                    decodeResource(getResources(), R.mipmap.img_endposition_logo))));
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(end_latlng,
+                    15);
+            aMap.moveCamera(update);
+
+            // startSearch();
+        } else {
+            start_latlng = new LatLng(Double.parseDouble(start_lat), Double.parseDouble(start_lng));
+            startMarker = aMap.addMarker(new MarkerOptions()
+                    .position(start_latlng)
+                    .title("起点")
+                    .icon(BitmapDescriptorFactory
+                            .fromBitmap(BitmapFactory.
+                                    decodeResource(getResources(), R.mipmap.img_startposition_logo))));
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(start_latlng,
+                    15);
+            aMap.moveCamera(update);
         }
         geocoderSearch = new GeocodeSearch(this);
         geocoderSearch.setOnGeocodeSearchListener(this);
     }
 
-    private void startSearch(){
+    private void startSearch() {
         end_latlng = new LatLng(Double.parseDouble(end_lat), Double.parseDouble(end_lng));
         endMarker = aMap.addMarker(new MarkerOptions()
                 .position(end_latlng)
@@ -234,7 +265,7 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         routeSearch.calculateDriveRouteAsyn(query);
     }
 
-    private void initStart(){
+    private void initStart() {
         start_latlng = new LatLng(Double.parseDouble(start_lat), Double.parseDouble(start_lng));
         startMarker = aMap.addMarker(new MarkerOptions()
                 .position(start_latlng)
@@ -247,12 +278,12 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         aMap.moveCamera(update);
     }
 
-    private void startDriverUI(){
+    private void startDriverUI() {
         DrivePath drivePath = carRoutes.get(0).getDrivePath();
         if (drivePath != null) {
             aMap.clear();// 清理地图上的所有覆盖物
             distance = carRoutes.get(0).getDistance();
-            DrivingRoute drivingRouteOverlay = new DrivingRoute(
+            DrivingRouteOverlay drivingRouteOverlay = new DrivingRouteOverlay(
                     this, aMap, drivePath, carRoutes.get(0).getFromPoint(),
                     carRoutes.get(0).getToPoint());
             drivingRouteOverlay.removeFromMap();
@@ -309,6 +340,17 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
 
     @Override
     protected void callBackForServerSuccess(HemaNetTask hemaNetTask, HemaBaseResult hemaBaseResult) {
+        BaseHttpInformation information = (BaseHttpInformation) hemaNetTask
+                .getHttpInformation();
+        switch (information) {
+            case CITY_LIST:
+                HemaArrayResult<DistrictInfor> CResult = (HemaArrayResult<DistrictInfor>) hemaBaseResult;
+                allDistricts = CResult.getObjects();
+
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -333,6 +375,7 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         end_lat = mIntent.getStringExtra("end_lat");
         end_lng = mIntent.getStringExtra("end_lng");
         start_city = mIntent.getStringExtra("city");
+        start_cityid = mIntent.getStringExtra("start_cityid");
     }
 
     @Override
@@ -353,14 +396,15 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
                     XtomToastUtil.showShortToast(mContext, "请点击地图选择地点!");
                     return;
                 }
-                if(isClicked){
+                if (isClicked) {
                     mIntent.putExtra("data", data);
                     mIntent.putExtra("lng", String.valueOf(end_latlng.longitude));
                     mIntent.putExtra("lat", String.valueOf(end_latlng.latitude));
                     mIntent.putExtra("distance", distance);
+                    mIntent.putExtra("districtInfor", districtInfor);
                     setResult(RESULT_OK, mIntent);
                     finish();
-                }else{
+                } else {
                     finish();
                 }
             }
@@ -370,9 +414,20 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(mContext, SelectEndPositionActivity.class);
-                if(isNull(citycode))
-                    citycode = XtomSharedPreferencesUtil.get(mContext, "city");
+                if (isNull(citycode) || citycode.equals(start_city)) {
+                    if (allDistricts.size() > 0)
+                        citycode = allDistricts.get(0).getName();
+                }
+                for (DistrictInfor d:allDistricts){
+                    if (d.getName().equals(citycode)){
+                        districtInfor=d;
+                        break;
+                    }
+                }
                 it.putExtra("citycode", citycode);
+                it.putExtra("districtInfor", districtInfor);
+                it.putExtra("start_cityid", start_cityid);
+                it.putExtra("selectEnd", true);
                 startActivityForResult(it, R.id.linearlayout);
 
             }
@@ -381,12 +436,13 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_OK)
+        if (resultCode != RESULT_OK)
             return;
-        switch (requestCode){
+        switch (requestCode) {
             case R.id.linearlayout:
                 isClicked = true;
                 String name = data.getStringExtra("name");
+                districtInfor= (DistrictInfor) data.getSerializableExtra("districtInfor");
                 city = data.getStringExtra("city");
                 text_search.setText(name);
                 end_lat = String.valueOf(data.getDoubleExtra("lat", 0.0));
@@ -424,7 +480,7 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         startLocation();
     }
 
-    private void startLocation(){
+    private void startLocation() {
         // 启动定位
         locationClient.startLocation();
         mHandler.sendEmptyMessage(LocationUtils.MSG_LOCATION_START);
@@ -457,7 +513,7 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
         if (result != null && result.getPaths() != null
                 && result.getPaths().size() > 0) {
             List<DrivePath> paths = result.getPaths();
-            if(carRoutes != null && carRoutes.size() >0)
+            if (carRoutes != null && carRoutes.size() > 0)
                 carRoutes.clear();
             for (DrivePath drivePath : paths) {
                 long duration = drivePath.getDuration();
@@ -479,9 +535,10 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
     public void onWalkRouteSearched(WalkRouteResult walkRouteResult, int i) {
     }
 
+
     @Override
     public void onMapLoaded() {
-        if(!isNull(end_lng) && !isNull(end_lat)){
+        if (!isNull(end_lng) && !isNull(end_lat)) {
             startDriverUI();
         }
     }
@@ -493,22 +550,33 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
                 RegeocodeAddress address = result.getRegeocodeAddress();
                 city = address.getCity();
-                if(!isNull(city) && start_city.equals(city)){
+                if (!isNull(city) && start_city.equals(city)) {
+                    log_d("city=="+city);
                     showTextDialog("抱歉，您发布的行程不能在同一个城市，请重新选择");
+                    isClicked = false;
                     return;
                 }
-
+                boolean isOpen = false;
+                for (DistrictInfor districtInfor : allDistricts) {
+                    if (districtInfor.getName().contains(city)) {
+                        isOpen = true;
+                        end_cityid = districtInfor.getCity_id();
+                        break;
+                    }
+                }
+                if (!isOpen) {
+                    showTextDialog("抱歉，您选择的目的地尚未开通");
+                    isClicked = false;
+                    return;
+                }
                 citycode = address.getCity();
-                if(isNull(citycode)){
+                if (isNull(citycode)) {
                     citycode = address.getProvince();
                 }
-
-                data = result.getRegeocodeAddress().getFormatAddress();
-                if(!isNull(address.getBuilding()))
-                    data = data + address.getBuilding();
-                else if(!isNull(address.getStreetNumber().getStreet())){
-                    data = data+address.getStreetNumber().getNumber();
-                }
+                if (address.getAois() != null&&address.getAois().size()>0)
+                    data =  address.getAois().get(0).getAoiName();
+                else
+                    data = address.getFormatAddress();
 
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(end_latlng, 10));
                 if (endMarker == null) {
@@ -531,8 +599,7 @@ public class EndPositionMapActivity extends BaseActivity implements LocationSour
                 if (handler != null) {
                     handler.sendMessage(msg);
                 }
-//                XtomToastUtil.showLongToast(mContext, data);
-                startSearch();
+                //  startSearch();
             } else {
                 XtomToastUtil.showShortToast(mContext, "抱歉，没有找到符合的结果");
             }

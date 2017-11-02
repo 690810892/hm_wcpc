@@ -1,6 +1,9 @@
 package com.hemaapp.wcpc_user.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,8 +29,10 @@ import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseConfig;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.BaseUtil;
+import com.hemaapp.wcpc_user.EventBusConfig;
+import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
-import com.hemaapp.wcpc_user.alipay.Result;
+import com.hemaapp.wcpc_user.alipay.PayResult;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.AlipayTrade;
 import com.hemaapp.wcpc_user.module.UnionTrade;
@@ -41,6 +46,7 @@ import com.unionpay.uppay.PayActivity;
 
 import java.util.ArrayList;
 
+import de.greenrobot.event.EventBus;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
@@ -74,22 +80,59 @@ public class ToPayActivity extends BaseActivity {
     IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 
     private int flag = 1; //1:余额支付，2:优惠券支付，3:其他支付
-
+    private WXPayReceiver mReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_topay);
         super.onCreate(savedInstanceState);
         user = hm_WcpcUserApplication.getInstance().getUser();
         msgApi.registerApp(BaseConfig.APPID_WEIXIN);
+        mReceiver = new WXPayReceiver();
+        IntentFilter mFilter = new IntentFilter();
+        mFilter.addAction("com.hemaapp.wcpc_user.wxpay");
+        registerReceiver(mReceiver, mFilter);
         getNetWorker().clientGet(user.getToken(), user.getId());
     }
 
     private void initUserData() {
         text_needpay.setText(total_fee);
-        text_feeaccount.setText("余额" + user.getFeeaccount() + "元");
+        text_feeaccount.setText("余额" + user.getFeeaccount());
         layout_coupon.setVisibility(View.INVISIBLE);
     }
+    private class WXPayReceiver extends BroadcastReceiver {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("com.hemaapp.wcpc_user.wxpay".equals(intent.getAction())) {
+                int code = intent.getIntExtra("code", -1);
+                switch (code) {
+                    case 0:
+                        EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
+                        buySuccess();
+                        break;
+                    case -1:
+                        showTextDialog("支付失败");
+                        break;
+                    case -2:
+                        showTextDialog("您取消了支付");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    private void buySuccess() {
+        showTextDialog("支付成功");
+        title.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }, 1000);
+    }
     @Override
     protected void callBeforeDataBack(HemaNetTask netTask) {
         BaseHttpInformation information = (BaseHttpInformation) netTask
@@ -140,30 +183,15 @@ public class ToPayActivity extends BaseActivity {
                 initUserData();
                 break;
             case ORDER_SAVE:
-                String paytype = netTask.getParams().get("paytype");
-                if ("3".equals(paytype)) {
-                    if (checkBox_alipay.isChecked()) {
-                        getNetWorker().alipay(user.getToken(), "2", order_id, total_fee);
-                    } else if (checkBox_weixin.isChecked()) {
-                        getNetWorker().weixin(user.getToken(), "2", order_id, total_fee);
-                    } else if (checkBox_unipay.isChecked()) {
-                        getNetWorker().unionpay(user.getToken(), "2", order_id, total_fee);
-                    }
-                } else {
-                    title.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            setResult(RESULT_OK, mIntent);
-                            finish();
-                        }
-                    }, 1000);
-                }
+                EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
+                buySuccess();
                 break;
             case ALIPAY:
                 HemaArrayResult<AlipayTrade> aResult = (HemaArrayResult<AlipayTrade>) baseResult;
                 AlipayTrade trade = aResult.getObjects().get(0);
                 String orderInfo = trade.getAlipaysign();
                 new AlipayThread(orderInfo).start();
+
                 break;
             case WEI_XIN:
                 HemaArrayResult<WeiXinPay> wResult = (HemaArrayResult<WeiXinPay>) baseResult;
@@ -171,11 +199,15 @@ public class ToPayActivity extends BaseActivity {
                 goWeixin(wTrade);
                 break;
             case UNIONPAY:
-                HemaArrayResult<UnionTrade> unResult = (HemaArrayResult<UnionTrade>) baseResult;
-                UnionTrade uTrade = unResult.getObjects().get(0);
+//                HemaArrayResult<UnionTrade> unResult = (HemaArrayResult<UnionTrade>) baseResult;
+//                UnionTrade uTrade = unResult.getObjects().get(0);
+//                String uInfo = uTrade.getTn();
+//                UPPayAssistEx.startPayByJAR(mContext, PayActivity.class, null,
+//                        null, uInfo, BaseConfig.UNIONPAY_TESTMODE);
+                HemaArrayResult<UnionTrade> uResult1 = (HemaArrayResult<UnionTrade>) baseResult;
+                UnionTrade uTrade = uResult1.getObjects().get(0);
                 String uInfo = uTrade.getTn();
-                UPPayAssistEx.startPayByJAR(mContext, PayActivity.class, null,
-                        null, uInfo, BaseConfig.UNIONPAY_TESTMODE);
+                UPPayAssistEx.startPay(this, null, null, uInfo, BaseConfig.UNIONPAY_TESTMODE);
                 break;
         }
     }
@@ -389,18 +421,29 @@ public class ToPayActivity extends BaseActivity {
                     return;
                 } else {
                     if (flag == 2) {
-                        getNetWorker().orderSave(user.getToken(), order_id, "2", coupons_id, total_fee, "0");
                     } else {
                         if (checkBox_feeaccount.isChecked()) {
                             String feeaccount = user.getFeeaccount();
                             double fee = Double.parseDouble(feeaccount);
+
                             if (fee < Double.parseDouble(total_fee)) {
                                 showTextDialog("抱歉，您的余额不足，无法支付");
                                 return;
                             }
+                            user = hm_WcpcUserApplication.getInstance().getUser();
+                            if (isNull(user.getPaypassword())) {
+                                showsetPDDialog();
+                                return;
+                            }
                             showInputPassword();
                         } else {
-                            getNetWorker().orderSave(user.getToken(), order_id, "3", coupons_id, total_fee, "0");
+                            if (checkBox_alipay.isChecked()) {
+                                getNetWorker().alipay(user.getToken(), "2", order_id, total_fee);
+                            } else if (checkBox_weixin.isChecked()) {
+                                getNetWorker().weixin(user.getToken(), "2", order_id, total_fee);
+                            } else if (checkBox_unipay.isChecked()) {
+                                getNetWorker().unionpay(user.getToken(), "2", order_id, total_fee);
+                            }
                         }
                     }
                 }
@@ -451,12 +494,47 @@ public class ToPayActivity extends BaseActivity {
                     showTextDialog("请输入支付密码");
                     return;
                 }
-
-                getNetWorker().orderSave(user.getToken(), order_id, "1", coupons_id, total_fee, paypassword);
+                getNetWorker().orderSave(user.getToken(), "2", order_id, total_fee, paypassword);
             }
         });
 
         text_forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pwdWindow.dismiss();
+                Intent it = new Intent(mContext, ResetPayPasswordActivity.class);
+                startActivity(it);
+            }
+        });
+    }
+
+    private void showsetPDDialog() {
+        if (pwdWindow != null) {
+            pwdWindow.dismiss();
+        }
+        pwdWindow = new PopupWindow(mContext);
+        pwdWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        pwdWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        pwdWindow.setBackgroundDrawable(new BitmapDrawable());
+        pwdWindow.setFocusable(true);
+        pwdWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_exit, null);
+        TextView exit = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView cancel = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        TextView pop_content = (TextView) mViewGroup.findViewById(R.id.textview);
+        pwdWindow.setContentView(mViewGroup);
+        pwdWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        pop_content.setText("您还未设置支付密码，前去设置？");
+        cancel.setText("取消");
+        exit.setText("去设置");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pwdWindow.dismiss();
+            }
+        });
+        exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pwdWindow.dismiss();
@@ -491,12 +569,13 @@ public class ToPayActivity extends BaseActivity {
                     return;
                 String msg;
         /*
-		 * 支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
+         * 支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
 		 */
                 String str = data.getExtras().getString("pay_result");
                 if (str.equalsIgnoreCase("success")) {
                     msg = "支付成功！";
                     showTextDialog(msg);
+                    EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
                     title.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -530,8 +609,6 @@ public class ToPayActivity extends BaseActivity {
         request.sign = trade.getSign();
         msgApi.sendReq(request);
     }
-
-
     private class AlipayThread extends Thread {
         String orderInfo;
         AlipayHandler alipayHandler;
@@ -543,10 +620,12 @@ public class ToPayActivity extends BaseActivity {
 
         @Override
         public void run() {
+            // 构造PayTask 对象
             PayTask alipay = new PayTask(ToPayActivity.this);
             // 调用支付接口，获取支付结果
             String result = alipay.pay(orderInfo);
 
+            log_i("result = " + result);
             Message msg = new Message();
             msg.obj = result;
             alipayHandler.sendMessage(msg);
@@ -560,25 +639,38 @@ public class ToPayActivity extends BaseActivity {
             this.activity = activity;
         }
 
-        public void handleMessage(android.os.Message msg) {
-            Result result = new Result((String) msg.obj);
-            int status = result.getResultStatus();
-            if (status == 9000) {
-                activity.showTextDialog("支付成功");
-                activity.title.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        activity.setResult(RESULT_OK, activity.mIntent);
-                        activity.finish();
-                    }
-                }, 1000);
-            } else {
-                activity.showTextDialog(result.getResult());
+        public void handleMessage(Message msg) {
+            if (msg == null) {
+                activity.showTextDialog("支付失败");
+                return;
             }
-        }
+            PayResult result = new PayResult((String) msg.obj);
+            String staus = result.getResultStatus();
+            switch (staus) {
+                case "9000":
+                    activity.showTextDialog("支付成功");
+                    EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
+                    postAtTime(new Runnable() {
 
-        ;
+                        @Override
+                        public void run() {
+                            activity.finish();
+                        }
+                    }, 1500);
+                    break;
+                case "8000":
+                    activity.showTextDialog("支付结果确认中");
+                    break;
+                default:
+                    activity.showTextDialog("您取消了支付");
+                    break;
+            }
+        };
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+    }
 }

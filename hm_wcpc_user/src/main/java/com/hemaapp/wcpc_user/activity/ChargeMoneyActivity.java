@@ -23,7 +23,7 @@ import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseConfig;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.R;
-import com.hemaapp.wcpc_user.alipay.Result;
+import com.hemaapp.wcpc_user.alipay.PayResult;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.AlipayTrade;
 import com.hemaapp.wcpc_user.module.UnionTrade;
@@ -35,6 +35,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.unionpay.UPPayAssistEx;
 import com.unionpay.uppay.PayActivity;
 
+import de.greenrobot.event.EventBus;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
@@ -175,10 +176,12 @@ public class ChargeMoneyActivity extends BaseActivity {
 
         @Override
         public void run() {
+            // 构造PayTask 对象
             PayTask alipay = new PayTask(ChargeMoneyActivity.this);
             // 调用支付接口，获取支付结果
             String result = alipay.pay(orderInfo);
 
+            log_i("result = " + result);
             Message msg = new Message();
             msg.obj = result;
             alipayHandler.sendMessage(msg);
@@ -192,23 +195,34 @@ public class ChargeMoneyActivity extends BaseActivity {
             this.activity = activity;
         }
 
-        public void handleMessage(android.os.Message msg) {
-            Result result = new Result((String) msg.obj);
-            int status = result.getResultStatus();
-            if(status == 9000){
-                activity.showTextDialog("支付成功");
-                activity.title.postDelayed(new Runnable() {
+        public void handleMessage(Message msg) {
+            if (msg == null) {
+                activity.showTextDialog("支付失败");
+                return;
+            }
+            PayResult result = new PayResult((String) msg.obj);
+            String staus = result.getResultStatus();
+            switch (staus) {
+                case "9000":
+                    activity.showTextDialog("支付成功");
+                    postAtTime(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        activity.finish();
-                    }
-                }, 1000);
-            }else {
-                activity.showTextDialog(result.getResult());
+                        @Override
+                        public void run() {
+                            activity.finish();
+                        }
+                    }, 1500);
+                    break;
+                case "8000":
+                    activity.showTextDialog("支付结果确认中");
+                    break;
+                default:
+                    activity.showTextDialog("您取消了支付");
+                    break;
             }
         };
     }
+
 
     @Override
     protected void callBackForGetDataFailed(HemaNetTask hemaNetTask, int i) {

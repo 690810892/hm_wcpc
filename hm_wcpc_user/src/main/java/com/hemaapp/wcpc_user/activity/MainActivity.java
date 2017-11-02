@@ -1,11 +1,16 @@
 package com.hemaapp.wcpc_user.activity;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,25 +24,41 @@ import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
+import com.hemaapp.wcpc_user.BaseUtil;
+import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.ToLogin;
 import com.hemaapp.wcpc_user.adapter.TopAddViewPagerAdapter;
+import com.hemaapp.wcpc_user.getui.GeTuiIntentService;
 import com.hemaapp.wcpc_user.getui.PushUtils;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.AddListInfor;
+import com.hemaapp.wcpc_user.module.CurrentTripsInfor;
+import com.hemaapp.wcpc_user.module.DistrictInfor;
+import com.hemaapp.wcpc_user.module.TimeRule;
 import com.hemaapp.wcpc_user.module.User;
 import com.hemaapp.wcpc_user.view.AutoChangeViewPager;
+import com.hemaapp.wcpc_user.view.ImageCarouselBanner;
+import com.hemaapp.wcpc_user.view.ImageCarouselHeadClickListener;
+import com.igexin.sdk.PushManager;
+import com.igexin.sdk.PushService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
+import de.greenrobot.event.EventBus;
+import xtom.frame.XtomActivityManager;
+import xtom.frame.util.XtomDeviceUuidFactory;
+import xtom.frame.util.XtomSharedPreferencesUtil;
+import xtom.frame.util.XtomTimeUtil;
 import xtom.frame.util.XtomToastUtil;
 
 /**
  * Created by WangYuxia on 2016/4/29.
  * 首页
  */
-public class MainActivity extends BaseActivity implements View.OnClickListener{
-
+public class MainActivity extends BaseActivity implements View.OnClickListener {
+    ImageCarouselBanner imageCarouselBanner;
     private ImageView image_left;
     private ImageView image_right;
     private ImageView image_point;
@@ -56,66 +77,84 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private int count;
 
     private long time;// 用于判断二次点击返回键的时间间隔
+    private static MainActivity activity;
+    public ArrayList<DistrictInfor> allDistricts = new ArrayList<>();
+
+    public static MainActivity getInstance() {
+        return activity;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        activity = this;
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         user = hm_WcpcUserApplication.getInstance().getUser();
-        if(user == null){
+        if (user == null) {
             image_point.setVisibility(View.INVISIBLE);
         }
-
-        startGeTuiPush();
+        getNetWorker().timeRule();
         getAdvertiseList();
+        getNetWorker().cityList("0");//获取已开通城市
     }
 
     //获取广告位的列表
-    private void getAdvertiseList(){
+    private void getAdvertiseList() {
         getNetWorker().advertiseList();
     }
-
+    public void onEventMainThread(EventBusModel event) {
+        switch (event.getType()) {
+            case REFRESH_MAIN_DATA:
+                break;
+            case CLIENT_ID:
+                saveDevice(event.getContent());
+                break;
+        }
+    }
     @Override
     protected boolean onKeyBack() {
         if ((System.currentTimeMillis() - time) >= 2000) {
             XtomToastUtil.showShortToast(mContext, "再按一次返回键退出程序");
             time = System.currentTimeMillis();
         } else {
-            finish();
+            XtomActivityManager.finishAll();
         }
         return true;
     }
 
     @Override
     protected void onDestroy() {
-        stopGeTuiPush();
+        if (imageCarouselBanner != null)
+            imageCarouselBanner.stopShow();
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
-    private void initPage(){
-        adapter = new TopAddViewPagerAdapter(mContext, infors,
-                layout_pager);
-        adapter.notifyDataSetChanged();
-        pager.setAdapter(adapter);
-        pager.setOnPageChangeListener(new PageChangeListener(adapter));
-        if(count == 0)
-            image_point.setVisibility(View.INVISIBLE);
-        else
-            image_point.setVisibility(View.VISIBLE);
+
+    @Override
+    public void onStop() {
+        if (imageCarouselBanner != null)
+            imageCarouselBanner.stopShow();
+        super.onStop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (imageCarouselBanner != null)
+            imageCarouselBanner.startShow();
         user = hm_WcpcUserApplication.getInstance().getUser();
-        if(adapter != null){
-            adapter.setInfors(infors);
-            adapter.notifyDataSetChanged();
-        }
-        if(user != null)
+        checkPermission();
+//        if(adapter != null){
+//            adapter.setInfors(infors);
+//            adapter.notifyDataSetChanged();
+//        }
+
+        if (user != null)
             getNetWorker().noticeUnread(user.getToken(), "2", "1");
-        else{
-            if(count == 0)
+        else {
+            if (count == 0)
                 image_point.setVisibility(View.INVISIBLE);
             else
                 image_point.setVisibility(View.VISIBLE);
@@ -125,7 +164,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void callBeforeDataBack(HemaNetTask hemaNetTask) {
         BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
-        switch (information){
+        switch (information) {
             case ADVERTISE_LIST:
                 showProgressDialog("请稍后...");
                 break;
@@ -140,7 +179,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void callAfterDataBack(HemaNetTask hemaNetTask) {
         BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
-        switch (information){
+        switch (information) {
             case ADVERTISE_LIST:
             case CAN_TRIPS:
                 cancelProgressDialog();
@@ -153,34 +192,77 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void callBackForServerSuccess(HemaNetTask hemaNetTask, HemaBaseResult baseResult) {
         BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
-        switch (information){
+        switch (information) {
             case ADVERTISE_LIST:
                 HemaPageArrayResult<AddListInfor> aResult = (HemaPageArrayResult<AddListInfor>) baseResult;
                 infors = aResult.getObjects();
+                initPager();
                 break;
             case NOTICE_UNREAD:
                 HemaArrayResult<String> cResult = (HemaArrayResult<String>) baseResult;
-                count = Integer.parseInt(isNull(cResult.getObjects().get(0))?"0":cResult.getObjects().get(0));
-                initPage();
+                count = Integer.parseInt(isNull(cResult.getObjects().get(0)) ? "0" : cResult.getObjects().get(0));
+                if (count == 0)
+                    image_point.setVisibility(View.INVISIBLE);
+                else
+                    image_point.setVisibility(View.VISIBLE);
                 break;
             case CAN_TRIPS:
                 HemaArrayResult<String> sResult = (HemaArrayResult<String>) baseResult;
                 String keytype = sResult.getObjects().get(0);
-                if("1".equals(keytype)){
+                if ("1".equals(keytype)) {
                     Intent it = new Intent(mContext, PublishInforActivity.class);
                     startActivity(it);
-                }else{
+                } else if ("2".equals(keytype)) {
+                    Intent it = new Intent(mContext, PublishInforActivity.class);
+                    startActivity(it);
                     showTextDialog("抱歉，您有尚未结束的行程，无法发布");
                     return;
+                } else {
+                    String start= BaseUtil.TransTimeHour(XtomSharedPreferencesUtil.get(mContext,"order_start"),"HH:mm");
+                    String end= BaseUtil.TransTimeHour(XtomSharedPreferencesUtil.get(mContext,"order_end"),"HH:mm");
+                    showTextDialog("请在"+start+"至"+end+"期间下单");
                 }
                 break;
+            case CURRENT_TRIPS:
+                break;
+            case CITY_LIST:
+                HemaArrayResult<DistrictInfor> CResult = (HemaArrayResult<DistrictInfor>) baseResult;
+                allDistricts = CResult.getObjects();
+                String citys = "";
+                for (DistrictInfor infor : allDistricts) {
+                    citys = citys + infor.getName();
+                }
+                XtomSharedPreferencesUtil.save(mContext, "citys", citys);
+                break;
+            case TIME_RULE:
+                HemaArrayResult<TimeRule> tResult = (HemaArrayResult<TimeRule>) baseResult;
+                TimeRule  rule = tResult.getObjects().get(0);
+                XtomSharedPreferencesUtil.save(mContext,"order_start",rule.getTime1_begin());
+                XtomSharedPreferencesUtil.save(mContext,"order_end",rule.getTime1_end());
+                XtomSharedPreferencesUtil.save(mContext,"pin_end",rule.getTime2_end());
+                XtomSharedPreferencesUtil.save(mContext,"pin_start",rule.getTime2_begin());
+                break;
         }
+    }
+
+    public ArrayList<DistrictInfor> getCitys() {
+        return allDistricts;
+    }
+
+    private void initPager() {
+        ArrayList<String> urls = new ArrayList<>();
+        for (AddListInfor item : infors) {
+            urls.add(item.getImgurlbig());
+        }
+//        imageCarouselBanner.getLayoutParams().height = screenWide * 5 / 13;
+        imageCarouselBanner.onInstance(mContext, urls, R.drawable.indicator_show,
+                new ImageCarouselHeadClickListener(mContext, infors, "1"));
     }
 
     @Override
     protected void callBackForGetDataFailed(HemaNetTask hemaNetTask, int i) {
         BaseHttpInformation information = (BaseHttpInformation) hemaNetTask.getHttpInformation();
-        switch (information){
+        switch (information) {
             case ADVERTISE_LIST:
                 showTextDialog("获取数据失败");
                 break;
@@ -216,6 +298,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         tv_my_trips = (TextView) findViewById(R.id.tv_my_trip);
         tv_publish = (TextView) findViewById(R.id.tv_publish);
         tv_car_owner = (TextView) findViewById(R.id.tv_car_owner);
+        imageCarouselBanner = (ImageCarouselBanner) findViewById(R.id.image_carousel_banner);
     }
 
     @Override
@@ -236,28 +319,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View view) {
         user = hm_WcpcUserApplication.getInstance().getUser();
         Intent it;
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.title_btn_left:
-                if(user == null){
+                if (user == null) {
                     ToLogin.showLogin(mContext);
-                }else{
-                    it = new Intent(mContext, PersonCenterActivity.class);
+                } else {
+                    it = new Intent(mContext, PersonCenterNewActivity.class);
                     startActivity(it);
                 }
                 break;
             case R.id.title_btn_right_image:
-                if(user == null){
+                if (user == null) {
                     ToLogin.showLogin(mContext);
-                }else{
+                } else {
                     it = new Intent(mContext, NoticeListActivity.class);
                     startActivity(it);
                 }
                 break;
             case R.id.tv_my_trip:
-                if(user == null){
+                if (user == null) {
                     ToLogin.showLogin(mContext);
-                }else{
-                    it = new Intent(mContext, MyCurrentTripActivity.class);
+                } else {
+                    it = new Intent(mContext, MyCurrentTrip2Activity.class);
                     startActivity(it);
                 }
                 break;
@@ -266,15 +349,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 startActivity(it);
                 break;
             case R.id.tv_publish:
-                if(user == null){
+                if (user == null) {
                     ToLogin.showLogin(mContext);
-                }else
+                } else
+//                    getNetWorker().currentTrips(user.getToken());
                     getNetWorker().canTrips(user.getToken());
                 break;
             case R.id.title_btn_feedback:
-                if(user == null){
+                if (user == null) {
                     ToLogin.showLogin(mContext);
-                }else{
+                } else {
                     it = new Intent(mContext, FeedBackActivity.class);
                     startActivity(it);
                 }
@@ -312,66 +396,78 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    /* 推送相关 */
-    private PushReceiver pushReceiver;
 
-    private void startGeTuiPush() {
-        com.igexin.sdk.PushManager.getInstance().initialize(mContext);
-        registerPushReceiver();
-    }
 
-    private void stopGeTuiPush() {
-        unregisterPushReceiver();
-    }
+//    public void saveDevice() {
+//        user = hm_WcpcUserApplication.getInstance().getUser();
+//        if (user == null) {
+//            return;
+//        }
+//        getNetWorker().deviceSave(user.getToken(),
+//                PushUtils.getChannelId(mContext), "2",
+//                PushUtils.getChannelId(mContext));
+//    }
 
-    private void registerPushReceiver() {
-        if (pushReceiver == null) {
-            pushReceiver = new PushReceiver();
-            IntentFilter mFilter = new IntentFilter("com.hemaapp.push.connect");
-            mFilter.addAction("com.hemaapp.push.msg");
-            registerReceiver(pushReceiver, mFilter);
+
+    /*个推相关*/
+    // DemoPushService.class 自定义服务名称, 核心服务
+    private Class userPushService = PushService.class;
+    private static final int REQUEST_PERMISSION = 0;
+
+    private void checkPermission() {
+        PackageManager pkgManager = getPackageManager();
+
+        // 读写 sd card 权限非常重要, android6.0默认禁止的, 建议初始化之前就弹窗让用户赋予该权限
+        boolean sdCardWritePermission =
+                pkgManager.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+
+        // read phone state用于获取 imei 设备信息
+        boolean phoneSatePermission =
+                pkgManager.checkPermission(Manifest.permission.READ_PHONE_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+
+        if (Build.VERSION.SDK_INT >= 23 && !sdCardWritePermission || !phoneSatePermission) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE},
+                    REQUEST_PERMISSION);
+        } else {
+            PushManager.getInstance().initialize(this.getApplicationContext(), userPushService);
         }
+
+        // 注册 intentService 后 PushDemoReceiver 无效, sdk 会使用 DemoIntentService 传递数据,
+        // AndroidManifest 对应保留一个即可(如果注册 DemoIntentService, 可以去掉 PushDemoReceiver, 如果注册了
+        // IntentService, 必须在 AndroidManifest 中声明)
+        PushManager.getInstance().initialize(mContext.getApplicationContext(), PushService.class);
+        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
+
     }
 
-    private void unregisterPushReceiver() {
-        if (pushReceiver != null)
-            unregisterReceiver(pushReceiver);
-    }
-
-    private class PushReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            handleEvent(intent);
-        }
-
-        private void handleEvent(Intent intent) {
-            String action = intent.getAction();
-
-            if ("com.hemaapp.push.connect".equals(action)) {
-                saveDevice();
-
-            } else if ("com.hemaapp.push.msg".equals(action)) {
-                boolean unread = PushUtils.getmsgreadflag(
-                        hm_WcpcUserApplication.getInstance(), "2");
-                if (unread) {
-                    log_i("有未读推送");
-                } else {
-                    log_i("无未读推送");
-                }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION) {
+            if ((grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                PushManager.getInstance().initialize(this.getApplicationContext(), userPushService);
+            } else {
+                Log.e("MainActivity", "We highly recommend that you need to grant the special permissions before initializing the SDK, otherwise some "
+                        + "functions will not work");
+                PushManager.getInstance().initialize(this.getApplicationContext(), userPushService);
             }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
-    public void saveDevice() {
-        user = hm_WcpcUserApplication.getInstance().getUser();
-        if(user == null){
+    public void saveDevice(String channelId) {
+        User user = getApplicationContext().getUser();
+        if (user == null) {
             return;
         }
+        String deviceId = PushUtils.getUserId(mContext);
+        if (isNull(deviceId)) {// 如果deviceId为空时，保存为手机串号
+            deviceId = XtomDeviceUuidFactory.get(mContext);
+        }
         getNetWorker().deviceSave(user.getToken(),
-                PushUtils.getChannelId(mContext), "2",
-                PushUtils.getChannelId(mContext));
+                deviceId, "2", channelId);
     }
 
-	/* 推送相关end */
+    /*个推相关结束*/
 }
