@@ -168,7 +168,7 @@ public class ShowActivity extends BaseActivity {
     }
 
     private void toMain(){
-        Intent it = new Intent(mContext, MainActivity.class);
+        Intent it = new Intent(mContext, MainNewActivity.class);
         startActivity(it);
         finish();
     }

@@ -25,23 +25,8 @@ import xtom.frame.net.XtomNetWorker;
 
 /**
  */
-public abstract class BaseActivity extends HemaActivity {
-	public ImmersionBar mImmersionBar;
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mImmersionBar = ImmersionBar.with(this);
-		mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
-		mImmersionBar.keyboardEnable(true);//软键盘遮挡输入框冲突
-			mImmersionBar.init();   //所有子类都将继承这些相同的属性
-	}
+public abstract class BaseMyActivity extends HemaActivity {
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (mImmersionBar != null)
-			mImmersionBar.destroy();  //必须调用该方法，防止内存泄漏，不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
-	}
 	@Override
 	protected HemaNetWorker initNetWorker() {
 		return new BaseNetWorker(mContext);

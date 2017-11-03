@@ -169,7 +169,7 @@ public class SetActivity extends BaseActivity implements View.OnClickListener, P
                 XtomSharedPreferencesUtil.save(mContext, "isAutoLogin", "false");
                 XtomActivityManager.finishAll();
                 hm_WcpcUserApplication.getInstance().setUser(null);
-                Intent it = new Intent(mContext, MainActivity.class);
+                Intent it = new Intent(mContext, MainNewActivity.class);
                 startActivity(it);
                 break;
             default:

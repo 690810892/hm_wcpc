@@ -116,7 +116,9 @@
                                 android:gravity="center_vertical"
                                 android:maxLines="1"
                                 android:paddingRight="15dp"
-                                android:text="@string/tv_start_position"
+                                android:text=""
+                                android:hint="出发地"
+                                android:textColorHint="@color/cl_a0a0a0"
                                 android:textColor="@color/cl_a0a0a0"
                                 android:textSize="@dimen/textsize_7" />
 
@@ -133,7 +135,9 @@
                                 android:gravity="center_vertical"
                                 android:maxLines="1"
                                 android:paddingRight="15dp"
-                                android:text="@string/tv_end_position"
+                                android:text=""
+                                android:hint="目的地"
+                                android:textColorHint="@color/cl_a0a0a0"
                                 android:textColor="@color/cl_a0a0a0"
                                 android:textSize="@dimen/textsize_7" />
                         </LinearLayout>
@@ -173,7 +177,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="45dp"
                                 android:gravity="center_vertical"
-                                android:text="@string/tv_start_time"
+                                android:text=""
+                                android:hint="出发时间"
+                                android:textColorHint="@color/cl_a0a0a0"
                                 android:textColor="@color/qianhui"
                                 android:textSize="@dimen/textsize_7" />
 
@@ -209,7 +215,9 @@
                                 android:drawableRight="@mipmap/img_triangle_down"
                                 android:gravity="center_vertical"
                                 android:paddingRight="15dp"
-                                android:text="@string/tv_person_count"
+                                android:text=""
+                                android:hint="@string/tv_person_count"
+                                android:textColorHint="@color/cl_a0a0a0"
                                 android:textColor="@color/qianhui"
                                 android:textSize="@dimen/textsize_7" />
 

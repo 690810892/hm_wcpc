@@ -13,7 +13,6 @@ import com.hemaapp.wcpc_user.R;
 import java.util.List;
 
 /**
- * Created by WangYuxia on 2016/6/23.
  */
 public class SelectPositionAdapter extends HemaAdapter {
 

@@ -4,7 +4,7 @@
     android:layout_height="52dp">
 
     <TextView
-        android:id="@id/textview"
+        android:id="@+id/textview"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/bg_selectcount"

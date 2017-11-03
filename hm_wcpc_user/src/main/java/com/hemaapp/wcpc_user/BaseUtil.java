@@ -11,6 +11,8 @@ package com.hemaapp.wcpc_user;
 import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,8 @@ import com.amap.api.maps.model.LatLng;
 import com.hemaapp.hm_FrameWork.emoji.EmojiParser;
 import com.hemaapp.hm_FrameWork.emoji.ParseEmojiMsgUtil;
 import com.hemaapp.wcpc_user.activity.LoginActivity;
+
+import org.xbill.DNS.SRVRecord;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -31,6 +35,8 @@ import java.util.Locale;
 import xtom.frame.XtomActivityManager;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.util.XtomTimeUtil;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
  * 工具类
@@ -535,5 +541,14 @@ public class BaseUtil {
         }
         // 单边交点为偶数，点在多边形之外 ---
         return (nCross % 2 == 1);
+    }
+    public static void swap(String str1,String str2){
+        String tem=str1;
+        str1=str2;
+        str2=tem;
+    }
+    public static void hideInput(Context context,View v){
+        ((InputMethodManager)context.getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow
+                (v.getWindowToken(), 0);
     }
 }

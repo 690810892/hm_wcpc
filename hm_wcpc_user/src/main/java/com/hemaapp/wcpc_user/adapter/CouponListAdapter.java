@@ -89,13 +89,14 @@ public class CouponListAdapter extends HemaAdapter {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy.MM.dd");
-        try {
-            Date d = sdf.parse(infor.getDateline());
-            String time = sdf1.format(d);
-            holder.text_regdate.setText("有效期至"+time);
-        } catch (ParseException e) {
-            holder.text_regdate.setText("有效期至");
-        }
+        holder.text_regdate.setText("有效期至 "+infor.getDateline());
+//        try {
+//            Date d = sdf.parse(infor.getDateline());
+//            String time = sdf1.format(d);
+//            holder.text_regdate.setText("有效期至"+time);
+//        } catch (ParseException e) {
+//            holder.text_regdate.setText("有效期至");
+//        }
         return convertView;
     }
 

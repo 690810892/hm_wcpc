@@ -115,7 +115,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 XtomSharedPreferencesUtil.save(mContext, "password", password);
                 XtomSharedPreferencesUtil.save(mContext, "isAutoLogin", "true");
 
-                Intent it = new Intent(this, MainActivity.class);
+                Intent it = new Intent(this, MainNewActivity.class);
                 startActivity(it);
                 finish();
                 break;

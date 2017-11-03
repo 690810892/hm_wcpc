@@ -440,11 +440,9 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 HemaArrayResult<String> sResult = (HemaArrayResult<String>) hemaBaseResult;
                 String keytype = sResult.getObjects().get(0);
                 if ("1".equals(keytype)) {
-                    Intent it = new Intent(mContext, PublishInforActivity.class);
+                    Intent it = new Intent(mContext, SendActivity.class);
                     startActivity(it);
                 } else if ("2".equals(keytype)) {
-                    Intent it = new Intent(mContext, PublishInforActivity.class);
-                    startActivity(it);
                     showTextDialog("抱歉，您有尚未结束的行程，无法发布");
                     return;
                 } else {

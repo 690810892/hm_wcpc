@@ -355,7 +355,7 @@ public class StartMapActivity
                     return;
                 }
                 ArrayList<DistrictInfor> allCitys=new ArrayList<DistrictInfor>();
-                allCitys.addAll(MainActivity.getInstance().getCitys());
+                allCitys.addAll(MainNewActivity.getInstance().getCitys());
                 for (DistrictInfor districtInfor:allCitys){
                     if (districtInfor.getName().contains(citycode)){
                         cityid=districtInfor.getCity_id();

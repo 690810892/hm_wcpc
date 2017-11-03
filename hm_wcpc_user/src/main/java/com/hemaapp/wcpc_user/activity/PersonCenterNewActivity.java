@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
@@ -88,6 +89,8 @@ public class PersonCenterNewActivity extends BaseActivity implements View.OnClic
         setContentView(R.layout.activity_personcenter_new);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.reset().init();
         sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
         user = hm_WcpcUserApplication.getInstance().getUser();
         getNetWorker().clientGet(user.getToken(), user.getId());

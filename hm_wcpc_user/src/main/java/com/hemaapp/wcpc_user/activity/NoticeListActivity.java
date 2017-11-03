@@ -24,6 +24,7 @@ import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
+import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.adapter.NoticeListAdapter;
 import com.hemaapp.wcpc_user.adapter.OrderListAdapter;
@@ -34,9 +35,12 @@ import com.hemaapp.wcpc_user.view.ButtonDialog;
 
 import java.util.ArrayList;
 
+import de.greenrobot.event.EventBus;
 import xtom.frame.util.XtomToastUtil;
 import xtom.frame.view.XtomListView;
 import xtom.frame.view.XtomRefreshLoadmoreLayout;
+
+import static com.hemaapp.wcpc_user.EventBusConfig.NEW_MESSAGE;
 
 /**
  * Created by WangYuxia on 2016/5/6.
@@ -180,18 +184,19 @@ public class NoticeListActivity extends BaseActivity {
                 freshData();
                 break;
             case NOTICE_SAVEOPERATE:
-                    String operatetype = netTask.getParams().get("operatetype");
-                    if ("3".equals(operatetype)) {
-                        orders.remove(adapter_order.deleteinfor);
-                        adapter_order.notifyDataSetChanged();
-                    } else if ("1".equals(operatetype)) {
-                        adapter_order.deleteinfor.setLooktype("2");
-                        adapter_order.notifyDataSetChanged();
-                    } else if ("2".equals(operatetype)) {
-                        getNoticeUnread();
-                    } else if ("4".equals(operatetype)) {
-                        getNoticeUnread();
-                    }
+                String operatetype = netTask.getParams().get("operatetype");
+                EventBus.getDefault().post(new EventBusModel(NEW_MESSAGE));
+                if ("3".equals(operatetype)) {
+                    orders.remove(adapter_order.deleteinfor);
+                    adapter_order.notifyDataSetChanged();
+                } else if ("1".equals(operatetype)) {
+                    adapter_order.deleteinfor.setLooktype("2");
+                    adapter_order.notifyDataSetChanged();
+                } else if ("2".equals(operatetype)) {
+                    getNoticeUnread();
+                } else if ("4".equals(operatetype)) {
+                    getNoticeUnread();
+                }
                 break;
         }
     }

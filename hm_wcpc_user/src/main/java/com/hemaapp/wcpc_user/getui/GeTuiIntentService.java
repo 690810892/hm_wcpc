@@ -15,6 +15,7 @@ import com.hemaapp.wcpc_user.EventBusConfig;
 import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.activity.MainActivity;
+import com.hemaapp.wcpc_user.activity.MainNewActivity;
 import com.hemaapp.wcpc_user.activity.NoticeListActivity;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.igexin.sdk.GTIntentService;
@@ -186,7 +187,7 @@ public class GeTuiIntentService extends GTIntentService {
                     intent.putExtra("pagerPosition", 1);
                     break;
                 case "2"://司机确认上车
-                    intent = new Intent(context, MainActivity.class);
+                    intent = new Intent(context, MainNewActivity.class);
                     intent.putExtra("pagerPosition", 0);
                     break;
                 case "3"://
@@ -194,15 +195,15 @@ public class GeTuiIntentService extends GTIntentService {
 //                    intent.putExtra("pagerPosition", 1);
                     break;
                 case "4"://司机确认送达
-                    intent = new Intent(context, MainActivity.class);
+                    intent = new Intent(context, MainNewActivity.class);
                     intent.putExtra("pagerPosition", 0);
                     break;
                 case "7"://司机已代付
-                    intent = new Intent(context, MainActivity.class);
+                    intent = new Intent(context, MainNewActivity.class);
                     intent.putExtra("pagerPosition", 0);
                     break;
                 default:
-                    intent = new Intent(context, MainActivity.class);
+                    intent = new Intent(context, MainNewActivity.class);
                     intent.putExtra("pagerPosition", 0);
                     break;
             }

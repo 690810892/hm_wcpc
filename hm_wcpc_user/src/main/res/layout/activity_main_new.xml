@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/img_firstpage" />
+
+        <ImageView
+            android:id="@+id/title_btn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:padding="15dp"
+            android:src="@mipmap/img_first_center" />
+
+        <ImageView
+            android:id="@+id/title_btn_right_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:padding="10dp"
+            android:src="@mipmap/img_first_msg" />
+
+        <ImageView
+            android:id="@+id/title_point"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/contentdescription"
+            android:src="@drawable/img_point" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#F3F4F6">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_mytrip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_first_mytrip" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0.8dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="#535262" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/img_first_send" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

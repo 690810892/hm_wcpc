@@ -32,13 +32,21 @@ public class DistrictInfor extends XtomObject implements Serializable {
 	private String city_id; //	城市主键id
 	private String price; //	路线基本价格	keyid>0返回
 	private String areaItems; //	服务区域列表
+	private String areaItems1; //起点城市区域
+	private String areaItems2; //终点城市区域
+	private String center_lnglat1; //
+	private String center_lnglat2; //
 	private ArrayList<Area> areas=new ArrayList<>();
+	private ArrayList<Area> areas1=new ArrayList<>();
+	private ArrayList<Area> areas2=new ArrayList<>();
 	public DistrictInfor(JSONObject jsonObject) throws DataParseException {
 		if(jsonObject!=null){
 			try {
 				id = get(jsonObject, "id");
 				name = get(jsonObject, "name");
 				parentid = get(jsonObject, "parentid");
+				center_lnglat1 = get(jsonObject, "center_lnglat1");
+				center_lnglat2 = get(jsonObject, "center_lnglat2");
 				nodepath = get(jsonObject, "nodepath");
 				namepath = get(jsonObject, "namepath");
 				charindex = get(jsonObject, "charindex");
@@ -54,6 +62,22 @@ public class DistrictInfor extends XtomObject implements Serializable {
 					int size = jsonList.length();
 					for (int i = 0; i < size; i++) {
 						areas.add(new Area(jsonList.getJSONObject(i)));
+					}
+				}
+				if (!jsonObject.isNull("areaItems1")
+						&& !isNull(jsonObject.getString("areaItems1"))) {
+					JSONArray jsonList = jsonObject.getJSONArray("areaItems1");
+					int size = jsonList.length();
+					for (int i = 0; i < size; i++) {
+						areas1.add(new Area(jsonList.getJSONObject(i)));
+					}
+				}
+				if (!jsonObject.isNull("areaItems2")
+						&& !isNull(jsonObject.getString("areaItems2"))) {
+					JSONArray jsonList = jsonObject.getJSONArray("areaItems2");
+					int size = jsonList.length();
+					for (int i = 0; i < size; i++) {
+						areas2.add(new Area(jsonList.getJSONObject(i)));
 					}
 				}
 				log_i(toString());
@@ -138,6 +162,22 @@ public class DistrictInfor extends XtomObject implements Serializable {
 		if (isNull(charindex))
 			charindex="#";
 		return charindex;
+	}
+
+	public ArrayList<Area> getAreas1() {
+		return areas1;
+	}
+
+	public String getCenter_lnglat1() {
+		return center_lnglat1;
+	}
+
+	public String getCenter_lnglat2() {
+		return center_lnglat2;
+	}
+
+	public ArrayList<Area> getAreas2() {
+		return areas2;
 	}
 
 	public String getLevel() {

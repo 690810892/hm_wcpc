@@ -260,7 +260,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
                 XtomSharedPreferencesUtil.save(mContext, "password", password);
                 XtomSharedPreferencesUtil.save(mContext, "isAutoLogin", "true");
                 XtomActivityManager.finishAll();
-                Intent it = new Intent(this, MainActivity.class);
+                Intent it = new Intent(this, MainNewActivity.class);
                 startActivity(it);
                 break;
             default:
@@ -292,7 +292,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
 
     private void toLogin() {
         XtomActivityManager.finishAll();
-        Intent it = new Intent(mContext, MainActivity.class);
+        Intent it = new Intent(mContext, MainNewActivity.class);
         startActivity(it);
     }
 
