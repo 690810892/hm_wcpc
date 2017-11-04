@@ -3,12 +3,20 @@ package com.hemaapp.wcpc_user.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
@@ -57,7 +65,9 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
     public static MainNewActivity getInstance() {
         return activity;
     }
-
+    private PopupWindow mWindow;
+    private ViewGroup mViewGroup;
+    private String phone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
@@ -67,11 +77,12 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
         mImmersionBar.reset().init();
         EventBus.getDefault().register(this);
         user = hm_WcpcUserApplication.getInstance().getUser();
+        phone=hm_WcpcUserApplication.getInstance().getSysInitInfo().getSys_service_phone();
+        getNetWorker().timeRule();
         if (user == null) {
             image_point.setVisibility(View.INVISIBLE);
         } else
             getNetWorker().noticeUnread(user.getToken(), "2", "1");
-        getNetWorker().timeRule();
         getNetWorker().cityList("0");//获取已开通城市
     }
 
@@ -163,12 +174,16 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
                     Intent it = new Intent(mContext, SendActivity.class);
                     startActivity(it);
                 } else if ("2".equals(keytype)) {
-                    showTextDialog("抱歉，您有尚未结束的行程，无法发布");
+                    CanNotTip();
                     return;
                 } else {
                     String start = BaseUtil.TransTimeHour(XtomSharedPreferencesUtil.get(mContext, "order_start"), "HH:mm");
                     String end = BaseUtil.TransTimeHour(XtomSharedPreferencesUtil.get(mContext, "order_end"), "HH:mm");
-                    showTextDialog("请在" + start + "至" + end + "期间下单");
+                    if (isNull(start)) {
+                        start = "5:00";
+                        end="20:00";
+                    }
+                    TimeTip(start,end);
                 }
                 break;
             case CITY_LIST:
@@ -347,4 +362,82 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
     }
 
     /*个推相关结束*/
+
+    private void TimeTip(String start,String end) {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_first_tip, null);
+        TextView  cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView  ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView  title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView  title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        title1.setText("当前时间段不支持手机下单，\n如有需要请联系客服"+phone);
+        title2.setText("可下单时间段为"+start+"-"+end);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                //Intent.ACTION_CALL 直接拨打电话，就是进入拨打电话界面，电话已经被拨打出去了。
+                //Intent.ACTION_DIAL 是进入拨打电话界面，电话号码已经输入了，但是需要人为的按拨打电话键，才能播出电话。
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"
+                        + phone));
+                startActivity(intent);
+            }
+        });
+    }
+    private void CanNotTip() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_first_tip, null);
+        TextView  cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView  ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView  title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView  title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        title1.setText(" 您有未完成的行程，\n暂不能发布新的行程");
+        title2.setText("前去我的行程查看正在进行的行程？");
+        cancel.setText("取消");
+        ok.setText("确定");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                Intent it = new Intent(mContext, MyCurrentTrip2Activity.class);
+                startActivity(it);
+            }
+        });
+    }
 }

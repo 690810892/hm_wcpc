@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
-        <include layout="@layout/layout_empty" />
+        <include layout="@layout/layout_empt_first" />
 
     </FrameLayout>
 
@@ -143,6 +143,7 @@
         android:background="@drawable/bg_button_first"
         android:gravity="center"
         android:paddingLeft="5dp"
+        android:singleLine="true"
         android:paddingRight="5dp"
         android:visibility="gone"
         android:text="开始接返程订单"

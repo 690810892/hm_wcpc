@@ -187,11 +187,11 @@ public class NoticeListActivity extends BaseActivity {
                 String operatetype = netTask.getParams().get("operatetype");
                 EventBus.getDefault().post(new EventBusModel(NEW_MESSAGE));
                 if ("3".equals(operatetype)) {
-                    orders.remove(adapter_order.deleteinfor);
-                    adapter_order.notifyDataSetChanged();
+                    notices.remove(adapter_notice.deleteinfor);
+                    adapter_notice.notifyDataSetChanged();
                 } else if ("1".equals(operatetype)) {
-                    adapter_order.deleteinfor.setLooktype("2");
-                    adapter_order.notifyDataSetChanged();
+                    adapter_notice.deleteinfor.setLooktype("2");
+                    adapter_notice.notifyDataSetChanged();
                 } else if ("2".equals(operatetype)) {
                     getNoticeUnread();
                 } else if ("4".equals(operatetype)) {
@@ -312,12 +312,13 @@ public class NoticeListActivity extends BaseActivity {
                 showPopWindow();
             }
         });
-        list_order.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getNetWorker().noticeSaveOperate(user.getToken(), notices.get(position).getId(), "1", "1");
-            }
-        });
+//        list_order.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                getNetWorker().noticeSaveOperate(user.getToken(), notices.get(position).getId(), "1", "1");
+//
+//            }
+//        });
 
         layout_system.setOnStartListener(new XtomRefreshLoadmoreLayout.OnStartListener() {
             @Override

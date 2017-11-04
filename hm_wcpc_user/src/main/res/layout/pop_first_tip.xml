@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/contentdescription"
+            android:src="#60000000" />
+
+        <LinearLayout
+            android:id="@+id/father"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_pop_button"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/margin_60" >
+
+            <TextView
+                android:id="@id/textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_5"
+                android:gravity="center_horizontal"
+                android:paddingTop="20dp"
+                android:textStyle="bold"
+                android:text="当前时间段不支持手机下单，\n如有需要请联系客服400-111-0900"
+                android:textColor="#5e5e5e"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@id/textview_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_5"
+                android:gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp"
+                android:text="可下单时间段为5:00-20:00"
+                android:textColor="@color/cl_9c9c9c"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_driver"
+                android:contentDescription="@string/contentdescription"
+                android:src="@color/xian" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@id/textview_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_25"
+                    android:text="我知道了"
+                    android:textColor="#a2a2a2"
+                    android:textSize="@dimen/textsize_7" />
+
+                <ImageView
+                    android:layout_width="@dimen/height_driver"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@color/xian"/>
+
+                <TextView
+                    android:id="@id/textview_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_25"
+                    android:text="拨打电话"
+                    android:textColor="#f49400"
+                    android:textSize="@dimen/textsize_7" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>

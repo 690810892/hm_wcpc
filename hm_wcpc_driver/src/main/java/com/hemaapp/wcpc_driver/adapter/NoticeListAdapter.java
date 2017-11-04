@@ -1,6 +1,7 @@
 package com.hemaapp.wcpc_driver.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import com.hemaapp.hm_FrameWork.HemaAdapter;
 import com.hemaapp.hm_FrameWork.dialog.HemaButtonDialog;
 import com.hemaapp.wcpc_driver.R;
+import com.hemaapp.wcpc_driver.activity.HistoryActivity;
+import com.hemaapp.wcpc_driver.activity.NoticeInforActivity;
 import com.hemaapp.wcpc_driver.activity.NoticeListActivity;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.NoticeListInfor;
@@ -83,7 +86,20 @@ public class NoticeListAdapter extends HemaAdapter {
                 deleteinfor = (NoticeListInfor) v.getTag(R.id.button);
                 if ("1".equals(deleteinfor.getLooktype())) {
                     User user = hm_WcpcDriverApplication.getInstance().getUser();
-                    ((NoticeListActivity) mContext).getNetWorker().noticeSaveOperate(user.getToken(), deleteinfor.getId(),  "2", "1");
+                    ((NoticeListActivity) mContext).getNetWorker().noticeSaveOperate(user.getToken(), deleteinfor.getId(), "2", "1");
+                }
+                Intent it;
+                if (deleteinfor.getKeytype().equals("0") || deleteinfor.getKeytype().equals("1")) {
+                    it = new Intent(mContext, NoticeInforActivity.class);
+                    it.putExtra("content", deleteinfor.getComtent());
+                    mContext.startActivity(it);
+                } else if (deleteinfor.getKeytype().equals("10") || deleteinfor.getKeytype().equals("6")) {//行程
+                    it = new Intent(mContext, HistoryActivity.class);
+                    mContext.startActivity(it);
+                } else if (deleteinfor.getKeytype().equals("11")) {//
+                    //((NoticeListActivity) mContext).finish();
+                    it = new Intent(mContext, HistoryActivity.class);
+                    mContext.startActivity(it);
                 }
             }
         });
@@ -125,7 +141,7 @@ public class NoticeListAdapter extends HemaAdapter {
         public void onRightButtonClick(HemaButtonDialog dialog) {
             dialog.cancel();
             User user = hm_WcpcDriverApplication.getInstance().getUser();
-            ((NoticeListActivity) mContext).getNetWorker().noticeSaveOperate(user.getToken(), deleteinfor.getId(),  "2", "3");
+            ((NoticeListActivity) mContext).getNetWorker().noticeSaveOperate(user.getToken(), deleteinfor.getId(), "2", "3");
         }
     }
 

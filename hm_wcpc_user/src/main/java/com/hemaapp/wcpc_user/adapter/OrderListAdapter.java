@@ -1,6 +1,7 @@
 package com.hemaapp.wcpc_user.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +10,18 @@ import android.widget.TextView;
 import com.hemaapp.hm_FrameWork.HemaAdapter;
 import com.hemaapp.hm_FrameWork.dialog.HemaButtonDialog;
 import com.hemaapp.wcpc_user.R;
+import com.hemaapp.wcpc_user.activity.MListActivity;
+import com.hemaapp.wcpc_user.activity.MyCouponListActivity;
+import com.hemaapp.wcpc_user.activity.NoticeInforActivity;
 import com.hemaapp.wcpc_user.activity.NoticeListActivity;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
+import com.hemaapp.wcpc_user.module.CouponListInfor;
 import com.hemaapp.wcpc_user.module.NoticeListInfor;
 import com.hemaapp.wcpc_user.module.User;
 
 import java.util.ArrayList;
 
 /**
- * Created by WangYuxia on 2016/5/16.
  */
 public class OrderListAdapter extends HemaAdapter {
 
@@ -74,6 +78,29 @@ public class OrderListAdapter extends HemaAdapter {
         else
             holder.text_point.setVisibility(View.GONE);
         convertView.setTag(R.id.button_0, infor);
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = hm_WcpcUserApplication.getInstance().getUser();
+                deleteinfor = (NoticeListInfor) v.getTag(R.id.button_0);
+                if ("1".equals(deleteinfor.getLooktype())) {
+                    ((NoticeListActivity) mContext).getNetWorker().noticeSaveOperate(user.getToken(), deleteinfor.getId(), "1", "1");
+                }
+                Intent it;
+                if (deleteinfor.getKeytype().equals("0") || deleteinfor.getKeytype().equals("1")) {
+                    it = new Intent(mContext, NoticeInforActivity.class);
+                    it.putExtra("content", deleteinfor.getComtent());
+                    mContext.startActivity(it);
+                } else if (deleteinfor.getKeytype().equals("10") || deleteinfor.getKeytype().equals("7")) {//行程
+                    it = new Intent(mContext, MListActivity.class);
+                    mContext.startActivity(it);
+                } else if (deleteinfor.getKeytype().equals("12")) {//代金券
+                    it = new Intent(mContext, MyCouponListActivity.class);
+                    it.putExtra("keytype", "1");
+                    mContext.startActivity(it);
+                }
+            }
+        });
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

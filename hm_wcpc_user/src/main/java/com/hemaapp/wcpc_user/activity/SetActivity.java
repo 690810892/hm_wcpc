@@ -456,19 +456,17 @@ public class SetActivity extends BaseActivity implements View.OnClickListener, P
     }
 
     private void showShare(String platform) {
-        if (isNull(imageurl))
-            imageurl = initImagePath();
         if (oks == null) {
             oks = new OnekeyShare();
             oks.setTitle("小叫车");
             oks.setTitleUrl(pathWX); // 标题的超链接
             oks.setText("我们正在使用小叫车App,便捷出行，价格实惠，赶快来加入吧！");
-            oks.setFilePath(imageurl);
             imageurl = initImagePath();
             oks.setImagePath(imageurl);
             oks.setUrl(pathWX);
             oks.setSiteUrl(pathWX);
             oks.setCallback(this);
+
         }
         oks.setPlatform(platform);
         oks.show(mContext);

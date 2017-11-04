@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.gyf.barlibrary.ImmersionBar;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
@@ -70,6 +71,8 @@ public class PersonCenterInforActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_personcenter);
         super.onCreate(savedInstanceState);
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.reset().init();
         user = hm_WcpcDriverApplication.getInstance().getUser();
         EventBus.getDefault().register(this);
         getNetWorker().clientGet(user.getToken(), user.getId());

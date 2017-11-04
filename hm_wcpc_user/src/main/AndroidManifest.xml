@@ -151,20 +151,33 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
-
             <!--
             	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
             	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
             -->
             <intent-filter>
-                <data android:scheme="db-7janx53ilz11gbs" />
+                <data android:scheme="db-22208d6b7ef70" />
 
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
+            <intent-filter>
+                <data android:scheme="tencent1104594492" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
+        <meta-data
+            android:name="Mob-AppKey"
+            android:value="22208d6b7ef70" />
+        <meta-data
+            android:name="Mob-AppSecret"
+            android:value="3153dc341931b39ed4e521aff81a54a4" />
+
         <!-- 微信分享回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -245,6 +258,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NoticeListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NoticeInforActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity

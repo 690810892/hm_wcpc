@@ -55,7 +55,7 @@
 
     -->
 
-    <ShareSDK AppKey="328fe0861a68" />
+    <ShareSDK AppKey="22208d6b7ef70" />
     <!-- 修改成你在sharesdk后台注册的应用的appkey" -->
 
     <Wechat
@@ -96,11 +96,11 @@
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
 
     <QZone
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        AppId="1104594492"
+        AppKey="U7yRL5gP6OJXcEtW"
         Enable="true"
         Id="5"
-        ShareByAppClient="false"
+        ShareByAppClient="true"
         SortId="5" />
 
     <!--

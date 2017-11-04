@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,7 +57,6 @@ import static com.hemaapp.hm_FrameWork.HemaUtil.getAppVersionForSever;
 import static com.hemaapp.hm_FrameWork.HemaUtil.isNeedUpDate;
 
 /**
- * Created by WangYuxia on 2016/5/26.
  * 设置
  */
 public class SetActivity extends BaseActivity implements PlatformActionListener {
@@ -73,7 +73,9 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
     private TextView text_xieyi;
     private TextView text_share;
     private TextView text_advice;
-
+    private TextView tv_phone;
+    private View lv_phone;
+    private String phone;
     private User user;
     private SysInitInfo infor;
     private PopupWindow mWindow_exit;//分享
@@ -96,6 +98,8 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
         text_clearcache.setText(content);
         SysInitInfo initInfo = getApplicationContext()
                 .getSysInitInfo();
+        phone = initInfo.getSys_service_phone();
+        tv_phone.setText(phone);
         sys_plugins = initInfo.getSys_plugins();
         pathWX = sys_plugins + "share/sdk.php?client_id=" + user.getId() + "&keyid=0" + "&type=2";
     }
@@ -238,6 +242,8 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
         text_share = (TextView) findViewById(R.id.tv_share);
         text_advice = (TextView) findViewById(R.id.tv_advice);
         button = (TextView) findViewById(R.id.button);
+        tv_phone = (TextView) findViewById(R.id.tv_tel);
+        lv_phone = findViewById(R.id.lv_tel);
     }
 
     @Override
@@ -254,7 +260,6 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
                 finish();
             }
         });
-
         setListener(text_introduction);
         setListener(layout_clearcache);
         setListener(text_update);
@@ -263,6 +268,7 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
         setListener(text_share);
         setListener(text_advice);
         setListener(button);
+        setListener(lv_phone);
     }
 
     private void setListener(View view) {
@@ -307,6 +313,13 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
                         break;
                     case R.id.button:
                         showExitDialog();
+                        break;
+                    case R.id.lv_tel:
+                        //Intent.ACTION_CALL 直接拨打电话，就是进入拨打电话界面，电话已经被拨打出去了。
+                        //Intent.ACTION_DIAL 是进入拨打电话界面，电话号码已经输入了，但是需要人为的按拨打电话键，才能播出电话。
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"
+                                + phone));
+                        startActivity(intent);
                         break;
                 }
             }
@@ -442,19 +455,17 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
     }
 
     private void showShare(String platform) {
-        if (isNull(imageurl))
-            imageurl = initImagePath();
         if (oks == null) {
             oks = new OnekeyShare();
             oks.setTitle("小叫车");
-            oks.setTitleUrl(pathWX); // 标题的超链接
+            oks.setTitleUrl(pathWX); //
             oks.setText("我们正在使用小叫车（司机）App,赶快来加入吧！");
-            oks.setFilePath(imageurl);
             imageurl = initImagePath();
             oks.setImagePath(imageurl);
             oks.setUrl(pathWX);
             oks.setSiteUrl(pathWX);
             oks.setCallback(this);
+
         }
         oks.setPlatform(platform);
         oks.show(mContext);
@@ -465,12 +476,12 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
         try {
 
             String cachePath_internal = XtomFileUtil.getCacheDir(mContext)
-                    + "images/";// 获取缓存路径
+                    + "images_driver/";// 获取缓存路径
             File dirFile = new File(cachePath_internal);
             if (!dirFile.exists()) {
                 dirFile.mkdirs();
             }
-            imagePath = cachePath_internal + "share.png";
+            imagePath = cachePath_internal + "share_driver.png";
             File file = new File(imagePath);
             if (!file.exists()) {
                 file.createNewFile();

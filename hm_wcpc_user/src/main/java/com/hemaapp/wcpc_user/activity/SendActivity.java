@@ -768,6 +768,7 @@ public class SendActivity extends BaseActivity {
         mWindow_exit.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
         mWindow_exit.setBackgroundDrawable(new BitmapDrawable());
         mWindow_exit.setFocusable(true);
+        mWindow_exit.setAnimationStyle(R.style.PopupAnimation);
         mViewGroup_exit = (ViewGroup) LayoutInflater.from(mContext).inflate(
                 R.layout.pop_count, null);
         TextView bt_ok = (TextView) mViewGroup_exit.findViewById(R.id.tv_button);

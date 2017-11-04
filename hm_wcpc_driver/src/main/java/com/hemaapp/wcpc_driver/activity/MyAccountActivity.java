@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by WangYuxia on 2016/6/16.
  * 我的账户
  */
 public class MyAccountActivity extends BaseActivity {
@@ -137,6 +136,7 @@ public class MyAccountActivity extends BaseActivity {
     protected void setListener() {
         titleText.setText("账户余额");
         titleBtnRight.setText("提现");
+        titleBtnRight.setVisibility(View.GONE);
     }
 
     private void setListener(View view) {

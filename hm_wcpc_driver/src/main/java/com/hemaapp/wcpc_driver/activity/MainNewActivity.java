@@ -250,12 +250,14 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
 
     @Override
     protected boolean onKeyBack() {
-        if ((System.currentTimeMillis() - time) >= 2000) {
-            XtomToastUtil.showShortToast(mContext, "再按一次返回键退出程序");
-            time = System.currentTimeMillis();
-        } else {
-            XtomActivityManager.finishAll();
-        }
+//        if ((System.currentTimeMillis() - time) >= 2000) {
+//            XtomToastUtil.showShortToast(mContext, "再按一次返回键退出程序");
+//            time = System.currentTimeMillis();
+//        } else {
+//            XtomActivityManager.finishAll();
+//        }
+//        return true;
+        moveTaskToBack(false);
         return true;
     }
 
