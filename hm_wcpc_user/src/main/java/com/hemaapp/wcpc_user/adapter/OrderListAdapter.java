@@ -12,6 +12,7 @@ import com.hemaapp.hm_FrameWork.dialog.HemaButtonDialog;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.activity.MListActivity;
 import com.hemaapp.wcpc_user.activity.MyCouponListActivity;
+import com.hemaapp.wcpc_user.activity.MyCurrentTrip2Activity;
 import com.hemaapp.wcpc_user.activity.NoticeInforActivity;
 import com.hemaapp.wcpc_user.activity.NoticeListActivity;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
@@ -92,8 +93,14 @@ public class OrderListAdapter extends HemaAdapter {
                     it.putExtra("content", deleteinfor.getComtent());
                     mContext.startActivity(it);
                 } else if (deleteinfor.getKeytype().equals("10") || deleteinfor.getKeytype().equals("7")) {//行程
-                    it = new Intent(mContext, MListActivity.class);
-                    mContext.startActivity(it);
+                    int statu=Integer.parseInt(deleteinfor.getStatus());
+                    if (statu>5){//已支付
+                        it = new Intent(mContext, MListActivity.class);
+                        mContext.startActivity(it);
+                    }else {
+                        it = new Intent(mContext, MyCurrentTrip2Activity.class);
+                        mContext.startActivity(it);
+                    }
                 } else if (deleteinfor.getKeytype().equals("12")) {//代金券
                     it = new Intent(mContext, MyCouponListActivity.class);
                     it.putExtra("keytype", "1");

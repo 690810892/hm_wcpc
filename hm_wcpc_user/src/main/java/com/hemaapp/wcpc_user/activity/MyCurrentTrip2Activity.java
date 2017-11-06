@@ -292,7 +292,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             tvPrice.setText(infor.getTotal_fee() + "元");
             clients.clear();
             clients.addAll(infor.getClients());
-            if (clients.size()==0)
+            if (clients.size() == 0)
                 tvTogether.setVisibility(View.GONE);
             else
                 tvTogether.setVisibility(View.VISIBLE);
@@ -455,7 +455,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 HemaArrayResult<DriverPosition> DResult = (HemaArrayResult<DriverPosition>) hemaBaseResult;
                 DriverPosition position = DResult.getObjects().get(0);
                 LatLng end_latlng = new LatLng(Double.parseDouble(position.getLat()), Double.parseDouble(position.getLng()));
-               initStart();
+                initStart();
                 Marker endMarker = aMap.addMarker(new MarkerOptions()
                         .position(end_latlng)
                         .title("终点")
@@ -467,14 +467,15 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 Double distance = BaseUtil.GetDistance(d_lat, d_lng,
                         Double.parseDouble(isNull(position.getLat()) ? "0.0" : position.getLat()),
                         Double.parseDouble(isNull(position.getLng()) ? "0.0" : position.getLng()));
-                log_e("lat===="+lat);
-                log_e("lng===="+lng);
-                log_e("lat2===="+position.getLat());
-                log_e("lng2===="+position.getLng());
+                log_e("lat====" + lat);
+                log_e("lng====" + lng);
+                log_e("lat2====" + position.getLat());
+                log_e("lng2====" + position.getLng());
                 tvDistance.setText("距您" + BaseUtil.transDistance(Float.parseFloat(String.valueOf(distance))));
                 break;
         }
     }
+
     private void initStart() {
         aMap.clear();
         LatLng start_latlng = new LatLng(Double.parseDouble(lat),
@@ -489,6 +490,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 15);
         aMap.moveCamera(update);
     }
+
     @Override
     protected void callBackForServerFailed(HemaNetTask netTask,
                                            HemaBaseResult baseResult) {
@@ -571,10 +573,10 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             Message msg = mHandler.obtainMessage();
             msg.obj = location;
             msg.what = LocationUtils.MSG_LOCATION_FINISH;
-          //  mHandler.sendMessage(msg);
+            //  mHandler.sendMessage(msg);
             lng = String.valueOf(location.getLongitude());
             lat = String.valueOf(location.getLatitude());
-            if (infor != null && !infor.getDriver_id().equals("0")&&infor.getStatus().equals("1"))
+            if (infor != null && !infor.getDriver_id().equals("0") && infor.getStatus().equals("1"))
                 getNetWorker().driverPositionGet(user.getToken(), infor.getId(), infor.getDriver_id());
             else {
                 initStart();
@@ -684,16 +686,17 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             case R.id.tv_button0:
                 if (infor != null) {
                     if (infor.getStatus().equals("0") || infor.getStatus().equals("1")) {//取消订单
-                        it = new Intent(mContext, CancelOrderActivity.class);
-                        it.putExtra("id", infor.getId());
-                        startActivityForResult(it, 1);
+                        CancelTip();
+//                        it = new Intent(mContext, CancelOrderActivity.class);
+//                        it.putExtra("id", infor.getId());
+//                        startActivityForResult(it, 1);
                     }
                 }
                 break;
             case R.id.tv_button1:
                 if (infor != null) {
                     if (infor.getStatus().equals("1")) {//确认上车
-                        getNetWorker().orderOperate(user.getToken(), "3", infor.getId(), "","","");
+                        getNetWorker().orderOperate(user.getToken(), "3", infor.getId(), "", "", "");
                     } else if (infor.getStatus().equals("3")) {//确认送达
                         showarrivedDialog();
                     } else if (infor.getStatus().equals("5")) {//支付
@@ -833,7 +836,51 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
-                getNetWorker().orderOperate(user.getToken(), "5", infor.getId(), "","","");
+                getNetWorker().orderOperate(user.getToken(), "5", infor.getId(), "", "", "");
+            }
+        });
+    }
+
+    private void CancelTip() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_first_tip, null);
+        TextView cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        title1.setText("确定要取消吗？");
+        title2.setText("一天内订单取消不能超过3次");
+        cancel.setText("取消");
+        ok.setText("确定");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                Intent it = new Intent(mContext, CancelOrderActivity.class);
+                it.putExtra("id", infor.getId());
+                if (infor.getStatus().equals("0"))
+                    it.putExtra("keytype", "1");
+                else
+                    it.putExtra("keytype", "6");
+                startActivityForResult(it, 1);
             }
         });
     }

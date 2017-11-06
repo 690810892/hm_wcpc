@@ -19,6 +19,7 @@ public class NoticeListInfor extends XtomObject {
     private String from_id; //通知来源用户主键id
     private String looktype; //标记位
     private String regdate; //通知日期
+    private String status; //
 
     public NoticeListInfor(JSONObject jsonObject) throws DataParseException {
         if(jsonObject != null){
@@ -31,7 +32,7 @@ public class NoticeListInfor extends XtomObject {
                 from_id = get(jsonObject, "from_id");
                 looktype = get(jsonObject, "looktype");
                 regdate = get(jsonObject, "regdate");
-
+                status = get(jsonObject, "status");
                 log_i(toString());
             } catch (JSONException e) {
                 throw new DataParseException(e);
@@ -42,14 +43,15 @@ public class NoticeListInfor extends XtomObject {
     @Override
     public String toString() {
         return "NoticeListInfor{" +
-                "client_id='" + client_id + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
                 ", keytype='" + keytype + '\'' +
                 ", keyid='" + keyid + '\'' +
                 ", comtent='" + comtent + '\'' +
+                ", client_id='" + client_id + '\'' +
                 ", from_id='" + from_id + '\'' +
                 ", looktype='" + looktype + '\'' +
                 ", regdate='" + regdate + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 
@@ -83,6 +85,10 @@ public class NoticeListInfor extends XtomObject {
 
     public String getRegdate() {
         return regdate;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public void setLooktype(String looktype) {

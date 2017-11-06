@@ -19,10 +19,12 @@ public class NoticeListInfor extends XtomObject {
     private String from_id; //通知来源用户主键id
     private String looktype; //标记位
     private String regdate; //通知日期
+    private String status; //
 
     public NoticeListInfor(JSONObject jsonObject) throws DataParseException {
         if(jsonObject != null){
             try {
+                status = get(jsonObject, "status");
                 id = get(jsonObject, "id");
                 keytype = get(jsonObject, "keytype");
                 keyid = get(jsonObject, "keyid");
@@ -42,14 +44,15 @@ public class NoticeListInfor extends XtomObject {
     @Override
     public String toString() {
         return "NoticeListInfor{" +
-                "client_id='" + client_id + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
                 ", keytype='" + keytype + '\'' +
                 ", keyid='" + keyid + '\'' +
                 ", comtent='" + comtent + '\'' +
+                ", client_id='" + client_id + '\'' +
                 ", from_id='" + from_id + '\'' +
                 ", looktype='" + looktype + '\'' +
                 ", regdate='" + regdate + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 
@@ -63,6 +66,10 @@ public class NoticeListInfor extends XtomObject {
 
     public String getFrom_id() {
         return from_id;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getId() {

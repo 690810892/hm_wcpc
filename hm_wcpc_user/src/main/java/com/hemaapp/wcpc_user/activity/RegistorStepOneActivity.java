@@ -111,6 +111,7 @@ public class RegistorStepOneActivity extends BaseActivity {
                 showTextDialog("该手机号已经被注册了");
                 break;
             case CODE_GET:
+                usernameEditText.setFocusable(false);
                 textView.setText("验证码已发送到 " + HemaUtil.hide(username, "1"));
                 textView.setVisibility(View.VISIBLE);
                 timeThread = new TimeThread(new TimeHandler(this));

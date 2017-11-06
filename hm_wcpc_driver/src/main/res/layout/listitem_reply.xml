@@ -58,7 +58,7 @@
                     android:clickable="true"
                     android:isIndicator="true"
                     android:maxHeight="25dp"
-                    android:minHeight="8dp"
+                    android:minHeight="13dp"
                     android:rating="3"
                     android:stepSize="1" />
             </LinearLayout>

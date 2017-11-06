@@ -49,7 +49,7 @@ public class CancelOrderActivity extends BaseActivity {
     private ArrayList<DataInfor> infors = new ArrayList<>();
     private TagListAdapter adapter;
     private User user;
-
+private String keytype;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_cancelorder);
@@ -59,7 +59,7 @@ public class CancelOrderActivity extends BaseActivity {
     }
 
     private void getKinds(){
-        getNetWorker().dataList("1");
+        getNetWorker().dataList(keytype);
     }
 
     private void initUserData(){
@@ -173,6 +173,7 @@ public class CancelOrderActivity extends BaseActivity {
     @Override
     protected void getExras() {
         order_id = mIntent.getStringExtra("id");
+        keytype = mIntent.getStringExtra("keytype");
     }
 
     @Override

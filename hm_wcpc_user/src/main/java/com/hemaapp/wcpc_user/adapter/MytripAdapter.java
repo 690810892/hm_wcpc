@@ -46,7 +46,8 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
     public CurrentTripsInfor blog;
     private String keytype;
     User user;
-
+    private PopupWindow mWindow;
+    private ViewGroup mViewGroup;
     public MytripAdapter(Context mContext, List<CurrentTripsInfor> datas, BaseNetWorker netWorker) {
         super(datas);
         this.mContext = mContext;
@@ -156,9 +157,10 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
                     return;
                 }
                 if (blog.getStatus().equals("0")||blog.getStatus().equals("1")) {
-                    Intent it = new Intent(mContext, CancelOrderActivity.class);
-                    it.putExtra("id", infor.getId());
-                    mContext.startActivity(it);
+                    CancelTip();
+//                    Intent it = new Intent(mContext, CancelOrderActivity.class);
+//                    it.putExtra("id", infor.getId());
+//                    mContext.startActivity(it);
                 }else  if (blog.getStatus().equals("6")||blog.getStatus().equals("10")||blog.getStatus().equals("11")) {
                     keytype="6";
                     dialog();
@@ -239,5 +241,47 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
             netWorker.tripsOperate(user.getToken(), keytype, blog.getId(), "");
         }
     }
+    private void CancelTip() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_first_tip, null);
+        TextView cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        title1.setText("确定要取消吗？");
+        title2.setText("一天内订单取消不能超过3次");
+        cancel.setText("取消");
+        ok.setText("确定");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
 
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                Intent it = new Intent(mContext, CancelOrderActivity.class);
+                it.putExtra("id", blog.getId());
+                if (blog.getStatus().equals("0"))
+                    it.putExtra("keytype", "1");
+                else
+                    it.putExtra("keytype", "6");
+                ((BaseActivity)mContext).startActivityForResult(it, 1);
+            }
+        });
+    }
 }

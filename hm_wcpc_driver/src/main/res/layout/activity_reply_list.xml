@@ -26,7 +26,7 @@
             android:clickable="false"
             android:isIndicator="true"
             android:maxHeight="30dp"
-            android:minHeight="8dp"
+            android:minHeight="22dp"
             android:rating="0"
             android:stepSize="1" />
 

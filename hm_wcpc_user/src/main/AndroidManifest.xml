@@ -233,7 +233,9 @@
         <activity
             android:name=".activity.RegistorStepOneActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".activity.ShowInternetPageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -241,7 +243,9 @@
         <activity
             android:name=".activity.RegisterStepThreeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".activity.FindBackPwdActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

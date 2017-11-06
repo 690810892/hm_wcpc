@@ -203,14 +203,14 @@ public class NoticeListActivity extends BaseActivity {
 
     private void freshData() {
         if ("1".equals(flag)) {
-            if (adapter_order == null) {
-                adapter_order = new NoticeListAdapter(mContext, orders);
-                adapter_order.setEmptyString("暂时没有记录");
-                list_order.setAdapter(adapter_order);
-            } else {
-                adapter_order.setEmptyString("暂时没有记录");
-                adapter_order.notifyDataSetChanged();
-            }
+//            if (adapter_order == null) {
+//                adapter_order = new NoticeListAdapter(mContext, orders);
+//                adapter_order.setEmptyString("暂时没有记录");
+//                list_order.setAdapter(adapter_order);
+//            } else {
+//                adapter_order.setEmptyString("暂时没有记录");
+//                adapter_order.notifyDataSetChanged();
+//            }
         } else {
             if (adapter_notice == null) {
                 adapter_notice = new OrderListAdapter(mContext, notices);

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hemaapp.hm_FrameWork.HemaAdapter;
 import com.hemaapp.hm_FrameWork.dialog.HemaButtonDialog;
+import com.hemaapp.wcpc_driver.BaseActivity;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.activity.HistoryActivity;
 import com.hemaapp.wcpc_driver.activity.NoticeInforActivity;
@@ -93,12 +94,17 @@ public class NoticeListAdapter extends HemaAdapter {
                     it = new Intent(mContext, NoticeInforActivity.class);
                     it.putExtra("content", deleteinfor.getComtent());
                     mContext.startActivity(it);
-                } else if (deleteinfor.getKeytype().equals("10") || deleteinfor.getKeytype().equals("6")) {//行程
-                    it = new Intent(mContext, HistoryActivity.class);
-                    mContext.startActivity(it);
-                } else if (deleteinfor.getKeytype().equals("11")) {//
-                    //((NoticeListActivity) mContext).finish();
-                    it = new Intent(mContext, HistoryActivity.class);
+                } else if (deleteinfor.getKeytype().equals("10") || deleteinfor.getKeytype().equals("6") || deleteinfor.getKeytype().equals("11")) {//行程
+                    int statu = Integer.parseInt(deleteinfor.getStatus());
+                    if (statu < 5&&statu>0) {
+                        ((BaseActivity) mContext).finish();
+                    } else {
+                        it = new Intent(mContext, HistoryActivity.class);
+                        mContext.startActivity(it);
+                    }
+                } else {//
+                    it = new Intent(mContext, NoticeInforActivity.class);
+                    it.putExtra("content", deleteinfor.getComtent());
                     mContext.startActivity(it);
                 }
             }

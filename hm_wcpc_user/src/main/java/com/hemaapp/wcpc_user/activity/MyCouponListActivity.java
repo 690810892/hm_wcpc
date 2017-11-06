@@ -124,10 +124,10 @@ public class MyCouponListActivity extends BaseActivity {
     private void freshData() {
         if (adapter == null) {
             adapter = new CouponListAdapter(mContext, infors);
-            adapter.setEmptyString("暂时没有优惠券");
+            adapter.setEmptyString("暂时没有代金券");
             mListView.setAdapter(adapter);
         } else {
-            adapter.setEmptyString("暂时没有优惠券");
+            adapter.setEmptyString("暂时没有代金券");
             adapter.notifyDataSetChanged();
         }
     }
@@ -189,7 +189,7 @@ public class MyCouponListActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-        title.setText("我的优惠券");
+        title.setText("我的代金券");
         right.setVisibility(View.INVISIBLE);
         left.setOnClickListener(new View.OnClickListener() {
             @Override

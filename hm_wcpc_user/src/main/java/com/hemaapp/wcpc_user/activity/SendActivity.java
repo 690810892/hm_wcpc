@@ -595,7 +595,7 @@ public class SendActivity extends BaseActivity {
         layout_father.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timePop.dismiss();
+                //timePop.dismiss();
             }
         });
         time_ok.setOnClickListener(new View.OnClickListener() {
