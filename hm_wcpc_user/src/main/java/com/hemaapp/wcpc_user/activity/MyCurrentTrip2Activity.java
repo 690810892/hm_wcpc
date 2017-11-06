@@ -217,9 +217,9 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
     }
 
     private void initOrderInfor() {
-        if (infor.getCarpoolflag().equals("0")) {
-            tvNum.setVisibility(View.GONE);
-        }
+//        if (infor.getCarpoolflag().equals("0")) {
+//            tvNum.setVisibility(View.GONE);
+//        }
         if (infor.getStatus().equals("0")) {//待派单
             tvTip.setVisibility(View.VISIBLE);
             lvRout.setVisibility(View.VISIBLE);

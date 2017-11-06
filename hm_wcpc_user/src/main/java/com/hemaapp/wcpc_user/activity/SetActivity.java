@@ -99,7 +99,7 @@ public class SetActivity extends BaseActivity implements View.OnClickListener, P
         SysInitInfo initInfo = getApplicationContext()
                 .getSysInitInfo();
         sys_plugins = initInfo.getSys_plugins();
-        pathWX = sys_plugins + "share/sdk.php?client_id=" + user.getId() + "&keyid=0" + "&type=1";
+        pathWX = sys_plugins + "share/sdk.php?invitecode=" + user.getInvitecode() + "&keyid=0" + "&type=1";
     }
 
     @Override
@@ -458,9 +458,9 @@ public class SetActivity extends BaseActivity implements View.OnClickListener, P
     private void showShare(String platform) {
         if (oks == null) {
             oks = new OnekeyShare();
-            oks.setTitle("小叫车");
+            oks.setTitle("念念不忘想起你，就想送你份好礼，注册50元代金券就给你！");
             oks.setTitleUrl(pathWX); // 标题的超链接
-            oks.setText("我们正在使用小叫车App,便捷出行，价格实惠，赶快来加入吧！");
+            oks.setText("我最近用了小叫车出行，经济实惠。想邀请你一起体验，指定线路立减10元呦~");
             imageurl = initImagePath();
             oks.setImagePath(imageurl);
             oks.setUrl(pathWX);

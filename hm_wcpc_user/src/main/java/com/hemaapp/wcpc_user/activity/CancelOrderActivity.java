@@ -246,7 +246,7 @@ public class CancelOrderActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
-                getNetWorker().orderOperate(user.getToken(), "1", order_id, reply_str,reply_id,content);
+                getNetWorker().orderOperate(user.getToken(), "1", order_id,reply_id, reply_str,content);
             }
         });
     }

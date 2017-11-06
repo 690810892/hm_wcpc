@@ -159,6 +159,11 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
                 .icon(BitmapDescriptorFactory
                         .fromBitmap(BitmapFactory.
                                 decodeResource(getResources(), R.mipmap.img_marker_my))).position(ll));
+        if (models.size()==0){
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll,
+                    13);
+            aMap.moveCamera(update);
+        }
     }
 
     /**

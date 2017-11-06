@@ -60,6 +60,7 @@ public class PersonInforActivity extends BaseActivity {
     private TextView text_kind;
     private TextView edit_number;
     private TextView edit_driver;
+    private TextView tv_invite;
 
     private User user;
     private String realname, sex, IDtype, IDnumber, email, mobile;
@@ -237,6 +238,7 @@ public class PersonInforActivity extends BaseActivity {
 //            edit_email.setSelection(email.length());
 //        }
         edit_driver.setText(user.getFilenumber());
+        tv_invite.setText(user.getInvitecode());
         mobile = user.getMobile();
         if (!isNull(mobile)) {
             edit_mobile.setText(mobile);
@@ -361,6 +363,7 @@ public class PersonInforActivity extends BaseActivity {
 
         edit_number = (TextView) findViewById(R.id.textview_4);
         edit_driver = (TextView) findViewById(R.id.tv_driver);
+        tv_invite= (TextView) findViewById(R.id.tv_invite);
     }
 
     @Override

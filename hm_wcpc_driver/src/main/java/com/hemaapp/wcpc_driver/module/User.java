@@ -52,10 +52,12 @@ public class User extends HemaUser {
 	private String filenumber;
 	private String totalpoint; //	总评分	计算平均星级
 	private String replycount; //	被评分次数
+	private String invitecode;
 
 	public User(JSONObject jsonObject) throws DataParseException {
 		super(jsonObject);
 		try {
+			invitecode= get(jsonObject, "invitecode");
 			totalpoint= get(jsonObject, "totalpoint");
 			replycount= get(jsonObject, "replycount");
 			alipay_name= get(jsonObject, "alipay_name");
@@ -104,10 +106,11 @@ public class User extends HemaUser {
                 String loginflag, String feeaccount, String token,
                 String android_must_update, String android_last_version,
                 String android_update_url, String bankuser, String bankname, String bankcard,
-                String bankmobile, String alipay_no, String mylength, String filenumber,String alipay_name,String totalpoint,String replycount) {
+                String bankmobile, String alipay_no, String mylength, String filenumber,String alipay_name,String totalpoint,String replycount,String invitecode) {
 		super(token);
 		this.id = id;
 		this.totalpoint = totalpoint;
+		this.invitecode = invitecode;
 		this.replycount = replycount;
 		this.alipay_name = alipay_name;
 		this.username = username;
@@ -174,6 +177,9 @@ public class User extends HemaUser {
 				", alipay_name='" + alipay_name + '\'' +
 				", mylength='" + mylength + '\'' +
 				", filenumber='" + filenumber + '\'' +
+				", totalpoint='" + totalpoint + '\'' +
+				", replycount='" + replycount + '\'' +
+				", invitecode='" + invitecode + '\'' +
 				'}';
 	}
 
@@ -203,6 +209,10 @@ public class User extends HemaUser {
 
 	public String getAndroid_last_version() {
 		return android_last_version;
+	}
+
+	public String getInvitecode() {
+		return invitecode;
 	}
 
 	public String getAndroid_update_url() {
