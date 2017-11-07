@@ -15,9 +15,11 @@ import com.hemaapp.wcpc_user.activity.MyCouponListActivity;
 import com.hemaapp.wcpc_user.activity.MyCurrentTrip2Activity;
 import com.hemaapp.wcpc_user.activity.NoticeInforActivity;
 import com.hemaapp.wcpc_user.activity.NoticeListActivity;
+import com.hemaapp.wcpc_user.activity.ShowInternetPageActivity;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.CouponListInfor;
 import com.hemaapp.wcpc_user.module.NoticeListInfor;
+import com.hemaapp.wcpc_user.module.SysInitInfo;
 import com.hemaapp.wcpc_user.module.User;
 
 import java.util.ArrayList;
@@ -88,16 +90,23 @@ public class OrderListAdapter extends HemaAdapter {
                     ((NoticeListActivity) mContext).getNetWorker().noticeSaveOperate(user.getToken(), deleteinfor.getId(), "1", "1");
                 }
                 Intent it;
-                if (deleteinfor.getKeytype().equals("0") || deleteinfor.getKeytype().equals("1")) {
+                if (deleteinfor.getKeytype().equals("0")) {
+                    it = new Intent(mContext, ShowInternetPageActivity.class);
+                    it.putExtra("name", "软件使用说明");
+                    SysInitInfo sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
+                    String path = sysInitInfo.getSys_web_service() + "webview/parm/useinstruction";
+                    it.putExtra("path", path);
+                    mContext.startActivity(it);
+                } else if (deleteinfor.getKeytype().equals("1")) {
                     it = new Intent(mContext, NoticeInforActivity.class);
                     it.putExtra("content", deleteinfor.getComtent());
                     mContext.startActivity(it);
                 } else if (deleteinfor.getKeytype().equals("10") || deleteinfor.getKeytype().equals("7")) {//行程
-                    int statu=Integer.parseInt(deleteinfor.getStatus());
-                    if (statu>5){//已支付
+                    int statu = Integer.parseInt(deleteinfor.getStatus());
+                    if (statu > 5) {//已支付
                         it = new Intent(mContext, MListActivity.class);
                         mContext.startActivity(it);
-                    }else {
+                    } else {
                         it = new Intent(mContext, MyCurrentTrip2Activity.class);
                         mContext.startActivity(it);
                     }

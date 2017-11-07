@@ -6,20 +6,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -42,6 +49,7 @@ import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout;
 import com.hemaapp.wcpc_driver.BaseActivity;
 import com.hemaapp.wcpc_driver.BaseHttpInformation;
+import com.hemaapp.wcpc_driver.BaseUtil;
 import com.hemaapp.wcpc_driver.EventBusModel;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.RecycleUtils;
@@ -118,7 +126,8 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
     private OnLocationChangedListener mListener;
     private LatLng latlng;
     private Workstatus workstatus;
-
+    private PopupWindow mWindow;
+    private ViewGroup mViewGroup;
     public static MainNewActivity getInstance() {
         return activity;
     }
@@ -143,6 +152,14 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         startGeTuiPush();
         startService();
         checkLocation();
+        tvButton.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!BaseUtil.isOPen(mContext)){
+                    GpsTip();
+                }
+            }
+        },1000);
     }
 
     private void getList(int page) {
@@ -250,15 +267,15 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
 
     @Override
     protected boolean onKeyBack() {
-//        if ((System.currentTimeMillis() - time) >= 2000) {
-//            XtomToastUtil.showShortToast(mContext, "再按一次返回键退出程序");
-//            time = System.currentTimeMillis();
-//        } else {
-//            XtomActivityManager.finishAll();
-//        }
-//        return true;
-        moveTaskToBack(false);
+        if ((System.currentTimeMillis() - time) >= 2000) {
+            XtomToastUtil.showShortToast(mContext, "再按一次返回键退出程序");
+            time = System.currentTimeMillis();
+        } else {
+            XtomActivityManager.finishAll();
+        }
         return true;
+       // moveTaskToBack(false);
+        //return true;
     }
 
     @Override
@@ -282,7 +299,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
     protected void onResume() {
         //移动数据统计分析
         FlowerCollector.onResume(mContext);
-        FlowerCollector.onPageStart("MainActivity");
+        FlowerCollector.onPageStart("MainNewActivity");
         super.onResume();
         checkPermission();
         getNoticeUnread();
@@ -758,5 +775,45 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
             it.putExtra("allgetflag", workstatus.getAllgetflag());
             startActivity(it);
         }
+    }
+    private void GpsTip() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_first_tip, null);
+        TextView  cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView  ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView  title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView  title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        title1.setText("请打开GPS定位");
+        title2.setText("开启GPS定位功能才能正常使用地图功能");
+        cancel.setText("取消");
+        ok.setText("去打开");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                // 让用户打开GPS
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 }

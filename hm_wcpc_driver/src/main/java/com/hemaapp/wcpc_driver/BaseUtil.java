@@ -10,7 +10,10 @@ package com.hemaapp.wcpc_driver;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.text.SpannableString;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +35,8 @@ import java.util.Locale;
 import xtom.frame.XtomActivityManager;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.util.XtomTimeUtil;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
  * 工具类
@@ -75,6 +80,10 @@ public class BaseUtil {
 		BigDecimal b1 = new BigDecimal(v1);
 		BigDecimal b2 = new BigDecimal(v2);
 		return b1.divide(b2,scale,BigDecimal.ROUND_HALF_UP).toString();
+	}
+	public static void hideInput(Context context,View v){
+		((InputMethodManager)context.getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow
+				(v.getWindowToken(), 0);
 	}
 	/**
 	 * 计算两点间的距离
@@ -461,5 +470,21 @@ public class BaseUtil {
 			image_3.setImageResource(R.mipmap.img_pingjia_s);
 			image_4.setImageResource(R.mipmap.img_pingjia_s);
 		}
+	}
+	/**
+	 * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
+	 * @param context
+	 * @return true 表示开启
+	 */
+	public static final boolean isOPen(final Context context) {
+
+		LocationManager locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+		boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean net = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		if(gps || net){
+			return true;
+		}
+		return false;
+
 	}
 }

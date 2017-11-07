@@ -25,11 +25,13 @@ import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.CurrentTripsInfor;
 import com.hemaapp.wcpc_driver.module.TripClient;
 import com.hemaapp.wcpc_driver.module.User;
+import com.iflytek.thridparty.G;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import xtom.frame.util.XtomBaseUtil;
 import xtom.frame.util.XtomTimeUtil;
 
 /**
@@ -122,6 +124,13 @@ public class HistoaryAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
         ((TextView) holder.getView(R.id.tv_content)).setText(infor.getRemarks());
         ((TextView) holder.getView(R.id.tv_price)).setText(infor.getDriver_fee());
         ((TextView) holder.getView(R.id.tv_num)).setText("乘车人数 " + infor.getNumbers());
+        if (XtomBaseUtil.isNull(infor.getRemarks())){
+            ((TextView) holder.getView(R.id.tv_content)).setVisibility(View.GONE);
+            (holder.getView(R.id.iv_line)).setVisibility(View.GONE);
+        }else {
+            ((TextView) holder.getView(R.id.tv_content)).setVisibility(View.VISIBLE);
+            (holder.getView(R.id.iv_line)).setVisibility(View.VISIBLE);
+        }
         holder.getView(R.id.tv_button0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

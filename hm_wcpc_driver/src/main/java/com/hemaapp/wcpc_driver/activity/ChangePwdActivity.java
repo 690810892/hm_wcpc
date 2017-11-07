@@ -12,6 +12,7 @@ import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.wcpc_driver.BaseActivity;
 import com.hemaapp.wcpc_driver.BaseHttpInformation;
+import com.hemaapp.wcpc_driver.BaseUtil;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.User;
@@ -41,7 +42,7 @@ public class ChangePwdActivity extends BaseActivity {
     private String old, password;
 
     private User user;
-    private String keytype1 = "1", keytype2="1", keytype3= "1";
+    private String keytype1 = "1", keytype2 = "1", keytype3 = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +154,7 @@ public class ChangePwdActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
+                BaseUtil.hideInput(mContext, title);
                 finish();
             }
         });
@@ -162,37 +164,37 @@ public class ChangePwdActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-
+                BaseUtil.hideInput(mContext, title);
                 old = edit_old.getText().toString();
-                if(isNull(old)){
+                if (isNull(old)) {
                     showTextDialog("抱歉，请输入旧密码");
                     return;
                 }
 
                 password = edit_pwd.getText().toString();
 
-                if(isNull(password)){
+                if (isNull(password)) {
                     showTextDialog("抱歉，请输入密码");
                     return;
                 }
 
-                if(!(password.length() >= 6 && password.length() <= 12)){
+                if (!(password.length() >= 6 && password.length() <= 12)) {
                     showTextDialog("抱歉，密码需要6-12位");
                     return;
                 }
 
                 String repeat = edit_pwd_again.getText().toString();
-                if(isNull(repeat)){
+                if (isNull(repeat)) {
                     showTextDialog("抱歉，请输入确认密码");
                     return;
                 }
 
-                if(!password.equals(repeat)){
+                if (!password.equals(repeat)) {
                     showTextDialog("抱歉，新密码与确认密码不一致，请重新输入");
                     return;
                 }
 
-                String value =  Md5Util.getMd5(XtomConfig.DATAKEY
+                String value = Md5Util.getMd5(XtomConfig.DATAKEY
                         + Md5Util.getMd5(old));
                 String newpwd = Md5Util.getMd5(XtomConfig.DATAKEY
                         + Md5Util.getMd5(password));
@@ -203,12 +205,12 @@ public class ChangePwdActivity extends BaseActivity {
         image_oldclear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(keytype1.equals("1")){ //不可见
-                    edit_old.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                if (keytype1.equals("1")) { //不可见
+                    edit_old.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     image_oldclear.setImageResource(R.mipmap.img_eye_open);
                     keytype1 = "2";
-                }else{
-                    edit_old.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                    edit_old.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     image_oldclear.setImageResource(R.mipmap.img_eye_close);
                     keytype1 = "1";
                 }
@@ -217,12 +219,12 @@ public class ChangePwdActivity extends BaseActivity {
         image_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(keytype2.equals("1")){ //不可见
-                    edit_pwd.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                if (keytype2.equals("1")) { //不可见
+                    edit_pwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     image_clear.setImageResource(R.mipmap.img_eye_open);
                     keytype2 = "2";
-                }else{
-                    edit_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                    edit_pwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     image_clear.setImageResource(R.mipmap.img_eye_close);
                     keytype2 = "1";
                 }
@@ -231,12 +233,12 @@ public class ChangePwdActivity extends BaseActivity {
         image_reclear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(keytype3.equals("1")){ //不可见
-                    edit_pwd_again.setInputType( InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD );
+                if (keytype3.equals("1")) { //不可见
+                    edit_pwd_again.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     image_reclear.setImageResource(R.mipmap.img_eye_open);
                     keytype3 = "2";
-                }else{
-                    edit_pwd_again.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                } else {
+                    edit_pwd_again.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     image_reclear.setImageResource(R.mipmap.img_eye_close);
                     keytype3 = "1";
                 }

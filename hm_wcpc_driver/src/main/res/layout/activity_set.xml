@@ -29,7 +29,7 @@
                     <TextView
                         android:id="@id/textview_0"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:drawablePadding="15dp"
                         android:drawableRight="@mipmap/triangle"
                         android:gravity="center_vertical"
@@ -37,6 +37,7 @@
                         android:text="@string/tv_set_using"
                         android:textColor="@color/cl_5e5e5e"
                         android:textSize="15sp" />
+
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -199,7 +200,7 @@
                         android:id="@+id/tv_tel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="400"
+                        android:text=""
                         android:textColor="@color/yellow"
                         android:textSize="17sp" />
                 </LinearLayout>

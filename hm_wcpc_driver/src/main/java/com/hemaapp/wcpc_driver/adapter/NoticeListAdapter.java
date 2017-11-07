@@ -15,6 +15,7 @@ import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.activity.HistoryActivity;
 import com.hemaapp.wcpc_driver.activity.NoticeInforActivity;
 import com.hemaapp.wcpc_driver.activity.NoticeListActivity;
+import com.hemaapp.wcpc_driver.activity.ShowInternetPageActivity;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.NoticeListInfor;
 import com.hemaapp.wcpc_driver.module.User;
@@ -90,7 +91,15 @@ public class NoticeListAdapter extends HemaAdapter {
                     ((NoticeListActivity) mContext).getNetWorker().noticeSaveOperate(user.getToken(), deleteinfor.getId(), "2", "1");
                 }
                 Intent it;
-                if (deleteinfor.getKeytype().equals("0") || deleteinfor.getKeytype().equals("1")) {
+                if(deleteinfor.getKeytype().equals("0") ){
+                    String sys_web_service = hm_WcpcDriverApplication.getInstance().getSysInitInfo()
+                            .getSys_web_service();
+                    String pathStr = sys_web_service + "webview/parm/useinstruction_driver";
+                    it = new Intent(mContext, ShowInternetPageActivity.class);
+                    it.putExtra("name", "使用说明");
+                    it.putExtra("path", pathStr);
+                    mContext.startActivity(it);
+                } else if (deleteinfor.getKeytype().equals("1")) {
                     it = new Intent(mContext, NoticeInforActivity.class);
                     it.putExtra("content", deleteinfor.getComtent());
                     mContext.startActivity(it);

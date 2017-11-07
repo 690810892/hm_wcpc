@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Gravity;
@@ -84,6 +85,15 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
         } else
             getNetWorker().noticeUnread(user.getToken(), "2", "1");
         getNetWorker().cityList("0");//获取已开通城市
+        image_left.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!BaseUtil.isOPen(mContext)){
+                   GpsTip();
+//            BaseUtil.openGPS(mContext);
+                }
+            }
+        },1000);
     }
 
     public void onEventMainThread(EventBusModel event) {
@@ -202,6 +212,7 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
                 XtomSharedPreferencesUtil.save(mContext, "order_end", rule.getTime1_end());
                 XtomSharedPreferencesUtil.save(mContext, "pin_end", rule.getTime2_end());
                 XtomSharedPreferencesUtil.save(mContext, "pin_start", rule.getTime2_begin());
+
                 break;
         }
     }
@@ -437,6 +448,46 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
                 mWindow.dismiss();
                 Intent it = new Intent(mContext, MyCurrentTrip2Activity.class);
                 startActivity(it);
+            }
+        });
+    }
+    private void GpsTip() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_first_tip, null);
+        TextView  cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView  ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView  title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView  title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        title1.setText("请打开GPS定位");
+        title2.setText("开启GPS定位功能才能正常使用地图功能");
+        cancel.setText("取消");
+        ok.setText("去打开");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                // 让用户打开GPS
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityForResult(intent, 0);
             }
         });
     }

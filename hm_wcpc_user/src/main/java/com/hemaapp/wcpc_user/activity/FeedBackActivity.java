@@ -233,7 +233,7 @@ public class FeedBackActivity extends BaseActivity {
     @Override
     protected void setListener() {
         title.setText("意见反馈");
-        right.setVisibility(View.VISIBLE);
+        right.setVisibility(View.GONE);
         right.setText("提交");
         left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,7 +244,7 @@ public class FeedBackActivity extends BaseActivity {
 
         editText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(
                 500) });
-        right.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

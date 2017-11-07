@@ -298,7 +298,7 @@ public class SendActivity extends BaseActivity {
                     if (myCity.getCity_id().equals(startCity.getCity_id())) {//正常myCity就是endCity，但是点击交换之后，要特殊处理
                         it.putExtra("areas", myCity.getAreas2());
                         it.putExtra("center_city", myCity.getCenter_lnglat2());
-                    }else {
+                    } else {
                         it.putExtra("areas", myCity.getAreas1());
                         it.putExtra("center_city", myCity.getCenter_lnglat1());
                     }
@@ -315,7 +315,7 @@ public class SendActivity extends BaseActivity {
                     if (myCity.getCity_id().equals(startCity.getCity_id())) {//正常myCity就是endCity，但是点击交换之后，要特殊处理
                         it.putExtra("areas", myCity.getAreas1());
                         it.putExtra("center_city", myCity.getCenter_lnglat1());
-                    }else {
+                    } else {
                         it.putExtra("areas", myCity.getAreas2());
                         it.putExtra("center_city", myCity.getCenter_lnglat2());
                     }
@@ -377,15 +377,15 @@ public class SendActivity extends BaseActivity {
                 tvCharter.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                         R.mipmap.img_agree_s, 0);
                 count = 4;//包车默认4人
-                tvCount.setText(count+"人");
+                tvCount.setText(count + "人");
                 resetPrice();
                 break;
             case R.id.lv_coupon:
-                if (isNull(start_address) ) {
+                if (isNull(start_address)) {
                     showTextDialog("抱歉，请先选择出发地");
                     return;
                 }
-                if (isNull(end_address) ) {
+                if (isNull(end_address)) {
                     showTextDialog("抱歉，请先选择目的地");
                     return;
                 }
@@ -394,11 +394,11 @@ public class SendActivity extends BaseActivity {
                 startActivityForResult(it, 5);
                 break;
             case R.id.tv_feeinfor:
-                if (startCity==null) {
+                if (startCity == null) {
                     showTextDialog("请选择出发地");
                     return;
                 }
-                if (endCity==null) {
+                if (endCity == null) {
                     showTextDialog("请选择目的地");
                     return;
                 }
@@ -406,7 +406,12 @@ public class SendActivity extends BaseActivity {
                 it.putExtra("start", startCity.getName());
                 it.putExtra("end", endCity.getName());
                 it.putExtra("price", myCity.getPrice());
-                it.putExtra("count", count + "");
+                if (isAgreed.equals("0")) {
+                    it.putExtra("count", "4");
+                } else {
+                    it.putExtra("count", count + "");
+                }
+
                 it.putExtra("addstart", addstart + "");
                 it.putExtra("addend", addend + "");
                 it.putExtra("couple", coupon_vavle);
@@ -418,20 +423,21 @@ public class SendActivity extends BaseActivity {
                 break;
         }
     }
+
     private void toPublish() {
-        if (startCity==null) {
+        if (startCity == null) {
             showTextDialog("请选择出发城市");
             return;
         }
-        if (endCity==null) {
+        if (endCity == null) {
             showTextDialog("请选择到达城市");
             return;
         }
-        if (isNull(start_address)){
+        if (isNull(start_address)) {
             showTextDialog("请选择目的地");
             return;
         }
-        if (isNull(end_address)){
+        if (isNull(end_address)) {
             showTextDialog("请选择目的地");
             return;
         }
@@ -444,7 +450,7 @@ public class SendActivity extends BaseActivity {
             return;
         }
         if (isAgreed.equals("1")) {
-            if (count==0) {
+            if (count == 0) {
                 showTextDialog("请选择人数");
                 return;
             }
@@ -472,9 +478,10 @@ public class SendActivity extends BaseActivity {
         if (isNull(coupon_id))
             coupon_id = "0";
         getNetWorker().tripsAdd(user.getToken(), start_address, startCity.getCity_id(), startCity.getName(), end_address, endCity.getCity_id(),
-                endCity.getName(), begintime, count+"",
+                endCity.getName(), begintime, count + "",
                 isAgreed, content, start_lng, start_lat, end_lng, end_lat, "0", "0", "当前位置", coupon_id, allfee + "");
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK)
@@ -541,7 +548,8 @@ public class SendActivity extends BaseActivity {
     }
 
     private void resetPrice() {
-        totleFee = price * count - coupon + addend + addstart + count;
+
+        totleFee = price * count - coupon + addend + addstart;
         tvPrice.setText(totleFee + "元");
     }
 
@@ -640,7 +648,7 @@ public class SendActivity extends BaseActivity {
                     tvCharter.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                             R.mipmap.img_agree_s, 0);
                     count = 4;
-                    tvCount.setText(count+"人");
+                    tvCount.setText(count + "人");
                     resetPrice();
                 }
             }

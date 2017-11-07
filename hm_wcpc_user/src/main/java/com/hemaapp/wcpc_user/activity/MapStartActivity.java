@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
@@ -59,6 +61,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
+import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.util.XtomToastUtil;
 import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
@@ -394,6 +397,7 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
         }
         inArea = b1;
         if (inArea) {
+            showProgressDialog("正在定位...");
             latlng = latLng;
             lat = latLng.latitude + "";
             lng = latLng.longitude + "";
@@ -408,6 +412,7 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
 
     @Override
     public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
+        cancelProgressDialog();
         if (rCode == 1000) {
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {

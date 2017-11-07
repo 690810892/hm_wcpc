@@ -13,6 +13,7 @@ import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
+import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.User;
@@ -160,6 +161,7 @@ public class ChangePwdActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
+                BaseUtil.hideInput(mContext,title);
                 finish();
             }
         });
@@ -169,6 +171,7 @@ public class ChangePwdActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
+                BaseUtil.hideInput(mContext,title);
                 old = edit_old.getText().toString();
                 password = edit_pwd.getText().toString();
                 String repeat = edit_pwd_again.getText().toString();
@@ -210,7 +213,7 @@ public class ChangePwdActivity extends BaseActivity {
                     image_oldclear.setImageResource(R.mipmap.img_eye_open);
                     keytype1 = "2";
                 }else{
-                    edit_old.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    edit_old.setInputType( InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     image_oldclear.setImageResource(R.mipmap.img_eye_close);
                     keytype1 = "1";
                 }
@@ -224,7 +227,7 @@ public class ChangePwdActivity extends BaseActivity {
                     image_clear.setImageResource(R.mipmap.img_eye_open);
                     keytype2 = "2";
                 }else{
-                    edit_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    edit_pwd.setInputType( InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     image_clear.setImageResource(R.mipmap.img_eye_close);
                     keytype2 = "1";
                 }
@@ -238,7 +241,7 @@ public class ChangePwdActivity extends BaseActivity {
                     image_reclear.setImageResource(R.mipmap.img_eye_open);
                     keytype3 = "2";
                 }else{
-                    edit_pwd_again.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    edit_pwd_again.setInputType( InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     image_reclear.setImageResource(R.mipmap.img_eye_close);
                     keytype3 = "1";
                 }

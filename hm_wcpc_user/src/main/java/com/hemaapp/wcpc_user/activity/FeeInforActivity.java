@@ -8,29 +8,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hemaapp.hm_FrameWork.HemaNetTask;
-import com.hemaapp.hm_FrameWork.dialog.HemaButtonDialog;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
-import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
-import com.hemaapp.wcpc_user.RecycleUtils;
-import com.hemaapp.wcpc_user.ToLogin;
-import com.hemaapp.wcpc_user.adapter.MytripAdapter;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
-import com.hemaapp.wcpc_user.module.CurrentTripsInfor;
 import com.hemaapp.wcpc_user.module.SysInitInfo;
 import com.hemaapp.wcpc_user.module.User;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-import xtom.frame.util.XtomToastUtil;
-import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * 费用明细
@@ -75,8 +65,11 @@ public class FeeInforActivity extends BaseActivity {
     LinearLayout lvAll;
     @BindView(R.id.imageView)
     ImageView imageView;
+    @BindView(R.id.tv_bao0)
+    TextView tvBao0;
     private User user;
-    private String token = "",  start = "",  end = "", price="", count = "",  addstart = "",  addend = "",  couple = "",  all = "";
+    private String token = "", start = "", end = "", price = "", count = "", addstart = "", addend = "", couple = "", all = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_fee_infor);
@@ -84,34 +77,36 @@ public class FeeInforActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         user = hm_WcpcUserApplication.getInstance().getUser();
-        if (isNull(addstart)||Float.parseFloat(addstart)==0){
+        if (isNull(addstart) || Float.parseFloat(addstart) == 0) {
             lvStart.setVisibility(View.GONE);
         }
-        if (isNull(addend)||Float.parseFloat(addend)==0){
+        if (isNull(addend) || Float.parseFloat(addend) == 0) {
             lvEnd.setVisibility(View.GONE);
         }
-        if (isNull(couple)||Float.parseFloat(couple)==0){
+        if (isNull(couple) || Float.parseFloat(couple) == 0) {
             lvCouple.setVisibility(View.GONE);
         }
-        tvBase.setText(start+"--"+end+"(城区基本费用)");
-        tvBasePrice.setText("+"+price+"元");
-        tvCount.setText(count+"人");
-        tvBao.setText("+"+count+"元");
-        tvStart.setText("+"+addstart+"元");
-        tvEnd.setText("+"+addend+"元");
-        tvCouple.setText("-"+couple+"元");
-        tvAll.setText(all+"元");
+        tvBase.setText(start + "--" + end + "(城区基本费用)");
+        tvBasePrice.setText("+" + price + "元");
+        tvCount.setText(count + "人");
+        tvBao0.setText("保险费"+count+"元(平台赠送)");
+        tvBao.setText("0元");
+        tvStart.setText("+" + addstart + "元");
+        tvEnd.setText("+" + addend + "元");
+        tvCouple.setText("-" + couple + "元");
+        tvAll.setText(all + "元");
     }
+
     @Override
     protected void getExras() {
-        start=mIntent.getStringExtra("start");
-        end=mIntent.getStringExtra("end");
-        count=mIntent.getStringExtra("count");
-        addstart=mIntent.getStringExtra("addstart");
-        addend=mIntent.getStringExtra("addend");
-        couple=mIntent.getStringExtra("couple");
-        all=mIntent.getStringExtra("all");
-        price=mIntent.getStringExtra("price");
+        start = mIntent.getStringExtra("start");
+        end = mIntent.getStringExtra("end");
+        count = mIntent.getStringExtra("count");
+        addstart = mIntent.getStringExtra("addstart");
+        addend = mIntent.getStringExtra("addend");
+        couple = mIntent.getStringExtra("couple");
+        all = mIntent.getStringExtra("all");
+        price = mIntent.getStringExtra("price");
     }
 
     public void onEventMainThread(EventBusModel event) {
@@ -231,7 +226,6 @@ public class FeeInforActivity extends BaseActivity {
     }
 
 
-
     @OnClick({R.id.title_btn_left, R.id.title_btn_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -241,7 +235,7 @@ public class FeeInforActivity extends BaseActivity {
             case R.id.title_btn_right:
 //                Intent  it = new Intent(mContext, SelectCity2Activity.class);
 //                startActivity(it);
-                Intent  it = new Intent(mContext, ShowInternetPageActivity.class);
+                Intent it = new Intent(mContext, ShowInternetPageActivity.class);
                 it.putExtra("name", "计费规则");
                 SysInitInfo sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
                 String path = sysInitInfo.getSys_web_service() + "webview/parm/feeinstruction";

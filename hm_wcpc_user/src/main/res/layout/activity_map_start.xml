@@ -47,7 +47,7 @@
                 android:ellipsize="end"
                 android:hint="请输入地点"
                 android:textColorHint="#a8a8a8"
-                android:textColor="#a8a8a8"
+                android:textColor="@color/word_black"
                 android:textSize="14sp"/>
 
         </LinearLayout>

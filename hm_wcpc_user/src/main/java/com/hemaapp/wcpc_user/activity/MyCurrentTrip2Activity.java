@@ -225,6 +225,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             lvRout.setVisibility(View.VISIBLE);
             lvDriver.setVisibility(View.GONE);
             ivAvatar.setVisibility(View.GONE);
+            tvDistance.setVisibility(View.GONE);
             ivTel.setImageResource(R.mipmap.img_order_kefu);
             lvTogether.setVisibility(View.INVISIBLE);
             tvButton0.setVisibility(View.VISIBLE);
@@ -249,6 +250,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             if (infor.getStatus().equals("1")) {//待上车
                 tvButton0.setVisibility(View.VISIBLE);
                 tvButton1.setVisibility(View.VISIBLE);
+                tvDistance.setVisibility(View.VISIBLE);
                 tvButton0.setText("取消订单");
                 tvButton1.setText("确认上车");
                 tvButton0.setTextColor(0xff5e5e5e);
@@ -258,12 +260,14 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             } else if (infor.getStatus().equals("3")) {//待送达
                 tvButton0.setVisibility(View.GONE);
                 tvButton1.setVisibility(View.VISIBLE);
+                tvDistance.setVisibility(View.GONE);
                 tvButton1.setText("到达目的地");
                 tvButton1.setTextColor(0xffffffff);
                 tvButton1.setBackgroundResource(R.drawable.bt_qiangdan);
             } else if (infor.getStatus().equals("5")) {//待支付
                 tvButton0.setVisibility(View.VISIBLE);
                 tvButton1.setVisibility(View.VISIBLE);
+                tvDistance.setVisibility(View.GONE);
                 tvButton0.setText("到达目的地");
                 tvButton1.setText("去支付");
                 tvButton0.setTextColor(0xffff9900);
@@ -709,14 +713,20 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 break;
             case R.id.lv_bottom:
                 if (isAvilible(mContext, "com.autonavi.minimap")) {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    intent.addCategory(Intent.CATEGORY_DEFAULT);
-                    Uri uri = Uri.parse("androidamap://navi?sourceApplication=" + mContext.getResources().getString(R.string.app_name)
-                            + "&amp;poiname=" + infor.getStartaddress() + "g&amp;lat=" + infor.getLat_start() + "&amp;lon=" + infor.getLng_start()
-                            + "&amp;dev=1&amp;style=2");
-                    intent.setData(uri);
-                    startActivity(intent);
+
+                    StringBuffer stringBuffer  = new StringBuffer("androidamap://navi?sourceApplication=")
+                            .append("小叫车");
+                    if (!TextUtils.isEmpty(infor.getEndaddress())){
+                        stringBuffer.append("&poiname=").append(infor.getEndaddress());
+                    }
+                    stringBuffer.append("&lat=").append(infor.getLat_end())
+                            .append("&lon=").append(infor.getLng_end())
+                            .append("&dev=").append("1")
+                            .append("&style=").append("2");
+
+                    Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
+                    intent.setPackage("com.autonavi.minimap");
+                    mContext.startActivity(intent);
                 } else {
                     showTextDialog("您尚未安装高德地图或地图版本过低");
                 }
