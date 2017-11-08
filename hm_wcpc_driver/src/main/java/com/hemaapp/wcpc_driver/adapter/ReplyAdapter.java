@@ -33,6 +33,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import xtom.frame.util.XtomBaseUtil;
 import xtom.frame.util.XtomTimeUtil;
 
 /**
@@ -64,13 +65,18 @@ public class ReplyAdapter extends BaseRecycleAdapter<Reply> {
         ((TextView) holder.getView(R.id.tv_start)).setText(infor.getStartaddress());
         ((TextView) holder.getView(R.id.tv_end)).setText(infor.getEndaddress());
         ((RatingBar) holder.getView(R.id.rb_level)).setRating(Float.parseFloat(infor.getPoint()));
-        ArrayList<DataInfor> tags=new ArrayList<>();
-        String []sts=infor.getReply_str_text1().split(",");
-        for (int i=0;i<sts.length;i++){
-            tags.add(new DataInfor(sts[i]));
+        if (!XtomBaseUtil.isNull(infor.getReply_str_text1())) {
+            ((TagFlowLayout) holder.getView(R.id.multitextview)).setVisibility(View.VISIBLE);
+            ArrayList<DataInfor> tags = new ArrayList<>();
+            String[] sts = infor.getReply_str_text1().split(",");
+            for (int i = 0; i < sts.length; i++) {
+                tags.add(new DataInfor(sts[i]));
+            }
+            TagReplyAdapter tagReplyAdapter = new TagReplyAdapter(mContext, tags);
+            ((TagFlowLayout) holder.getView(R.id.multitextview)).setAdapter(tagReplyAdapter);
+        } else {
+            ((TagFlowLayout) holder.getView(R.id.multitextview)).setVisibility(View.GONE);
         }
-        TagReplyAdapter tagReplyAdapter=new TagReplyAdapter(mContext,tags);
-        ((TagFlowLayout) holder.getView(R.id.multitextview)).setAdapter(tagReplyAdapter);
     }
 
     @Override

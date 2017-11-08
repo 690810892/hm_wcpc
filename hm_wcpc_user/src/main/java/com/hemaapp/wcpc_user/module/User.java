@@ -49,10 +49,12 @@ public class User extends HemaUser {
 	private String bankmobile; //银行预留手机号
 	private String alipay_no; //支付宝账号
 	private String invitecode; //
+	private String today_cancel_count; //
 
 	public User(JSONObject jsonObject) throws DataParseException {
 		super(jsonObject);
 		try {
+			today_cancel_count= get(jsonObject, "today_cancel_count");
 			invitecode= get(jsonObject, "invitecode");
 			id = get(jsonObject, "id");
 			username = get(jsonObject, "username");
@@ -99,9 +101,10 @@ public class User extends HemaUser {
                 String token, String android_must_update, String android_last_version,
                 String android_update_url, String carbrand, String carnumber, String score,
                 String bankuser, String bankname, String bankcard, String bankmobile,
-                String alipay_no,String invitecode) {
+                String alipay_no,String invitecode,String today_cancel_count) {
 		super(token);
 		this.id = id;
+		this.today_cancel_count = today_cancel_count;
 		this.username = username;
 		this.invitecode = invitecode;
 		this.email = email;
@@ -165,6 +168,7 @@ public class User extends HemaUser {
 				", bankmobile='" + bankmobile + '\'' +
 				", alipay_no='" + alipay_no + '\'' +
 				", invitecode='" + invitecode + '\'' +
+				", today_cancel_count='" + today_cancel_count + '\'' +
 				'}';
 	}
 
@@ -302,6 +306,10 @@ public class User extends HemaUser {
 
 	public String getBankuser() {
 		return bankuser;
+	}
+
+	public String getToday_cancel_count() {
+		return today_cancel_count;
 	}
 
 	public String getTakecount() {

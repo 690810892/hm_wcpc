@@ -48,6 +48,7 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
     User user;
     private PopupWindow mWindow;
     private ViewGroup mViewGroup;
+
     public MytripAdapter(Context mContext, List<CurrentTripsInfor> datas, BaseNetWorker netWorker) {
         super(datas);
         this.mContext = mContext;
@@ -136,7 +137,7 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
                 }
 
             } else if (infor.getStatus().equals("10") || infor.getStatus().equals("11")) {
-                if (infor.getDriver_id().equals("0")){
+                if (infor.getDriver_id().equals("0")) {
                     holder.getView(R.id.iv_avatar).setVisibility(View.GONE);
                     holder.getView(R.id.lv_name).setVisibility(View.GONE);
                     holder.getView(R.id.car).setVisibility(View.GONE);
@@ -156,13 +157,13 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
                     ToLogin.showLogin((BaseActivity) mContext);
                     return;
                 }
-                if (blog.getStatus().equals("0")||blog.getStatus().equals("1")) {
+                if (blog.getStatus().equals("0") || blog.getStatus().equals("1")) {
                     CancelTip();
 //                    Intent it = new Intent(mContext, CancelOrderActivity.class);
 //                    it.putExtra("id", infor.getId());
 //                    mContext.startActivity(it);
-                }else  if (blog.getStatus().equals("6")||blog.getStatus().equals("10")||blog.getStatus().equals("11")) {
-                    keytype="6";
+                } else if (blog.getStatus().equals("6") || blog.getStatus().equals("10") || blog.getStatus().equals("11")) {
+                    keytype = "6";
                     dialog();
                 }
             }
@@ -177,17 +178,17 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
                     return;
                 }
                 if (blog.getStatus().equals("1")) {//确认上车
-                    keytype="3";
+                    keytype = "3";
                     dialog();
-                }else  if (blog.getStatus().equals("3")) {//到达目的地
-                    keytype="5";
+                } else if (blog.getStatus().equals("3")) {//到达目的地
+                    keytype = "5";
                     dialog();
-                }else  if (blog.getStatus().equals("5")) {//去支付
+                } else if (blog.getStatus().equals("5")) {//去支付
                     Intent it = new Intent(mContext, ToPayActivity.class);
                     it.putExtra("id", infor.getId());
                     it.putExtra("total_fee", infor.getTotal_fee());
                     mContext.startActivity(it);
-                }else  if (blog.getStatus().equals("6")) {//去评价
+                } else if (blog.getStatus().equals("6")) {//去评价
                     Intent it = new Intent(mContext, PingJiaActivity.class);
                     it.putExtra("id", infor.getId());
                     it.putExtra("driver_id", infor.getDriver_id());
@@ -212,11 +213,11 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
             mDialog.setLeftButtonText("取消");
             mDialog.setRightButtonText("确定");
             mDialog.setText("是否确认上车？");
-        }else if (keytype.equals("5")) {
+        } else if (keytype.equals("5")) {
             mDialog.setLeftButtonText("取消");
             mDialog.setRightButtonText("确定");
             mDialog.setText("为了保障您的出行，请谨慎操作。\n确定到达目的地吗？");
-        }else if (keytype.equals("6")) {
+        } else if (keytype.equals("6")) {
             mDialog.setLeftButtonText("取消");
             mDialog.setRightButtonText("确定");
             mDialog.setText("您确定要删除该订单?一旦删除无法找回");
@@ -241,7 +242,9 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
             netWorker.tripsOperate(user.getToken(), keytype, blog.getId(), "");
         }
     }
+
     private void CancelTip() {
+        User user = hm_WcpcUserApplication.getInstance().getUser();
         if (mWindow != null) {
             mWindow.dismiss();
         }
@@ -259,8 +262,11 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
         TextView title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
         mWindow.setContentView(mViewGroup);
         mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
-        title1.setText("确定要取消吗？");
-        title2.setText("一天内订单取消不能超过3次");
+        if (user.getToday_cancel_count().equals("3")) {
+            title1.setText("您今天已取消3次订单！");
+        } else
+            title1.setText("确定要取消吗？");
+        title2.setText("一天内订单取消不能超过3次,您已取消" + user.getToday_cancel_count() + "次");
         cancel.setText("取消");
         ok.setText("确定");
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -274,13 +280,17 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
+                User user = hm_WcpcUserApplication.getInstance().getUser();
+                if (user.getToday_cancel_count().equals("3")) {
+                    return;
+                }
                 Intent it = new Intent(mContext, CancelOrderActivity.class);
                 it.putExtra("id", blog.getId());
                 if (blog.getStatus().equals("0"))
                     it.putExtra("keytype", "1");
                 else
                     it.putExtra("keytype", "6");
-                ((BaseActivity)mContext).startActivityForResult(it, 1);
+                ((BaseActivity) mContext).startActivityForResult(it, 1);
             }
         });
     }

@@ -105,6 +105,7 @@ public class OrderListAdapter extends HemaAdapter {
                     int statu = Integer.parseInt(deleteinfor.getStatus());
                     if (statu > 5) {//已支付
                         it = new Intent(mContext, MListActivity.class);
+                        it.putExtra("keyid",deleteinfor.getKeyid());
                         mContext.startActivity(it);
                     } else {
                         it = new Intent(mContext, MyCurrentTrip2Activity.class);

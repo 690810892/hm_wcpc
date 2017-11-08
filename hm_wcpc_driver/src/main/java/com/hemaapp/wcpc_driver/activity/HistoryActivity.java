@@ -23,6 +23,7 @@ import com.hemaapp.wcpc_driver.adapter.HistoaryAdapter;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.CurrentTripsInfor;
 import com.hemaapp.wcpc_driver.module.User;
+import com.iflytek.thridparty.G;
 
 import java.util.ArrayList;
 
@@ -61,13 +62,14 @@ public class HistoryActivity extends BaseActivity {
     private HistoaryAdapter adapter;
     private ArrayList<CurrentTripsInfor> blogs = new ArrayList<>();
     private Integer currentPage = 0;
-
+    private String keyid = "0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_history_list);
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        titleBtnRight.setVisibility(View.GONE);
         user = hm_WcpcDriverApplication.getInstance().getUser();
         if (user == null)
             token = "";
@@ -179,6 +181,17 @@ public class HistoryActivity extends BaseActivity {
                     empty.setVisibility(View.INVISIBLE);
                 }
                 adapter.notifyDataSetChanged();
+                for (int i=0;i<blogs.size();i++){
+                    if (keyid.equals(blogs.get(i).getId())){
+                        rvList.scrollToPosition(i);
+                        break;
+                    }
+                }
+                if (blogs.size()>0){
+                    titleBtnRight.setVisibility(View.VISIBLE);
+                }else {
+                    titleBtnRight.setVisibility(View.GONE);
+                }
                 break;
             case TRIPS_SAVEOPERATE:
                 String keytype = netTask.getParams().get("keytype");
@@ -238,6 +251,9 @@ public class HistoryActivity extends BaseActivity {
 
     @Override
     protected void getExras() {
+        keyid = mIntent.getStringExtra("keyid");
+        if (isNull(keyid))
+            keyid = "0";
     }
 
     @Override

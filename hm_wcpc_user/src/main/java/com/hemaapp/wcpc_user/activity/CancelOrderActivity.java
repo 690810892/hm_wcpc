@@ -121,6 +121,7 @@ private String keytype;
             case ORDER_OPERATE:
                 showTextDialog("取消成功");
                 EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
+                EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_CUSTOMER_INFO));
                 title.postDelayed(new Runnable() {
                     @Override
                     public void run() {

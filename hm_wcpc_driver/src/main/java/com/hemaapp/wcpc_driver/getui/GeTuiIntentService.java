@@ -333,7 +333,7 @@ public class GeTuiIntentService extends GTIntentService {
         //设置合成音调
         mTts.setParameter(SpeechConstant.PITCH, "50");
         //设置合成音量
-        mTts.setParameter(SpeechConstant.VOLUME, "50");
+        mTts.setParameter(SpeechConstant.VOLUME, "70");
         //设置播放器音频流类型
         mTts.setParameter(SpeechConstant.STREAM_TYPE, "3");
         // 设置播放合成音频打断音乐播放，默认为true

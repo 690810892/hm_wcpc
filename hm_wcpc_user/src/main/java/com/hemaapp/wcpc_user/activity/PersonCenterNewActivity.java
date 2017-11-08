@@ -155,6 +155,7 @@ public class PersonCenterNewActivity extends BaseActivity implements View.OnClic
             case CLIENT_GET:
                 HemaArrayResult<User> uResult = (HemaArrayResult<User>) baseResult;
                 user = uResult.getObjects().get(0);
+                hm_WcpcUserApplication.getInstance().setUser(user);
                 initUserData();
                 break;
         }

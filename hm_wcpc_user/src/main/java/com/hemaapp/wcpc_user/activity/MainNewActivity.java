@@ -29,6 +29,7 @@ import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.ToLogin;
+import com.hemaapp.wcpc_user.UpGrade;
 import com.hemaapp.wcpc_user.getui.GeTuiIntentService;
 import com.hemaapp.wcpc_user.getui.PushUtils;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
@@ -69,6 +70,8 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
     private PopupWindow mWindow;
     private ViewGroup mViewGroup;
     private String phone;
+    private String isFirst;
+    private UpGrade upGrade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
@@ -77,6 +80,15 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.reset().init();
         EventBus.getDefault().register(this);
+        upGrade = new UpGrade(mContext) {
+            @Override
+            public void NoNeedUpdate() {
+            }
+        };
+        isFirst=XtomSharedPreferencesUtil.get(mContext,"isFirst");
+        if (isNull(isFirst)){
+            isFirst="true";
+        }
         user = hm_WcpcUserApplication.getInstance().getUser();
         phone=hm_WcpcUserApplication.getInstance().getSysInitInfo().getSys_service_phone();
         getNetWorker().timeRule();
@@ -90,10 +102,18 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
             public void run() {
                 if (!BaseUtil.isOPen(mContext)){
                    GpsTip();
-//            BaseUtil.openGPS(mContext);
                 }
             }
-        },1000);
+        },800);
+        image_left.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isFirst.equals("true")){
+                    Intent it=new Intent(mContext,IntroductionActivity.class);
+                    startActivity(it,R.anim.bottom_in,R.anim.bottom_in);
+                }
+            }
+        },900);
     }
 
     public void onEventMainThread(EventBusModel event) {
@@ -103,6 +123,9 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
                 break;
             case CLIENT_ID:
                 saveDevice(event.getContent());
+                break;
+            case REFRESH_CUSTOMER_INFO:
+                getNetWorker().clientGet(user.getToken(), user.getId());
                 break;
         }
     }
@@ -135,6 +158,7 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
         super.onResume();
         user = hm_WcpcUserApplication.getInstance().getUser();
         checkPermission();
+        upGrade.check();
     }
 
     @Override
@@ -178,6 +202,7 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
                     image_point.setVisibility(View.VISIBLE);
                 break;
             case CAN_TRIPS:
+                cancelProgressDialog();
                 HemaArrayResult<String> sResult = (HemaArrayResult<String>) baseResult;
                 String keytype = sResult.getObjects().get(0);
                 if ("1".equals(keytype)) {
@@ -212,7 +237,11 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
                 XtomSharedPreferencesUtil.save(mContext, "order_end", rule.getTime1_end());
                 XtomSharedPreferencesUtil.save(mContext, "pin_end", rule.getTime2_end());
                 XtomSharedPreferencesUtil.save(mContext, "pin_start", rule.getTime2_begin());
-
+                break;
+            case CLIENT_GET:
+                HemaArrayResult<User> uResult = (HemaArrayResult<User>) baseResult;
+                user = uResult.getObjects().get(0);
+                hm_WcpcUserApplication.getInstance().setUser(user);
                 break;
         }
     }

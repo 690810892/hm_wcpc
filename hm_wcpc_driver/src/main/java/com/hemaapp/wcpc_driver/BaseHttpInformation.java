@@ -186,7 +186,7 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	/**
 	 * 获取微信预支付交易会话标识(内含我方交易单号)接口
 	 * */
-	WEI_XIN(30, "OnlinePay/Weixinpay/weixinpay_get.php", "获取微信交易签名串", false),
+	WEI_XIN(30, "OnlinePay/WeixinpayDriver/weixinpay_get.php", "获取微信交易签名串", false),
 	COMPLAIN_ADD(44, "complain_add", "投诉", false),
 	REPLY_ADD(11, "reply_add", "添加评论接口", false),
 	REPLY_LIST(11, "reply_list", "评论列表", false),

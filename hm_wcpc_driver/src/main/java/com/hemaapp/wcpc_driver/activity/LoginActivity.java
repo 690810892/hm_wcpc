@@ -234,7 +234,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
         mWindow.setContentView(mViewGroup);
         mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
-        content1.setText("拨打乘客电话");
+        content1.setText("拨打客服电话");
         content2.setText(phone);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override

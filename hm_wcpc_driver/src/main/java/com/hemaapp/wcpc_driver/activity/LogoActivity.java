@@ -111,22 +111,23 @@ public class LogoActivity extends BaseActivity {
 
     private void toAdvertisement() {
         imageview.setVisibility(View.VISIBLE);
-        // 软件升级
-        upGrade = new UpGrade(mContext) {
-
-            @Override
-            public void NoNeedUpdate() {
-                checkLogin();
-            }
-        };
-        String sysVersion = infor.getAndroid_last_version();
-        String version = HemaUtil.getAppVersionForSever(mContext);
-        if (HemaUtil.isNeedUpDate(version, sysVersion)) {
-            upGrade.alert();
-        } else {
-            // 登录
-            checkLogin();
-        }
+        checkLogin();
+//        // 软件升级
+//        upGrade = new UpGrade(mContext) {
+//
+//            @Override
+//            public void NoNeedUpdate() {
+//                checkLogin();
+//            }
+//        };
+//        String sysVersion = infor.getAndroid_last_version();
+//        String version = HemaUtil.getAppVersionForSever(mContext);
+//        if (HemaUtil.isNeedUpDate(version, sysVersion)) {
+//            upGrade.alert();
+//        } else {
+//            // 登录
+//            checkLogin();
+//        }
     }
 
     private void checkLogin(){
@@ -213,12 +214,13 @@ public class LogoActivity extends BaseActivity {
 
         @Override
         public void onAnimationStart(Animation animation) {
-            BaseNetWorker netWorker = getNetWorker();
-            netWorker.init();
+
         }
 
         @Override
         public void onAnimationEnd(Animation animation) {
+            BaseNetWorker netWorker = getNetWorker();
+            netWorker.init();
         }
 
         @Override

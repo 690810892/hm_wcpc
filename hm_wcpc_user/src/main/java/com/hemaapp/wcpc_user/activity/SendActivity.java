@@ -126,6 +126,7 @@ public class SendActivity extends BaseActivity {
     private PopupWindow mWindow_exit;
     private ViewGroup mViewGroup_exit;
     private ArrayList<PersonCountInfor> counts = new ArrayList<>();
+    private int flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,6 +194,10 @@ public class SendActivity extends BaseActivity {
                     @Override
                     public void run() {
                         finish();
+                        if (flag == 0) {
+                            Intent it = new Intent(mContext, MyCurrentTrip2Activity.class);
+                            startActivity(it);
+                        }
                     }
                 }, 1000);
                 break;
@@ -220,6 +225,7 @@ public class SendActivity extends BaseActivity {
 
     @Override
     protected void getExras() {
+        flag = mIntent.getIntExtra("flag", 0);
     }
 
     @Override

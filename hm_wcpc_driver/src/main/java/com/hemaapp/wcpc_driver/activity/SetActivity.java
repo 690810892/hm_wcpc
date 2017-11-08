@@ -457,9 +457,10 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
     private void showShare(String platform) {
         if (oks == null) {
             oks = new OnekeyShare();
-            oks.setTitle("念念不忘想起你，就想送你份好礼，注册50元代金券就给你！");
+            oks.setTitle("念念不忘想起你，只想送你份好礼，注册即得50元代金券！");
             oks.setTitleUrl(pathWX); //
-            oks.setText("我最近用了小叫车出行，经济实惠。想邀请你一起体验，指定线路立减10元呦~");
+            oks.setText("莱芜 ⇌ 济南25元；\n" +
+                    "莱芜 ⇌ 泰安15元。");
             imageurl = initImagePath();
             oks.setImagePath(imageurl);
             oks.setUrl(pathWX);

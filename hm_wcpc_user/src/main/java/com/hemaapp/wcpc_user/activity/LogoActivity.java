@@ -48,7 +48,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
     private boolean isShowed;// 展示页是否看过，预留下来，现在默认为已经展示过了
     private boolean isAutomaticLogin = false;// 是否自动登录
 
-    private UpGrade upGrade;
+    //private UpGrade upGrade;
     private String lng, lat, district_name, address, city;
 
     @Override
@@ -105,7 +105,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
     private void init() {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.logo);
         animation.setAnimationListener(new StartAnimationListener());
-        view.startAnimation(animation);
+        imageview.startAnimation(animation);
         startLocation();
     }
 
@@ -162,24 +162,25 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
     }
 
     private void toAdvertisement() {
-        imageview.setVisibility(View.VISIBLE);
-        // 软件升级
-        upGrade = new UpGrade(mContext) {
-
-            @Override
-            public void NoNeedUpdate() {
-                checkLogin();
-            }
-        };
+        checkLogin();
+//        imageview.setVisibility(View.VISIBLE);
+//        // 软件升级
+//        upGrade = new UpGrade(mContext) {
+//
+//            @Override
+//            public void NoNeedUpdate() {
+//                checkLogin();
+//            }
+//        };
         String sysVersion = infor.getAndroid_last_version();
         String version = HemaUtil.getAppVersionForSever(mContext);
-        if (HemaUtil.isNeedUpDate(version, sysVersion)) {
-            upGrade.alert();
-
-        } else {
-            // 登录
-            checkLogin();
-        }
+//        if (HemaUtil.isNeedUpDate(version, sysVersion)) {
+//            upGrade.alert();
+//
+//        } else {
+//            // 登录
+//            checkLogin();
+//        }
     }
 
     private void checkLogin(){
@@ -349,7 +350,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
                     XtomSharedPreferencesUtil.save(mContext, "address", address);
                     XtomSharedPreferencesUtil.save(mContext, "district", loc.getProvince() + loc.getCity());
                     XtomSharedPreferencesUtil.save(mContext, "city", city);
-                    checkLogin();
+                    //checkLogin();
                     break;
                 //停止定位
                 case LocationUtils.MSG_LOCATION_STOP:
@@ -363,12 +364,13 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
 
         @Override
         public void onAnimationStart(Animation animation) {
-            BaseNetWorker netWorker = getNetWorker();
-            netWorker.init();
+
         }
 
         @Override
         public void onAnimationEnd(Animation animation) {
+            BaseNetWorker netWorker = getNetWorker();
+            netWorker.init();
         }
 
         @Override

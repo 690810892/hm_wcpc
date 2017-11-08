@@ -1,17 +1,19 @@
 package com.hemaapp.wcpc_driver.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,10 +33,8 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.maps.model.MyLocationStyle;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
-import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
 import com.hemaapp.wcpc_driver.BaseActivity;
 import com.hemaapp.wcpc_driver.BaseHttpInformation;
@@ -42,13 +42,13 @@ import com.hemaapp.wcpc_driver.EventBusConfig;
 import com.hemaapp.wcpc_driver.EventBusModel;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
-import com.hemaapp.wcpc_driver.module.Bank;
 import com.hemaapp.wcpc_driver.module.TripClient;
 import com.hemaapp.wcpc_driver.module.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,6 +89,8 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
     LinearLayout layoutTop;
     @BindView(R.id.imageView)
     ImageView imageView;
+    @BindView(R.id.lv_bottom)
+    LinearLayout lvBottom;
     private User user;
     private AMap aMap;
     private OnLocationChangedListener mListener;
@@ -117,6 +119,7 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
         appearAnimation.setDuration(500);
         mapView.onCreate(savedInstanceState);
         user = hm_WcpcDriverApplication.getInstance().getUser();
+        lvBottom.setVisibility(View.GONE);
         aMap = mapView.getMap();
         aMap.moveCamera(CameraUpdateFactory.zoomTo(16));//默认显示级别
         aMap.setLocationSource(this);// 设置定位监听
@@ -159,7 +162,7 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
                 .icon(BitmapDescriptorFactory
                         .fromBitmap(BitmapFactory.
                                 decodeResource(getResources(), R.mipmap.img_marker_my))).position(ll));
-        if (models.size()==0){
+        if (models.size() == 0) {
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll,
                     13);
             aMap.moveCamera(update);
@@ -305,7 +308,7 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
         }
     }
 
-    @OnClick({R.id.title_btn_left, R.id.title_btn_right, R.id.iv_tel})
+    @OnClick({R.id.title_btn_left, R.id.title_btn_right, R.id.iv_tel,R.id.lv_bottom})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title_btn_left:
@@ -321,9 +324,49 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
             case R.id.iv_tel:
                 toMakePhone();
                 break;
+            case R.id.lv_bottom:
+                if (layoutTop.getVisibility() == View.GONE) {
+                    showTextDialog("请选择导航目的地");
+                }else {
+                    if (isAvilible(mContext, "com.autonavi.minimap")) {
+
+                        StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=")
+                                .append("小叫车(司机)");
+                        if (!TextUtils.isEmpty(model.getEndaddress())) {
+                            stringBuffer.append("&poiname=").append(model.getEndaddress());
+                        }
+                        stringBuffer.append("&lat=").append(model.getLat_end())
+                                .append("&lon=").append(model.getLng_end())
+                                .append("&dev=").append("1")
+                                .append("&style=").append("2");
+
+                        Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
+                        intent.setPackage("com.autonavi.minimap");
+                        mContext.startActivity(intent);
+                    } else {
+                        showTextDialog("您尚未安装高德地图或地图版本过低");
+                    }
+                }
+                break;
         }
     }
-
+    public static boolean isAvilible(Context context, String packageName) {
+        //获取packagemanager
+        final PackageManager packageManager = context.getPackageManager();
+        //获取所有已安装程序的包信息
+        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+        //用于存储所有已安装程序的包名
+        List<String> packageNames = new ArrayList<>();
+        //从pinfo中将包名字逐一取出，压入pName list中
+        if (packageInfos != null) {
+            for (int i = 0; i < packageInfos.size(); i++) {
+                String packName = packageInfos.get(i).packageName;
+                packageNames.add(packName);
+            }
+        }
+        //判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
+        return packageNames.contains(packageName);
+    }
     private void toMakePhone() {
         if (mWindow != null) {
             mWindow.dismiss();
@@ -394,8 +437,9 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
             if (layoutTop.getVisibility() == View.GONE) {
                 layoutTop.startAnimation(appearAnimation);
                 layoutTop.setVisibility(View.VISIBLE);
+                lvBottom.setVisibility(View.VISIBLE);
             }
-            if (model.isSelect()){
+            if (model.isSelect()) {
                 return false;
             }
             for (TripClient m : models) {
@@ -415,6 +459,7 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
             setData();
         } else {
             layoutTop.setVisibility(View.GONE);
+            lvBottom.setVisibility(View.GONE);
         }
         return false;
     }

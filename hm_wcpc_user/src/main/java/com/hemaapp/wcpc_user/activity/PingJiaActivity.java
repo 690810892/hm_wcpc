@@ -25,6 +25,7 @@ import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
+import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.EventBusConfig;
 import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
@@ -254,6 +255,7 @@ public class PingJiaActivity extends BaseActivity implements PlatformActionListe
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BaseUtil.hideInput(mContext,text_submit);
                 Intent it = new Intent(mContext, TouSuActivity.class);
                 it.putExtra("driver_id", driver_id);
                 it.putExtra("order_Id", order_Id);
@@ -269,6 +271,7 @@ public class PingJiaActivity extends BaseActivity implements PlatformActionListe
         text_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BaseUtil.hideInput(mContext,text_submit);
                 if ("0".equals(point)) {
                     showTextDialog("请对本次服务进行评分");
                     return;
@@ -435,9 +438,10 @@ public class PingJiaActivity extends BaseActivity implements PlatformActionListe
             imageurl = initImagePath();
         if (oks == null) {
             oks = new OnekeyShare();
-            oks.setTitle("念念不忘想起你，就想送你份好礼，注册50元代金券就给你！");
+            oks.setTitle("念念不忘想起你，只想送你份好礼，注册即得50元代金券！");
             oks.setTitleUrl(pathWX); // 标题的超链接
-            oks.setText("我最近用了小叫车出行，经济实惠。想邀请你一起体验，指定线路立减10元呦~");
+            oks.setText("莱芜 ⇌ 济南25元；\n" +
+                    "莱芜 ⇌ 泰安15元。");
             oks.setFilePath(imageurl);
             imageurl = initImagePath();
             oks.setImagePath(imageurl);

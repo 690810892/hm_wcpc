@@ -1,14 +1,22 @@
 package com.hemaapp.wcpc_user.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hemaapp.hm_FrameWork.HemaNetTask;
@@ -18,6 +26,7 @@ import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
+import com.hemaapp.wcpc_user.module.SysInitInfo;
 import com.hemaapp.wcpc_user.module.User;
 import com.hemaapp.wcpc_user.view.ClearEditText;
 
@@ -43,8 +52,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private int flag = 0; // 表示未记住密码
     private TextView text_forgetpwd;
 
-    private String username, password, keytype = "1"; //1：密码不可见， 2:密码可见
-
+    private String username, password, keytype = "1",phone; //1：密码不可见， 2:密码可见
+    private TextView text_phone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_login);
@@ -75,6 +84,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 edit_password.setText("");
             }
         }
+        SysInitInfo sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
+        phone = sysInitInfo.getSys_service_phone();
+        text_phone.setText(phone);
+        text_phone.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 
     @Override
@@ -162,6 +175,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         image_remember = (ImageView) findViewById(R.id.imageview_4);
         text_login = (TextView) findViewById(R.id.button);
         text_forgetpwd = (TextView) findViewById(R.id.textview);
+        text_phone = (TextView) findViewById(R.id.textview_1);
     }
 
     @Override
@@ -177,7 +191,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         text_login.setOnClickListener(this);
         view_remember.setOnClickListener(this);
         text_forgetpwd.setOnClickListener(this);
-
+        text_phone.setOnClickListener(this);
         edit_username.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -262,6 +276,55 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 getNetWorker().clientLogin(username, password);
                 break;
+            case R.id.textview_1:
+                showPhoneWindow();
+                break;
         }
+    }
+    private PopupWindow mWindow;
+    private ViewGroup mViewGroup;
+    private TextView content1;
+    private TextView content2;
+    private TextView ok;
+    private TextView cancel;
+
+    private void showPhoneWindow() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_phone, null);
+        content1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        content2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        content1.setText("拨打客服电话");
+        content2.setText(phone);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                //Intent.ACTION_CALL 直接拨打电话，就是进入拨打电话界面，电话已经被拨打出去了。
+                //Intent.ACTION_DIAL 是进入拨打电话界面，电话号码已经输入了，但是需要人为的按拨打电话键，才能播出电话。
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"
+                        + phone));
+                startActivity(intent);
+            }
+        });
     }
 }

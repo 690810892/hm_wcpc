@@ -53,6 +53,7 @@ import com.hemaapp.wcpc_driver.BaseUtil;
 import com.hemaapp.wcpc_driver.EventBusModel;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.RecycleUtils;
+import com.hemaapp.wcpc_driver.UpGrade;
 import com.hemaapp.wcpc_driver.adapter.FirstAdapter;
 import com.hemaapp.wcpc_driver.adapter.SelectPositionAdapter;
 import com.hemaapp.wcpc_driver.getui.GeTuiIntentService;
@@ -131,7 +132,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
     public static MainNewActivity getInstance() {
         return activity;
     }
-
+    private UpGrade upGrade;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
@@ -140,6 +141,11 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         super.onCreate(savedInstanceState);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         EventBus.getDefault().register(this);
+        upGrade = new UpGrade(mContext) {
+            @Override
+            public void NoNeedUpdate() {
+            }
+        };
         user = hm_WcpcDriverApplication.getInstance().getUser();
         firstAdapter = new FirstAdapter(mContext, blogs, getNetWorker());
         RecycleUtils.initVerticalRecyle(rvList);
@@ -304,6 +310,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         checkPermission();
         getNoticeUnread();
         mapView.onResume();
+        upGrade.check();
     }
 
     @Override

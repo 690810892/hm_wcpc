@@ -89,10 +89,16 @@ public class FeeInforActivity extends BaseActivity {
         tvBase.setText(start + "--" + end + "(城区基本费用)");
         tvBasePrice.setText("+" + price + "元");
         tvCount.setText(count + "人");
-        tvBao0.setText("保险费"+count+"元(平台赠送)");
+        tvBao0.setText("保险费" + count + "元(平台赠送)");
         tvBao.setText("0元");
-        tvStart.setText("+" + addstart + "元");
-        tvEnd.setText("+" + addend + "元");
+        if (addstart.startsWith("-")) {
+            tvStart.setText(addstart + "元");
+        } else
+            tvStart.setText("+" + addstart + "元");
+        if (addend.startsWith("-")) {
+            tvEnd.setText(addend + "元");
+        } else
+            tvEnd.setText("+" + addend + "元");
         tvCouple.setText("-" + couple + "元");
         tvAll.setText(all + "元");
     }

@@ -62,6 +62,7 @@ public class MListActivity extends BaseActivity {
     private MytripAdapter adapter;
     private ArrayList<CurrentTripsInfor> blogs = new ArrayList<>();
     private Integer currentPage = 0;
+    private String keyid = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class MListActivity extends BaseActivity {
         ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        titleBtnRight.setVisibility(View.GONE);
         user = hm_WcpcUserApplication.getInstance().getUser();
         if (user == null)
             token = "";
@@ -180,6 +182,17 @@ public class MListActivity extends BaseActivity {
                     empty.setVisibility(View.INVISIBLE);
                 }
                 adapter.notifyDataSetChanged();
+                for (int i=0;i<blogs.size();i++){
+                    if (keyid.equals(blogs.get(i).getId())){
+                        rvList.scrollToPosition(i);
+                        break;
+                    }
+                }
+                if (blogs.size()>0){
+                    titleBtnRight.setVisibility(View.VISIBLE);
+                }else {
+                    titleBtnRight.setVisibility(View.GONE);
+                }
                 break;
             case TRIPS_SAVEOPERATE:
                 String keytype = netTask.getParams().get("keytype");
@@ -239,6 +252,9 @@ public class MListActivity extends BaseActivity {
 
     @Override
     protected void getExras() {
+        keyid = mIntent.getStringExtra("keyid");
+        if (isNull(keyid))
+            keyid = "0";
     }
 
     @Override
@@ -288,9 +304,10 @@ public class MListActivity extends BaseActivity {
                 break;
         }
     }
+
     private HemaButtonDialog mDialog;
 
-    public void delete(){
+    public void delete() {
         if (mDialog == null) {
             mDialog = new HemaButtonDialog(mContext);
             mDialog.setLeftButtonText("取消");

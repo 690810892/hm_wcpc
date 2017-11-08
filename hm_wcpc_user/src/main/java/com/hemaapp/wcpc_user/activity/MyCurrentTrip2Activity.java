@@ -255,9 +255,12 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 tvButton1.setText("确认上车");
                 tvButton0.setTextColor(0xff5e5e5e);
                 tvButton1.setTextColor(0xffffffff);
+                tvTime.setVisibility(View.VISIBLE);
+                tvTime.setText("我的出发时间:" + XtomTimeUtil.TransTime(infor.getBegintime(), "MM-dd HH:mm"));
                 tvButton0.setBackgroundResource(R.drawable.bg_operate);
                 tvButton1.setBackgroundResource(R.drawable.bt_qiangdan);
             } else if (infor.getStatus().equals("3")) {//待送达
+                tvTime.setVisibility(View.GONE);
                 tvButton0.setVisibility(View.GONE);
                 tvButton1.setVisibility(View.VISIBLE);
                 tvDistance.setVisibility(View.GONE);
@@ -265,6 +268,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 tvButton1.setTextColor(0xffffffff);
                 tvButton1.setBackgroundResource(R.drawable.bt_qiangdan);
             } else if (infor.getStatus().equals("5")) {//待支付
+                tvTime.setVisibility(View.GONE);
                 tvButton0.setVisibility(View.VISIBLE);
                 tvButton1.setVisibility(View.VISIBLE);
                 tvDistance.setVisibility(View.GONE);
@@ -281,7 +285,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             lvDriver.setVisibility(View.VISIBLE);
             ivTel.setImageResource(R.mipmap.img_order_tel);
             lvTogether.setVisibility(View.VISIBLE);
-            tvTime.setVisibility(View.GONE);
+
             ImageLoader.getInstance().displayImage(infor.getDriver_avatar(), ivAvatar, hm_WcpcUserApplication.getInstance()
                     .getOptions(R.mipmap.default_driver));
             ivAvatar.setCornerRadius(100);
@@ -307,7 +311,12 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             ivSex.setImageResource(R.mipmap.img_sex_boy);
         else
             ivSex.setImageResource(R.mipmap.img_sex_girl);
-
+        if (infor.getStatus().equals("5")) {//待支付
+            Intent  it = new Intent(mContext, ToPayActivity.class);
+            it.putExtra("id", infor.getId());
+            it.putExtra("total_fee", infor.getTotal_fee());
+            startActivityForResult(it, R.id.layout);
+        }
     }
 
     private void checkLocation() {
@@ -445,6 +454,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 String keytype = sResult.getObjects().get(0);
                 if ("1".equals(keytype)) {
                     Intent it = new Intent(mContext, SendActivity.class);
+                    it.putExtra("flag",1);
                     startActivity(it);
                 } else if ("2".equals(keytype)) {
                     showTextDialog("抱歉，您有尚未结束的行程，无法发布");
@@ -700,7 +710,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             case R.id.tv_button1:
                 if (infor != null) {
                     if (infor.getStatus().equals("1")) {//确认上车
-                        getNetWorker().orderOperate(user.getToken(), "3", infor.getId(), "", "", "");
+                        shangcheDialog();
                     } else if (infor.getStatus().equals("3")) {//确认送达
                         showarrivedDialog();
                     } else if (infor.getStatus().equals("5")) {//支付
@@ -714,9 +724,9 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             case R.id.lv_bottom:
                 if (isAvilible(mContext, "com.autonavi.minimap")) {
 
-                    StringBuffer stringBuffer  = new StringBuffer("androidamap://navi?sourceApplication=")
+                    StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=")
                             .append("小叫车");
-                    if (!TextUtils.isEmpty(infor.getEndaddress())){
+                    if (!TextUtils.isEmpty(infor.getEndaddress())) {
                         stringBuffer.append("&poiname=").append(infor.getEndaddress());
                     }
                     stringBuffer.append("&lat=").append(infor.getLat_end())
@@ -850,8 +860,43 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             }
         });
     }
+    private void shangcheDialog() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_exit, null);
+        TextView exit = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView cancel = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        TextView pop_content = (TextView) mViewGroup.findViewById(R.id.textview);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        pop_content.setText("为保障您的出行，请谨慎操作。\n确定已上车吗？");
+        cancel.setText("取消");
+        exit.setText("确定");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                getNetWorker().orderOperate(user.getToken(), "3", infor.getId(), "", "", "");
+            }
+        });
+    }
 
     private void CancelTip() {
+        user = hm_WcpcUserApplication.getInstance().getUser();
         if (mWindow != null) {
             mWindow.dismiss();
         }
@@ -869,8 +914,11 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         TextView title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
         mWindow.setContentView(mViewGroup);
         mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
-        title1.setText("确定要取消吗？");
-        title2.setText("一天内订单取消不能超过3次");
+        if (user.getToday_cancel_count().equals("3")) {
+            title1.setText("您今天已取消3次订单！");
+        } else
+            title1.setText("确定要取消吗？");
+        title2.setText("一天内订单取消不能超过3次,您已取消" + user.getToday_cancel_count() + "次");
         cancel.setText("取消");
         ok.setText("确定");
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -884,6 +932,9 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
+                if (user.getToday_cancel_count().equals("3")) {
+                    return;
+                }
                 Intent it = new Intent(mContext, CancelOrderActivity.class);
                 it.putExtra("id", infor.getId());
                 if (infor.getStatus().equals("0"))

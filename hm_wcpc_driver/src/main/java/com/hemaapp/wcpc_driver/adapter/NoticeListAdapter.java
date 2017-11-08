@@ -109,6 +109,7 @@ public class NoticeListAdapter extends HemaAdapter {
                         ((BaseActivity) mContext).finish();
                     } else {
                         it = new Intent(mContext, HistoryActivity.class);
+                        it.putExtra("keyid",deleteinfor.getKeyid());
                         mContext.startActivity(it);
                     }
                 } else {//
