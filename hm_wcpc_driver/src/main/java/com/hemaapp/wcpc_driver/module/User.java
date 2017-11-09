@@ -53,10 +53,13 @@ public class User extends HemaUser {
 	private String totalpoint; //	总评分	计算平均星级
 	private String replycount; //	被评分次数
 	private String invitecode;
-
+	private String drivinglicense; //
+	private String 	carbrand; //
 	public User(JSONObject jsonObject) throws DataParseException {
 		super(jsonObject);
 		try {
+			drivinglicense= get(jsonObject, "drivinglicense");
+			carbrand= get(jsonObject, "carbrand");
 			invitecode= get(jsonObject, "invitecode");
 			totalpoint= get(jsonObject, "totalpoint");
 			replycount= get(jsonObject, "replycount");
@@ -106,9 +109,12 @@ public class User extends HemaUser {
                 String loginflag, String feeaccount, String token,
                 String android_must_update, String android_last_version,
                 String android_update_url, String bankuser, String bankname, String bankcard,
-                String bankmobile, String alipay_no, String mylength, String filenumber,String alipay_name,String totalpoint,String replycount,String invitecode) {
+                String bankmobile, String alipay_no, String mylength, String filenumber,String alipay_name
+			,String totalpoint,String replycount,String invitecode,String drivinglicense,String carbrand) {
 		super(token);
 		this.id = id;
+		this.drivinglicense = drivinglicense;
+		this.carbrand = carbrand;
 		this.totalpoint = totalpoint;
 		this.invitecode = invitecode;
 		this.replycount = replycount;
@@ -180,6 +186,8 @@ public class User extends HemaUser {
 				", totalpoint='" + totalpoint + '\'' +
 				", replycount='" + replycount + '\'' +
 				", invitecode='" + invitecode + '\'' +
+				", drivinglicense='" + drivinglicense + '\'' +
+				", carbrand='" + carbrand + '\'' +
 				'}';
 	}
 
@@ -201,6 +209,14 @@ public class User extends HemaUser {
 		if (isNull(replycount))
 			replycount="0";
 		return replycount;
+	}
+
+	public String getDrivinglicense() {
+		return drivinglicense;
+	}
+
+	public String getCarbrand() {
+		return carbrand;
 	}
 
 	public String getAndroid_must_update() {

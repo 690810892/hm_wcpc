@@ -112,7 +112,7 @@ public class PingJiaActivity extends BaseActivity implements PlatformActionListe
                     setResult(RESULT_OK, mIntent);
                     finish();
                 }
-            }, 1000);
+            }, 500);
         }
     }
 
@@ -240,6 +240,7 @@ public class PingJiaActivity extends BaseActivity implements PlatformActionListe
     protected void getExras() {
         order_Id = mIntent.getStringExtra("id");
         driver_id = mIntent.getStringExtra("driver_id");
+        log_e("driver_id===="+driver_id);
     }
 
     @Override
@@ -348,10 +349,10 @@ public class PingJiaActivity extends BaseActivity implements PlatformActionListe
                 title.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        setResult(RESULT_OK, mIntent);
+                        EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
                         finish();
                     }
-                }, 1000);
+                }, 500);
             }
         });
 
@@ -390,6 +391,13 @@ public class PingJiaActivity extends BaseActivity implements PlatformActionListe
             @Override
             public void onClick(View v) {
                 mWindow_exit.dismiss();
+                title.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
+                        finish();
+                    }
+                }, 500);
             }
         });
         all.setOnClickListener(new View.OnClickListener() {
@@ -397,6 +405,13 @@ public class PingJiaActivity extends BaseActivity implements PlatformActionListe
             @Override
             public void onClick(View v) {
                 mWindow_exit.dismiss();
+                title.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
+                        finish();
+                    }
+                }, 500);
             }
         });
         qqshare.setOnClickListener(new View.OnClickListener() {

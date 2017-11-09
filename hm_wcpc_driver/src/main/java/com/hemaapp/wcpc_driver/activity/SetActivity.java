@@ -160,7 +160,7 @@ public class SetActivity extends BaseActivity implements PlatformActionListener 
                 HemaArrayResult<SysInitInfo> sResult = (HemaArrayResult<SysInitInfo>) baseResult;
                 infor = sResult.getObjects().get(0);
                 String lastversion = getAppVersionForSever(mContext);
-                String version = infor.getAndroid_last_version();
+                String version = infor.getDriver_android_last_version_mer();
                 if (isNeedUpDate(lastversion, version)) {
                     showContentDialog();
                 } else {

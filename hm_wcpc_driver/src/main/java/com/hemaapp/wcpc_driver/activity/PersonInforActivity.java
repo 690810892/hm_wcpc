@@ -56,10 +56,11 @@ public class PersonInforActivity extends BaseActivity {
     private LinearLayout layout_sex;
     private TextView text_sex;
     private TextView edit_mobile;
-    private LinearLayout layout_kind; //证件分类
-    private TextView text_kind;
-    private TextView edit_number;
-    private TextView edit_driver;
+    private LinearLayout layout_kind; //
+    private TextView text_driverid;//行驶证
+    private TextView edit_dangan;//档案
+    private TextView edit_driver;//驾驶证
+    private TextView text_car;//车辆信息
     private TextView tv_invite;
 
     private User user;
@@ -221,23 +222,16 @@ public class PersonInforActivity extends BaseActivity {
         text_sex.setText(sex);
 
         IDtype = user.getIDtype();
-        if ("1".equals(IDtype)) {
-            text_kind.setText("身份证");
-            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-        } else if ("2".equals(IDtype)) {
-            text_kind.setText("驾驶证");
-            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
-        }
         IDnumber = user.getIDnumber();
-        if (!isNull(IDnumber)) {
-            edit_number.setText(IDnumber);
-        }
+        text_driverid.setText(user.getDrivinglicense());
+        edit_dangan.setText(user.getFilenumber());
+        edit_driver.setText(user.getIDnumber());
+        text_car.setText(user.getCarbrand());
 //        email = user.getEmail();
 //        if(!isNull(email)){
 //            edit_email.setText(email);
 //            edit_email.setSelection(email.length());
 //        }
-        edit_driver.setText(user.getFilenumber());
         tv_invite.setText(user.getInvitecode());
         mobile = user.getMobile();
         if (!isNull(mobile)) {
@@ -359,10 +353,11 @@ public class PersonInforActivity extends BaseActivity {
         text_sex = (TextView) findViewById(R.id.textview_0);
         edit_mobile = (TextView) findViewById(R.id.textview_3);
         layout_kind = (LinearLayout) findViewById(R.id.layout_1);
-        text_kind = (TextView) findViewById(R.id.textview_1);
+        text_driverid = (TextView) findViewById(R.id.tv_driver3);
 
-        edit_number = (TextView) findViewById(R.id.textview_4);
-        edit_driver = (TextView) findViewById(R.id.tv_driver);
+        edit_dangan = (TextView) findViewById(R.id.tv_driver);
+        edit_driver = (TextView) findViewById(R.id.tv_driver2);
+        text_car = (TextView) findViewById(R.id.tv_driverinfor);
         tv_invite= (TextView) findViewById(R.id.tv_invite);
     }
 
@@ -507,8 +502,6 @@ public class PersonInforActivity extends BaseActivity {
                             text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
                         } else {
                             IDtype = "1";
-                            text_kind.setText("身份证");
-                            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
                         }
                         break;
                     case R.id.textview_0: // 女
@@ -518,8 +511,6 @@ public class PersonInforActivity extends BaseActivity {
                             text_sex.setTextColor(mContext.getResources().getColor(R.color.shenhui));
                         } else {
                             IDtype = "2";
-                            text_kind.setText("驾驶证");
-                            text_kind.setTextColor(mContext.getResources().getColor(R.color.shenhui));
                         }
                         break;
                     case R.id.textview_2:

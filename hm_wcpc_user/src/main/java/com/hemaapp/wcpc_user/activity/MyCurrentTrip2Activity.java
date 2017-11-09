@@ -315,6 +315,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             Intent  it = new Intent(mContext, ToPayActivity.class);
             it.putExtra("id", infor.getId());
             it.putExtra("total_fee", infor.getTotal_fee());
+            it.putExtra("driver_id", infor.getDriver_id());
             startActivityForResult(it, R.id.layout);
         }
     }
@@ -339,7 +340,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         if (aMap == null) {
             aMap = mapView.getMap();
             registerListener();
-            aMap.moveCamera(CameraUpdateFactory.zoomTo(16));//默认显示级别
+            aMap.moveCamera(CameraUpdateFactory.zoomTo(12));//默认显示级别
             aMap.setLocationSource(this);// 设置定位监听
             aMap.getUiSettings().setZoomControlsEnabled(false);
             aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
@@ -479,13 +480,15 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 Double d_lng = Double.parseDouble(lng);
                 Double d_lat = Double.parseDouble(lat);
                 Double distance = BaseUtil.GetDistance(d_lat, d_lng,
-                        Double.parseDouble(isNull(position.getLat()) ? "0.0" : position.getLat()),
-                        Double.parseDouble(isNull(position.getLng()) ? "0.0" : position.getLng()));
+                        Double.parseDouble(position.getLat()),
+                        Double.parseDouble(position.getLng()));
                 log_e("lat====" + lat);
                 log_e("lng====" + lng);
                 log_e("lat2====" + position.getLat());
                 log_e("lng2====" + position.getLng());
-                tvDistance.setText("距您" + BaseUtil.transDistance(Float.parseFloat(String.valueOf(distance))));
+                log_e("distance====" + distance);
+//                tvDistance.setText("距您" + BaseUtil.transDistance(Float.parseFloat(String.valueOf(distance))));
+                tvDistance.setText("距您" + distance+"km");
                 break;
         }
     }
@@ -501,7 +504,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                         .fromBitmap(BitmapFactory.
                                 decodeResource(getResources(), R.mipmap.img_marker_me))));
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(start_latlng,
-                15);
+                12);
         aMap.moveCamera(update);
     }
 
@@ -615,7 +618,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                     latLonPoint = new LatLonPoint(Double.parseDouble(lat), Double.parseDouble(lng));
                     latlng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
                     CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latlng,
-                            15);
+                            12);
                     aMap.moveCamera(update);
                     break;
                 //停止定位
@@ -717,6 +720,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                         it = new Intent(mContext, ToPayActivity.class);
                         it.putExtra("id", infor.getId());
                         it.putExtra("total_fee", infor.getTotal_fee());
+                        it.putExtra("driver_id", infor.getDriver_id());
                         startActivityForResult(it, R.id.layout);
                     }
                 }

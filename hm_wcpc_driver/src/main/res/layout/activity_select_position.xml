@@ -127,6 +127,7 @@
                     android:src="@drawable/line_shadow" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/lv_bottom"
             android:layout_width="match_parent"
@@ -161,6 +162,25 @@
                 android:textSize="15sp" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lv_warn"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:gravity="center"
+            android:background="#FDD378">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableTop="@mipmap/img_warn"
+                android:text="请在地图中点击某一乘客图标，作为返程接单点"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:textColor="@color/cl_333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"

@@ -91,6 +91,8 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
     ImageView imageView;
     @BindView(R.id.lv_bottom)
     LinearLayout lvBottom;
+    @BindView(R.id.lv_warn)
+    LinearLayout lvWarn;
     private User user;
     private AMap aMap;
     private OnLocationChangedListener mListener;
@@ -301,14 +303,16 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
         if (flag == 0) {
             titleText.setText("地图");
             titleBtnRight.setVisibility(View.GONE);
+            lvWarn.setVisibility(View.GONE);
         } else {
             titleText.setText("选择接单地点");
             titleBtnRight.setVisibility(View.VISIBLE);
             titleBtnRight.setText("确定");
+            lvWarn.setVisibility(View.VISIBLE);
         }
     }
 
-    @OnClick({R.id.title_btn_left, R.id.title_btn_right, R.id.iv_tel,R.id.lv_bottom})
+    @OnClick({R.id.title_btn_left, R.id.title_btn_right, R.id.iv_tel, R.id.lv_bottom})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title_btn_left:
@@ -327,20 +331,29 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
             case R.id.lv_bottom:
                 if (layoutTop.getVisibility() == View.GONE) {
                     showTextDialog("请选择导航目的地");
-                }else {
+                } else {
                     if (isAvilible(mContext, "com.autonavi.minimap")) {
-
+                        String add, lng, lat;
+                        if (allgetflag.equals("1")) {
+                            add = model.getEndaddress();
+                            lng = model.getLng_end();
+                            lat = model.getLat_end();
+                        } else {
+                            add = model.getStartaddress();
+                            lng = model.getLng_start();
+                            lat = model.getLat_start();
+                        }
                         StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=")
                                 .append("小叫车(司机)");
-                        if (!TextUtils.isEmpty(model.getEndaddress())) {
-                            stringBuffer.append("&poiname=").append(model.getEndaddress());
+                        if (!TextUtils.isEmpty(add)) {
+                            stringBuffer.append("&poiname=").append(add);
                         }
-                        stringBuffer.append("&lat=").append(model.getLat_end())
-                                .append("&lon=").append(model.getLng_end())
+                        stringBuffer.append("&lat=").append(lat)
+                                .append("&lon=").append(lng)
                                 .append("&dev=").append("1")
                                 .append("&style=").append("2");
 
-                        Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
+                        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
                         intent.setPackage("com.autonavi.minimap");
                         mContext.startActivity(intent);
                     } else {
@@ -350,6 +363,7 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
                 break;
         }
     }
+
     public static boolean isAvilible(Context context, String packageName) {
         //获取packagemanager
         final PackageManager packageManager = context.getPackageManager();
@@ -367,6 +381,7 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
         //判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
         return packageNames.contains(packageName);
     }
+
     private void toMakePhone() {
         if (mWindow != null) {
             mWindow.dismiss();
@@ -435,6 +450,7 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
         model = (TripClient) marker.getObject();
         if (model != null) {
             if (layoutTop.getVisibility() == View.GONE) {
+                lvWarn.setVisibility(View.GONE);
                 layoutTop.startAnimation(appearAnimation);
                 layoutTop.setVisibility(View.VISIBLE);
                 lvBottom.setVisibility(View.VISIBLE);

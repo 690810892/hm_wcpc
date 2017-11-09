@@ -187,6 +187,7 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
                     Intent it = new Intent(mContext, ToPayActivity.class);
                     it.putExtra("id", infor.getId());
                     it.putExtra("total_fee", infor.getTotal_fee());
+                    it.putExtra("driver_id", infor.getDriver_id());
                     mContext.startActivity(it);
                 } else if (blog.getStatus().equals("6")) {//去评价
                     Intent it = new Intent(mContext, PingJiaActivity.class);

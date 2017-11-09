@@ -241,7 +241,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="15dp"
                         android:gravity="center_vertical"
-                        android:text="证件"
+                        android:text="驾驶证档案编号"
                         android:textColor="#3f3f3f"
                         android:textSize="15sp" />
 
@@ -252,16 +252,16 @@
                         android:text="*"
                         android:textColor="#f49400"
                         android:textSize="15sp"
-                        android:visibility="invisible" />
+                        android:visibility="visible" />
 
                     <TextView
-                        android:id="@id/textview_1"
+                        android:id="@+id/tv_driver"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:gravity="center_vertical"
-                        android:text="请选择证件类型"
+                        android:text=""
                         android:textColor="@color/cl_5e5e5e"
                         android:textSize="15sp" />
 
@@ -282,7 +282,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="15dp"
                         android:gravity="center_vertical"
-                        android:text="证件号"
+                        android:text="驾驶证"
                         android:textColor="#3f3f3f"
                         android:textSize="15sp" />
 
@@ -296,14 +296,15 @@
                         android:visibility="visible" />
 
                     <TextView
-                        android:id="@+id/textview_4"
+                        android:id="@+id/tv_driver2"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
                         android:background="@color/transparent"
-                        android:hint="请填写证件号"
+                        android:hint=""
                         android:maxLines="1"
-                        android:paddingRight="15dp"
+                        android:paddingRight="10dp"
                         android:textColor="@color/cl_5e5e5e"
                         android:textColorHint="#a2a2a2"
                         android:textSize="15sp" />
@@ -325,7 +326,7 @@
                         android:layout_height="45dp"
                         android:layout_marginLeft="15dp"
                         android:gravity="center_vertical"
-                        android:text="驾驶证档案编号"
+                        android:text="行驶证"
                         android:textColor="#3f3f3f"
                         android:textSize="15sp" />
 
@@ -339,13 +340,55 @@
                         android:visibility="visible" />
 
                     <TextView
-                        android:id="@+id/tv_driver"
+                        android:id="@+id/tv_driver3"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:background="@color/transparent"
                         android:maxLines="1"
-                        android:paddingRight="15dp"
+                        android:gravity="center_vertical"
+                        android:paddingRight="10dp"
+                        android:textColor="@color/cl_5e5e5e"
+                        android:textColorHint="#a2a2a2"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:src="#e2e2e2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center_vertical"
+                        android:text="车辆信息"
+                        android:textColor="#3f3f3f"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:text="*"
+                        android:textColor="#f49400"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tv_driverinfor"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:background="@color/transparent"
+                        android:maxLines="1"
+                        android:gravity="center_vertical"
+                        android:paddingRight="10dp"
                         android:textColor="@color/cl_5e5e5e"
                         android:textColorHint="#a2a2a2"
                         android:textSize="15sp" />

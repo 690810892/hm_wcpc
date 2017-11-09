@@ -281,6 +281,7 @@ public class TouSuActivity extends BaseActivity {
     protected void getExras() {
         order_id = mIntent.getStringExtra("order_Id");
         driver_id = mIntent.getStringExtra("driver_id");
+        log_e("driver_id===="+driver_id);
     }
 
     @Override

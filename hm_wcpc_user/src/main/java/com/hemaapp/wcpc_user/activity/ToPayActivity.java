@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -49,6 +50,8 @@ import java.util.ArrayList;
 import de.greenrobot.event.EventBus;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 
+import static com.igexin.sdk.GTServiceManager.context;
+
 /**
  * Created by WangYuxia on 2016/5/20.
  * 订单的支付界面
@@ -75,7 +78,7 @@ public class ToPayActivity extends BaseActivity {
     private RelativeLayout layout_unipay;
     private CheckBox checkBox_unipay;
 
-    private String order_id, total_fee, fee, coupons_id = "0", paypassword;
+    private String order_id, total_fee, fee, coupons_id = "0", paypassword,driver_id;
     private User user;
     IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
 
@@ -124,11 +127,15 @@ public class ToPayActivity extends BaseActivity {
     }
     private void buySuccess() {
         showTextDialog("支付成功");
+        EventBus.getDefault().post(new EventBusModel(EventBusConfig.REFRESH_BLOG_LIST));
         title.postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                setResult(RESULT_OK);
+                Intent it = new Intent(mContext, PingJiaActivity.class);
+                it.putExtra("id", order_id);
+                it.putExtra("driver_id", driver_id);
+                mContext.startActivity(it);
                 finish();
             }
         }, 1000);
@@ -275,6 +282,8 @@ public class ToPayActivity extends BaseActivity {
         order_id = mIntent.getStringExtra("id");
         total_fee = mIntent.getStringExtra("total_fee");
         fee = mIntent.getStringExtra("total_fee");
+        driver_id = mIntent.getStringExtra("driver_id");
+        log_e("driver_id===="+driver_id);
     }
 
     @Override
@@ -285,6 +294,7 @@ public class ToPayActivity extends BaseActivity {
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BaseUtil.hideInput(mContext,title);
                 finish();
             }
         });
@@ -475,13 +485,27 @@ public class ToPayActivity extends BaseActivity {
         image_close = (ImageView) mViewGroup.findViewById(R.id.close);
         text_ok = (TextView) mViewGroup.findViewById(R.id.button);
         editText = (EditText) mViewGroup.findViewById(R.id.edittext);
+        editText.setFocusable(true);
         text_forget = (TextView) mViewGroup.findViewById(R.id.textview);
         pwdWindow.setContentView(mViewGroup);
         pwdWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showInputMethod();
+            }
+        },100);
         image_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pwdWindow.dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        BaseUtil.hideInput(mContext,title);
+                    }
+                },100);
+
             }
         });
 
@@ -507,7 +531,13 @@ public class ToPayActivity extends BaseActivity {
             }
         });
     }
-
+    private void showInputMethod() {
+        //自动弹出键盘
+        InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        //强制隐藏Android输入法窗口
+        // inputManager.hideSoftInputFromWindow(edit.getWindowToken(),0);
+    }
     private void showsetPDDialog() {
         if (pwdWindow != null) {
             pwdWindow.dismiss();
@@ -579,6 +609,10 @@ public class ToPayActivity extends BaseActivity {
                     title.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            Intent it = new Intent(mContext, PingJiaActivity.class);
+                            it.putExtra("id", order_id);
+                            it.putExtra("driver_id", driver_id);
+                            mContext.startActivity(it);
                             setResult(RESULT_OK, mIntent);
                             finish();
                         }
@@ -654,6 +688,10 @@ public class ToPayActivity extends BaseActivity {
 
                         @Override
                         public void run() {
+                            Intent it = new Intent(activity, PingJiaActivity.class);
+                            it.putExtra("id", activity.order_id);
+                            it.putExtra("driver_id", activity.driver_id);
+                            activity.startActivity(it);
                             activity.finish();
                         }
                     }, 1500);

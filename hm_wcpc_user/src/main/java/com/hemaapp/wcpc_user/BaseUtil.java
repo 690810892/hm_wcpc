@@ -141,8 +141,6 @@ public class BaseUtil {
         s = s * EARTH_RADIUS;
         s = Math.round(s * 10000) / 10000;
         return s;
-
-
     }
 
     /**

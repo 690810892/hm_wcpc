@@ -52,8 +52,8 @@ public class UserDBHelper extends DBHelper {
 					+ USER
 					+ " ( id, username, email, realname, mobile, password, paypassword, sex, avatar, avatarbig, lng, lat, IDtype, "
 					+ "IDnumber, regdate, franchisee_id, servicecount, loginflag, feeaccount, token, android_must_update, android_last_version, android_update_url,"
-					+ "bankuser, bankname, bankcard, bankmobile, alipay_no, mylength, filenumber,alipay_name ,totalpoint,replycount,invitecode )"
-					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "bankuser, bankname, bankcard, bankmobile, alipay_no, mylength, filenumber,alipay_name ,totalpoint,replycount,invitecode,drivinglicense,carbrand )"
+					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			Object[] bindArgs = new Object[] { user.getId(),
 					user.getUsername(), user.getEmail(), user.getRealname(),
 					user.getMobile(),user.getPassword(), user.getPaypassword(),
@@ -65,7 +65,7 @@ public class UserDBHelper extends DBHelper {
 					user.getAndroid_last_version(), user.getAndroid_update_url(),
 					user.getBankuser(), user.getBankname(), user.getBankcard(),
 					user.getBankmobile(), user.getAlipay_no(), user.getMylength(),user.getFilenumber(),
-					user.getAlipay_name(),user.getTotalpoint(),user.getReplycount(),user.getInvitecode()};
+					user.getAlipay_name(),user.getTotalpoint(),user.getReplycount(),user.getInvitecode(),user.getDrivinglicense(),user.getCarbrand()};
 			db.execSQL(sql, bindArgs);
 		} catch (SQLException e) {
 			success = false;
@@ -85,7 +85,7 @@ public class UserDBHelper extends DBHelper {
 					+ USER
 					+ " set id=?, username=?, email=?, realname=?, mobile=?, password=?, paypassword=?, sex=?, avatar=?, avatarbig=?, lng=?, lat=?, IDtype=?, "
 					+ "IDnumber=?, regdate=?, franchisee_id=?, servicecount=?, loginflag=?, feeaccount=?, token=?, android_must_update=?, android_last_version=?, android_update_url=?,"
-					+ "bankuser=?, bankname=?, bankcard=?, bankmobile=?, alipay_no=?, mylength=?,filenumber=?,alipay_name=?,totalpoint=?,replycount=?,invitecode=? "
+					+ "bankuser=?, bankname=?, bankcard=?, bankmobile=?, alipay_no=?, mylength=?,filenumber=?,alipay_name=?,totalpoint=?,replycount=?,invitecode=?,drivinglicense=?,carbrand=? "
 					+ " where id = '" + user.getId() + "'");
 			Object[] bindArgs = new Object[] { user.getId(),
 					user.getUsername(), user.getEmail(), user.getRealname(),
@@ -98,7 +98,7 @@ public class UserDBHelper extends DBHelper {
 					user.getAndroid_last_version(), user.getAndroid_update_url(),
 					user.getBankuser(), user.getBankname(), user.getBankcard(), user.getBankmobile(),
 					user.getAlipay_no(), user.getMylength(),user.getFilenumber(),user.getAlipay_name()
-					,user.getTotalpoint(),user.getReplycount(),user.getInvitecode()};
+					,user.getTotalpoint(),user.getReplycount(),user.getInvitecode(),user.getDrivinglicense(),user.getCarbrand()};
 			db.execSQL(sql, bindArgs);
 		} catch (SQLException e) {
 			success = false;
@@ -165,7 +165,7 @@ public class UserDBHelper extends DBHelper {
 		User user = null;
 		String sql = "select id, username, email, realname, mobile, password, paypassword, sex, avatar, avatarbig, lng, lat, IDtype,"
 				+" IDnumber, regdate, franchisee_id, servicecount, loginflag, feeaccount, token, android_must_update, android_last_version, android_update_url,"
-				+" bankuser, bankname, bankcard, bankmobile, alipay_no, mylength, filenumber, alipay_name,totalpoint,replycount,invitecode from "
+				+" bankuser, bankname, bankcard, bankmobile, alipay_no, mylength, filenumber, alipay_name,totalpoint,replycount,invitecode,drivinglicense,carbrand from "
 				+ USER + " where username = '" + username + "'";
 		SQLiteDatabase db = getWritableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);
@@ -187,7 +187,8 @@ public class UserDBHelper extends DBHelper {
 					cursor.getString(26), cursor.getString(27),
 					cursor.getString(28),cursor.getString(29),
 					cursor.getString(30),cursor.getString(31),
-					cursor.getString(32),cursor.getString(33));
+					cursor.getString(32),cursor.getString(33),
+					cursor.getString(34),cursor.getString(35));
 		}
 		cursor.close();
 		db.close();
