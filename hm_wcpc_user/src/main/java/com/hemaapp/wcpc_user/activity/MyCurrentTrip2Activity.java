@@ -176,6 +176,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         user = hm_WcpcUserApplication.getInstance().getUser();
         EventBus.getDefault().register(this);
+        phone=hm_WcpcUserApplication.getInstance().getSysInitInfo().getSys_service_phone();
         sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
         getNetWorker().currentTrips(user.getToken());
         appearAnimation = new AlphaAnimation(0, 1);
@@ -463,7 +464,11 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 } else {
                     String start = BaseUtil.TransTimeHour(XtomSharedPreferencesUtil.get(mContext, "order_start"), "HH:mm");
                     String end = BaseUtil.TransTimeHour(XtomSharedPreferencesUtil.get(mContext, "order_end"), "HH:mm");
-                    showTextDialog("请在" + start + "至" + end + "期间下单");
+                    if (isNull(start)) {
+                        start = "5:00";
+                        end="20:00";
+                    }
+                    TimeTip(start,end);
                 }
                 break;
             case DRIVER_POSITION_GET:
@@ -958,6 +963,45 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 else
                     it.putExtra("keytype", "6");
                 startActivityForResult(it, 1);
+            }
+        });
+    }
+    private void TimeTip(String start,String end) {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_first_tip, null);
+        TextView  cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView  ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView  title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView  title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        title1.setText("当前时间段不支持手机下单，\n如有需要请联系客服"+phone);
+        title2.setText("可下单时间段为"+start+"-"+end);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                //Intent.ACTION_CALL 直接拨打电话，就是进入拨打电话界面，电话已经被拨打出去了。
+                //Intent.ACTION_DIAL 是进入拨打电话界面，电话号码已经输入了，但是需要人为的按拨打电话键，才能播出电话。
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"
+                        + phone));
+                startActivity(intent);
             }
         });
     }
