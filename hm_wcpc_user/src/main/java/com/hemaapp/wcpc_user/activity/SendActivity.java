@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.listener.CustomListener;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.wcpc_user.BaseActivity;
@@ -127,6 +129,7 @@ public class SendActivity extends BaseActivity {
     private ViewGroup mViewGroup_exit;
     private ArrayList<PersonCountInfor> counts = new ArrayList<>();
     private int flag = 0;
+    private int timeflag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,9 +142,7 @@ public class SendActivity extends BaseActivity {
         for (int i = 0; i < 4; i++) {
             counts.add(i, new PersonCountInfor(String.valueOf(i + 1), false));
         }
-        initDay();
-        initHour(0);
-        initMinute(0);
+
     }
 
     @Override
@@ -341,6 +342,9 @@ public class SendActivity extends BaseActivity {
                     showTextDialog("请先选择目的地");
                     break;
                 }
+                initHour(0);
+                initMinute(0);
+                initDay();
                 showTimePopWindow();
                 break;
             case R.id.tv_count:
@@ -628,16 +632,27 @@ public class SendActivity extends BaseActivity {
                 String second = seconds.get(s).substring(0, seconds.get(s).length() - 1);
                 if (second.length() == 1)
                     second = "0" + second;
-                if (d == 0) {
-                    t1 = "今天 " + time + ":" + second + "出发";
-                } else if (d == 1) {
-                    t1 = "明天" + time + ":" + second + "出发";
-                } else if (d == 2) {
-                    t1 = "后天" + time + ":" + second + "出发";
+                if (timeflag == 0) {
+                    if (d == 0) {
+                        t1 = "今天 " + time + ":" + second + "出发";
+                    } else if (d == 1) {
+                        t1 = "明天" + time + ":" + second + "出发";
+                    } else if (d == 2) {
+                        t1 = "后天" + time + ":" + second + "出发";
+                    } else {
+                        t1 = days.get(d) + time + ":" + second + "出发";
+                    }
                 } else {
-                    t1 = days.get(d) + time + ":" + second + "出发";
+                    if (d == 0) {
+                        t1 = "明天 " + time + ":" + second + "出发";
+                    } else if (d == 1) {
+                        t1 = "后天" + time + ":" + second + "出发";
+                    } else if (d == 2) {
+                        t1 = "大后天" + time + ":" + second + "出发";
+                    } else {
+                        t1 = days.get(d) + time + ":" + second + "出发";
+                    }
                 }
-
 
                 SpannableString str = new SpannableString(t1);
                 str.setSpan(new ForegroundColorSpan(0xff414141), 0,
@@ -679,12 +694,21 @@ public class SendActivity extends BaseActivity {
                     initMinute(1);
                 }
             } else if (wheel == timeListView) {
-                if (current == 0)
-                    initMinute(0);
-                else if (current == times.size() - 1) {
-                    initMinute(2);
-                } else
-                    initMinute(1);
+                if (dayListView.getCurrentItem()==0) {
+                    if (current == 0)
+                        initMinute(0);
+                    else if (current == times.size() - 1) {
+                        initMinute(2);
+                    } else
+                        initMinute(1);
+                }else {
+                    if (current == 0)
+                        initMinute(1);
+                    else if (current == times.size() - 1) {
+                        initMinute(2);
+                    } else
+                        initMinute(1);
+                }
             }
         }
     };
@@ -704,9 +728,11 @@ public class SendActivity extends BaseActivity {
             }
         } else {
             int hour = calendar.get(Calendar.HOUR_OF_DAY); //新的小时
-            for (int i = 0; i < hour - 1; i++) {
-                times.add(i, i + "点");
-            }
+            if (hour <3 )
+                hour=2;
+                for (int i = 0; i < hour - 1; i++) {
+                    times.add(i, i + "点");
+                }
         }
 
         if (timeListView != null) {
@@ -718,27 +744,29 @@ public class SendActivity extends BaseActivity {
         }
     }
 
-    //初始化小时
     private void initMinute(int type) {
         seconds.clear();
         Calendar calendar = Calendar.getInstance();
         if (type == 0) {
-            int min = calendar.get(Calendar.MINUTE); //新的分钟
+            int min = calendar.get(Calendar.MINUTE); //
             if (min > 0 && min <= 30)
                 seconds.add(0, "30分");
             else {
                 seconds.add(0, "00分");
+                seconds.add(1, "30分");
             }
         } else if (type == 1) {
             seconds.add(0, "00分");
             seconds.add(1, "30分");
         } else {
-            int min = calendar.get(Calendar.MINUTE); //新的分钟
-            if (min > 0 && min <= 30)
-                seconds.add(0, "00分");
-            else {
-                seconds.add(0, "30分");
-            }
+            int min = calendar.get(Calendar.MINUTE); //
+            seconds.add(0, "00分");
+            seconds.add(1, "30分");
+//            if (min > 0 && min <= 30)
+//                seconds.add(0, "00分");
+//            else {
+//                seconds.add(0, "30分");
+//            }
         }
         if (secondListView != null) {
             secondListView.setVisibleItems(4);
@@ -750,13 +778,30 @@ public class SendActivity extends BaseActivity {
 
     //初始化当前日期范围
     private void initDay() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
-        String day1 = sdf.format(new Date());
-        days.add(0, day1);
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-        days1.add(0, sdf1.format(new Date()));
-        for (int i = 1; i < 2; i++) {
-            getNextDay(i);
+        days.clear();
+        days1.clear();
+        Calendar calendar = Calendar.getInstance();
+        int min = calendar.get(Calendar.MINUTE);
+        if (min > 30)
+            calendar.add(Calendar.MINUTE, 180);
+        else
+            calendar.add(Calendar.MINUTE, 120); //将当前时间向后移动
+        int hour = calendar.get(Calendar.HOUR_OF_DAY); //新的小时
+        if (hour < 3) {
+            timeflag = 1;
+            for (int i = 1; i < 3; i++) {
+                getNextDay2(i);
+            }
+        } else {
+            timeflag = 0;
+            SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
+            String day1 = sdf.format(new Date());
+            days.add(0, day1);
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+            days1.add(0, sdf1.format(new Date()));
+            for (int i = 1; i < 2; i++) {
+                getNextDay(i);
+            }
         }
     }
 
@@ -771,6 +816,19 @@ public class SendActivity extends BaseActivity {
         days.add(day, day1);
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         days1.add(day, sdf1.format(dt1));
+    }
+
+    private void getNextDay2(int day) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
+        java.util.Date dt = new java.util.Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dt);
+        calendar.add(Calendar.DAY_OF_YEAR, day);// 日期加day天
+        java.util.Date dt1 = calendar.getTime();
+        String day1 = sdf.format(dt1);
+        days.add(day - 1, day1);
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        days1.add(day - 1, sdf1.format(dt1));
     }
 
     private void countDialog() {

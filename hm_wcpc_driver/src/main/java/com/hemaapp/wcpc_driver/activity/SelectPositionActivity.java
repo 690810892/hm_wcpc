@@ -343,17 +343,27 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
                             lng = model.getLng_start();
                             lat = model.getLat_start();
                         }
-                        StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=")
+//                        StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=")
+//                                .append("小叫车(司机)");
+//                        if (!TextUtils.isEmpty(add)) {
+//                            stringBuffer.append("&poiname=").append(add);
+//                        }
+//                        stringBuffer.append("&lat=").append(lat)
+//                                .append("&lon=").append(lng)
+//                                .append("&dev=").append("1")
+//                                .append("&style=").append("2");
+//
+//                        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+//                        intent.setPackage("com.autonavi.minimap");
+//                        mContext.startActivity(intent);
+                        StringBuffer stringBuffer = new StringBuffer("androidamap://keywordNavi?sourceApplication=")
                                 .append("小叫车(司机)");
                         if (!TextUtils.isEmpty(add)) {
-                            stringBuffer.append("&poiname=").append(add);
+                            stringBuffer.append("&keyword=").append(add);
                         }
-                        stringBuffer.append("&lat=").append(lat)
-                                .append("&lon=").append(lng)
-                                .append("&dev=").append("1")
+                        stringBuffer
                                 .append("&style=").append("2");
-
-                        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
+                        Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
                         intent.setPackage("com.autonavi.minimap");
                         mContext.startActivity(intent);
                     } else {

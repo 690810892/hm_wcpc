@@ -728,16 +728,26 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             case R.id.lv_bottom:
                 if (isAvilible(mContext, "com.autonavi.minimap")) {
 
-                    StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=")
+//                    StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=")
+//                            .append("小叫车");
+//                    if (!TextUtils.isEmpty(infor.getEndaddress())) {
+//                        stringBuffer.append("&poiname=").append(infor.getEndaddress());
+//                    }
+//                    stringBuffer.append("&lat=").append(infor.getLat_end())
+//                            .append("&lon=").append(infor.getLng_end())
+//                            .append("&dev=").append("1")
+//                            .append("&style=").append("2");
+
+//                    Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
+//                    intent.setPackage("com.autonavi.minimap");
+//                    mContext.startActivity(intent);
+                    StringBuffer stringBuffer = new StringBuffer("androidamap://keywordNavi?sourceApplication=")
                             .append("小叫车");
                     if (!TextUtils.isEmpty(infor.getEndaddress())) {
-                        stringBuffer.append("&poiname=").append(infor.getEndaddress());
+                        stringBuffer.append("&keyword=").append(infor.getEndaddress());
                     }
-                    stringBuffer.append("&lat=").append(infor.getLat_end())
-                            .append("&lon=").append(infor.getLng_end())
-                            .append("&dev=").append("1")
+                    stringBuffer
                             .append("&style=").append("2");
-
                     Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
                     intent.setPackage("com.autonavi.minimap");
                     mContext.startActivity(intent);

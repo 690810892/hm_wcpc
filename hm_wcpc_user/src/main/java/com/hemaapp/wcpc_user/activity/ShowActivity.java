@@ -180,7 +180,7 @@ public class ShowActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case CLIENT_LOGIN:
-                toMain();
+                toLogin();
                 break;
             default:
                 break;
@@ -193,7 +193,7 @@ public class ShowActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case CLIENT_LOGIN:
-                toMain();
+                toLogin();
                 break;
             default:
                 break;

@@ -486,6 +486,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
         tv_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mWindow.dismiss();
                 getNetWorker().clientLogin(username, password);
             }
         });

@@ -205,7 +205,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
             } else {
                 hm_WcpcUserApplication.getInstance().setUser(null);
                 XtomSharedPreferencesUtil.save(mContext, "isAutoLogin", "false");
-                toMain();
+                toLogin();
             }
         }
     }
@@ -251,7 +251,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
             case CLIENT_LOGIN:
                 hm_WcpcUserApplication.getInstance().setUser(null);
                 XtomSharedPreferencesUtil.save(mContext, "isAutoLogin", "false");
-                toMain();
+                toLogin();
                 break;
         }
     }
@@ -265,7 +265,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
                 showTextDialog("获取系统初始化信息失败啦\n请检查网络连接重试");
                 break;
             case CLIENT_LOGIN:
-                toMain();
+                toLogin();
                 break;
             default:
                 break;
