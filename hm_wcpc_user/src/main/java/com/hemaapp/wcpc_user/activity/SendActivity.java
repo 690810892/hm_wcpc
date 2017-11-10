@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
+import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
@@ -46,6 +47,7 @@ import com.hemaapp.wcpc_user.view.wheelview.WheelView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -130,6 +132,7 @@ public class SendActivity extends BaseActivity {
     private ArrayList<PersonCountInfor> counts = new ArrayList<>();
     private int flag = 0;
     private int timeflag = 0;
+    private String locCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +142,8 @@ public class SendActivity extends BaseActivity {
         user = hm_WcpcUserApplication.getInstance().getUser();
         pin_start = XtomSharedPreferencesUtil.get(mContext, "pin_start");
         pin_end = XtomSharedPreferencesUtil.get(mContext, "pin_end");
+        locCity = XtomSharedPreferencesUtil.get(mContext, "city");
+        getNetWorker().cityList("0");
         for (int i = 0; i < 4; i++) {
             counts.add(i, new PersonCountInfor(String.valueOf(i + 1), false));
         }
@@ -201,6 +206,29 @@ public class SendActivity extends BaseActivity {
                         }
                     }
                 }, 1000);
+                break;
+            case CITY_LIST:
+                HemaArrayResult<DistrictInfor> CResult = (HemaArrayResult<DistrictInfor>) baseResult;
+                ArrayList<DistrictInfor> allDistricts = CResult.getObjects();
+                if (!isNull(locCity)) {
+                    for (DistrictInfor districtInfor : allDistricts) {
+                        if (districtInfor.getName().equals(locCity)) {
+                            startCity = districtInfor;
+                            tvStartCity.setText(startCity.getName());
+                            endCity = null;
+                            myCity = null;
+                            tvEndCity.setText("");
+                            start_address = "";
+                            end_address = "";
+                            tvStart.setText("");
+                            tvEnd.setText("");
+                            price = 0;
+                            addend = 0;
+                            addstart = 0;
+                            resetPrice();
+                        }
+                    }
+                }
                 break;
             default:
                 break;
@@ -558,8 +586,10 @@ public class SendActivity extends BaseActivity {
     }
 
     private void resetPrice() {
-
-        totleFee = price * count - coupon + addend + addstart;
+        if (isAgreed.equals("0")) {//包车
+            totleFee = price * 4 - coupon + addend + addstart;
+        } else
+            totleFee = price * count - coupon + addend + addstart;
         tvPrice.setText(totleFee + "元");
     }
 
@@ -694,14 +724,14 @@ public class SendActivity extends BaseActivity {
                     initMinute(1);
                 }
             } else if (wheel == timeListView) {
-                if (dayListView.getCurrentItem()==0) {
+                if (dayListView.getCurrentItem() == 0) {
                     if (current == 0)
                         initMinute(0);
                     else if (current == times.size() - 1) {
                         initMinute(2);
                     } else
                         initMinute(1);
-                }else {
+                } else {
                     if (current == 0)
                         initMinute(1);
                     else if (current == times.size() - 1) {
@@ -728,11 +758,11 @@ public class SendActivity extends BaseActivity {
             }
         } else {
             int hour = calendar.get(Calendar.HOUR_OF_DAY); //新的小时
-            if (hour <3 )
-                hour=2;
-                for (int i = 0; i < hour - 1; i++) {
-                    times.add(i, i + "点");
-                }
+            if (hour < 3)
+                hour = 2;
+            for (int i = 0; i < hour - 1; i++) {
+                times.add(i, i + "点");
+            }
         }
 
         if (timeListView != null) {

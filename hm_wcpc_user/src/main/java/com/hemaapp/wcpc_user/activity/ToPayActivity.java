@@ -694,7 +694,7 @@ public class ToPayActivity extends BaseActivity {
                             activity.startActivity(it);
                             activity.finish();
                         }
-                    }, 1500);
+                    }, 1000);
                     break;
                 case "8000":
                     activity.showTextDialog("支付结果确认中");

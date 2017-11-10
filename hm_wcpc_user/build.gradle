@@ -8,8 +8,8 @@ android {
         applicationId "com.hemaapp.wcpc_user"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 101
-        versionName "1.0.1"
+        versionCode 102
+        versionName "1.0.2"
         multiDexEnabled true
         manifestPlaceholders = [
                 GETUI_APP_ID    : "3f3iFCbmVu8PI7VMth7tQ1",

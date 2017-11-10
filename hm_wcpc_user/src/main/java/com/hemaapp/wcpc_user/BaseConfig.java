@@ -20,7 +20,7 @@ public class BaseConfig {
 	/**
 	 * 后台服务接口根路径
 	 */
-	public static final String SYS_ROOT = "http://123.232.20.98:8008/yscx_xjc/";
+	public static final String SYS_ROOT = "http://app.qwicar.com/";
 //	public static final String SYS_ROOT = "http://101.200.191.117/hm_sfzc/";
 
 	/**

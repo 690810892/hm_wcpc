@@ -481,7 +481,10 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
             else
                 ivSex.setImageResource(R.mipmap.img_sex_girl);
             tvCar.setText(model.getRemarks());
-            tvAddress.setText(model.getEndaddress());
+            if (allgetflag.equals("1"))
+                tvAddress.setText(model.getEndaddress());
+            else
+                tvAddress.setText(model.getStartaddress());
             setData();
         } else {
             layoutTop.setVisibility(View.GONE);

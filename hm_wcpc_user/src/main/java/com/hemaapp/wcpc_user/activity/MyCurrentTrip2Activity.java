@@ -584,6 +584,8 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
     public void onLocationChanged(AMapLocation location) {
         log_e("执行定位------------------------------");
         if (mListener != null && location != null) {
+            log_e("city------------------------------"+location.getCity());
+            XtomSharedPreferencesUtil.save(mContext, "city", location.getCity());
             //mListener.onLocationChanged(location);// 显示系统小蓝点
             float bearing = aMap.getCameraPosition().bearing;
             aMap.setMyLocationRotateAngle(bearing);// 设置小蓝点旋转角度
