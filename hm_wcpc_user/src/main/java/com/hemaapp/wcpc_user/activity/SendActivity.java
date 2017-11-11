@@ -210,6 +210,7 @@ public class SendActivity extends BaseActivity {
             case CITY_LIST:
                 HemaArrayResult<DistrictInfor> CResult = (HemaArrayResult<DistrictInfor>) baseResult;
                 ArrayList<DistrictInfor> allDistricts = CResult.getObjects();
+                locCity = XtomSharedPreferencesUtil.get(mContext, "city");
                 if (!isNull(locCity)) {
                     for (DistrictInfor districtInfor : allDistricts) {
                         if (districtInfor.getName().equals(locCity)) {
@@ -895,6 +896,13 @@ public class SendActivity extends BaseActivity {
                         count = Integer.parseInt(infor.getCount());
                         resetPrice();
                         tvCount.setText(count + "人");
+                        if (count==4) {
+                            isAgreed = "0";
+                            tvPin.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                                    R.mipmap.img_agree_n, 0);
+                            tvCharter.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                                    R.mipmap.img_agree_s, 0);
+                        }
                         break;
                     }
                 }

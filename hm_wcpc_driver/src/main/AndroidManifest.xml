@@ -47,7 +47,7 @@
     <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
 
     <!-- 个推 end -->
-
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:name=".hm_WcpcDriverApplication"
         android:allowBackup="true"

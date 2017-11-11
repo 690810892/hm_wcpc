@@ -196,7 +196,7 @@ public class MyFeeAccountActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-        title.setText("余额明细");
+        title.setText("账户明细");
         right.setImageResource(R.mipmap.img_right_time);
         left.setOnClickListener(new View.OnClickListener() {
             @Override

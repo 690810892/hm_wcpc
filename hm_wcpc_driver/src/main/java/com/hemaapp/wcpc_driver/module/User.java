@@ -324,6 +324,9 @@ public class User extends HemaUser {
 	}
 
 	public String getLoginflag() {
+		if (isNull(loginflag)){
+			loginflag="0";
+		}
 		return loginflag;
 	}
 

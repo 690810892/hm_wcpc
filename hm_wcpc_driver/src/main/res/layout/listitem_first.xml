@@ -59,10 +59,10 @@
 
             <com.hemaapp.hm_FrameWork.view.RoundedImageView
                 android:id="@+id/iv_avatar"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="10dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="15dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/default_user" />
@@ -112,15 +112,17 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="5dp"
                     android:src="@mipmap/img_startposition" />
 
                 <TextView
                     android:id="@+id/tv_start"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:ellipsize="end"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:text="起始点"
                     android:textColor="#616161"
                     android:textSize="13sp" />
@@ -132,8 +134,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_0"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_toLeftOf="@id/imageview_1"
                 android:layout_toRightOf="@id/iv_avatar"
                 android:gravity="center_vertical"
@@ -142,15 +144,17 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="5dp"
                     android:src="@mipmap/img_endposition" />
 
                 <TextView
                     android:id="@+id/tv_end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:ellipsize="end"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:text="目的地"
                     android:textColor="#616161"
                     android:textSize="13sp" />
@@ -201,17 +205,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
-            android:paddingLeft="15dp">
+            android:paddingLeft="10dp">
 
             <TextView
                 android:id="@+id/tv_pin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:paddingLeft="8dp"
                 android:text="拼车"
                 android:gravity="center_vertical"
                 android:drawableLeft="@mipmap/img_first_pin"
-                android:drawablePadding="10dp"
+                android:drawablePadding="8dp"
                 android:textColor="@color/yellow"
                 android:textSize="13sp" />
 

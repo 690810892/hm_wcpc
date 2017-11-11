@@ -2,14 +2,12 @@ package com.hemaapp.wcpc_driver.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -25,8 +23,8 @@ import com.hemaapp.wcpc_driver.BaseHttpInformation;
 import com.hemaapp.wcpc_driver.EventBusModel;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
+import com.hemaapp.wcpc_driver.module.SysInitInfo;
 import com.hemaapp.wcpc_driver.module.User;
-import com.hemaapp.wcpc_driver.view.SystemBarTintManager0;
 import com.iflytek.sunflower.FlowerCollector;
 
 import java.net.MalformedURLException;
@@ -37,7 +35,6 @@ import xtom.frame.image.load.XtomImageTask;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
- * Created by WangYuxia on 2016/5/24.
  * 个人中心
  */
 public class PersonCenterInforActivity extends BaseActivity {
@@ -56,6 +53,8 @@ public class PersonCenterInforActivity extends BaseActivity {
     private TextView text_changepwd;
     private TextView text_history;
     private TextView text_reply;
+    private TextView tv_phone;
+    private View lv_phone;
 
     private User user;
     private PopupWindow mWindow;
@@ -66,6 +65,7 @@ public class PersonCenterInforActivity extends BaseActivity {
     private TextView text_xiuche;
 
     private String loginflag;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,12 @@ public class PersonCenterInforActivity extends BaseActivity {
         user = hm_WcpcDriverApplication.getInstance().getUser();
         EventBus.getDefault().register(this);
         getNetWorker().clientGet(user.getToken(), user.getId());
+        SysInitInfo initInfo = getApplicationContext()
+                .getSysInitInfo();
+        phone = initInfo.getSys_service_phone();
+        tv_phone.setText(phone);
     }
+
     public void onEventMainThread(EventBusModel event) {
         switch (event.getType()) {
             case REFRESH_USER:
@@ -105,7 +110,7 @@ public class PersonCenterInforActivity extends BaseActivity {
         super.onPause();
     }
 
-    private void initUserData(){
+    private void initUserData() {
         try {
             URL url = new URL(user.getAvatar());
             image_avatar.setCornerRadius(90);
@@ -114,15 +119,15 @@ public class PersonCenterInforActivity extends BaseActivity {
             image_avatar.setImageResource(R.mipmap.default_driver);
         }
         text_realname.setText(user.getRealname());
-        if("男".equals(user.getSex()))
+        if ("男".equals(user.getSex()))
             image_sex.setImageResource(R.mipmap.img_sex_boy);
         else
             image_sex.setImageResource(R.mipmap.img_sex_girl);
-        if("0".equals(user.getLoginflag())) {
+        if ("0".equals(user.getLoginflag())) {
             text_status.setText("休车");
             text_status.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.img_center_status_n, 0, 0, 0);
             text_status.setTextColor(mContext.getResources().getColor(R.color.qianhui));
-        }else{
+        } else {
             text_status.setText("出车");
             text_status.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.img_center_status_s, 0, 0, 0);
             text_status.setTextColor(mContext.getResources().getColor(R.color.yellow));
@@ -167,16 +172,18 @@ public class PersonCenterInforActivity extends BaseActivity {
             case CLIENT_GET:
                 HemaArrayResult<User> uResult = (HemaArrayResult<User>) baseResult;
                 user = uResult.getObjects().get(0);
+                hm_WcpcDriverApplication.getInstance().setUser(user);
                 initUserData();
                 break;
             case LOGINFLAG_SAVE:
                 user.setLoginflag(loginflag);
+                hm_WcpcDriverApplication.getInstance().setUser(user);
                 XtomSharedPreferencesUtil.save(mContext, "loginflag", user.getLoginflag());
-                if("0".equals(loginflag)){
+                if ("0".equals(loginflag)) {
                     text_status.setText("休车");
                     text_status.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.img_center_status_n, 0, 0, 0);
                     text_status.setTextColor(mContext.getResources().getColor(R.color.qianhui));
-                }else{
+                } else {
                     text_status.setText("出车");
                     text_status.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.img_center_status_s, 0, 0, 0);
                     text_status.setTextColor(mContext.getResources().getColor(R.color.yellow));
@@ -222,6 +229,8 @@ public class PersonCenterInforActivity extends BaseActivity {
         text_history = (TextView) findViewById(R.id.textview_6);
         text_reply = (TextView) findViewById(R.id.textview_7);
         text_account = (TextView) findViewById(R.id.textview_8);
+        tv_phone = (TextView) findViewById(R.id.tv_tel);
+        lv_phone = findViewById(R.id.lv_tel);
     }
 
     @Override
@@ -244,14 +253,15 @@ public class PersonCenterInforActivity extends BaseActivity {
         setListener(text_history);
         setListener(text_reply);
         setListener(text_account);
+        setListener(lv_phone);
     }
 
-    private void setListener(View view){
+    private void setListener(View view) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it;
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.title_btn_right2: //设置
                         it = new Intent(mContext, SetActivity.class);
                         startActivity(it);
@@ -283,12 +293,15 @@ public class PersonCenterInforActivity extends BaseActivity {
                         it = new Intent(mContext, MyAccountActivity.class);
                         startActivity(it);
                         break;
+                    case R.id.lv_tel:
+                        showPhoneWindow();
+                        break;
                 }
             }
         });
     }
 
-    private void showStatusPopWindow(){
+    private void showStatusPopWindow() {
         if (mWindow != null) {
             mWindow.dismiss();
         }
@@ -313,12 +326,12 @@ public class PersonCenterInforActivity extends BaseActivity {
             }
         });
 
-        if("0".equals(user.getLoginflag())){
+        if ("0".equals(user.getLoginflag())) {
             text_xiuche.setTextColor(mContext.getResources().getColor(R.color.white));
             text_xiuche.setBackgroundResource(R.drawable.bg_changestatus);
             text_chuche.setTextColor(0xff737373);
             text_chuche.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
-        }else{
+        } else {
             text_chuche.setTextColor(mContext.getResources().getColor(R.color.white));
             text_chuche.setBackgroundResource(R.drawable.bg_changestatus);
             text_xiuche.setTextColor(0xff737373);
@@ -355,5 +368,48 @@ public class PersonCenterInforActivity extends BaseActivity {
             }
         });
     }
+    private TextView content1;
+    private TextView content2;
+    private TextView ok;
+    private TextView cancel;
 
+    private void showPhoneWindow() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_phone, null);
+        content1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        content2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        content1.setText("拨打客服电话");
+        content2.setText(phone);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                //Intent.ACTION_CALL 直接拨打电话，就是进入拨打电话界面，电话已经被拨打出去了。
+                //Intent.ACTION_DIAL 是进入拨打电话界面，电话号码已经输入了，但是需要人为的按拨打电话键，才能播出电话。
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"
+                        + phone));
+                startActivity(intent);
+            }
+        });
+    }
 }

@@ -86,5 +86,6 @@ public class ShowInternetPageActivity extends BaseActivity {
         });
         titleRight.setVisibility(View.GONE);
         webView.loadUrl(path);
+        log_e("path="+path);
     }
 }

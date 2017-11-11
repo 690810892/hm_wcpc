@@ -255,7 +255,29 @@
                 android:layout_height="1dp"
                 android:layout_marginBottom="40dp"
                 android:src="@color/xian"/>
+            <LinearLayout
+                android:id="@+id/lv_tel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:paddingTop="20dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系客服:"
+                    android:textColor="@color/cl_5e5e5e"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/yellow"
+                    android:textSize="17sp" />
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

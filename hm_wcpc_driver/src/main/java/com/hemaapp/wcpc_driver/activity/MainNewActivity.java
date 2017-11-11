@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +23,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -129,10 +131,15 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
     private Workstatus workstatus;
     private PopupWindow mWindow;
     private ViewGroup mViewGroup;
+
     public static MainNewActivity getInstance() {
         return activity;
     }
+
     private UpGrade upGrade;
+    private boolean iswakeLock = true;// 是否常亮
+    private PowerManager.WakeLock wakeLock;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
@@ -150,7 +157,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         firstAdapter = new FirstAdapter(mContext, blogs, getNetWorker());
         RecycleUtils.initVerticalRecyle(rvList);
         rvList.setAdapter(firstAdapter);
-        getList(currentPage);
+
         getNoticeUnread();
         lng = XtomSharedPreferencesUtil.get(mContext, "lng");
         lat = XtomSharedPreferencesUtil.get(mContext, "lat");
@@ -161,11 +168,12 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         tvButton.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!BaseUtil.isOPen(mContext)){
+                if (!BaseUtil.isOPen(mContext)) {
                     GpsTip();
                 }
             }
-        },1000);
+        }, 600);
+
     }
 
     private void getList(int page) {
@@ -280,7 +288,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
             XtomActivityManager.finishAll();
         }
         return true;
-       // moveTaskToBack(false);
+        // moveTaskToBack(false);
         //return true;
     }
 
@@ -293,7 +301,6 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         if (null != locationClient) {
             locationClient.onDestroy();
         }
-        //com.hemaapp.wcpc_driver.getui.PushReceiver.stop();
     }
 
     private void getNoticeUnread() {
@@ -303,14 +310,31 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
 
     @Override
     protected void onResume() {
+        user = hm_WcpcDriverApplication.getInstance().getUser();
         //移动数据统计分析
         FlowerCollector.onResume(mContext);
         FlowerCollector.onPageStart("MainNewActivity");
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+                | PowerManager.ON_AFTER_RELEASE, "DPA");
+
+        if (iswakeLock) {
+            wakeLock.acquire();
+        }
         super.onResume();
         checkPermission();
         getNoticeUnread();
         mapView.onResume();
         upGrade.check();
+        getList(currentPage);
+        if ("0".equals(user.getLoginflag())) {
+            tvButton.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    workTip();
+                }
+            }, 500);
+        }
     }
 
     @Override
@@ -327,6 +351,10 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         super.onPause();
         mapView.onPause();
         deactivate();
+        if (wakeLock != null) {
+            wakeLock.release();
+        }
+
     }
 
     @Override
@@ -584,8 +612,8 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         log_e("执行定位------------------------------");
         if (mListener != null && location != null) {
             // mListener.onLocationChanged(location);// 显示系统小蓝点
-            float bearing = aMap.getCameraPosition().bearing;
-            aMap.setMyLocationRotateAngle(bearing);// 设置小蓝点旋转角度
+//            float bearing = aMap.getCameraPosition().bearing;
+//            aMap.setMyLocationRotateAngle(bearing);// 设置小蓝点旋转角度
             Message msg = mHandler.obtainMessage();
             msg.obj = location;
             msg.what = LocationUtils.MSG_LOCATION_FINISH;
@@ -783,6 +811,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
             startActivity(it);
         }
     }
+
     private void GpsTip() {
         if (mWindow != null) {
             mWindow.dismiss();
@@ -795,10 +824,10 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         mWindow.setAnimationStyle(R.style.PopupAnimation);
         mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
                 R.layout.pop_first_tip, null);
-        TextView  cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
-        TextView  ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
-        TextView  title1 = (TextView) mViewGroup.findViewById(R.id.textview);
-        TextView  title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        TextView cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
         mWindow.setContentView(mViewGroup);
         mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
         title1.setText("请打开GPS定位");
@@ -820,6 +849,45 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivityForResult(intent, 0);
+            }
+        });
+    }
+
+    private void workTip() {
+        if (mWindow != null) {
+            mWindow.dismiss();
+        }
+        mWindow = new PopupWindow(mContext);
+        mWindow.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setHeight(FrameLayout.LayoutParams.MATCH_PARENT);
+        mWindow.setBackgroundDrawable(new BitmapDrawable());
+        mWindow.setFocusable(true);
+        mWindow.setAnimationStyle(R.style.PopupAnimation);
+        mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
+                R.layout.pop_first_tip, null);
+        TextView cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        mWindow.setContentView(mViewGroup);
+        mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
+        title1.setText("您当前处于休车状态！");
+        title2.setText("出车状态才可接收系统派单，是否出车？");
+        cancel.setText("取消");
+        ok.setText("去打开");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.dismiss();
+                Intent it = new Intent(mContext, PersonCenterInforActivity.class);
+                startActivity(it);
             }
         });
     }

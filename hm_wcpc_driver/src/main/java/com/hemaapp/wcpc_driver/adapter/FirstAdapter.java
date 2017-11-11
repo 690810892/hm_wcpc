@@ -96,49 +96,51 @@ public class FirstAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
             @Override
             public void onClick(View view) {
                 blog = infor;
-                TripClient client = new TripClient(blog.getAvatar(), blog.getNickname(), blog.getSex(), blog.getUsername(), blog.getRemarks(),
-                        blog.getStartaddress(), blog.getEndaddress(), blog.getLng_start(), blog.getLat_start(), blog.getLng_end(), blog.getLat_end(),
-                        false);
-                clients.clear();
-                clients.add(client);
-                String allgetflag = "0";
-                if (blog.getStatus().equals("1"))
-                    allgetflag = "0";
-                else
-                    allgetflag = "1";
-                Intent it = new Intent(mContext, SelectPositionActivity.class);
-                it.putExtra("client", clients);
-                it.putExtra("flag", 0);
-                it.putExtra("allgetflag", allgetflag);
-               mContext.startActivity(it);
+                if (blog != null) {
+                    TripClient client = new TripClient(blog.getAvatar(), blog.getNickname(), blog.getSex(), blog.getUsername(), blog.getRemarks(),
+                            blog.getStartaddress(), blog.getEndaddress(), blog.getLng_start(), blog.getLat_start(), blog.getLng_end(), blog.getLat_end(),
+                            false);
+                    clients.clear();
+                    clients.add(client);
+                    String allgetflag = "0";
+                    if (blog.getStatus().equals("1"))
+                        allgetflag = "0";
+                    else
+                        allgetflag = "1";
+                    Intent it = new Intent(mContext, SelectPositionActivity.class);
+                    it.putExtra("client", clients);
+                    it.putExtra("flag", 0);
+                    it.putExtra("allgetflag", allgetflag);
+                    mContext.startActivity(it);
+                }
             }
         });
         holder.getView(R.id.iv_tel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 blog = infor;
-                showTelDialog();
+                if (blog != null) {
+                    showTelDialog();
+                }
             }
         });
         holder.getView(R.id.tv_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 blog = infor;
-                if (blog.getStatus().equals("1")) {
-                    keytype = "2";
-                } else {
-                    keytype = "4";
+                if (blog != null) {
+                    if (blog.getStatus().equals("1")) {
+                        keytype = "2";
+                    } else {
+                        keytype = "4";
+                    }
+                    dialog();
                 }
-                dialog();
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent it;
-//                it = new Intent(mContext, BlogInforActivity.class);
-//                it.putExtra("id", datas.get(position).getId());
-//                mContext.startActivity(it);
 
             }
         });
