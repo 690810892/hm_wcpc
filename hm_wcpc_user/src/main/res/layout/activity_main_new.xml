@@ -4,6 +4,54 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/white"/>
+    <!--标题栏-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/title_btn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:padding="15dp"
+            android:src="@mipmap/img_logo_user" />
+
+        <ImageView
+            android:id="@+id/title_btn_right_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:padding="10dp"
+            android:src="@mipmap/img_logo_notice" />
+
+        <ImageView
+            android:id="@+id/title_point"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:contentDescription="@string/contentdescription"
+            android:src="@drawable/img_point" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/img_title" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -16,34 +64,34 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/img_firstpage" />
 
-        <ImageView
-            android:id="@+id/title_btn_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="15dp"
-            android:padding="15dp"
-            android:src="@mipmap/img_first_center" />
+        <!--<ImageView-->
+            <!--android:id="@+id/title_btn_left"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:padding="15dp"-->
+            <!--android:src="@mipmap/img_first_center" />-->
 
-        <ImageView
-            android:id="@+id/title_btn_right_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
-            android:padding="10dp"
-            android:src="@mipmap/img_first_msg" />
+        <!--<ImageView-->
+            <!--android:id="@+id/title_btn_right_image"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:padding="10dp"-->
+            <!--android:src="@mipmap/img_first_msg" />-->
 
-        <ImageView
-            android:id="@+id/title_point"
-            android:layout_width="6dp"
-            android:layout_height="6dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/contentdescription"
-            android:src="@drawable/img_point" />
+        <!--<ImageView-->
+            <!--android:id="@+id/title_point"-->
+            <!--android:layout_width="6dp"-->
+            <!--android:layout_height="6dp"-->
+            <!--android:layout_gravity="right"-->
+            <!--android:layout_marginRight="14dp"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:contentDescription="@string/contentdescription"-->
+            <!--android:src="@drawable/img_point" />-->
     </FrameLayout>
 
     <LinearLayout

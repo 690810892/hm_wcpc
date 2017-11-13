@@ -540,15 +540,19 @@ public class PingJiaActivity extends BaseActivity implements PlatformActionListe
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
+                    getNetWorker().shareCallback(user.getToken(),"2",order_Id,"1");
                     Toast.makeText(getApplicationContext(), "微信分享成功", Toast.LENGTH_LONG).show();
                     break;
                 case 2:
+                    getNetWorker().shareCallback(user.getToken(),"2",order_Id,"2");
                     Toast.makeText(getApplicationContext(), "朋友圈分享成功", Toast.LENGTH_LONG).show();
                     break;
                 case 3:
+                    getNetWorker().shareCallback(user.getToken(),"2",order_Id,"3");
                     Toast.makeText(getApplicationContext(), "QQ分享成功", Toast.LENGTH_LONG).show();
                     break;
                 case 4:
+                    getNetWorker().shareCallback(user.getToken(),"2",order_Id,"4");
                     Toast.makeText(getApplicationContext(), "QQ空间分享成功", Toast.LENGTH_LONG).show();
                     break;
                 case 5:

@@ -906,4 +906,15 @@ public class BaseNetWorker extends HemaNetWorker {
         BaseNetTask task = new PositionGetTask(information, params);
         executeTask(task);
     }
+    public void shareCallback(String token, String keytype, String keyid, String sharetype){
+        BaseHttpInformation information = BaseHttpInformation.SHARE_CALLBACK;
+        HashMap<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("keytype", keytype);
+        params.put("keyid", keyid);
+        params.put("sharetype", sharetype);
+
+        BaseNetTask task = new NoResultReturnTask(information, params);
+        executeTask(task);
+    }
 }

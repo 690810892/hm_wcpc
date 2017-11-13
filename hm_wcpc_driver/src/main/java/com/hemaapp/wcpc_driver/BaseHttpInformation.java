@@ -191,6 +191,7 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	REPLY_ADD(11, "reply_add", "添加评论接口", false),
 	REPLY_LIST(11, "reply_list", "评论列表", false),
 	ADVICE_ADD(7, "advice_add", "意见反馈", false),
+	SHARE_CALLBACK(7, "share_callback", "分享回调接口", false),
 	;
 
 	private int id;// 对应NetTask的id

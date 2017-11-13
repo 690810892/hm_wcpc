@@ -77,8 +77,8 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
         activity = this;
         setContentView(R.layout.activity_main_new);
         super.onCreate(savedInstanceState);
-        mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.reset().init();
+//        mImmersionBar = ImmersionBar.with(this);
+//        mImmersionBar.reset().init();
         EventBus.getDefault().register(this);
         upGrade = new UpGrade(mContext) {
             @Override
