@@ -225,6 +225,7 @@ public enum BaseHttpInformation implements HemaHttpInfomation {
 	COMPLAIN_ADD(44, "complain_add", "投诉", false),
 	DRIVER_POSITION_GET(44, "driver_position_get", "获取司机位置", false),
 	SHARE_CALLBACK(7, "share_callback", "分享回调接口", false),
+	CLIENT_LOGIN_BYVERIFYCODE(7, "clientLoginByVerifyCode", "用户验证码登录接口", false),
 	;
 
 	private int id;// 对应NetTask的id

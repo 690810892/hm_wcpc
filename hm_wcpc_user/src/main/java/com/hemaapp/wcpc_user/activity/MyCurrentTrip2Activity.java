@@ -42,11 +42,18 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.Poi;
+import com.amap.api.navi.AmapNaviPage;
+import com.amap.api.navi.AmapNaviParams;
+import com.amap.api.navi.AmapNaviType;
+import com.amap.api.navi.INaviInfoCallback;
+import com.amap.api.navi.model.AMapNaviLocation;
 import com.amap.api.services.core.LatLonPoint;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
+import com.hemaapp.wcpc_user.AmapTTSController;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
 import com.hemaapp.wcpc_user.BaseUtil;
@@ -78,7 +85,7 @@ import xtom.frame.util.XtomTimeUtil;
  * 1、先获取用户的当前行程，如没有行程，则定位，显示当前位置，并隐藏导航。
  */
 public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLocationChangeListener, LocationSource,
-        AMapLocationListener, AMap.InfoWindowAdapter {
+        AMapLocationListener, AMap.InfoWindowAdapter ,INaviInfoCallback {
 
     @BindView(R.id.title_btn_left)
     ImageView titleBtnLeft;
@@ -167,7 +174,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
     private String phone;
     private TogetherAdapter togetherAdapter;
     private ArrayList<Client> clients = new ArrayList<>();
-
+    private AmapTTSController amapTTSController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_current_trip_new);
@@ -175,6 +182,8 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         super.onCreate(savedInstanceState);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         user = hm_WcpcUserApplication.getInstance().getUser();
+        amapTTSController = AmapTTSController.getInstance(getApplicationContext());
+        amapTTSController.init();
         EventBus.getDefault().register(this);
         phone=hm_WcpcUserApplication.getInstance().getSysInitInfo().getSys_service_phone();
         sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
@@ -406,6 +415,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         super.onDestroy();
         mapView.onDestroy();
         EventBus.getDefault().unregister(this);
+        amapTTSController.destroy();
     }
 
     @Override
@@ -668,13 +678,6 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent it = new Intent(mContext, PublishInforActivity.class);
-//                it.putExtra("start_lng", lng);
-//                it.putExtra("start_lat", lat);
-//                it.putExtra("start_position", map_title);
-//                it.putExtra("start_city", start_city);
-//
-//                startActivity(it);
             }
         });
         return view;
@@ -733,34 +736,24 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 }
                 break;
             case R.id.lv_bottom:
-                if (isAvilible(mContext, "com.autonavi.minimap")) {
-
-//                    StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=")
+//                if (isAvilible(mContext, "com.autonavi.minimap")) {
+//
+//                    StringBuffer stringBuffer = new StringBuffer("androidamap://keywordNavi?sourceApplication=")
 //                            .append("小叫车");
 //                    if (!TextUtils.isEmpty(infor.getEndaddress())) {
-//                        stringBuffer.append("&poiname=").append(infor.getEndaddress());
+//                        stringBuffer.append("&keyword=").append(infor.getEndaddress());
 //                    }
-//                    stringBuffer.append("&lat=").append(infor.getLat_end())
-//                            .append("&lon=").append(infor.getLng_end())
-//                            .append("&dev=").append("1")
+//                    stringBuffer
 //                            .append("&style=").append("2");
-
 //                    Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
 //                    intent.setPackage("com.autonavi.minimap");
 //                    mContext.startActivity(intent);
-                    StringBuffer stringBuffer = new StringBuffer("androidamap://keywordNavi?sourceApplication=")
-                            .append("小叫车");
-                    if (!TextUtils.isEmpty(infor.getEndaddress())) {
-                        stringBuffer.append("&keyword=").append(infor.getEndaddress());
-                    }
-                    stringBuffer
-                            .append("&style=").append("2");
-                    Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
-                    intent.setPackage("com.autonavi.minimap");
-                    mContext.startActivity(intent);
-                } else {
-                    showTextDialog("您尚未安装高德地图或地图版本过低");
-                }
+//                } else {
+//                    showTextDialog("您尚未安装高德地图或地图版本过低");
+//                }
+                LatLng p = new LatLng(Double.parseDouble(infor.getLat_end()), Double.parseDouble(infor.getLng_end()));
+                AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), new AmapNaviParams(null, null, new Poi(infor.getEndaddress(), p, ""), AmapNaviType.DRIVER), MyCurrentTrip2Activity.this);
+
                 break;
             case R.id.iv_visible:
                 if (layoutTop.getVisibility() == View.GONE) {
@@ -1004,5 +997,45 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onInitNaviFailure() {
+
+    }
+
+    @Override
+    public void onGetNavigationText(String s) {
+        amapTTSController.onGetNavigationText(s);
+    }
+
+    @Override
+    public void onLocationChange(AMapNaviLocation aMapNaviLocation) {
+
+    }
+
+    @Override
+    public void onArriveDestination(boolean b) {
+
+    }
+
+    @Override
+    public void onStartNavi(int i) {
+
+    }
+
+    @Override
+    public void onCalculateRouteSuccess(int[] ints) {
+
+    }
+
+    @Override
+    public void onCalculateRouteFailure(int i) {
+
+    }
+
+    @Override
+    public void onStopSpeaking() {
+        amapTTSController.stopSpeaking();
     }
 }

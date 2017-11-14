@@ -152,8 +152,14 @@ public class BaseNetWorker extends HemaNetWorker {
         BaseHttpInformation information = BaseHttpInformation.CLIENT_LOGIN;
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);// 用户登录名 手机号或邮箱
-        params.put("password", Md5Util.getMd5(XtomConfig.DATAKEY
-                + Md5Util.getMd5(password))); // 登陆密码 服务器端存储的是32位的MD5加密串
+        String login_type = XtomSharedPreferencesUtil.get(mContext, "login_type");
+        if (isNull(login_type))
+            login_type = "1";
+        if (login_type.equals("1"))
+            params.put("password", Md5Util.getMd5(XtomConfig.DATAKEY
+                    + Md5Util.getMd5(password))); // 登陆密码 服务器端存储的是32位的MD5加密串
+        else
+            params.put("password", password); // 登陆密码 服务器端存储的是32位的MD5加密串
         params.put("devicetype", "2"); // 用户登录所用手机类型 1：苹果 2：安卓（方便服务器运维统计）
         String version = HemaUtil.getAppVersionForSever(mContext);
         params.put("lastloginversion", version);// 登陆所用的系统版本号
@@ -216,6 +222,16 @@ public class BaseNetWorker extends HemaNetWorker {
         params.put("invitecode", invitecode);
 
         BaseNetTask task = new ClientAdd2Task(information, params);
+        executeTask(task);
+    }
+
+    public void loginByPhone(String tempToken, String username) {
+        BaseHttpInformation information = BaseHttpInformation.CLIENT_LOGIN_BYVERIFYCODE;
+        HashMap<String, String> params = new HashMap<>();
+        params.put("temp_token", tempToken);// 登陆令牌
+        params.put("username", username);
+
+        BaseNetTask task = new ClientLoginTask(information, params);
         executeTask(task);
     }
 
@@ -906,7 +922,8 @@ public class BaseNetWorker extends HemaNetWorker {
         BaseNetTask task = new PositionGetTask(information, params);
         executeTask(task);
     }
-    public void shareCallback(String token, String keytype, String keyid, String sharetype){
+
+    public void shareCallback(String token, String keytype, String keyid, String sharetype) {
         BaseHttpInformation information = BaseHttpInformation.SHARE_CALLBACK;
         HashMap<String, String> params = new HashMap<>();
         params.put("token", token);

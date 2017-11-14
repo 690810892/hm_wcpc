@@ -237,9 +237,10 @@ public class RegisterStepThreeActivity extends BaseActivity {
                 clientAdd = sResult.getObjects().get(0);
                 String token = clientAdd.getToken();
                 if (isNull(tempPath)) {
-                    if (clientAdd.getCoupon_count().equals("0"))
+                    if (clientAdd.getCoupon_count().equals("0")) {
+                        XtomSharedPreferencesUtil.save(mContext, "login_type", "1");
                         getNetWorker().clientLogin(username, password);
-                    else
+                    }else
                         showCouponWindow();
                 } else {
                     getNetWorker().fileUpload(token, "1", "0", "0", "0", "无",
@@ -247,15 +248,17 @@ public class RegisterStepThreeActivity extends BaseActivity {
                 }
                 break;
             case FILE_UPLOAD:
-                if (clientAdd.getCoupon_count().equals("0"))
+                if (clientAdd.getCoupon_count().equals("0")) {
+                    XtomSharedPreferencesUtil.save(mContext, "login_type", "1");
                     getNetWorker().clientLogin(username, password);
-                else
+                }else
                     showCouponWindow();
                 break;
             case CLIENT_LOGIN:
                 HemaArrayResult<User> uResult = (HemaArrayResult<User>) baseResult;
                 User user = uResult.getObjects().get(0);
                 getApplicationContext().setUser(user);
+                XtomSharedPreferencesUtil.save(mContext, "login_type", "1");
                 XtomSharedPreferencesUtil.save(mContext, "username", username);
                 XtomSharedPreferencesUtil.save(mContext, "password", password);
                 XtomSharedPreferencesUtil.save(mContext, "isAutoLogin", "true");
@@ -279,6 +282,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
                 break;
             case FILE_UPLOAD:
                 showTextDialog("上传头像失败");
+                XtomSharedPreferencesUtil.save(mContext, "login_type", "1");
                 getNetWorker().clientLogin(username, Md5Util.getMd5(XtomConfig.DATAKEY
                         + Md5Util.getMd5(password)));
                 break;
@@ -306,6 +310,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
                 break;
             case FILE_UPLOAD:
                 showTextDialog("上传头像失败");
+                XtomSharedPreferencesUtil.save(mContext, "login_type", "1");
                 getNetWorker().clientLogin(username, Md5Util.getMd5(XtomConfig.DATAKEY
                         + Md5Util.getMd5(password)));
                 break;
@@ -487,6 +492,7 @@ public class RegisterStepThreeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
+                XtomSharedPreferencesUtil.save(mContext, "login_type", "1");
                 getNetWorker().clientLogin(username, password);
             }
         });

@@ -16,7 +16,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * 
  */
 public class DBHelper extends SQLiteOpenHelper {
-	private static final String DBNAME = "hm_wcpc_user02.db";
+	private static final String DBNAME = "hm_wcpc_user03.db";
 	/**
 	 * 系统初始化信息
 	 */
@@ -55,7 +55,8 @@ public class DBHelper extends SQLiteOpenHelper {
 		String user = "id text primary key, username text, email text, realname text,mobile text, password text, paypassword text, "
 				+ " sex text, avatar text, avatarbig text, lng text, lat text, IDtype text, IDnumber text, regdate text, takecount text, "
 				+ "feeaccount text, token text, android_must_update text, android_last_version text, android_update_url text, carbrand text, "
-				+ " carnumber text, score text, bankuser text, bankname text, bankcard text, bankmobile text, alipay_no text, invitecode text, today_cancel_count text ";
+				+ " carnumber text, score text, bankuser text, bankname text, bankcard text, bankmobile text, alipay_no text, invitecode text," +
+				" today_cancel_count text, coupon_count text, coupon_value text, coupon_dateline text, is_reg text ";
 		String userSQL = "create table " + USER + " (" + user + ")";
 		db.execSQL(userSQL);
 

@@ -51,6 +51,11 @@ public class User extends HemaUser {
 	private String invitecode; //
 	private String today_cancel_count; //
 
+	private String   coupon_count;//		系统赠送的代金券数
+	private String   coupon_value;//		代金券每一张的金额
+	private String  coupon_dateline	;//	代金券有效期
+	private String  is_reg;//	是否为新注册记录	1：是，0：否
+
 	public User(JSONObject jsonObject) throws DataParseException {
 		super(jsonObject);
 		try {
@@ -87,6 +92,11 @@ public class User extends HemaUser {
 			bankcard = get(jsonObject, "bankcard");
 			bankmobile = get(jsonObject, "bankmobile");
 			alipay_no = get(jsonObject, "alipay_no");
+
+			coupon_count = get(jsonObject, "coupon_count");
+			coupon_value = get(jsonObject, "coupon_value");
+			coupon_dateline = get(jsonObject, "coupon_dateline");
+			is_reg = get(jsonObject, "is_reg");
 			
 			log_i(toString());
 		} catch (JSONException e) {
@@ -101,9 +111,14 @@ public class User extends HemaUser {
                 String token, String android_must_update, String android_last_version,
                 String android_update_url, String carbrand, String carnumber, String score,
                 String bankuser, String bankname, String bankcard, String bankmobile,
-                String alipay_no,String invitecode,String today_cancel_count) {
+                String alipay_no,String invitecode,String today_cancel_count
+			,String coupon_count,String coupon_value,String coupon_dateline,String is_reg) {
 		super(token);
 		this.id = id;
+		this.coupon_count = coupon_count;
+		this.coupon_value = coupon_value;
+		this.coupon_dateline = coupon_dateline;
+		this.is_reg = is_reg;
 		this.today_cancel_count = today_cancel_count;
 		this.username = username;
 		this.invitecode = invitecode;
@@ -169,6 +184,10 @@ public class User extends HemaUser {
 				", alipay_no='" + alipay_no + '\'' +
 				", invitecode='" + invitecode + '\'' +
 				", today_cancel_count='" + today_cancel_count + '\'' +
+				", coupon_count='" + coupon_count + '\'' +
+				", coupon_value='" + coupon_value + '\'' +
+				", coupon_dateline='" + coupon_dateline + '\'' +
+				", is_reg='" + is_reg + '\'' +
 				'}';
 	}
 
@@ -198,6 +217,22 @@ public class User extends HemaUser {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getCoupon_count() {
+		return coupon_count;
+	}
+
+	public String getCoupon_value() {
+		return coupon_value;
+	}
+
+	public String getCoupon_dateline() {
+		return coupon_dateline;
+	}
+
+	public String getIs_reg() {
+		return is_reg;
 	}
 
 	public String getMobile() {

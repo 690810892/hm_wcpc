@@ -17,6 +17,10 @@ android {
                 GETUI_APP_SECRET: "f8oSTkU2Qx5w2dP5hZUXB2",
         ]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi"
+        }
+
     }
     signingConfigs {
         // your debug keystore
@@ -27,7 +31,10 @@ android {
             storeFile file("hm_wcpc_user.jks")
         }
     }
-
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     buildTypes {
         release {
             minifyEnabled false

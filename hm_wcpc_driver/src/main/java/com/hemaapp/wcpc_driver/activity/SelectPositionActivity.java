@@ -33,9 +33,16 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.Poi;
+import com.amap.api.navi.AmapNaviPage;
+import com.amap.api.navi.AmapNaviParams;
+import com.amap.api.navi.AmapNaviType;
+import com.amap.api.navi.INaviInfoCallback;
+import com.amap.api.navi.model.AMapNaviLocation;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
+import com.hemaapp.wcpc_driver.AmapTTSController;
 import com.hemaapp.wcpc_driver.BaseActivity;
 import com.hemaapp.wcpc_driver.BaseHttpInformation;
 import com.hemaapp.wcpc_driver.EventBusConfig;
@@ -59,7 +66,7 @@ import xtom.frame.util.XtomToastUtil;
 
 /**
  */
-public class SelectPositionActivity extends BaseActivity implements LocationSource, AMapLocationListener, AMap.OnMarkerClickListener {
+public class SelectPositionActivity extends BaseActivity implements LocationSource, AMapLocationListener, AMap.OnMarkerClickListener,INaviInfoCallback {
 
     @BindView(R.id.title_btn_left)
     ImageView titleBtnLeft;
@@ -111,7 +118,7 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
     private int flag;//1:开始接返程单   0：首页查看地图
     private String allgetflag;//当前行程的乘客是否都已上车
     private String lng, lat;//定位我的位置
-
+    private AmapTTSController amapTTSController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_select_position);
@@ -121,6 +128,8 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
         appearAnimation.setDuration(500);
         mapView.onCreate(savedInstanceState);
         user = hm_WcpcDriverApplication.getInstance().getUser();
+        amapTTSController = AmapTTSController.getInstance(getApplicationContext());
+        amapTTSController.init();
         lvBottom.setVisibility(View.GONE);
         aMap = mapView.getMap();
         aMap.moveCamera(CameraUpdateFactory.zoomTo(16));//默认显示级别
@@ -209,6 +218,7 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
         if (null != mLocationClient) {
             mLocationClient.onDestroy();
         }
+        amapTTSController.destroy();
     }
 
     @Override
@@ -332,8 +342,31 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
                 if (layoutTop.getVisibility() == View.GONE) {
                     showTextDialog("请选择导航目的地");
                 } else {
-                    if (isAvilible(mContext, "com.autonavi.minimap")) {
-                        String add, lng, lat;
+//                    if (isAvilible(mContext, "com.autonavi.minimap")) {
+//                        String add, lng, lat;
+//                        if (allgetflag.equals("1")) {
+//                            add = model.getEndaddress();
+//                            lng = model.getLng_end();
+//                            lat = model.getLat_end();
+//                        } else {
+//                            add = model.getStartaddress();
+//                            lng = model.getLng_start();
+//                            lat = model.getLat_start();
+//                        }
+//                        StringBuffer stringBuffer = new StringBuffer("androidamap://keywordNavi?sourceApplication=")
+//                                .append("小叫车(司机)");
+//                        if (!TextUtils.isEmpty(add)) {
+//                            stringBuffer.append("&keyword=").append(add);
+//                        }
+//                        stringBuffer
+//                                .append("&style=").append("2");
+//                        Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
+//                        intent.setPackage("com.autonavi.minimap");
+//                        mContext.startActivity(intent);
+//                    } else {
+//                        showTextDialog("您尚未安装高德地图或地图版本过低");
+//                    }
+                    String add, lng, lat;
                         if (allgetflag.equals("1")) {
                             add = model.getEndaddress();
                             lng = model.getLng_end();
@@ -343,32 +376,9 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
                             lng = model.getLng_start();
                             lat = model.getLat_start();
                         }
-//                        StringBuffer stringBuffer = new StringBuffer("androidamap://navi?sourceApplication=")
-//                                .append("小叫车(司机)");
-//                        if (!TextUtils.isEmpty(add)) {
-//                            stringBuffer.append("&poiname=").append(add);
-//                        }
-//                        stringBuffer.append("&lat=").append(lat)
-//                                .append("&lon=").append(lng)
-//                                .append("&dev=").append("1")
-//                                .append("&style=").append("2");
-//
-//                        Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(stringBuffer.toString()));
-//                        intent.setPackage("com.autonavi.minimap");
-//                        mContext.startActivity(intent);
-                        StringBuffer stringBuffer = new StringBuffer("androidamap://keywordNavi?sourceApplication=")
-                                .append("小叫车(司机)");
-                        if (!TextUtils.isEmpty(add)) {
-                            stringBuffer.append("&keyword=").append(add);
-                        }
-                        stringBuffer
-                                .append("&style=").append("2");
-                        Intent intent = new Intent("android.intent.action.VIEW", android.net.Uri.parse(stringBuffer.toString()));
-                        intent.setPackage("com.autonavi.minimap");
-                        mContext.startActivity(intent);
-                    } else {
-                        showTextDialog("您尚未安装高德地图或地图版本过低");
-                    }
+                    LatLng p = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+                    AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), new AmapNaviParams(null, null, new Poi(add, p, ""), AmapNaviType.DRIVER), SelectPositionActivity.this);
+
                 }
                 break;
         }
@@ -521,6 +531,46 @@ public class SelectPositionActivity extends BaseActivity implements LocationSour
             mLocationClient.onDestroy();
         }
         mLocationClient = null;
+    }
+
+    @Override
+    public void onInitNaviFailure() {
+
+    }
+
+    @Override
+    public void onGetNavigationText(String s) {
+        amapTTSController.onGetNavigationText(s);
+    }
+
+    @Override
+    public void onLocationChange(AMapNaviLocation aMapNaviLocation) {
+
+    }
+
+    @Override
+    public void onArriveDestination(boolean b) {
+
+    }
+
+    @Override
+    public void onStartNavi(int i) {
+
+    }
+
+    @Override
+    public void onCalculateRouteSuccess(int[] ints) {
+
+    }
+
+    @Override
+    public void onCalculateRouteFailure(int i) {
+
+    }
+
+    @Override
+    public void onStopSpeaking() {
+        amapTTSController.stopSpeaking();
     }
 }
 

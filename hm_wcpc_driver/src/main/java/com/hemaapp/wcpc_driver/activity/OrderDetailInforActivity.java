@@ -256,16 +256,16 @@ public class OrderDetailInforActivity extends BaseActivity {
         image_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(mContext, TripMapActivity.class);
-                it.putExtra("lng_start", infor.getLng_start());
-                it.putExtra("lat_start", infor.getLat_start());
-                it.putExtra("lng_end", infor.getLng_end());
-                it.putExtra("lat_end", infor.getLat_end());
-                it.putExtra("lng", infor.getLng());
-                it.putExtra("lat",infor.getLat());
-                it.putExtra("address", infor.getAddress());
-                it.putExtra("avatar", infor.getAvatar());
-                startActivity(it);
+//                Intent it = new Intent(mContext, TripMapActivity.class);
+//                it.putExtra("lng_start", infor.getLng_start());
+//                it.putExtra("lat_start", infor.getLat_start());
+//                it.putExtra("lng_end", infor.getLng_end());
+//                it.putExtra("lat_end", infor.getLat_end());
+//                it.putExtra("lng", infor.getLng());
+//                it.putExtra("lat",infor.getLat());
+//                it.putExtra("address", infor.getAddress());
+//                it.putExtra("avatar", infor.getAvatar());
+//                startActivity(it);
             }
         });
 

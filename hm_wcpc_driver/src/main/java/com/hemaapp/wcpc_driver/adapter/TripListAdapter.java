@@ -12,7 +12,6 @@ import com.hemaapp.hm_FrameWork.HemaAdapter;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
 import com.hemaapp.wcpc_driver.BaseUtil;
 import com.hemaapp.wcpc_driver.R;
-import com.hemaapp.wcpc_driver.activity.GrapTripDetailInforActivity;
 import com.hemaapp.wcpc_driver.activity.MainActivity;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.TripListInfor;
@@ -130,9 +129,9 @@ public class TripListAdapter extends HemaAdapter {
             public void onClick(View v) {
                 TripListInfor infor = (TripListInfor) v.getTag(R.id.button_0);
                 if("0".equals(infor.getDriver_id())){
-                    Intent it = new Intent(mContext, GrapTripDetailInforActivity.class);
-                    it.putExtra("id", infor.getId());
-                    ((MainActivity)mContext).startActivityForResult(it, R.id.layout_0);
+//                    Intent it = new Intent(mContext, GrapTripDetailInforActivity.class);
+//                    it.putExtra("id", infor.getId());
+//                    ((MainActivity)mContext).startActivityForResult(it, R.id.layout_0);
                 }
             }
         });

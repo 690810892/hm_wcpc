@@ -183,7 +183,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
 //        }
     }
 
-    private void checkLogin(){
+    private void checkLogin() {
         // 判断信息引导页是否展示过了
         if (!isShow()) {
             Intent it = new Intent(mContext, ShowActivity.class);

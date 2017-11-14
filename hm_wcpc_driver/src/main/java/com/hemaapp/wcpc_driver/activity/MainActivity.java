@@ -533,8 +533,8 @@ public class MainActivity extends BaseActivity {
                     showTextDialog("抱歉，您目前处于休车状态，无法发布行程");
                     return;
                 }else{
-                    Intent it = new Intent(mContext, PublishInforActivity.class);
-                    startActivityForResult(it, R.id.layout_1);
+//                    Intent it = new Intent(mContext, PublishInforActivity.class);
+//                    startActivityForResult(it, R.id.layout_1);
                 }
             }
         });

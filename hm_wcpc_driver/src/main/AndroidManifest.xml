@@ -18,7 +18,7 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-
+    <user-permission android:name="android.permission.WAKE_LOCK"/>
     <!-- 高德地图所需权限 -->
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -421,7 +421,9 @@
             android:name=".getui.ServiceLocationGPS"
             android:enabled="true"
             android:exported="true" />
-
+        <activity
+            android:name="com.amap.api.navi.AmapRouteActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 
 </manifest>

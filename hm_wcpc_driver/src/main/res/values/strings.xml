@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:locale="en">
 
-    <string name="app_name">小叫车(司机)</string>
+    <string name="app_name">小叫车司机</string>
     <string name="contentdescription"></string>
 
     <string name="tv_login">登录</string>

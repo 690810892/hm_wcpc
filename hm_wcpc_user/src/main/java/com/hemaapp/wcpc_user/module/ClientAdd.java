@@ -22,6 +22,8 @@ public class ClientAdd extends XtomObject implements Serializable {
     private String   coupon_count;//		系统赠送的代金券数
     private String   coupon_value;//		代金券每一张的金额
     private String  coupon_dateline	;//	代金券有效期
+    private String  is_reg;//	是否为新注册记录	1：是，0：否
+    private String  password;//	密码
     public ClientAdd(JSONObject jsonObject) throws DataParseException {
         if (jsonObject != null) {
             try {
@@ -29,6 +31,8 @@ public class ClientAdd extends XtomObject implements Serializable {
                 coupon_count = get(jsonObject, "coupon_count");
                 coupon_value = get(jsonObject, "coupon_value");
                 coupon_dateline = get(jsonObject, "coupon_dateline");
+                is_reg = get(jsonObject, "is_reg");
+                password = get(jsonObject, "password");
                 log_i(toString());
             } catch (JSONException e) {
                 throw new DataParseException(e);
@@ -44,6 +48,8 @@ public class ClientAdd extends XtomObject implements Serializable {
                 ", coupon_count='" + coupon_count + '\'' +
                 ", coupon_value='" + coupon_value + '\'' +
                 ", coupon_dateline='" + coupon_dateline + '\'' +
+                ", is_reg='" + is_reg + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 
@@ -57,6 +63,14 @@ public class ClientAdd extends XtomObject implements Serializable {
 
     public String getCoupon_value() {
         return coupon_value;
+    }
+
+    public String getIs_reg() {
+        return is_reg;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getCoupon_dateline() {

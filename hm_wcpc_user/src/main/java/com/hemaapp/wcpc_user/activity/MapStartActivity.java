@@ -157,7 +157,7 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
             }
             Polygon polygon = aMap.addPolygon(pOption.strokeWidth(4)
                     .strokeColor(Color.argb(50, 1, 1, 1))
-                    .fillColor(0x30F8F64C));
+                    .fillColor(0x20F8F64C));
             polygons.add(polygon);
             prices.add(area.getAddprice());
             if (isNull(move_lat)) {
@@ -481,13 +481,13 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
                     marker.remove();
                 }
                 LatLng latlng0 = new LatLng(location.getLatitude(), location.getLongitude());
-//                marker = aMap.addMarker(new MarkerOptions()
-//                        .position(latlng0)
-//                        .title("起点")
-//                        .icon(BitmapDescriptorFactory
-//                                .fromBitmap(BitmapFactory.
-//                                        decodeResource(getResources(), R.mipmap.gps_point))));
-                marker = aMap.addMarker(new MarkerOptions().position(latlng0));
+                marker = aMap.addMarker(new MarkerOptions()
+                        .position(latlng0)
+                        .title("起点")
+                        .icon(BitmapDescriptorFactory
+                                .fromBitmap(BitmapFactory.
+                                        decodeResource(getResources(), R.mipmap.loc_my))));
+              //  marker = aMap.addMarker(new MarkerOptions().position(latlng0));
                 boolean b1 = false;
                 for (int i = 0; i < polygons.size(); i++) {
                     if (polygons.get(i).contains(latlng0)) {
