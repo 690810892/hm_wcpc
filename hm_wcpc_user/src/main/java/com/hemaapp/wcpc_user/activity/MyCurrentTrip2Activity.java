@@ -668,13 +668,13 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent it = new Intent(mContext, PublishInforActivity.class);
-                it.putExtra("start_lng", lng);
-                it.putExtra("start_lat", lat);
-                it.putExtra("start_position", map_title);
-                it.putExtra("start_city", start_city);
-
-                startActivity(it);
+//                Intent it = new Intent(mContext, PublishInforActivity.class);
+//                it.putExtra("start_lng", lng);
+//                it.putExtra("start_lat", lat);
+//                it.putExtra("start_position", map_title);
+//                it.putExtra("start_city", start_city);
+//
+//                startActivity(it);
             }
         });
         return view;

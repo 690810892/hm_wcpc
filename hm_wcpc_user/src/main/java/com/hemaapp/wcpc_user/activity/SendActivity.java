@@ -3,7 +3,6 @@ package com.hemaapp.wcpc_user.activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -19,24 +18,21 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
-import com.bigkoo.pickerview.listener.CustomListener;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
+import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
-import com.hemaapp.wcpc_user.BaseMyActivity;
-import com.hemaapp.wcpc_user.BaseRecycleAdapter;
 import com.hemaapp.wcpc_user.BaseUtil;
 import com.hemaapp.wcpc_user.EventBusConfig;
 import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
 import com.hemaapp.wcpc_user.RecycleUtils;
 import com.hemaapp.wcpc_user.adapter.PersonCountAdapter;
-import com.hemaapp.wcpc_user.adapter.PersonCountRecyclerAdapter;
 import com.hemaapp.wcpc_user.adapter.PopTimeAdapter;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
+import com.hemaapp.wcpc_user.module.CouponListInfor;
 import com.hemaapp.wcpc_user.module.DistrictInfor;
 import com.hemaapp.wcpc_user.module.PersonCountInfor;
 import com.hemaapp.wcpc_user.module.SysInitInfo;
@@ -47,7 +43,6 @@ import com.hemaapp.wcpc_user.view.wheelview.WheelView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -144,6 +139,7 @@ public class SendActivity extends BaseActivity {
         pin_end = XtomSharedPreferencesUtil.get(mContext, "pin_end");
         locCity = XtomSharedPreferencesUtil.get(mContext, "city");
         getNetWorker().cityList("0");
+        getNetWorker().couponsList(user.getToken(), "2", 0);
         for (int i = 0; i < 4; i++) {
             counts.add(i, new PersonCountInfor(String.valueOf(i + 1), false));
         }
@@ -229,6 +225,16 @@ public class SendActivity extends BaseActivity {
                             resetPrice();
                         }
                     }
+                }
+                break;
+            case COUPONS_LIST:
+                HemaPageArrayResult<CouponListInfor> cResult = (HemaPageArrayResult<CouponListInfor>) baseResult;
+                ArrayList<CouponListInfor> cs = cResult.getObjects();
+                if(cs!=null&&cs.size()>0){
+                    coupon_id = cs.get(0).getId();
+                    coupon_vavle = cs.get(0).getValue();
+                    tvCoupon.setText(coupon_vavle + "元");
+                    coupon = Integer.parseInt(coupon_vavle);
                 }
                 break;
             default:
@@ -896,7 +902,7 @@ public class SendActivity extends BaseActivity {
                         count = Integer.parseInt(infor.getCount());
                         resetPrice();
                         tvCount.setText(count + "人");
-                        if (count==4) {
+                        if (count == 4) {
                             isAgreed = "0";
                             tvPin.setCompoundDrawablesWithIntrinsicBounds(0, 0,
                                     R.mipmap.img_agree_n, 0);

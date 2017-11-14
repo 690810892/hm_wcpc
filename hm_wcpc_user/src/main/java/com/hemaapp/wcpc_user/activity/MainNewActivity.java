@@ -212,6 +212,8 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
                     CanNotTip();
                     return;
                 } else {
+//                    Intent it = new Intent(mContext, SendActivity.class);
+//                    startActivity(it);
                     String start = BaseUtil.TransTimeHour(XtomSharedPreferencesUtil.get(mContext, "order_start"), "HH:mm");
                     String end = BaseUtil.TransTimeHour(XtomSharedPreferencesUtil.get(mContext, "order_end"), "HH:mm");
                     if (isNull(start)) {
@@ -329,8 +331,8 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
                 }
                 break;
             case R.id.tv_car_owner:
-                it = new Intent(mContext, CarOwerListActivity.class);
-                startActivity(it);
+//                it = new Intent(mContext, CarOwerListActivity.class);
+//                startActivity(it);
                 break;
             case R.id.iv_send:
                 if (user == null) {

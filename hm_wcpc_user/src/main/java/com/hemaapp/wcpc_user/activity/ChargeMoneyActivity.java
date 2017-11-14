@@ -272,7 +272,7 @@ public class ChargeMoneyActivity extends BaseActivity {
     @Override
     protected void setListener() {
         title.setText("充值");
-        right.setVisibility(View.VISIBLE);
+        right.setVisibility(View.GONE);
         right.setText("确定");
         left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,15 +285,26 @@ public class ChargeMoneyActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                if (checkBox_alipay.isChecked()) {
-                    checkBox_alipay.setChecked(false);
-                    checkBox_weixin.setChecked(false);
-                    checkBox_unipay.setChecked(false);
-                } else {
-                    checkBox_alipay.setChecked(true);
-                    checkBox_weixin.setChecked(false);
-                    checkBox_unipay.setChecked(false);
+//                if (checkBox_alipay.isChecked()) {
+//                    checkBox_alipay.setChecked(false);
+//                    checkBox_weixin.setChecked(false);
+//                    checkBox_unipay.setChecked(false);
+//                } else {
+//                    checkBox_alipay.setChecked(true);
+//                    checkBox_weixin.setChecked(false);
+//                    checkBox_unipay.setChecked(false);
+//                }
+                money = editText.getText().toString();
+                if(isNull(money)){
+                    showTextDialog("请输入充值金额");
+                    return;
                 }
+
+                if(money.length() > 9){
+                    showTextDialog("抱歉，您输入的金额过大，请重新输入");
+                    return;
+                }
+                getNetWorker().alipay(user.getToken(), "1", "0", money);
             }
         });
 
@@ -310,15 +321,26 @@ public class ChargeMoneyActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                if (checkBox_weixin.isChecked()) {
-                    checkBox_alipay.setChecked(false);
-                    checkBox_weixin.setChecked(false);
-                    checkBox_unipay.setChecked(false);
-                } else {
-                    checkBox_alipay.setChecked(false);
-                    checkBox_weixin.setChecked(true);
-                    checkBox_unipay.setChecked(false);
+//                if (checkBox_weixin.isChecked()) {
+//                    checkBox_alipay.setChecked(false);
+//                    checkBox_weixin.setChecked(false);
+//                    checkBox_unipay.setChecked(false);
+//                } else {
+//                    checkBox_alipay.setChecked(false);
+//                    checkBox_weixin.setChecked(true);
+//                    checkBox_unipay.setChecked(false);
+//                }
+                money = editText.getText().toString();
+                if(isNull(money)){
+                    showTextDialog("请输入充值金额");
+                    return;
                 }
+
+                if(money.length() > 9){
+                    showTextDialog("抱歉，您输入的金额过大，请重新输入");
+                    return;
+                }
+                getNetWorker().weixin(user.getToken(), "1", "0", money);
             }
         });
 
@@ -335,15 +357,26 @@ public class ChargeMoneyActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                if (checkBox_unipay.isChecked()) {
-                    checkBox_alipay.setChecked(false);
-                    checkBox_weixin.setChecked(false);
-                    checkBox_unipay.setChecked(false);
-                } else {
-                    checkBox_alipay.setChecked(false);
-                    checkBox_weixin.setChecked(false);
-                    checkBox_unipay.setChecked(true);
+//                if (checkBox_unipay.isChecked()) {
+//                    checkBox_alipay.setChecked(false);
+//                    checkBox_weixin.setChecked(false);
+//                    checkBox_unipay.setChecked(false);
+//                } else {
+//                    checkBox_alipay.setChecked(false);
+//                    checkBox_weixin.setChecked(false);
+//                    checkBox_unipay.setChecked(true);
+//                }
+                money = editText.getText().toString();
+                if(isNull(money)){
+                    showTextDialog("请输入充值金额");
+                    return;
                 }
+
+                if(money.length() > 9){
+                    showTextDialog("抱歉，您输入的金额过大，请重新输入");
+                    return;
+                }
+                getNetWorker().unionpay(user.getToken(), "1", "0", money);
             }
         });
 

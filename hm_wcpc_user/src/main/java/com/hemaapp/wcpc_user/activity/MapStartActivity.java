@@ -1,35 +1,39 @@
 package com.hemaapp.wcpc_user.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.Polygon;
 import com.amap.api.maps.model.PolygonOptions;
+import com.amap.api.maps.model.animation.Animation;
+import com.amap.api.maps.model.animation.TranslateAnimation;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
@@ -37,22 +41,15 @@ import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
-import com.hemaapp.hm_FrameWork.dialog.HemaButtonDialog;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
-import com.hemaapp.hm_FrameWork.result.HemaPageArrayResult;
 import com.hemaapp.wcpc_user.BaseActivity;
 import com.hemaapp.wcpc_user.BaseHttpInformation;
+import com.hemaapp.wcpc_user.CircularAnim;
 import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
-import com.hemaapp.wcpc_user.RecycleUtils;
-import com.hemaapp.wcpc_user.ToLogin;
-import com.hemaapp.wcpc_user.adapter.MytripAdapter;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.Area;
-import com.hemaapp.wcpc_user.module.CurrentTripsInfor;
-import com.hemaapp.wcpc_user.module.DistrictInfor;
 import com.hemaapp.wcpc_user.module.User;
-import com.hemaapp.wcpc_user.view.LocationUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,15 +58,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
-import xtom.frame.util.XtomSharedPreferencesUtil;
 import xtom.frame.util.XtomToastUtil;
-import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * 起点地图
  */
 public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationChangeListener, LocationSource,
-        AMapLocationListener, AMap.OnMapClickListener, GeocodeSearch.OnGeocodeSearchListener {
+        AMapLocationListener, AMap.OnMapClickListener, GeocodeSearch.OnGeocodeSearchListener, AMap.OnCameraChangeListener {
 
     @BindView(R.id.title_btn_left)
     ImageView titleBtnLeft;
@@ -83,6 +78,8 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
     TextView tvSearch;
     @BindView(R.id.lv_search)
     LinearLayout lvSearch;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
     private User user;
     private String token = "";
     private ArrayList<Area> areas = new ArrayList<>();
@@ -98,6 +95,8 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
     private OnLocationChangedListener mListener;
+    Marker screenMarker = null;
+    private boolean Loc = false, isFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,13 +116,36 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
     private void init() {
         if (aMap == null) {
             aMap = mapView.getMap();
-            setUpMap();
+
+            aMap.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
+                @Override
+                public void onMapLoaded() {
+                    addMarkerInScreenCenter();
+                    setUpMap();
+                }
+            });
             geocoderSearch = new GeocodeSearch(this);
             geocoderSearch.setOnGeocodeSearchListener(this);
+            //setUpMap();
         }
     }
 
+    /**
+     * 在屏幕中心添加一个Marker
+     */
+    private void addMarkerInScreenCenter() {
+        LatLng latLng = aMap.getCameraPosition().target;
+        Point screenPosition = aMap.getProjection().toScreenLocation(latLng);
+        screenMarker = aMap.addMarker(new MarkerOptions()
+                .anchor(0.5f, 0.5f)
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.purple_pin)));
+        //设置Marker在屏幕上,不跟随地图移动
+        screenMarker.setPositionByPixels(screenPosition.x, screenPosition.y);
+
+    }
+
     private void setUpMap() {
+        aMap.setOnCameraChangeListener(this);
         for (Area area : areas) {
             // 绘制一个长方形
             PolygonOptions pOption = new PolygonOptions();
@@ -143,15 +165,15 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
                 move_lng = str[0].split(",")[0];
             }
         }
-        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(move_lat),
-                Double.parseDouble(move_lng)), 14));
+        log_e("moveCamera111------------------------------");
+//        aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(move_lat),
+//                Double.parseDouble(move_lng)), 15));
         prepareLocation();
-        aMap.setOnMapClickListener(this);
         aMap.setLocationSource(this);// 设置定位监听
+        aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
         aMap.getUiSettings().setZoomControlsEnabled(false);
-        aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
-        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
-        aMap.setOnMyLocationChangeListener(this);
+        aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+
     }
 
     private void prepareLocation() {
@@ -164,7 +186,7 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
         // 设置是否需要显示地址信息
         locationOption.setNeedAddress(true);
         // 设置定位参数
-        locationOption.setOnceLocation(false);
+        locationOption.setOnceLocation(true);
         /**
          * 设置是否优先返回GPS定位结果，如果30秒内GPS没有返回定位结果则进行网络定位
          * 注意：只有在高精度模式下的单次定位有效，其他方式无效
@@ -326,10 +348,10 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
                 myAddress = data.getStringExtra("name");
                 latlng = new LatLng(la, ln);
                 aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
-                if (marker != null) {
-                    marker.remove();
-                }
-                marker = aMap.addMarker(new MarkerOptions().position(latlng));
+//                if (marker != null) {
+//                    marker.remove();
+//                }
+//                marker = aMap.addMarker(new MarkerOptions().position(latlng));
                 boolean b1 = false;
                 for (int i = 0; i < polygons.size(); i++) {
                     if (polygons.get(i).contains(latlng)) {
@@ -384,35 +406,35 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
 
     @Override
     public void onMapClick(LatLng latLng) {
-        if (marker != null) {
-            marker.remove();
-        }
-        marker = aMap.addMarker(new MarkerOptions().position(latLng));
-        boolean b1 = false;
-        for (int i = 0; i < polygons.size(); i++) {
-            if (polygons.get(i).contains(latLng)) {
-                b1 = true;
-                addPrice = prices.get(i);
-            }
-        }
-        inArea = b1;
-        if (inArea) {
-            showProgressDialog("正在定位...");
-            latlng = latLng;
-            lat = latLng.latitude + "";
-            lng = latLng.longitude + "";
-            LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
-            RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200,
-                    GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
-            geocoderSearch.getFromLocationAsyn(query);// 设置异步逆地理编码请求
-        } else {
-            showTextDialog("该区域暂未开通");
-        }
+//        if (marker != null) {
+//            marker.remove();
+//        }
+//        marker = aMap.addMarker(new MarkerOptions().position(latLng));
+//        boolean b1 = false;
+//        for (int i = 0; i < polygons.size(); i++) {
+//            if (polygons.get(i).contains(latLng)) {
+//                b1 = true;
+//                addPrice = prices.get(i);
+//            }
+//        }
+//        inArea = b1;
+//        if (inArea) {
+//            showProgressDialog("正在定位...");
+//            latlng = latLng;
+//            lat = latLng.latitude + "";
+//            lng = latLng.longitude + "";
+//            LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
+//            RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200,
+//                    GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+//            geocoderSearch.getFromLocationAsyn(query);// 设置异步逆地理编码请求
+//        } else {
+//            showTextDialog("该区域暂未开通");
+//        }
     }
 
     @Override
     public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
-        cancelProgressDialog();
+        //cancelProgressDialog();
         if (rCode == 1000) {
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
@@ -421,8 +443,16 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
                     myAddress = address.getCity() + address.getAois().get(0).getAoiName();
                 else
                     myAddress = address.getFormatAddress();
-                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+//                aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
                 tvSearch.setText(myAddress);
+                tvSearch.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        CircularAnim.show(lvSearch).go();
+                    }
+                }, 500);
+
             } else {
                 XtomToastUtil.showShortToast(mContext, "抱歉，没有找到符合的结果");
             }
@@ -451,6 +481,12 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
                     marker.remove();
                 }
                 LatLng latlng0 = new LatLng(location.getLatitude(), location.getLongitude());
+//                marker = aMap.addMarker(new MarkerOptions()
+//                        .position(latlng0)
+//                        .title("起点")
+//                        .icon(BitmapDescriptorFactory
+//                                .fromBitmap(BitmapFactory.
+//                                        decodeResource(getResources(), R.mipmap.gps_point))));
                 marker = aMap.addMarker(new MarkerOptions().position(latlng0));
                 boolean b1 = false;
                 for (int i = 0; i < polygons.size(); i++) {
@@ -465,22 +501,37 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
                     lng = String.valueOf(location.getLongitude());
                     lat = String.valueOf(location.getLatitude());
                     myAddress = location.getCity() + location.getAoiName();
-                    aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
-                    tvSearch.setText(myAddress);
+                    Loc = true;
+                    log_e("moveCamera222------------------------------");
+                    aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+                    tvSearch.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            tvSearch.setText(myAddress);
+                        }
+                    }, 500);
+
                 } else {
-                    showTextDialog("该区域暂未开通");
+                    log_e("moveCamera333------------------------------");
+                    aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(move_lat),
+                            Double.parseDouble(move_lng)), 15));
+                    //showTextDialog("该区域暂未开通");
                 }
+            } else {
+                log_e("moveCamera444------------------------------");
+                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(move_lat),
+                        Double.parseDouble(move_lng)), 15));
             }
         }
     }
 
     @Override
     public void onMyLocationChange(Location location) {
-
     }
 
     @Override
     public void activate(OnLocationChangedListener listener) {
+        log_e("activate------------------------------");
         mListener = listener;
         startLocation();
     }
@@ -493,5 +544,95 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
     @Override
     public void deactivate() {
         mListener = null;
+    }
+
+    @Override
+    public void onCameraChange(CameraPosition cameraPosition) {
+
+
+    }
+
+    @Override
+    public void onCameraChangeFinish(CameraPosition cameraPosition) {
+        if (isFirst) {
+            isFirst = false;
+        } else {
+            if (!Loc) {
+                log_e("onCameraChangeFinish------------------------------");
+                tvSearch.setText("");
+                myAddress = "";
+                CircularAnim.hide(lvSearch).go();
+                progressBar.setVisibility(View.VISIBLE);
+//屏幕中心的Marker跳动
+                startJumpAnimation();
+                LatLng latLng = cameraPosition.target;
+                boolean b1 = false;
+                for (int i = 0; i < polygons.size(); i++) {
+                    if (polygons.get(i).contains(latLng)) {
+                        b1 = true;
+                        addPrice = prices.get(i);
+                    }
+                }
+                inArea = b1;
+                if (inArea) {
+                    latlng = latLng;
+                    lat = latLng.latitude + "";
+                    lng = latLng.longitude + "";
+                    LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
+                    RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 200,
+                            GeocodeSearch.AMAP);// 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+                    geocoderSearch.getFromLocationAsyn(query);// 设置异步逆地理编码请求
+                } else {
+                    showTextDialog("该区域暂未开通");
+                    log_e("lat=====" + latLng.latitude + "");
+                    log_e("lng=====" + latLng.longitude + "");
+                }
+            } else {
+                Loc = false;
+            }
+        }
+    }
+
+    /**
+     * 屏幕中心marker 跳动
+     */
+    public void startJumpAnimation() {
+
+        if (screenMarker != null) {
+            //根据屏幕距离计算需要移动的目标点
+            final LatLng latLng = screenMarker.getPosition();
+            Point point = aMap.getProjection().toScreenLocation(latLng);
+            point.y -= dip2px(this, 50);
+            LatLng target = aMap.getProjection()
+                    .fromScreenLocation(point);
+            //使用TranslateAnimation,填写一个需要移动的目标点
+            Animation animation = new TranslateAnimation(target);
+            animation.setInterpolator(new Interpolator() {
+                @Override
+                public float getInterpolation(float input) {
+                    // 模拟重加速度的interpolator
+                    if (input <= 0.5) {
+                        return (float) (0.5f - 2 * (0.5 - input) * (0.5 - input));
+                    } else {
+                        return (float) (0.5f - Math.sqrt((input - 0.5f) * (1.5f - input)));
+                    }
+                }
+            });
+            //整个移动所需要的时间
+            animation.setDuration(500);
+            //设置动画
+            screenMarker.setAnimation(animation);
+            //开始动画
+            screenMarker.startAnimation();
+
+        } else {
+            Log.e("amap", "screenMarker is null");
+        }
+    }
+
+    //dip和px转换
+    private static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 }

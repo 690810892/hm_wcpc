@@ -132,7 +132,9 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
-                    android:padding="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_login">
 
@@ -175,12 +177,13 @@
 
                     <CheckBox
                         android:id="@id/checkbox_3"
-                        android:layout_width="wrap_content"
+                        android:layout_width="1dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
+                        android:visibility="invisible"
                         android:button="@drawable/radiobutton_select"
-                        android:checked="true" />
+                        android:checked="false" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -223,6 +226,7 @@
                         android:layout_marginRight="@dimen/margin_20"
                         android:button="@drawable/radiobutton_select"
                         android:paddingRight="10dp"
+                        android:visibility="invisible"
                         android:checked="false" />
 
                 </RelativeLayout>
@@ -267,6 +271,7 @@
                         android:layout_marginRight="@dimen/margin_20"
                         android:button="@drawable/radiobutton_select"
                         android:paddingRight="10dp"
+                        android:visibility="invisible"
                         android:checked="false" />
 
                 </RelativeLayout>
@@ -311,6 +316,7 @@
                         android:layout_marginRight="@dimen/margin_20"
                         android:button="@drawable/radiobutton_select"
                         android:paddingRight="10dp"
+                        android:visibility="invisible"
                         android:checked="false" />
 
                 </RelativeLayout>

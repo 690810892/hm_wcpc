@@ -14,7 +14,6 @@ import android.util.Log;
 import com.hemaapp.wcpc_user.EventBusConfig;
 import com.hemaapp.wcpc_user.EventBusModel;
 import com.hemaapp.wcpc_user.R;
-import com.hemaapp.wcpc_user.activity.MainActivity;
 import com.hemaapp.wcpc_user.activity.MainNewActivity;
 import com.hemaapp.wcpc_user.activity.NoticeListActivity;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;

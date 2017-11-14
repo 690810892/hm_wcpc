@@ -92,6 +92,7 @@
                         android:layout_marginRight="@dimen/margin_20"
                         android:button="@drawable/radiobutton_select"
                         android:paddingRight="10dp"
+                        android:visibility="invisible"
                         android:checked="false" />
 
                 </RelativeLayout>
@@ -136,6 +137,7 @@
                         android:layout_marginRight="@dimen/margin_20"
                         android:button="@drawable/radiobutton_select"
                         android:paddingRight="10dp"
+                        android:visibility="invisible"
                         android:checked="false" />
 
                 </RelativeLayout>
@@ -180,6 +182,7 @@
                         android:layout_marginRight="@dimen/margin_20"
                         android:button="@drawable/radiobutton_select"
                         android:paddingRight="10dp"
+                        android:visibility="invisible"
                         android:checked="false" />
 
                 </RelativeLayout>
