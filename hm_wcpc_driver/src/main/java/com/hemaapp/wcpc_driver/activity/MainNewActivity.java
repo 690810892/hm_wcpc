@@ -23,7 +23,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -57,7 +56,6 @@ import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.RecycleUtils;
 import com.hemaapp.wcpc_driver.UpGrade;
 import com.hemaapp.wcpc_driver.adapter.FirstAdapter;
-import com.hemaapp.wcpc_driver.adapter.SelectPositionAdapter;
 import com.hemaapp.wcpc_driver.getui.GeTuiIntentService;
 import com.hemaapp.wcpc_driver.getui.PushUtils;
 import com.hemaapp.wcpc_driver.getui.ServiceLocationGPS;
@@ -67,7 +65,6 @@ import com.hemaapp.wcpc_driver.module.User;
 import com.hemaapp.wcpc_driver.module.Workstatus;
 import com.hemaapp.wcpc_driver.view.LocationUtils;
 import com.iflytek.sunflower.FlowerCollector;
-import com.iflytek.thridparty.G;
 import com.igexin.sdk.PushManager;
 import com.igexin.sdk.PushService;
 
@@ -113,6 +110,8 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
     ImageView imageView;
     @BindView(R.id.tv_button)
     Button tvButton;
+    @BindView(R.id.iv_work)
+    ImageView ivWork;
     private ArrayList<CurrentTripsInfor> blogs = new ArrayList<>();
     private Integer currentPage = 0;
     private FirstAdapter firstAdapter;
@@ -326,14 +325,12 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         getNoticeUnread();
         mapView.onResume();
         upGrade.check();
+        currentPage=0;
         getList(currentPage);
         if ("0".equals(user.getLoginflag())) {
-            tvButton.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    workTip();
-                }
-            }, 500);
+            ivWork.setImageResource(R.mipmap.img_work_end);
+        }else {
+            ivWork.setImageResource(R.mipmap.img_work_start);
         }
     }
 
@@ -370,6 +367,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
                 showProgressDialog("");
                 break;
             case TRIPS_SAVEOPERATE:
+            case LOGINFLAG_SAVE:
                 showProgressDialog("请稍后");
                 break;
         }
@@ -383,6 +381,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
         switch (information) {
             case NOTICE_UNREAD:
             case TRIPS_SAVEOPERATE:
+            case LOGINFLAG_SAVE:
                 cancelProgressDialog();
                 break;
             case TRIPS_LIST:
@@ -455,14 +454,15 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
                 HemaArrayResult<Workstatus> WResult = (HemaArrayResult<Workstatus>) baseResult;
                 workstatus = WResult.getObjects().get(0);
                 if (workstatus.getCurrent_driver_trip_id().equals("0")) {//没有行程，首页为空
-                    tvButton.setVisibility(View.GONE);
+                    tvButton.setEnabled(false);
+                    tvButton.setText("开始接返程订单");
                     tvTip.setVisibility(View.GONE);
                 } else {
                     if (workstatus.getAllgetflag().equals("0")) {//当前行程的乘客是否都已上车
-                        tvButton.setVisibility(View.GONE);
+                        tvButton.setEnabled(false);
+                        tvButton.setText("开始接返程订单");
                         tvTip.setVisibility(View.GONE);
                     } else {
-                        tvButton.setVisibility(View.VISIBLE);
                         if (workstatus.getFinalworkflag().equals("0")) {//返程接单开关状态
                             tvButton.setEnabled(true);
                             tvButton.setText("开始接返程订单");
@@ -473,6 +473,17 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
                             tvTip.setVisibility(View.VISIBLE);
                         }
                     }
+                }
+                break;
+            case LOGINFLAG_SAVE:
+                String loginflag=netTask.getParams().get("loginflag");
+                user.setLoginflag(loginflag);
+                hm_WcpcDriverApplication.getInstance().setUser(user);
+                XtomSharedPreferencesUtil.save(mContext, "loginflag", user.getLoginflag());
+                if (loginflag.equals("1")){
+                    ivWork.setImageResource(R.mipmap.img_work_start);
+                }else {
+                    ivWork.setImageResource(R.mipmap.img_work_end);
                 }
                 break;
         }
@@ -490,6 +501,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
                 showTextDialog(baseResult.getMsg());
                 break;
             case GRAP_TRIPS:
+            case LOGINFLAG_SAVE:
                 showTextDialog(baseResult.getMsg());
                 break;
         }
@@ -505,6 +517,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
                 showTextDialog("加载失败");
                 break;
             case TRIPS_SAVEOPERATE:
+            case LOGINFLAG_SAVE:
                 showTextDialog("操作失败");
                 break;
             case GRAP_TRIPS:
@@ -580,7 +593,7 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
             unregisterReceiver(pushReceiver);
     }
 
-    @OnClick({R.id.title_btn_left, R.id.title_btn_right_image, R.id.tv_go, R.id.tv_button})
+    @OnClick({R.id.title_btn_left, R.id.title_btn_right_image, R.id.tv_go, R.id.tv_button,R.id.iv_work})
     public void onViewClicked(View view) {
         Intent it;
         switch (view.getId()) {
@@ -603,6 +616,14 @@ public class MainNewActivity extends BaseActivity implements AMap.OnMyLocationCh
                 break;
             case R.id.tv_button:
                 dialog();
+                break;
+            case R.id.iv_work:
+                User user=hm_WcpcDriverApplication.getInstance().getUser();
+                if (user.getLoginflag().equals("0")) {
+                    getNetWorker().loginflagSave(user.getToken(), "1");
+                }else {
+                    getNetWorker().loginflagSave(user.getToken(), "0");
+                }
                 break;
         }
     }

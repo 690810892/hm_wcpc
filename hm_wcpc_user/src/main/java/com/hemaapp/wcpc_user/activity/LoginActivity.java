@@ -370,7 +370,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         return;
                     }
                     if (isNull(username2)) {
-                        showTextDialog("请填写手机号");
+                        showTextDialog("请获取验证码");
                         return;
                     }
                     if (!username2.equals(un)) {

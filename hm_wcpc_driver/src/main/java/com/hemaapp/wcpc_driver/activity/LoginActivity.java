@@ -33,7 +33,6 @@ import com.hemaapp.wcpc_driver.view.ClearEditText;
 import xtom.frame.util.XtomSharedPreferencesUtil;
 
 /**
- * Created by WangYuxia on 2016/4/21.
  * 登录界面
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener{

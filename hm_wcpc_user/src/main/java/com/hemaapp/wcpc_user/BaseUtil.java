@@ -12,6 +12,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Settings;
 import android.text.SpannableString;
@@ -66,6 +68,23 @@ public class BaseUtil {
                 ds += (hour + "小时");
         }
         return ds;
+    }
+    /**
+     * 判断wifi连接状态
+     *
+     * @param ctx
+     * @return
+     */
+    public static boolean isWifiAvailable(Context ctx) {
+        ConnectivityManager conMan = (ConnectivityManager) ctx
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo.State wifi = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                .getState();
+        if (NetworkInfo.State.CONNECTED == wifi) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static String transDistance(float distance) {

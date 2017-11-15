@@ -35,183 +35,192 @@ import xtom.frame.util.XtomToastUtil;
  * 软件升级
  */
 public abstract class UpGrade extends XtomObject {
-	private long checkTime = 0;
-	private Context mContext;
-	private String savePath;
-	private BaseNetWorker netWorker;
-	private SysInitInfo sysInitInfo;
+    private long checkTime = 0;
+    private Context mContext;
+    private String savePath;
+    private BaseNetWorker netWorker;
+    private SysInitInfo sysInitInfo;
 
-	public UpGrade(Context mContext) {
-		this.mContext = mContext;
-		this.netWorker = new BaseNetWorker(mContext);
-		this.netWorker.setOnTaskExecuteListener(new TaskExecuteListener(
-				mContext));
-	}
+    public UpGrade(Context mContext) {
+        this.mContext = mContext;
+        this.netWorker = new BaseNetWorker(mContext);
+        this.netWorker.setOnTaskExecuteListener(new TaskExecuteListener(
+                mContext));
+    }
 
-	/**
-	 * 检查升级
-	 */
-	public void check() {
-		long currentTime = System.currentTimeMillis();
-		boolean isCanCheck = checkTime == 0
-				|| currentTime - checkTime > 1000 * 60 * 60 * 24;
-		if (isCanCheck) {
-			netWorker.init();
-		}
-	}
+    /**
+     * 检查升级
+     */
+    public void check() {
+        long currentTime = System.currentTimeMillis();
+        boolean isCanCheck = checkTime == 0
+                || currentTime - checkTime > 1000 * 60 * 60 * 24;
+        if (isCanCheck) {
+            netWorker.init();
+        }
+    }
 
-	// 是否强制升级
-	private boolean isMust() {
-		SysInitInfo sysInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
-		boolean must = "1".equals(sysInfo.getAndroid_must_update());
-		return must;
-	}
+    // 是否强制升级
+    private boolean isMust() {
+        SysInitInfo sysInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
+        boolean must = "1".equals(sysInfo.getAndroid_must_update());
+        return must;
+    }
 
-	private class TaskExecuteListener extends BaseNetTaskExecuteListener {
+    private class TaskExecuteListener extends BaseNetTaskExecuteListener {
 
-		/**
-		 * @param context
-		 */
-		public TaskExecuteListener(Context context) {
-			super(context);
-		}
+        /**
+         * @param context
+         */
+        public TaskExecuteListener(Context context) {
+            super(context);
+        }
 
-		@Override
-		public void onPreExecute(HemaNetWorker netWorker, HemaNetTask netTask) {
-		}
+        @Override
+        public void onPreExecute(HemaNetWorker netWorker, HemaNetTask netTask) {
+        }
 
-		@Override
-		public void onPostExecute(HemaNetWorker netWorker, HemaNetTask netTask) {
-		}
+        @Override
+        public void onPostExecute(HemaNetWorker netWorker, HemaNetTask netTask) {
+        }
 
-		@SuppressWarnings("unchecked")
-		@Override
-		public void onServerSuccess(HemaNetWorker netWorker,
+        @SuppressWarnings("unchecked")
+        @Override
+        public void onServerSuccess(HemaNetWorker netWorker,
                                     HemaNetTask netTask, HemaBaseResult baseResult) {
-			checkTime = System.currentTimeMillis();
-			HemaArrayResult<SysInitInfo> sResult = (HemaArrayResult<SysInitInfo>) baseResult;
-			sysInitInfo = sResult.getObjects().get(0);
-			String sysVersion = sysInitInfo.getAndroid_last_version();
-			String version = HemaUtil.getAppVersionForSever(mContext);
-			if (HemaUtil.isNeedUpDate(version, sysVersion)) {
-				alert();
-			}
-		}
+            checkTime = System.currentTimeMillis();
+            HemaArrayResult<SysInitInfo> sResult = (HemaArrayResult<SysInitInfo>) baseResult;
+            sysInitInfo = sResult.getObjects().get(0);
+            String sysVersion = sysInitInfo.getAndroid_last_version();
+            String version = HemaUtil.getAppVersionForSever(mContext);
+            if (HemaUtil.isNeedUpDate(version, sysVersion)) {
+                alert();
+            }
+        }
 
-		@Override
-		public void onServerFailed(HemaNetWorker netWorker,
+        @Override
+        public void onServerFailed(HemaNetWorker netWorker,
                                    HemaNetTask netTask, HemaBaseResult baseResult) {
-		}
+        }
 
-		@Override
-		public void onExecuteFailed(HemaNetWorker netWorker,
+        @Override
+        public void onExecuteFailed(HemaNetWorker netWorker,
                                     HemaNetTask netTask, int failedType) {
-		}
+        }
 
-	}
+    }
 
-	public void alert() {
-		Builder ab = new Builder(mContext);
-		ab.setTitle("软件更新");
-		ab.setMessage("有最新的软件版本，是否升级？");
-		ab.setPositiveButton("升级", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-				if(sysInitInfo == null)
-					sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
-				upGrade(sysInitInfo);
-			}
-		});
-		ab.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+    public void alert() {
+        boolean wifi = BaseUtil.isWifiAvailable(mContext);
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-				if (isMust()) {
-					BaseUtil.clientLoginout(mContext);
-				}else{
-					NoNeedUpdate();
-				}
-			}
-		});
-		ab.setCancelable(false);
-		ab.show();
-	}
+        Builder ab = new Builder(mContext);
+        ab.setTitle("软件更新");
+        if (wifi)
+            ab.setMessage("有最新的软件版本，是否升级？\n(Wifi已连接)");
+        else
+            ab.setMessage("有最新的软件版本，是否升级？\n(Wifi未连接)");
+        ab.setPositiveButton("升级", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (sysInitInfo == null)
+                    sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
+                upGrade(sysInitInfo);
+            }
+        });
+        ab.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
-	public void upGrade(SysInitInfo sysInitInfo) {
-		String downPath = sysInitInfo.getAndroid_update_url();
-		savePath = XtomFileUtil.getFileDir(mContext) + "/apps/user_"
-				+ sysInitInfo.getAndroid_last_version() + ".apk";
-		XtomFileDownLoader downLoader = new XtomFileDownLoader(mContext,
-				downPath, savePath);
-		downLoader.setThreadCount(3);
-		downLoader.setXtomDownLoadListener(new DownLoadListener());
-		downLoader.start();
-	}
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                if (isMust()) {
+                    BaseUtil.clientLoginout(mContext);
+                } else {
+                    NoNeedUpdate();
+                }
+            }
+        });
+        ab.setCancelable(false);
+        ab.show();
+    }
 
-	private class DownLoadListener implements XtomDownLoadListener {
-		private ProgressDialog pBar;
+    public void upGrade(SysInitInfo sysInitInfo) {
+        String downPath = sysInitInfo.getAndroid_update_url();
+        savePath = XtomFileUtil.getFileDir(mContext) + "/apps/user_"
+                + sysInitInfo.getAndroid_last_version() + ".apk";
+        XtomFileDownLoader downLoader = new XtomFileDownLoader(mContext,
+                downPath, savePath);
+        downLoader.setThreadCount(3);
+        downLoader.setXtomDownLoadListener(new DownLoadListener());
+        downLoader.start();
+    }
 
-		@Override
-		public void onStart(final XtomFileDownLoader loader) {
-			pBar = new ProgressDialog(mContext) {
-				@Override
-				public void onBackPressed() {
-					loader.stop();
-				}
-			};
-			pBar.setTitle("正在下载");
-			pBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			pBar.setMax(100);
-			pBar.setCancelable(false);
-			pBar.show();
-		}
+    private class DownLoadListener implements XtomDownLoadListener {
+        private ProgressDialog pBar;
 
-		@Override
-		public void onSuccess(XtomFileDownLoader loader) {
-			if (pBar != null) {
-				pBar.cancel();
-			}
-			install();
-		}
+        @Override
+        public void onStart(final XtomFileDownLoader loader) {
+            pBar = new ProgressDialog(mContext) {
+                @Override
+                public void onBackPressed() {
+                    loader.stop();
+                }
+            };
+            int s=loader.getFileInfo().getContentLength()/1024/1024;
+            pBar.setTitle("正在下载(" + s+"M)");
+            pBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pBar.setMax(100);
+            pBar.setCancelable(false);
+            pBar.show();
 
-		void install() {
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setDataAndType(Uri.fromFile(new File(savePath)),
-					"application/vnd.android.package-archive");
-			mContext.startActivity(intent);
-		}
+        }
 
-		@Override
-		public void onFailed(XtomFileDownLoader loader) {
-			if (pBar != null) {
-				pBar.cancel();
-			}
-			XtomToastUtil.showShortToast(mContext, "下载失败了");
-		}
+        @Override
+        public void onSuccess(XtomFileDownLoader loader) {
+            if (pBar != null) {
+                pBar.cancel();
+            }
+            install();
+        }
 
-		@Override
-		public void onLoading(XtomFileDownLoader loader) {
-			FileInfo fileInfo = loader.getFileInfo();
-			int curr = fileInfo.getCurrentLength();
-			int cont = fileInfo.getContentLength();
-			int per = (int) ((float) curr / (float) cont * 100);
-			if (pBar != null) {
-				pBar.setProgress(per);
-			}
-		}
+        void install() {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(new File(savePath)),
+                    "application/vnd.android.package-archive");
+            mContext.startActivity(intent);
+        }
 
-		@Override
-		public void onStop(XtomFileDownLoader loader) {
-			if (pBar != null) {
-				pBar.cancel();
-			}
-			XtomToastUtil.showShortToast(mContext, "下载停止");
-			if (isMust())
-				BaseUtil.clientLoginout(mContext);
-		}
-	}
+        @Override
+        public void onFailed(XtomFileDownLoader loader) {
+            if (pBar != null) {
+                pBar.cancel();
+            }
+            XtomToastUtil.showShortToast(mContext, "下载失败了");
+        }
 
-	public abstract void NoNeedUpdate();
+        @Override
+        public void onLoading(XtomFileDownLoader loader) {
+            FileInfo fileInfo = loader.getFileInfo();
+            int curr = fileInfo.getCurrentLength();
+            int cont = fileInfo.getContentLength();
+            int per = (int) ((float) curr / (float) cont * 100);
+            int s=loader.getFileInfo().getContentLength()/1024/1024;
+            if (pBar != null) {
+                pBar.setProgress(per);
+                pBar.setTitle("正在下载(" + s+"M)");
+            }
+        }
+
+        @Override
+        public void onStop(XtomFileDownLoader loader) {
+            if (pBar != null) {
+                pBar.cancel();
+            }
+            XtomToastUtil.showShortToast(mContext, "下载停止");
+            if (isMust())
+                BaseUtil.clientLoginout(mContext);
+        }
+    }
+
+    public abstract void NoNeedUpdate();
 }

@@ -11,15 +11,18 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.hemaapp.hm_FrameWork.HemaNetTask;
 import com.hemaapp.hm_FrameWork.result.HemaArrayResult;
 import com.hemaapp.hm_FrameWork.result.HemaBaseResult;
+import com.hemaapp.hm_FrameWork.view.RefreshLoadmoreLayout;
 import com.hemaapp.hm_FrameWork.view.RoundedImageView;
 import com.hemaapp.wcpc_driver.BaseActivity;
 import com.hemaapp.wcpc_driver.BaseHttpInformation;
+import com.hemaapp.wcpc_driver.BaseUtil;
 import com.hemaapp.wcpc_driver.EventBusModel;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
@@ -33,6 +36,7 @@ import java.net.URL;
 import de.greenrobot.event.EventBus;
 import xtom.frame.image.load.XtomImageTask;
 import xtom.frame.util.XtomSharedPreferencesUtil;
+import xtom.frame.view.XtomRefreshLoadmoreLayout;
 
 /**
  * 个人中心
@@ -55,6 +59,8 @@ public class PersonCenterInforActivity extends BaseActivity {
     private TextView text_reply;
     private TextView tv_phone;
     private View lv_phone;
+    private TextView tv_tt_time;
+    private TextView tv_today_time;
 
     private User user;
     private PopupWindow mWindow;
@@ -66,7 +72,8 @@ public class PersonCenterInforActivity extends BaseActivity {
 
     private String loginflag;
     private String phone;
-
+    RefreshLoadmoreLayout refreshLoadmoreLayout;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_personcenter);
@@ -74,6 +81,7 @@ public class PersonCenterInforActivity extends BaseActivity {
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.reset().init();
         user = hm_WcpcDriverApplication.getInstance().getUser();
+        initUserData();
         EventBus.getDefault().register(this);
         getNetWorker().clientGet(user.getToken(), user.getId());
         SysInitInfo initInfo = getApplicationContext()
@@ -134,6 +142,10 @@ public class PersonCenterInforActivity extends BaseActivity {
         }
         loginflag = user.getLoginflag();
         XtomSharedPreferencesUtil.save(mContext, "loginflag", user.getLoginflag());
+        long total_time=Long.parseLong(user.getTotalworktime());
+        long today_time=Long.parseLong(user.getTodayworktime());
+        tv_today_time.setText(BaseUtil.formatSeconds(today_time));
+        tv_tt_time.setText(BaseUtil.formatSeconds(total_time));
     }
 
     @Override
@@ -141,9 +153,10 @@ public class PersonCenterInforActivity extends BaseActivity {
         BaseHttpInformation information = (BaseHttpInformation) netTask
                 .getHttpInformation();
         switch (information) {
-            case CLIENT_GET:
             case LOGINFLAG_SAVE:
                 showProgressDialog("请稍后...");
+                break;
+            case CLIENT_GET:
                 break;
         }
     }
@@ -154,6 +167,9 @@ public class PersonCenterInforActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case CLIENT_GET:
+                progressBar.setVisibility(View.GONE);
+                refreshLoadmoreLayout.setVisibility(View.VISIBLE);
+                break;
             case LOGINFLAG_SAVE:
                 cancelProgressDialog();
                 break;
@@ -170,6 +186,7 @@ public class PersonCenterInforActivity extends BaseActivity {
                 .getHttpInformation();
         switch (information) {
             case CLIENT_GET:
+                refreshLoadmoreLayout.refreshSuccess();
                 HemaArrayResult<User> uResult = (HemaArrayResult<User>) baseResult;
                 user = uResult.getObjects().get(0);
                 hm_WcpcDriverApplication.getInstance().setUser(user);
@@ -231,6 +248,10 @@ public class PersonCenterInforActivity extends BaseActivity {
         text_account = (TextView) findViewById(R.id.textview_8);
         tv_phone = (TextView) findViewById(R.id.tv_tel);
         lv_phone = findViewById(R.id.lv_tel);
+        tv_tt_time = (TextView) findViewById(R.id.tv_t_time);
+        tv_today_time = (TextView) findViewById(R.id.tv_today_time);
+        refreshLoadmoreLayout = (RefreshLoadmoreLayout) findViewById(R.id.refreshLoadmoreLayout);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
     }
 
     @Override
@@ -254,6 +275,18 @@ public class PersonCenterInforActivity extends BaseActivity {
         setListener(text_reply);
         setListener(text_account);
         setListener(lv_phone);
+        refreshLoadmoreLayout.setOnStartListener(new XtomRefreshLoadmoreLayout.OnStartListener() {
+
+            @Override
+            public void onStartRefresh(XtomRefreshLoadmoreLayout v) {
+                getNetWorker().clientGet(user.getToken(), user.getId());
+            }
+
+            @Override
+            public void onStartLoadmore(XtomRefreshLoadmoreLayout v) {
+            }
+        });
+        refreshLoadmoreLayout.setLoadmoreable(false);
     }
 
     private void setListener(View view) {
@@ -368,6 +401,7 @@ public class PersonCenterInforActivity extends BaseActivity {
             }
         });
     }
+
     private TextView content1;
     private TextView content2;
     private TextView ok;

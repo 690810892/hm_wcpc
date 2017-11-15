@@ -116,7 +116,6 @@ public class MapStartActivity extends BaseActivity implements AMap.OnMyLocationC
     private void init() {
         if (aMap == null) {
             aMap = mapView.getMap();
-
             aMap.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
                 @Override
                 public void onMapLoaded() {

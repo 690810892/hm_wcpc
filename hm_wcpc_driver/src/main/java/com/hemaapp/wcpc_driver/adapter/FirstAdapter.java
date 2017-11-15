@@ -21,6 +21,7 @@ import com.hemaapp.wcpc_driver.BaseNetWorker;
 import com.hemaapp.wcpc_driver.BaseRecycleAdapter;
 import com.hemaapp.wcpc_driver.R;
 import com.hemaapp.wcpc_driver.activity.SelectPositionActivity;
+import com.hemaapp.wcpc_driver.activity.ToPayActivity;
 import com.hemaapp.wcpc_driver.hm_WcpcDriverApplication;
 import com.hemaapp.wcpc_driver.module.CurrentTripsInfor;
 import com.hemaapp.wcpc_driver.module.TripClient;
@@ -77,6 +78,10 @@ public class FirstAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
             ((TextView) holder.getView(R.id.tv_staut)).setText("乘客已上车");
             ((TextView) holder.getView(R.id.tv_staut)).setTextColor(0xfff49400);
             ((TextView) holder.getView(R.id.tv_button)).setText("送达");
+        }else if (infor.getStatus().equals("5")) {//待支付
+            ((TextView) holder.getView(R.id.tv_staut)).setText("待支付");
+            ((TextView) holder.getView(R.id.tv_staut)).setTextColor(0xffF83F3D);//黄
+            ((TextView) holder.getView(R.id.tv_button)).setText("司机代付");
         }
         ((TextView) holder.getView(R.id.name)).setText(infor.getNickname());
         ((TextView) holder.getView(R.id.tv_count)).setText("乘车次数 " + infor.getTakecount());
@@ -131,10 +136,19 @@ public class FirstAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
                 if (blog != null) {
                     if (blog.getStatus().equals("1")) {
                         keytype = "2";
-                    } else {
+                        dialog();
+                    } else  if (blog.getStatus().equals("3")){
                         keytype = "4";
+                        dialog();
+                    }else {
+                        //支付
+                        Intent it;
+                        it = new Intent(mContext, ToPayActivity.class);
+                        it.putExtra("id", blog.getId());
+                        it.putExtra("total_fee", blog.getTotal_fee());
+                        mContext.startActivity(it);
                     }
-                    dialog();
+
                 }
             }
         });

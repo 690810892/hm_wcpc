@@ -66,6 +66,8 @@ public class Workstatus extends XtomObject implements Serializable {
     }
 
     public String getAllgetflag() {
+        if (isNull(allgetflag))
+            allgetflag="0";
         return allgetflag;
     }
 

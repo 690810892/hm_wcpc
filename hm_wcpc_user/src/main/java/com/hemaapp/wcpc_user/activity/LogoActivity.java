@@ -299,7 +299,7 @@ public class LogoActivity extends BaseActivity implements AMapLocationListener {
         // 设置是否需要显示地址信息
         locationOption.setNeedAddress(true);
         // 设置定位参数
-        locationOption.setOnceLocation(false);
+        locationOption.setOnceLocation(true);
         /**
          * 设置是否优先返回GPS定位结果，如果30秒内GPS没有返回定位结果则进行网络定位
          * 注意：只有在高精度模式下的单次定位有效，其他方式无效

@@ -24,6 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingRight="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -53,15 +54,22 @@
 
             <TextView
                 android:id="@+id/status"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
                 android:gravity="right"
                 android:text="行程状态"
                 android:textColor="@color/status_togo"
                 android:textSize="14sp" />
 
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/img_back_order" />
         </LinearLayout>
 
         <ImageView
@@ -188,32 +196,36 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@color/xian" />
+
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="7dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="7dp"
-            android:paddingBottom="7dp"
-            android:layout_height="wrap_content">
+            android:paddingTop="7dp">
+
             <TextView
                 android:id="@+id/tv_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的乘车人数"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="我的乘车人数"
                 android:textColor="@color/cl_5e5e5e"
                 android:textSize="14sp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0元"
                     android:layout_gravity="right"
+                    android:text="0元"
                     android:textColor="@color/cl_5e5e5e"
                     android:textSize="17sp" />
 
@@ -222,19 +234,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text=" 代金券抵扣0元 "
                     android:background="#EFEFEF"
-                    android:visibility="gone"
+                    android:text=" 代金券抵扣0元 "
                     android:textColor="@color/cl_5e5e5e"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_driver"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@color/xian" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -245,8 +259,8 @@
                 android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="备注"
                 android:layout_weight="1"
+                android:text="备注"
                 android:textColor="@color/cl_9c9c9c"
                 android:textSize="12sp" />
 
@@ -254,12 +268,12 @@
                 android:id="@+id/tv_button0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/bg_operate"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="取消订单"
-                android:layout_gravity="center_vertical"
                 android:textColor="@color/shenhui"
                 android:textSize="13sp" />
 

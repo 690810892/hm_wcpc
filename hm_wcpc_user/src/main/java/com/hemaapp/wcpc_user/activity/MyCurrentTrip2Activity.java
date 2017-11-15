@@ -85,7 +85,7 @@ import xtom.frame.util.XtomTimeUtil;
  * 1、先获取用户的当前行程，如没有行程，则定位，显示当前位置，并隐藏导航。
  */
 public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLocationChangeListener, LocationSource,
-        AMapLocationListener, AMap.InfoWindowAdapter ,INaviInfoCallback {
+        AMapLocationListener, AMap.InfoWindowAdapter, INaviInfoCallback {
 
     @BindView(R.id.title_btn_left)
     ImageView titleBtnLeft;
@@ -175,6 +175,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
     private TogetherAdapter togetherAdapter;
     private ArrayList<Client> clients = new ArrayList<>();
     private AmapTTSController amapTTSController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_current_trip_new);
@@ -185,7 +186,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         amapTTSController = AmapTTSController.getInstance(getApplicationContext());
         amapTTSController.init();
         EventBus.getDefault().register(this);
-        phone=hm_WcpcUserApplication.getInstance().getSysInitInfo().getSys_service_phone();
+        phone = hm_WcpcUserApplication.getInstance().getSysInitInfo().getSys_service_phone();
         sysInitInfo = hm_WcpcUserApplication.getInstance().getSysInitInfo();
         getNetWorker().currentTrips(user.getToken());
         appearAnimation = new AlphaAnimation(0, 1);
@@ -322,7 +323,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         else
             ivSex.setImageResource(R.mipmap.img_sex_girl);
         if (infor.getStatus().equals("5")) {//待支付
-            Intent  it = new Intent(mContext, ToPayActivity.class);
+            Intent it = new Intent(mContext, ToPayActivity.class);
             it.putExtra("id", infor.getId());
             it.putExtra("total_fee", infor.getTotal_fee());
             it.putExtra("driver_id", infor.getDriver_id());
@@ -416,6 +417,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         mapView.onDestroy();
         EventBus.getDefault().unregister(this);
         amapTTSController.destroy();
+        stopLocation();
     }
 
     @Override
@@ -466,7 +468,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 String keytype = sResult.getObjects().get(0);
                 if ("1".equals(keytype)) {
                     Intent it = new Intent(mContext, SendActivity.class);
-                    it.putExtra("flag",1);
+                    it.putExtra("flag", 1);
                     startActivity(it);
                 } else if ("2".equals(keytype)) {
                     showTextDialog("抱歉，您有尚未结束的行程，无法发布");
@@ -476,9 +478,9 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                     String end = BaseUtil.TransTimeHour(XtomSharedPreferencesUtil.get(mContext, "order_end"), "HH:mm");
                     if (isNull(start)) {
                         start = "5:00";
-                        end="20:00";
+                        end = "20:00";
                     }
-                    TimeTip(start,end);
+                    TimeTip(start, end);
                 }
                 break;
             case DRIVER_POSITION_GET:
@@ -503,7 +505,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
                 log_e("lng2====" + position.getLng());
                 log_e("distance====" + distance);
 //                tvDistance.setText("距您" + BaseUtil.transDistance(Float.parseFloat(String.valueOf(distance))));
-                tvDistance.setText("距您" + distance+"km");
+                tvDistance.setText("距您" + distance + "km");
                 break;
         }
     }
@@ -599,7 +601,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
     public void onLocationChanged(AMapLocation location) {
         log_e("执行定位------------------------------");
         if (mListener != null && location != null) {
-            log_e("city------------------------------"+location.getCity());
+            log_e("city------------------------------" + location.getCity());
             XtomSharedPreferencesUtil.save(mContext, "city", location.getCity());
             //mListener.onLocationChanged(location);// 显示系统小蓝点
             float bearing = aMap.getCameraPosition().bearing;
@@ -655,6 +657,21 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         // 启动定位
         locationClient.startLocation();
         mHandler.sendEmptyMessage(LocationUtils.MSG_LOCATION_START);
+    }
+
+    private void stopLocation() {
+        if (null != locationClient) {
+            // 停止定位
+            locationClient.stopLocation();
+            mHandler.sendEmptyMessage(LocationUtils.MSG_LOCATION_STOP);
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            locationClient.onDestroy();
+            locationClient = null;
+            locationOption = null;
+        }
     }
 
     @Override
@@ -751,9 +768,15 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
 //                } else {
 //                    showTextDialog("您尚未安装高德地图或地图版本过低");
 //                }
-                LatLng p = new LatLng(Double.parseDouble(infor.getLat_end()), Double.parseDouble(infor.getLng_end()));
-                AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), new AmapNaviParams(null, null, new Poi(infor.getEndaddress(), p, ""), AmapNaviType.DRIVER), MyCurrentTrip2Activity.this);
-
+                if (infor != null) {
+                    LatLng p0 = new LatLng(Double.parseDouble(infor.getLat_start()), Double.parseDouble(infor.getLng_start()));
+                    LatLng p = new LatLng(Double.parseDouble(infor.getLat_end()), Double.parseDouble(infor.getLng_end()));
+                    if (infor.getStatus().equals("0")) {//待派单
+                        AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), new AmapNaviParams(new Poi(infor.getStartaddress(), p0, ""), null, new Poi(infor.getEndaddress(), p, ""), AmapNaviType.DRIVER), MyCurrentTrip2Activity.this);
+                    } else {
+                        AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(), new AmapNaviParams(null, null, new Poi(infor.getEndaddress(), p, ""), AmapNaviType.DRIVER), MyCurrentTrip2Activity.this);
+                    }
+                }
                 break;
             case R.id.iv_visible:
                 if (layoutTop.getVisibility() == View.GONE) {
@@ -874,6 +897,7 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             }
         });
     }
+
     private void shangcheDialog() {
         if (mWindow != null) {
             mWindow.dismiss();
@@ -959,7 +983,8 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
             }
         });
     }
-    private void TimeTip(String start,String end) {
+
+    private void TimeTip(String start, String end) {
         if (mWindow != null) {
             mWindow.dismiss();
         }
@@ -971,14 +996,14 @@ public class MyCurrentTrip2Activity extends BaseActivity implements AMap.OnMyLoc
         mWindow.setAnimationStyle(R.style.PopupAnimation);
         mViewGroup = (ViewGroup) LayoutInflater.from(mContext).inflate(
                 R.layout.pop_first_tip, null);
-        TextView  cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
-        TextView  ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
-        TextView  title1 = (TextView) mViewGroup.findViewById(R.id.textview);
-        TextView  title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
+        TextView cancel = (TextView) mViewGroup.findViewById(R.id.textview_1);
+        TextView ok = (TextView) mViewGroup.findViewById(R.id.textview_2);
+        TextView title1 = (TextView) mViewGroup.findViewById(R.id.textview);
+        TextView title2 = (TextView) mViewGroup.findViewById(R.id.textview_0);
         mWindow.setContentView(mViewGroup);
         mWindow.showAtLocation(mViewGroup, Gravity.CENTER, 0, 0);
-        title1.setText("当前时间段不支持手机下单，\n如有需要请联系客服"+phone);
-        title2.setText("可下单时间段为"+start+"-"+end);
+        title1.setText("当前时间段不支持手机下单，\n如有需要请联系客服" + phone);
+        title2.setText("可下单时间段为" + start + "-" + end);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

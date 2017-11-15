@@ -59,7 +59,7 @@ public class NoticeListActivity extends BaseActivity {
         getNoticeList("1", page_notice);
     }
 
-    private void getNoticeList(String keytype, int page){
+    private void getNoticeList(String keytype, int page) {
         getNetWorker().noticeList(user.getToken(), keytype, "2", page);
     }
 
@@ -71,7 +71,9 @@ public class NoticeListActivity extends BaseActivity {
             case NOTICE_LIST:
                 break;
             case NOTICE_SAVEOPERATE:
-                showProgressDialog("请稍后...");
+                String operatetype = netTask.getParams().get("operatetype");
+                if (!"1".equals(operatetype))
+                    showProgressDialog("请稍后...");
                 break;
             default:
                 break;
@@ -88,7 +90,9 @@ public class NoticeListActivity extends BaseActivity {
                 layout.setVisibility(View.VISIBLE);
                 break;
             case NOTICE_SAVEOPERATE:
-                cancelProgressDialog();
+                String operatetype = netTask.getParams().get("operatetype");
+                if (!"1".equals(operatetype))
+                    cancelProgressDialog();
                 break;
             default:
                 break;
@@ -133,17 +137,19 @@ public class NoticeListActivity extends BaseActivity {
                 break;
             case NOTICE_SAVEOPERATE:
                 String operatetype = netTask.getParams().get("operatetype");
-                if("3".equals(operatetype)){
+                if ("3".equals(operatetype)) {
                     notices.remove(adapter_notice.deleteinfor);
                     adapter_notice.notifyDataSetChanged();
-                }else if("4".equals(operatetype)){
+                } else if ("4".equals(operatetype)) {
                     notices.clear();
                     adapter_notice.notifyDataSetChanged();
-                }else if("1".equals(operatetype)){
-                    adapter_notice.deleteinfor.setLooktype("2");
-                    adapter_notice.notifyDataSetChanged();
-                }else {
-                    page_notice=0;
+                } else if ("1".equals(operatetype)) {
+                    if (adapter_notice != null) {
+                        adapter_notice.deleteinfor.setLooktype("2");
+                        adapter_notice.notifyDataSetChanged();
+                    }
+                } else {
+                    page_notice = 0;
                     getNoticeList("1", page_notice);
                 }
                 break;
@@ -195,6 +201,7 @@ public class NoticeListActivity extends BaseActivity {
                 break;
         }
     }
+
     @Override
     protected void findView() {
         title = (TextView) findViewById(R.id.title_text);
@@ -236,7 +243,7 @@ public class NoticeListActivity extends BaseActivity {
 
             @Override
             public void onStartLoadmore(XtomRefreshLoadmoreLayout xtomRefreshLoadmoreLayout) {
-                page_notice ++;
+                page_notice++;
                 getNoticeList("1", page_notice);
             }
         });
@@ -274,13 +281,14 @@ public class NoticeListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mWindow.dismiss();
-                getNetWorker().noticeSaveOperate(user.getToken(), "0", "2", "4" );
+                getNetWorker().noticeSaveOperate(user.getToken(), "0", "2", "4");
             }
         });
     }
 
     private HemaButtonDialog dialog;
-    private void showDialog(){
+
+    private void showDialog() {
         if (dialog == null) {
             dialog = new HemaButtonDialog(mContext);
             dialog.setLeftButtonText("取消");
@@ -306,6 +314,7 @@ public class NoticeListActivity extends BaseActivity {
 
         }
     }
+
     private void showPopWindow() {
         if (mWindow != null) {
             mWindow.dismiss();

@@ -25,6 +25,7 @@ import com.hemaapp.wcpc_user.ToLogin;
 import com.hemaapp.wcpc_user.activity.CancelOrderActivity;
 import com.hemaapp.wcpc_user.activity.MListActivity;
 import com.hemaapp.wcpc_user.activity.PingJiaActivity;
+import com.hemaapp.wcpc_user.activity.SendActivity;
 import com.hemaapp.wcpc_user.activity.ToPayActivity;
 import com.hemaapp.wcpc_user.hm_WcpcUserApplication;
 import com.hemaapp.wcpc_user.module.CurrentTripsInfor;
@@ -195,6 +196,16 @@ public class MytripAdapter extends BaseRecycleAdapter<CurrentTripsInfor> {
                     it.putExtra("driver_id", infor.getDriver_id());
                     mContext.startActivity(it);
                 }
+            }
+        });
+        holder.getView(R.id.iv_back).setVisibility(View.GONE);
+        holder.getView(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                blog = infor;
+                Intent it=new Intent(mContext, SendActivity.class);
+
+                mContext.startActivity(it);
             }
         });
     }

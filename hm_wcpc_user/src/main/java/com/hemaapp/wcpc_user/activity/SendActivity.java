@@ -402,6 +402,9 @@ public class SendActivity extends BaseActivity {
                     showTextDialog("抱歉，请先选择出发时间");
                     return;
                 }
+                if (count==4){
+                    return;
+                }
                 if (BaseUtil.compareTime(begin, pin_start) == 1 && BaseUtil.compareTime(pin_end, begin) == 1) {//在可拼单时间内
                     isAgreed = "1";
                     tvPin.setCompoundDrawablesWithIntrinsicBounds(0, 0,

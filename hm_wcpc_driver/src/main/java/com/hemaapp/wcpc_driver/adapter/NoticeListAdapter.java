@@ -23,7 +23,6 @@ import com.hemaapp.wcpc_driver.module.User;
 import java.util.ArrayList;
 
 /**
- * Created by WangYuxia on 2016/5/16.
  * 消息列表的数据适配器
  */
 public class NoticeListAdapter extends HemaAdapter {
@@ -91,7 +90,7 @@ public class NoticeListAdapter extends HemaAdapter {
                     ((NoticeListActivity) mContext).getNetWorker().noticeSaveOperate(user.getToken(), deleteinfor.getId(), "2", "1");
                 }
                 Intent it;
-                if(deleteinfor.getKeytype().equals("0") ){
+                if (deleteinfor.getKeytype().equals("0")) {
                     String sys_web_service = hm_WcpcDriverApplication.getInstance().getSysInitInfo()
                             .getSys_web_service();
                     String pathStr = sys_web_service + "webview/parm/useinstruction_driver";
@@ -105,11 +104,11 @@ public class NoticeListAdapter extends HemaAdapter {
                     mContext.startActivity(it);
                 } else if (deleteinfor.getKeytype().equals("10") || deleteinfor.getKeytype().equals("6") || deleteinfor.getKeytype().equals("11")) {//行程
                     int statu = Integer.parseInt(deleteinfor.getStatus());
-                    if (statu < 5&&statu>0) {
+                    if (statu < 5 && statu > 0) {
                         ((BaseActivity) mContext).finish();
                     } else {
                         it = new Intent(mContext, HistoryActivity.class);
-                        it.putExtra("keyid",deleteinfor.getKeyid());
+                        it.putExtra("keyid", deleteinfor.getKeyid());
                         mContext.startActivity(it);
                     }
                 } else {//

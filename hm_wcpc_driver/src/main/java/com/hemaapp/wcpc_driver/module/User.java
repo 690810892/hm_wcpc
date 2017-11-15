@@ -55,9 +55,13 @@ public class User extends HemaUser {
 	private String invitecode;
 	private String drivinglicense; //
 	private String 	carbrand; //
+	private String 	totalworktime; //	总在线时长	单位：秒
+	private String 	todayworktime; //	今天在线时长	单位：秒
 	public User(JSONObject jsonObject) throws DataParseException {
 		super(jsonObject);
 		try {
+			totalworktime= get(jsonObject, "totalworktime");
+			todayworktime= get(jsonObject, "todayworktime");
 			drivinglicense= get(jsonObject, "drivinglicense");
 			carbrand= get(jsonObject, "carbrand");
 			invitecode= get(jsonObject, "invitecode");
@@ -110,9 +114,12 @@ public class User extends HemaUser {
                 String android_must_update, String android_last_version,
                 String android_update_url, String bankuser, String bankname, String bankcard,
                 String bankmobile, String alipay_no, String mylength, String filenumber,String alipay_name
-			,String totalpoint,String replycount,String invitecode,String drivinglicense,String carbrand) {
+			,String totalpoint,String replycount,String invitecode,String drivinglicense,String carbrand
+			,String totalworktime,String todayworktime) {
 		super(token);
 		this.id = id;
+		this.totalworktime = totalworktime;
+		this.todayworktime = todayworktime;
 		this.drivinglicense = drivinglicense;
 		this.carbrand = carbrand;
 		this.totalpoint = totalpoint;
@@ -188,6 +195,8 @@ public class User extends HemaUser {
 				", invitecode='" + invitecode + '\'' +
 				", drivinglicense='" + drivinglicense + '\'' +
 				", carbrand='" + carbrand + '\'' +
+				", totalworktime='" + totalworktime + '\'' +
+				", todayworktime='" + todayworktime + '\'' +
 				'}';
 	}
 
@@ -209,6 +218,18 @@ public class User extends HemaUser {
 		if (isNull(replycount))
 			replycount="0";
 		return replycount;
+	}
+
+	public String getTotalworktime() {
+		if (isNull(totalworktime))
+			totalworktime="0";
+		return totalworktime;
+	}
+
+	public String getTodayworktime() {
+		if (isNull(todayworktime))
+			todayworktime="0";
+		return todayworktime;
 	}
 
 	public String getDrivinglicense() {

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/bg_linearLayout">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:background="@color/white"/>
+        android:background="@color/white" />
     <!--标题栏-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -131,22 +132,36 @@
 
     </FrameLayout>
 
-    <Button
-        android:id="@+id/tv_button"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/bg_button_first"
-        android:gravity="center"
-        android:paddingLeft="5dp"
-        android:singleLine="true"
-        android:paddingRight="5dp"
-        android:visibility="gone"
-        android:text="开始接返程订单"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <Button
+            android:id="@+id/tv_button"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_first"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:singleLine="true"
+            android:text="开始接返程订单"
+            android:textColor="#ffffff"
+            android:enabled="false"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/iv_work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/img_work_start" />
+    </LinearLayout>
 </LinearLayout>

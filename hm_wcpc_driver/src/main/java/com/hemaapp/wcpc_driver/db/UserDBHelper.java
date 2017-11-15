@@ -52,8 +52,9 @@ public class UserDBHelper extends DBHelper {
 					+ USER
 					+ " ( id, username, email, realname, mobile, password, paypassword, sex, avatar, avatarbig, lng, lat, IDtype, "
 					+ "IDnumber, regdate, franchisee_id, servicecount, loginflag, feeaccount, token, android_must_update, android_last_version, android_update_url,"
-					+ "bankuser, bankname, bankcard, bankmobile, alipay_no, mylength, filenumber,alipay_name ,totalpoint,replycount,invitecode,drivinglicense,carbrand )"
-					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					+ "bankuser, bankname, bankcard, bankmobile, alipay_no, mylength, filenumber,alipay_name ,totalpoint,replycount," +
+					"invitecode,drivinglicense,carbrand, totalworktime , todayworktime  )"
+					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			Object[] bindArgs = new Object[] { user.getId(),
 					user.getUsername(), user.getEmail(), user.getRealname(),
 					user.getMobile(),user.getPassword(), user.getPaypassword(),
@@ -65,7 +66,8 @@ public class UserDBHelper extends DBHelper {
 					user.getAndroid_last_version(), user.getAndroid_update_url(),
 					user.getBankuser(), user.getBankname(), user.getBankcard(),
 					user.getBankmobile(), user.getAlipay_no(), user.getMylength(),user.getFilenumber(),
-					user.getAlipay_name(),user.getTotalpoint(),user.getReplycount(),user.getInvitecode(),user.getDrivinglicense(),user.getCarbrand()};
+					user.getAlipay_name(),user.getTotalpoint(),user.getReplycount(),user.getInvitecode(),
+					user.getDrivinglicense(),user.getCarbrand(),user.getTotalworktime(),user.getTodayworktime()};
 			db.execSQL(sql, bindArgs);
 		} catch (SQLException e) {
 			success = false;
@@ -85,7 +87,8 @@ public class UserDBHelper extends DBHelper {
 					+ USER
 					+ " set id=?, username=?, email=?, realname=?, mobile=?, password=?, paypassword=?, sex=?, avatar=?, avatarbig=?, lng=?, lat=?, IDtype=?, "
 					+ "IDnumber=?, regdate=?, franchisee_id=?, servicecount=?, loginflag=?, feeaccount=?, token=?, android_must_update=?, android_last_version=?, android_update_url=?,"
-					+ "bankuser=?, bankname=?, bankcard=?, bankmobile=?, alipay_no=?, mylength=?,filenumber=?,alipay_name=?,totalpoint=?,replycount=?,invitecode=?,drivinglicense=?,carbrand=? "
+					+ "bankuser=?, bankname=?, bankcard=?, bankmobile=?, alipay_no=?, mylength=?,filenumber=?,alipay_name=?,totalpoint=?,replycount=?," +
+					"invitecode=?,drivinglicense=?,carbrand=?, totalworktime=? , todayworktime=? "
 					+ " where id = '" + user.getId() + "'");
 			Object[] bindArgs = new Object[] { user.getId(),
 					user.getUsername(), user.getEmail(), user.getRealname(),
@@ -98,7 +101,8 @@ public class UserDBHelper extends DBHelper {
 					user.getAndroid_last_version(), user.getAndroid_update_url(),
 					user.getBankuser(), user.getBankname(), user.getBankcard(), user.getBankmobile(),
 					user.getAlipay_no(), user.getMylength(),user.getFilenumber(),user.getAlipay_name()
-					,user.getTotalpoint(),user.getReplycount(),user.getInvitecode(),user.getDrivinglicense(),user.getCarbrand()};
+					,user.getTotalpoint(),user.getReplycount(),user.getInvitecode(),
+					user.getDrivinglicense(),user.getCarbrand(),user.getTotalworktime(),user.getTodayworktime()};
 			db.execSQL(sql, bindArgs);
 		} catch (SQLException e) {
 			success = false;
@@ -165,7 +169,8 @@ public class UserDBHelper extends DBHelper {
 		User user = null;
 		String sql = "select id, username, email, realname, mobile, password, paypassword, sex, avatar, avatarbig, lng, lat, IDtype,"
 				+" IDnumber, regdate, franchisee_id, servicecount, loginflag, feeaccount, token, android_must_update, android_last_version, android_update_url,"
-				+" bankuser, bankname, bankcard, bankmobile, alipay_no, mylength, filenumber, alipay_name,totalpoint,replycount,invitecode,drivinglicense,carbrand from "
+				+" bankuser, bankname, bankcard, bankmobile, alipay_no, mylength, filenumber, alipay_name,totalpoint,replycount," +
+				"invitecode,drivinglicense,carbrand, totalworktime , todayworktime from "
 				+ USER + " where username = '" + username + "'";
 		SQLiteDatabase db = getWritableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);
@@ -188,7 +193,8 @@ public class UserDBHelper extends DBHelper {
 					cursor.getString(28),cursor.getString(29),
 					cursor.getString(30),cursor.getString(31),
 					cursor.getString(32),cursor.getString(33),
-					cursor.getString(34),cursor.getString(35));
+					cursor.getString(34),cursor.getString(35),
+					cursor.getString(36),cursor.getString(37));
 		}
 		cursor.close();
 		db.close();
