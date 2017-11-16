@@ -72,8 +72,14 @@ public class BaseNetWorker extends HemaNetWorker {
         String username = XtomSharedPreferencesUtil.get(mContext, "username");
         params.put("username", username);// 用户登录名 手机号或邮箱
         String password = XtomSharedPreferencesUtil.get(mContext, "password");
-        params.put("password", Md5Util.getMd5(XtomConfig.DATAKEY
-                + Md5Util.getMd5(password))); // 登陆密码 服务器端存储的是32位的MD5加密串
+        String login_type = XtomSharedPreferencesUtil.get(mContext, "login_type");
+        if (isNull(login_type))
+            login_type = "1";
+        if (login_type.equals("1"))
+            params.put("password", Md5Util.getMd5(XtomConfig.DATAKEY
+                    + Md5Util.getMd5(password))); // 登陆密码 服务器端存储的是32位的MD5加密串
+        else
+            params.put("password", password);
         params.put("devicetype", "2"); // 用户登录所用手机类型 1：苹果 2：安卓（方便服务器运维统计）
         String version = HemaUtil.getAppVersionForSever(mContext);
         params.put("lastloginversion", version);// 登陆所用的系统版本号
