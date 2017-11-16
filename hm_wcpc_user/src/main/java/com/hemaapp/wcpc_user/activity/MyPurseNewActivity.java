@@ -93,6 +93,7 @@ public class MyPurseNewActivity extends BaseActivity {
             case CLIENT_GET:
                 HemaArrayResult<User> uResult = (HemaArrayResult<User>) baseResult;
                 user = uResult.getObjects().get(0);
+                hm_WcpcUserApplication.getInstance().setUser(user);
                 textview1.setText((isNull(user.getFeeaccount()) ? "0" : user.getFeeaccount()));
                 break;
         }

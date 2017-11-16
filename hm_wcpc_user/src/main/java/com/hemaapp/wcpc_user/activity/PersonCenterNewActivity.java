@@ -96,6 +96,13 @@ public class PersonCenterNewActivity extends BaseActivity implements View.OnClic
         getNetWorker().clientGet(user.getToken(), user.getId());
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        user = hm_WcpcUserApplication.getInstance().getUser();
+        initUserData();
+    }
+
     private void setTranslucentStatus(boolean on) {
         Window win = getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
