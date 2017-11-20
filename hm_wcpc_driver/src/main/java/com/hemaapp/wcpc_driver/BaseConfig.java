@@ -21,7 +21,7 @@ public class BaseConfig {
 	 * 后台服务接口根路径
 	 */
 	public static final String SYS_ROOT = "http://app.qwicar.com/";
-//	public static final String SYS_ROOT = "http://101.200.191.117/hm_sfzc/";
+//	public static final String SYS_ROOT = "http://192.168.1.126/yscx_xjc/";
 
 	/**
 	 * 图片压缩的最大宽度
